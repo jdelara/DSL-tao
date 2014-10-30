@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.graphiti.ui.diagramTypes">
+		<diagramType
+			description="Ecore diagram type"
+			id="org.mondo.editor.graphiti.diagram.EcoreDiagramType"
+			name="Ecore Diagram Type"
+			type="mondo">
+		</diagramType>
+	</extension>
+	<extension point="org.eclipse.graphiti.ui.diagramTypeProviders">
+		<diagramTypeProvider
+			class="org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider"
+			description="Editor for Ecore diagrams"
+			id="org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider"
+			name="Ecore Editor">
+			<diagramType id="org.mondo.editor.graphiti.diagram.EcoreDiagramType" />
+			<imageProvider id="org.mondo.editor.graphiti.diagram.EcoreImageProvider">
+      		</imageProvider>
+		</diagramTypeProvider>
+	</extension>
+	
+	<extension
+      point="org.eclipse.graphiti.ui.imageProviders">
+	   <imageProvider
+	         class="org.mondo.editor.graphiti.diagram.EcoreImageProvider"
+	         id="org.mondo.editor.graphiti.diagram.EcoreImageProvider">
+	   </imageProvider>
+	</extension> 
+	
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+	    <propertyContributor contributorId="mondo.PropertyContributor"> 
+	        <propertyCategory category="Graphiti"> 
+	        </propertyCategory> 
+	    </propertyContributor> 
+	</extension>
+       
+	<extension
+	      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+	    <propertyTabs
+	          contributorId="mondo.PropertyContributor">
+	    <propertyTab
+	         category="Graphiti"
+	         id="graphiti.main.tab"
+	         label="Properties">
+	    </propertyTab>
+	    <propertyTab
+	         afterTab="graphiti.main.tab"
+	         category="Graphiti"
+	         id="graphiti.main.tab2"
+	         label="Opposite">
+	    </propertyTab>
+	     <propertyTab
+	         afterTab="graphiti.main.tab"
+	         category="Graphiti"
+	         id="graphiti.main.tab3"
+	         label="Annotations">
+	    </propertyTab>
+	    <propertyTab
+	         afterTab="graphiti.main.tab3"
+	         category="Graphiti"
+	         id="graphiti.main.tab4"
+	         label="Additional Information">
+	    </propertyTab>
+	   </propertyTabs>
+	</extension>
+     
+	<extension
+	      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+	    <propertySections
+	          contributorId="mondo.PropertyContributor">
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EClassNameSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EClassFilter"
+	              id="graphiti.main.tab.emfclass"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	        	  afterSection="graphiti.main.tab.emfclass"
+	              class="org.mondo.editor.graphiti.diagram.properties.EClassAbstractSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EClassFilter"
+	              id="graphiti.main.tab.emfclassabstract"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	         <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EClassAdditionalInformationSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EClassFilter"
+	              id="graphiti.main.tab.emfclassadditionalinformation"
+	              tab="graphiti.main.tab4">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EEnumNameSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EEnumFilter"
+	              id="graphiti.main.tab.emfenum"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EPackageNameSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EPackageFilter"
+	              id="graphiti.main.tab.emfpackagename"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	        	  afterSection="graphiti.main.tab.emfpackagename"
+	              class="org.mondo.editor.graphiti.diagram.properties.EPackageNsPrefixSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EPackageFilter"
+	              id="graphiti.main.tab.emfpackagensprefix"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	        	  afterSection="graphiti.main.tab.emfpackagensprefix"
+	              class="org.mondo.editor.graphiti.diagram.properties.EPackageNsURISection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EPackageFilter"
+	              id="graphiti.main.tab.emfpackagensuri"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EReferenceNameSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EReferenceFilter"
+	              id="graphiti.main.tab.emfreferencename"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	         <propertySection
+	         	  afterSection="graphiti.main.tab.emfreferenceassociationtypesection"
+	              class="org.mondo.editor.graphiti.diagram.properties.EReferenceAssociationTypeSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EReferenceFilter"
+	              id="graphiti.main.tab.emfreferenceassociationtypesection"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	         	  afterSection="graphiti.main.tab.emfreferencename"
+	              class="org.mondo.editor.graphiti.diagram.properties.EReferenceBoundsSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EReferenceFilter"
+	              id="graphiti.main.tab.emfreferenceboundsection"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	         <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EReferenceEOppositeSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EReferenceFilter"
+	              id="graphiti.main.tab.emfreferenceopposite"
+	              tab="graphiti.main.tab2">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EAttributeNameSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EAttributeFilter"
+	              id="graphiti.main.tab.emfattributename"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              afterSection="graphiti.main.tab.emfattributename"
+	              class="org.mondo.editor.graphiti.diagram.properties.EAttributeETypeSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EAttributeFilter"
+	              id="graphiti.main.tab.emfattributeetype"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              afterSection="graphiti.main.tab.emfattributeetype"
+	              class="org.mondo.editor.graphiti.diagram.properties.EAttributeBoundSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EAttributeFilter"
+	              id="graphiti.main.tab.emfattributebound"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              afterSection="graphiti.main.tab.emfattributebound"
+	              class="org.mondo.editor.graphiti.diagram.properties.EAttributeTypeSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EAttributeFilter"
+	              id="graphiti.main.tab.emfattributetype"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EEnumLiteralNameSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EEnumLiteralFilter"
+	              id="graphiti.main.tab.emfenumliteralname"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	        	  afterSection="graphiti.main.tab.emfenumliteralname"
+	              class="org.mondo.editor.graphiti.diagram.properties.EEnumLiteralLiteralSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EEnumLiteralFilter"
+	              id="graphiti.main.tab.emfenumliteralliteral"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	        	  afterSection="graphiti.main.tab.emfenumliteralliteral"
+	              class="org.mondo.editor.graphiti.diagram.properties.EEnumLiteralValueSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EEnumLiteralFilter"
+	              id="graphiti.main.tab.emfenumliteralvalue"
+	              tab="graphiti.main.tab">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EAnnotationSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EAnnotationFilter"
+	              id="graphiti.main.tab.emfannotation"
+	              tab="graphiti.main.tab3">
+	        </propertySection>
+	        
+	        
+	        
+	        
+	    </propertySections>
+	</extension>
+</plugin>

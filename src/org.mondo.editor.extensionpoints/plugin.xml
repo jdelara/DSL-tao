@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.mondo.editor.extensionpoints.patternImplementation" name="PatternImplementation" schema="schema/org.mondo.editor.extensionpoints.patternImplementation.exsd"/>
+
+</plugin>

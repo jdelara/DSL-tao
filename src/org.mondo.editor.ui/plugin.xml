@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.mondo.ui.contribution"
+            nameFilter="*.ecore"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.mondo.ui.menu1"
+               label="Mondo"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="org.mondo.editor.ui.popup.actions.CreateMondoDiagram"
+               enablesFor="1"
+               id="org.mondo.ui.newAction"
+               label="Create new mondo diagram..."
+               menubarPath="org.mondo.ui.menu1/group1">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.mondo.editor.ui"
+            name="Mondo">
+      </category>
+      <wizard
+            category="org.mondo.editor.ui"
+            class="org.mondo.editor.ui.wizards.NewMondoDiagramWizard"
+            icon="icons/mondo.gif"
+            id="org.mondo.editor.ui.wizards.MondoDiagramWizard"
+            name="Mondo Diagram">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.mondo.editor.ui"
+            name="Mondo Patterns Category">
+      </category>
+      <view
+            category="org.mondo.editor.ui"
+            class="org.mondo.editor.ui.views.PatternsView"
+            icon="icons/patternsView.gif"
+            id="org.mondo.editor.ui.views.PatternsView"
+            name="Patterns View">
+      </view>
+      <view
+            category="org.mondo.editor.ui"
+            class="org.mondo.editor.ui.views.AppliedPatternsView"
+            icon="icons/appliedPatternsView.gif"
+            id="org.mondo.editor.ui.views.AppliedPatternsView"
+            name="Applied Patterns View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="org.mondo.editor.ui.views.PatternsView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="org.mondo.editor.ui.views.AppliedPatternView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="org.mondo.editor.ui.decorators.MondoDiagramDecorator"
+            id="org.mondo.editor.ui.decorator"
+            label="Resource Decorator"
+            lightweight="true"
+            location="TOP_RIGHT"
+            state="true">
+         <enablement>
+            <and>
+               <objectClass
+                     name="org.eclipse.core.resources.IResource">
+               </objectClass>
+               <or>
+                  <objectClass
+                        name="org.eclipse.core.resources.IFile">
+                  </objectClass>
+               </or>
+            </and>
+         </enablement>
+      </decorator>
+   </extension>
+
+</plugin>

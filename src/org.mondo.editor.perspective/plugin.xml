@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.mondo.editor.perspective.MondoPerspective"
+            icon="icons/mondo.gif"
+            id="org.mondo.editor.perspective.mondo"
+            name="Mondo">
+      </perspective>
+   </extension>
+
+</plugin>

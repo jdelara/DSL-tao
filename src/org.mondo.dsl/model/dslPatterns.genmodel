@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.mondo.dsl/src" modelPluginID="org.mondo.dsl"
+    modelName="DslPatterns" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>dslPatterns.ecore</foreignModel>
+  <genPackages prefix="DslPatterns" disposableProviderFactory="true" ecorePackage="dslPatterns.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="dslPatterns.ecore#//FeatureKind">
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/BooleanFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/IntegerFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/DoubleFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/StringFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/MetaModelClassFeature"/>
+    </genEnums>
+    <genClasses ecoreClass="dslPatterns.ecore#//PatternSet">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternSet/categories"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Category">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Category/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Category/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Category/subcategories"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Category/patterns"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Pattern">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/rootVariant"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/description"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Variant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Variant/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Variant/description"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//SimpleFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//SimpleFeature/featureKind"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeature">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/metaModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/andChildren"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/orChildren"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/xorChildren"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//PatternMetaModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/classInterfaces"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/attrInterfaces"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/refInterfaces"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//PatternMetaModelReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelReference/mmreference"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//MetaModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MetaModel/mmreference"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//MMInterface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/icon"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/minCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/maxCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/constraint"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ClassInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterface/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//FeatureInterface/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureType"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureInstance"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ReferenceInterface/ref"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dslPatterns -->
+      <package
+            uri="http://mondo.org/dslPatterns"
+            class="dslPatterns.DslPatternsPackage"
+            genModel="model/dslPatterns.genmodel"/>
+   </extension>
+
+</plugin>

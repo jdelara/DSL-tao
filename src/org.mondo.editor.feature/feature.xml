@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.mondo.editor.feature"
+      label="DSL-tao"
+      version="0.1.0">
+
+   <description url="http://jdelara.github.io/DSL-tao/">
+      Meta-model editor to support the creation of large meta-models
+based on patterns. Deliverable of the MONDO EU project (http://www.mondo-project.org).
+   </description>
+
+   <copyright>
+      Copyright (c) 2014 Autonomous University of Madrid, miso group
+(http://www.miso.es). All rights reserved.
+   </copyright>
+
+   <license url="https://www.eclipse.org/org/documents/epl-v10.html">
+      https://www.eclipse.org/org/documents/epl-v10.html
+   </license>
+
+   <plugin
+         id="org.mondo.editor.perspective"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.mondo.dsl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.mondo.editor.extensionpoints"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.mondo.editor.graphiti"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.mondo.editor.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

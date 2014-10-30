@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dslpat:PatternSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dslpat="http://mondo.org/dslPatterns">
+  <categories name="Meta-Modelling" description="Simple structural meta-modelling patterns">
+    <patterns name="Tree-like Structures" description="Pattern for recursive, tree-like structures">
+      <rootVariant name="Tree">
+        <xorChildren xsi:type="dslpat:ComplexFeature" name="Hard-Coded Tree">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/Hard-CodedTree.gif"/>
+        </xorChildren>
+        <xorChildren xsi:type="dslpat:ComplexFeature" name="Simple Tree">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/SimpleTree.gif">
+            <classInterfaces icon="icons/sample.gif" minCard="1" maxCard="1">
+              <ref href="Tree.ecore#//Tree"/>
+            </classInterfaces>
+            <classInterfaces icon="icons/sample.gif" minCard="1" maxCard="1">
+              <ref href="Tree.ecore#//NodeKind"/>
+            </classInterfaces>
+            <refInterfaces icon="icons/sample.gif" minCard="1" maxCard="1" constraint="">
+              <ref href="Tree.ecore#//Tree/root"/>
+            </refInterfaces>
+            <refInterfaces icon="icons/sample.gif" minCard="1" maxCard="1">
+              <ref href="Tree.ecore#//NodeKind/children"/>
+            </refInterfaces>
+            <mmreference href="Tree.ecore#/"/>
+          </metaModel>
+        </xorChildren>
+        <xorChildren xsi:type="dslpat:ComplexFeature" name="Structured Tree">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/StructuredTree.gif"/>
+        </xorChildren>
+        <xorChildren xsi:type="dslpat:ComplexFeature" name="Overlapping Tree">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/OverlappingTree.gif"/>
+        </xorChildren>
+        <xorChildren xsi:type="dslpat:ComplexFeature" name="Tree Changing over Time">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/TreeChangingOverTime.gif"/>
+        </xorChildren>
+      </rootVariant>
+    </patterns>
+  </categories>
+  <categories name="DSL-Construction">
+    <patterns name="State Machine"/>
+    <patterns name="Workflow" description="Pattern for workflow languages">
+      <rootVariant name="Workflow Language" description="samples/icons/WorkflowLanguage.gif">
+        <andChildren xsi:type="dslpat:ComplexFeature" name="Workflow Language (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/WorkflowLanguage.gif">
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//FlowDiagram"/>
+            </classInterfaces>
+            <classInterfaces icon="" minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//Node"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//FlowEdge"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="-1">
+              <ref href="WorkflowLanguage.ecore#//Task"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//ParallelSplit"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//Synchronization"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//SimpleMerge"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//ExclusiveChoice"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//MultiChoice"/>
+            </classInterfaces>
+            <classInterfaces icon="" minCard="0" maxCard="-1">
+              <ref href="WorkflowLanguage.ecore#//FinalTask"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType">
+              <ref href="WorkflowLanguage.ecore#//Task/name"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType">
+              <ref href="WorkflowLanguage.ecore#//Task/isInitial"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType">
+              <ref href="WorkflowLanguage.ecore#//FinalTask/isTerminating"/>
+            </attrInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//FlowDiagram/nodes"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//FlowDiagram/edges"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//FlowEdge/in"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//Node/outs"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//FlowEdge/out"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//Node/ins"/>
+            </refInterfaces>
+            <mmreference href="WorkflowLanguage.ecore#/"/>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
+    <patterns name="Expressions Languages"/>
+  </categories>
+  <categories name="Modularity" description="">
+    <patterns name="Hierarchical Project" description="Simple organizational meta-modelling pattern">
+      <rootVariant name="Hierarchial Project">
+        <andChildren xsi:type="dslpat:ComplexFeature" name="Hierarchical Project (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/HierarchicalProject.gif">
+            <classInterfaces minCard="1" maxCard="1" constraint="">
+              <ref href="HierarchicalProject.ecore#//Project"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="-1">
+              <ref href="HierarchicalProject.ecore#//Folder"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="-1">
+              <ref href="HierarchicalProject.ecore#//File"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="HierarchicalProject.ecore#//Project/name"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="HierarchicalProject.ecore#//Folder/name"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="HierarchicalProject.ecore#//File/name"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="HierarchicalProject.ecore#//File/extension"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="HierarchicalProject.ecore#//File/icon"/>
+            </attrInterfaces>
+            <refInterfaces minCard="1" maxCard="-1">
+              <ref href="HierarchicalProject.ecore#//Project/folderTypes"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="-1">
+              <ref href="HierarchicalProject.ecore#//Folder/subFolders"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="-1">
+              <ref href="HierarchicalProject.ecore#//Folder/fileTypes"/>
+            </refInterfaces>
+            <mmreference href="HierarchicalProject.ecore#/"/>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
+  </categories>
+</dslpat:PatternSet>
