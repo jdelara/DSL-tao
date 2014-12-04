@@ -28,7 +28,7 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	 */
 	public static DslPatternsFactory init() {
 		try {
-			DslPatternsFactory theDslPatternsFactory = (DslPatternsFactory)EPackage.Registry.INSTANCE.getEFactory("http://mondo.org/dslPatterns"); 
+			DslPatternsFactory theDslPatternsFactory = (DslPatternsFactory)EPackage.Registry.INSTANCE.getEFactory(DslPatternsPackage.eNS_URI);
 			if (theDslPatternsFactory != null) {
 				return theDslPatternsFactory;
 			}
@@ -60,6 +60,11 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 			case DslPatternsPackage.PATTERN_SET: return createPatternSet();
 			case DslPatternsPackage.CATEGORY: return createCategory();
 			case DslPatternsPackage.PATTERN: return createPattern();
+			case DslPatternsPackage.SERVICE: return createService();
+			case DslPatternsPackage.PLUG: return createPlug();
+			case DslPatternsPackage.SLOT: return createSlot();
+			case DslPatternsPackage.INJECTOR: return createInjector();
+			case DslPatternsPackage.ACCEPTOR: return createAcceptor();
 			case DslPatternsPackage.SIMPLE_FEATURE: return createSimpleFeature();
 			case DslPatternsPackage.COMPLEX_FEATURE: return createComplexFeature();
 			case DslPatternsPackage.PATTERN_META_MODEL_REFERENCE: return createPatternMetaModelReference();
@@ -131,6 +136,56 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	public Pattern createPattern() {
 		PatternImpl pattern = new PatternImpl();
 		return pattern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Service createService() {
+		ServiceImpl service = new ServiceImpl();
+		return service;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Plug createPlug() {
+		PlugImpl plug = new PlugImpl();
+		return plug;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Slot createSlot() {
+		SlotImpl slot = new SlotImpl();
+		return slot;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Injector createInjector() {
+		InjectorImpl injector = new InjectorImpl();
+		return injector;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Acceptor createAcceptor() {
+		AcceptorImpl acceptor = new AcceptorImpl();
+		return acceptor;
 	}
 
 	/**

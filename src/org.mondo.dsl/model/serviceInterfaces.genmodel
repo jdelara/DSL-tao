@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.mondo.dsl/src" modelPluginID="org.mondo.dsl"
+    modelName="ServiceInterfaces" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>serviceInterfaces.ecore</foreignModel>
+  <genPackages prefix="ServiceInterfaces" disposableProviderFactory="true" ecorePackage="serviceInterfaces.ecore#/">
+    <genClasses ecoreClass="serviceInterfaces.ecore#//InterfaceRepository">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//InterfaceRepository/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//Packageable"/>
+    <genClasses ecoreClass="serviceInterfaces.ecore#//Package">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//Package/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//Package/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//Interface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//Interface/qName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//Interface/description"/>
+    </genClasses>
+    <nestedGenPackages prefix="Codegen" basePackage="serviceInterfaces" disposableProviderFactory="true"
+        ecorePackage="serviceInterfaces.ecore#//codegen">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="serviceInterfaces.ecore#//codegen/CodeGenLanguage">
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/CodeGenLanguage/ACCELEO"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="serviceInterfaces.ecore#//codegen/PointcutType">
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/BEFORE"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/AFTER"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/BEFORE_BODY"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/AFTER_BODY"/>
+      </genEnums>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/InjectorAcceptorInterfaceL1">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference serviceInterfaces.ecore#//codegen/InjectorAcceptorInterfaceL1/injectorProvides"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/TransformationLibrary">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//codegen/TransformationLibrary/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//codegen/TransformationLibrary/language"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/SlotPlugInterfaceL1">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference serviceInterfaces.ecore#//codegen/SlotPlugInterfaceL1/pointcuts"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//codegen/Pointcut">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//codegen/Pointcut/type"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/ClassPointcut"/>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/MethodPoincut"/>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/ImportElementPointcut"/>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/StatementPoincut"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Modelingenv" basePackage="serviceInterfaces" disposableProviderFactory="true"
+        ecorePackage="serviceInterfaces.ecore#//modelingenv">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="serviceInterfaces.ecore#//modelingenv/InjectionMode">
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//modelingenv/InjectionMode/GOOGLE_JUICE"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//modelingenv/InjectionMode/PLAIN_JAVA"/>
+      </genEnums>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/InjectorAcceptorInterfaceL0">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/InjectorAcceptorInterfaceL0/injectorImplements"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/InjectorAcceptorInterfaceL0/mode"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//modelingenv/JavaTypeDeclaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/JavaTypeDeclaration/qualifiedName"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/JavaInterface">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/JavaInterface/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/JavaClass">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/JavaClass/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/Operation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/Operation/name"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/SlotPlugInterfaceL0">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/SlotPlugInterfaceL0/slot"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/ExtensionPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/ExtensionPoint/id"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

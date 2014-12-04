@@ -43,7 +43,7 @@ public class ReconnectionESuperTypeFeature extends DefaultReconnectionFeature{
 				subType = (EClass)getBusinessObjectForPictogramElement(childP);
 			}
 		return ((!subType.getEAllSuperTypes().contains(superType)) && (!superType.getEAllSuperTypes().contains(subType))
-				&& (!ModelUtils.hasAnyChildren(getDiagram(),subType,superType)) && (!ModelUtils.hasAnyChildren(getDiagram(),superType,subType)));
+				&& (!ModelUtils.hasAnyChildren(subType,superType)) && (!ModelUtils.hasAnyChildren(superType,subType)));
 		}
 		return false;
 	}

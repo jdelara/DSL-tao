@@ -23,14 +23,11 @@ public class MondoPerspective implements IPerspectiveFactory {
         layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");
         layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");
 
-        // Add "show views".
         layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
-        layout.addShowViewShortcut(IPageLayout.ID_BOOKMARKS);
-        layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
         layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
-        layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
         layout.addShowViewShortcut(PatternsView.ID);
         layout.addShowViewShortcut(AppliedPatternsView.ID);
+        layout.addShowViewShortcut(PatternServicesView.ID);
 	}
 	
 	public void defineLayout(IPageLayout layout) {
@@ -45,6 +42,7 @@ public class MondoPerspective implements IPerspectiveFactory {
         bottom.addView(IPageLayout.ID_PROP_SHEET);
         bottom.addView(PatternsView.ID);
         bottom.addView(AppliedPatternsView.ID);
+        bottom.addView(PatternServicesView.ID);
 	}
 
 }

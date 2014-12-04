@@ -26,7 +26,7 @@ public class PropertiesUtils {
 
 	private final static int SEPARACION_VERTICAL = 30;
 	private final static int MARGEN_IZQ = 15;
-	private final static int ANCHO_LST = 275;
+	private final static int ANCHO_LST = 190;
 	private final static int ALTO_LST = 180;
 
 	/**

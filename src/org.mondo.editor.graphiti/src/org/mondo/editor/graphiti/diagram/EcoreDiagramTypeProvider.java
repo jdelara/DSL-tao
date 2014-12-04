@@ -42,6 +42,30 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 	 public void setValidationInfo(ValidationInfo vi) {
 		 this.vi = vi;
 	 }
+	 
+	
+	private Object patternServicesInfo = null;
+	
+	public Object getPatternServicesInfo() {		
+		return patternServicesInfo;
+		
+	}
+
+	public void setPatternServicesInfo(Object patternServicesInfo) {
+		this.patternServicesInfo = patternServicesInfo;
+	}
+	
+	private Object interfaceModel = null;
+	
+	
+
+	public Object getInterfaceModel() {
+		return interfaceModel;
+	}
+
+	public void setInterfaceModel(Object interfaceModel) {
+		this.interfaceModel = interfaceModel;
+	}
 
 	@Override
 	public void postInit() {

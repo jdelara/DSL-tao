@@ -105,32 +105,37 @@ public class PatternMenuAdapter extends MenuAdapter {
         	if (((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ReferenceInterface){	
         		if (PatternUtils.isContainmentReference((ReferenceInterface)(((MMInterfaceRelDiagram)item.getData()).getMmInterface()))){	
 					final MMInterfaceRelDiagram mmird = (MMInterfaceRelDiagram)item.getData();
-        			MenuItem itemAdd = new MenuItem(menu, SWT.NONE);		        
-            		itemAdd.setText("Add new "+mmird.getTextMMInterfaceRelDiagramOnlyName(false));
+        			
 		            
 		            @SuppressWarnings("unchecked")
 		            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
 		            MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(input, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
-					int numMmird = PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef);			
-					boolean  ok = (((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)) || (mmird.getMaxValue()==-1)  )
+					if (mmirdRef != null){
+						MenuItem itemAdd = new MenuItem(menu, SWT.NONE);		        
+	            		itemAdd.setText("Add new "+mmird.getTextMMInterfaceRelDiagramOnlyName(false));
+	            		
+						int numMmird = PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef);			
+						boolean  ok = (((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)) || (mmird.getMaxValue()==-1)  )
 							&& ((mmirdRef.getMaxValue() > numMmird)|| (mmirdRef.getMaxValue()==-1)));		            
-					itemAdd.setEnabled(ok);							
+						itemAdd.setEnabled(ok);							
 					
-		            itemAdd.addSelectionListener(new SelectionListener() {
+						itemAdd.addSelectionListener(new SelectionListener() {
 						
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							PatternUtils.duplicateStructureReference(input,mmird, mmird.getOrder());
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								PatternUtils.duplicateStructureReference(input,mmird, mmird.getOrder());
 							
-							Object[] expandedElements =viewer.getExpandedElements();
-							viewer.setInput(input);
-							viewer.setExpandedElements(expandedElements);
-						}
+								Object[] expandedElements =viewer.getExpandedElements();
+								viewer.setInput(input);
+								viewer.setExpandedElements(expandedElements);
+							}
 						
-						@Override
-						public void widgetDefaultSelected(SelectionEvent e) {							
-						}
-					});
+							@Override
+							public void widgetDefaultSelected(SelectionEvent e) {							
+							}
+						});
+		            
+					}
         		}
         	}else if (((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ClassInterface){
         		final MMInterfaceRelDiagram mmird = (MMInterfaceRelDiagram)item.getData();
@@ -139,7 +144,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 	            
 	            @SuppressWarnings("unchecked")
 	            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
-				boolean  ok = ((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagram(input,mmird)) || (mmird.getMaxValue()==-1)  );		            
+				boolean  ok = ((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagram(input,mmird)) || (mmird.getMaxValue()==-1));		            
 				itemAdd.setEnabled(ok);		
 
 	            itemAdd.addSelectionListener(new SelectionListener() {
@@ -162,32 +167,37 @@ public class PatternMenuAdapter extends MenuAdapter {
         	//Delete option
         	if (((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ReferenceInterface){	
         		if ((PatternUtils.isContainmentReference((ReferenceInterface)(((MMInterfaceRelDiagram)item.getData()).getMmInterface())))){
-        			final MMInterfaceRelDiagram mmird = (MMInterfaceRelDiagram)item.getData();
-        			MenuItem itemDelete = new MenuItem(menu, SWT.NONE);
-	            	itemDelete.setText("Delete "+mmird.getTextMMInterfaceRelDiagramOnlyName(false));
+    				final MMInterfaceRelDiagram mmird = (MMInterfaceRelDiagram)item.getData();
+
 		            
 	            	@SuppressWarnings("unchecked")
 		            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
 	    			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(input, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
-					boolean ok = (((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)))
-							&& ((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef))));
-					itemDelete.setEnabled(ok);	
-
-	            	itemDelete.addSelectionListener(new SelectionListener() {
-						
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							PatternUtils.deleteStructureReference(input,mmird);
+					
+	    			if (mmirdRef != null){
+	        			MenuItem itemDelete = new MenuItem(menu, SWT.NONE);
+		            	itemDelete.setText("Delete "+mmird.getTextMMInterfaceRelDiagramOnlyName(false));
+	    			
+		    			boolean ok = (((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)))
+								&& ((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef))));
+						itemDelete.setEnabled(ok);	
+	
+		            	itemDelete.addSelectionListener(new SelectionListener() {
 							
-							Object[] expandedElements =viewer.getExpandedElements();
-							viewer.setInput(input);
-							viewer.setExpandedElements(expandedElements);
-						}
-						
-						@Override
-						public void widgetDefaultSelected(SelectionEvent e) {							
-						}
-					});
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								PatternUtils.deleteStructureReference(input,mmird);
+								
+								Object[] expandedElements =viewer.getExpandedElements();
+								viewer.setInput(input);
+								viewer.setExpandedElements(expandedElements);
+							}
+							
+							@Override
+							public void widgetDefaultSelected(SelectionEvent e) {							
+							}
+						});
+	    			}
         		}
         	} else if (((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ClassInterface){
         		final MMInterfaceRelDiagram mmird = (MMInterfaceRelDiagram)item.getData();
@@ -197,7 +207,7 @@ public class PatternMenuAdapter extends MenuAdapter {
             	@SuppressWarnings("unchecked")
 	            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
 				boolean ok = (((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagram(input,mmird))) 
-						&& (PatternUtils.getMMInterfaceRelDiagramRefsEClass(input, (ClassInterface)mmird.getMmInterface(), mmird.getOrder()).size()==0));
+						&& (PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutReflexives(input, (ClassInterface)mmird.getMmInterface(), mmird.getOrder()).size()==0));
 
 				itemDelete.setEnabled(ok);	
 

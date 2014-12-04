@@ -15,11 +15,15 @@ public class EcoreImageProvider extends AbstractImageProvider {
  
     public static final String IMG_DOWN= PREFIX + "down";
     public static final String IMG_UP= PREFIX + "up";
+    public static final String IMG_EREFERENCE= PREFIX + "eReference";
+    public static final String IMG_ESUPERTYPE= PREFIX + "eSuperType";
  
     @Override
     protected void addAvailableImages() {
         addImageFilePath(IMG_DOWN, "icons/down.gif");
         addImageFilePath(IMG_UP, "icons/up.gif");
+        addImageFilePath(IMG_EREFERENCE, "icons/eReference.gif");
+        addImageFilePath(IMG_ESUPERTYPE, "icons/eSuperType.gif");
     }
     
     public void addImage (String id, String path){

@@ -1,11 +1,16 @@
 package org.mondo.editor.ui.utils;
 
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import serviceInterfaces.Interface;
+import serviceInterfaces.impl.InterfaceImpl;
 
 /**
  * Class of utility functions to work with models.
@@ -37,6 +42,7 @@ public final class ModelsUtils {
 			}
 		}
 		return null;
+		
 	}	
 	
 	/**

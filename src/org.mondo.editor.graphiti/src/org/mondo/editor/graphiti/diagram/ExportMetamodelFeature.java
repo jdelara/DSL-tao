@@ -29,12 +29,12 @@ public class ExportMetamodelFeature extends AbstractCustomFeature {
  
     @Override
     public String getName() {
-        return "Export Metamodel...";
+        return "Export Meta-model...";
     }
  
     @Override
     public String getDescription() {
-        return "Export Metamodel";
+        return "Export Meta-model";
     }
  
     @Override
@@ -53,7 +53,7 @@ public class ExportMetamodelFeature extends AbstractCustomFeature {
     @Override
     public void execute(ICustomContext context) {    
     	
-    	ValidateModelFeature vf = new ValidateModelFeature(getFeatureProvider());
+    	ValidateAllFeature vf = new ValidateAllFeature(getFeatureProvider());
     	if (vf.canExecute(context)) vf.execute(context);
     	
     	if (vf.isValidate()){
@@ -72,10 +72,10 @@ public class ExportMetamodelFeature extends AbstractCustomFeature {
 					ModelUtils.saveModel(path, pack);
 										
 					((Diagram)pes[0]).eResource().getContents().add(pack);
-					Messages.displayGeneralMessage("Export Metamodel", "Your metamodel was exported successfully");
+					Messages.displayGeneralMessage("Export Meta-model", "Your meta-model was exported successfully");
 				} 
 	    	}catch (Exception ex){ 
-	    	 Messages.displayGeneralErrorMessage("Export Metamodel", "Your metamodel wasn`t exported successfully");
+	    	 Messages.displayGeneralErrorMessage("Export Meta-model", "Your meta-model wasn`t exported successfully");
 	    	 ex.printStackTrace(); 
 	    	} 
     	}

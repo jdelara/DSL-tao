@@ -11,7 +11,16 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: dslPatterns,
  dslPatterns.impl,
- dslPatterns.util
+ dslPatterns.util,
+ serviceInterfaces,
+ serviceInterfaces.codegen,
+ serviceInterfaces.codegen.impl,
+ serviceInterfaces.codegen.util,
+ serviceInterfaces.impl,
+ serviceInterfaces.modelingenv,
+ serviceInterfaces.modelingenv.impl,
+ serviceInterfaces.modelingenv.util,
+ serviceInterfaces.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common

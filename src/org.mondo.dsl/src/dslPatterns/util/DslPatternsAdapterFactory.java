@@ -80,6 +80,30 @@ public class DslPatternsAdapterFactory extends AdapterFactoryImpl {
 				return createPatternAdapter();
 			}
 			@Override
+			public Adapter caseService(Service object) {
+				return createServiceAdapter();
+			}
+			@Override
+			public Adapter casePort(Port object) {
+				return createPortAdapter();
+			}
+			@Override
+			public Adapter casePlug(Plug object) {
+				return createPlugAdapter();
+			}
+			@Override
+			public Adapter caseSlot(Slot object) {
+				return createSlotAdapter();
+			}
+			@Override
+			public Adapter caseInjector(Injector object) {
+				return createInjectorAdapter();
+			}
+			@Override
+			public Adapter caseAcceptor(Acceptor object) {
+				return createAcceptorAdapter();
+			}
+			@Override
 			public Adapter caseVariant(Variant object) {
 				return createVariantAdapter();
 			}
@@ -186,6 +210,90 @@ public class DslPatternsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPatternAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Service <em>Service</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Service
+	 * @generated
+	 */
+	public Adapter createServiceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Port <em>Port</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Port
+	 * @generated
+	 */
+	public Adapter createPortAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Plug <em>Plug</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Plug
+	 * @generated
+	 */
+	public Adapter createPlugAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Slot <em>Slot</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Slot
+	 * @generated
+	 */
+	public Adapter createSlotAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Injector <em>Injector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Injector
+	 * @generated
+	 */
+	public Adapter createInjectorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Acceptor <em>Acceptor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Acceptor
+	 * @generated
+	 */
+	public Adapter createAcceptorAdapter() {
 		return null;
 	}
 

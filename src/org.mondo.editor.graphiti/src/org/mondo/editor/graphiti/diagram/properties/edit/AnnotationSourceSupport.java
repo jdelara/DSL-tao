@@ -43,7 +43,7 @@ public class AnnotationSourceSupport extends EditingSupport {
 
 	  @Override
 	  protected Object getValue(Object element) {
-	    return ((EAnnotation) element).getSource();
+		  return ((EAnnotation) element).getSource();
 	  }
 
 	  @Override

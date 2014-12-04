@@ -1,5 +1,9 @@
 package org.mondo.editor.graphiti.diagram;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -35,6 +39,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
+import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
 /**
  * Class to provide the functionalities available in the diagram editor.
@@ -116,7 +121,6 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 		return new DeleteEModelElementDefaultFeature(this);
 	}
 	
-
 	@Override
 	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
 	    PictogramElement pe = context.getPictogramElement();
@@ -145,7 +149,6 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 		return super.getMoveShapeFeature(context);
 	}
 	
-
 	@Override
 	public IReconnectionFeature getReconnectionFeature(
 			IReconnectionContext context) {
@@ -179,13 +182,31 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-	    return new ICustomFeature[] { new ValidateModelFeature(this), new ImportMetamodelFeature(this), new ExportMetamodelFeature(this), new CollapseAllFeature(this), new ExpandAllFeature(this), new ShowPatternAnnotationsFeature(this),new HidePatternAnnotationsFeature(this),new ValidateModularProjectFeature(this), new CreateModularProjectFeature(this), new DrillDownEPackageFeature(this)};
+		
+		if (context.getPictogramElements()[0] instanceof Diagram){
+			ICustomFeature[] basicCf =  new ICustomFeature[] { new ValidateAllFeature(this), new ImportMetamodelFeature(this), new ExportMetamodelFeature(this), 
+	    		new CollapseAllFeature(this), new ExpandAllFeature(this), 
+	    		new ShowPatternAnnotationsFeature(this),new HidePatternAnnotationsFeature(this),
+	    		new DrillDownEPackageFeature(this),
+	    		new ExecuteAllPatternsFeature(this)};
+		
+		List<ICustomFeature> list = new ArrayList<ICustomFeature>(Arrays.asList(basicCf));
+		
+		for (String pattern : ModelUtils.getAppliedPatternNames(this.getDiagramTypeProvider().getDiagram())){			
+			list.add(new ValidatePatternFeature(this, pattern, true));
+			list.add(new ExecutePatternFeature(this, pattern, true));
+		}
+		
+		ICustomFeature[] cfs = new ICustomFeature[list.size()];
+		for (int i=0; i<list.size(); i++){
+			cfs[i] = list.get(i);
+		}
+		return cfs;
+		} return new ICustomFeature[]{}; 
 	}
 
 	@Override
 	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
 		return new RemoveEModelElementDefaultFeature(this);
-	} 
-	
-	
+	} 	
 }

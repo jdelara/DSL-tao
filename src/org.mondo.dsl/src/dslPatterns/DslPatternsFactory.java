@@ -49,6 +49,51 @@ public interface DslPatternsFactory extends EFactory {
 	Pattern createPattern();
 
 	/**
+	 * Returns a new object of class '<em>Service</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Service</em>'.
+	 * @generated
+	 */
+	Service createService();
+
+	/**
+	 * Returns a new object of class '<em>Plug</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Plug</em>'.
+	 * @generated
+	 */
+	Plug createPlug();
+
+	/**
+	 * Returns a new object of class '<em>Slot</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Slot</em>'.
+	 * @generated
+	 */
+	Slot createSlot();
+
+	/**
+	 * Returns a new object of class '<em>Injector</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Injector</em>'.
+	 * @generated
+	 */
+	Injector createInjector();
+
+	/**
+	 * Returns a new object of class '<em>Acceptor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Acceptor</em>'.
+	 * @generated
+	 */
+	Acceptor createAcceptor();
+
+	/**
 	 * Returns a new object of class '<em>Simple Feature</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

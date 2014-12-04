@@ -26,7 +26,24 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/rootVariant"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/services"/>
     </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Service">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/mandatory"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Service/ports"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Port">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Port/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Port/minCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Port/maxCard"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Port/uses"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Plug"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//Slot"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//Injector"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//Acceptor"/>
     <genClasses ecoreClass="dslPatterns.ecore#//Variant">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Variant/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Variant/description"/>
@@ -44,6 +61,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/classInterfaces"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/attrInterfaces"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/refInterfaces"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//PatternMetaModel/img"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//PatternMetaModelReference">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelReference/mmreference"/>
@@ -68,5 +86,79 @@
     <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ReferenceInterface/ref"/>
     </genClasses>
+  </genPackages>
+  <genPackages prefix="ServiceInterfaces" ecorePackage="http://mondo.org/serviceInterfaces/modelingenv#/">
+    <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//InterfaceRepository">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//InterfaceRepository/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//Packageable"/>
+    <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//Package">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//Package/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//Package/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//Interface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//Interface/qName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//Interface/description"/>
+    </genClasses>
+    <nestedGenPackages prefix="Codegen" basePackage="serviceInterfaces" disposableProviderFactory="true"
+        ecorePackage="http://mondo.org/serviceInterfaces/modelingenv#//codegen">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="http://mondo.org/serviceInterfaces/modelingenv#//codegen/CodeGenLanguage">
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//codegen/CodeGenLanguage/ACCELEO"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="http://mondo.org/serviceInterfaces/modelingenv#//codegen/PointcutType">
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//codegen/PointcutType/BEFORE"/>
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//codegen/PointcutType/AFTER"/>
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//codegen/PointcutType/BEFORE_BODY"/>
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//codegen/PointcutType/AFTER_BODY"/>
+      </genEnums>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/InjectorAcceptorInterfaceL1">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//codegen/InjectorAcceptorInterfaceL1/injectorProvides"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/TransformationLibrary">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//codegen/TransformationLibrary/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//codegen/TransformationLibrary/language"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/SlotPlugInterfaceL1">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//codegen/SlotPlugInterfaceL1/pointcuts"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/Pointcut">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//codegen/Pointcut/type"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/ClassPointcut"/>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/MethodPoincut"/>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/ImportElementPointcut"/>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//codegen/StatementPoincut"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Modelingenv" basePackage="serviceInterfaces" disposableProviderFactory="true"
+        ecorePackage="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/InjectionMode">
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/InjectionMode/GOOGLE_JUICE"/>
+        <genEnumLiterals ecoreEnumLiteral="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/InjectionMode/PLAIN_JAVA"/>
+      </genEnums>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/InjectorAcceptorInterfaceL0">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/InjectorAcceptorInterfaceL0/injectorImplements"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/InjectorAcceptorInterfaceL0/mode"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/JavaTypeDeclaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/JavaTypeDeclaration/qualifiedName"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/JavaInterface">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/JavaInterface/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/JavaClass">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/JavaClass/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/Operation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/Operation/name"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/SlotPlugInterfaceL0">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/SlotPlugInterfaceL0/slot"/>
+      </genClasses>
+      <genClasses ecoreClass="http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/ExtensionPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://mondo.org/serviceInterfaces/modelingenv#//modelingenv/ExtensionPoint/id"/>
+      </genClasses>
+    </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

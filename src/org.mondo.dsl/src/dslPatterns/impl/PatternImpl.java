@@ -6,14 +6,19 @@ import dslPatterns.ComplexFeature;
 import dslPatterns.DslPatternsPackage;
 import dslPatterns.Pattern;
 
+import dslPatterns.Service;
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,6 +30,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link dslPatterns.impl.PatternImpl#getRootVariant <em>Root Variant</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link dslPatterns.impl.PatternImpl#getServices <em>Services</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,6 +86,16 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 	 * @ordered
 	 */
 	protected String description = DESCRIPTION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getServices() <em>Services</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getServices()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Service> services;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -190,11 +206,25 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Service> getServices() {
+		if (services == null) {
+			services = new EObjectContainmentEList<Service>(Service.class, this, DslPatternsPackage.PATTERN__SERVICES);
+		}
+		return services;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case DslPatternsPackage.PATTERN__ROOT_VARIANT:
 				return basicSetRootVariant(null, msgs);
+			case DslPatternsPackage.PATTERN__SERVICES:
+				return ((InternalEList<?>)getServices()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -213,6 +243,8 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 				return getName();
 			case DslPatternsPackage.PATTERN__DESCRIPTION:
 				return getDescription();
+			case DslPatternsPackage.PATTERN__SERVICES:
+				return getServices();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -222,6 +254,7 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -233,6 +266,10 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 				return;
 			case DslPatternsPackage.PATTERN__DESCRIPTION:
 				setDescription((String)newValue);
+				return;
+			case DslPatternsPackage.PATTERN__SERVICES:
+				getServices().clear();
+				getServices().addAll((Collection<? extends Service>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -255,6 +292,9 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 			case DslPatternsPackage.PATTERN__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
+			case DslPatternsPackage.PATTERN__SERVICES:
+				getServices().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -273,6 +313,8 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case DslPatternsPackage.PATTERN__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case DslPatternsPackage.PATTERN__SERVICES:
+				return services != null && !services.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

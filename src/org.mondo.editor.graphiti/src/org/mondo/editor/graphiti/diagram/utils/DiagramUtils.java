@@ -88,7 +88,6 @@ public  class DiagramUtils {
 	public static final String TYPE_PATTERN_NAMES = "patternNames";
 	public static final String TYPE_INHERITANCE = "inheritance";
 
-
 	public static final String MODE = "mode";
 	public static final String COLLAPSE = "collapse";
 	public static final String EXPAND = "expand";
@@ -365,11 +364,17 @@ public  class DiagramUtils {
 	 */
 	public static String getOrderedUniqueText(EStructuralFeature esf){
 		String cad;
-        if (!esf.isOrdered() && !esf.isUnique()) cad = "";
-        else if (!esf.isUnique()) cad = "{ordered}";
-        else if (!esf.isOrdered()) cad = "{unique}";
-        else cad = "{ordered,"+(esf instanceof EReference?"\n":"")+"unique}";  
-        
+        if (esf instanceof EAttribute){
+        	cad = "{"+(esf.isOrdered()?"ordered, ":"")+(esf.isUnique()?"unique, ":"")+(((EAttribute)esf).isID()?"id":"" )+"}";
+        	cad = (cad.compareTo("{}")==0?"":cad);
+        	cad = cad.replace(", }", "}");
+        }
+        else {
+        	/*EReference*/ 
+        	cad= "{"+(esf.isOrdered()?"ordered,\n":"")+(esf.isUnique()?"unique":"")+"}";
+        	cad = (cad.compareTo("{}")==0?"":cad);
+        	cad = cad.replace(",\n}", "}");
+        }
         return cad;
 	}
 	
@@ -379,7 +384,7 @@ public  class DiagramUtils {
 	 * @return text
 	 */
 	public static String getAttributeText(EAttribute eAtt){
-		return (eAtt.isID()?"(ID)":"")+eAtt.getName()+(eAtt.getEType()!=null ? " : "+eAtt.getEType().getName():"")+" ["+eAtt.getLowerBound()+".."+(eAtt.getUpperBound()==-1?"*":eAtt.getUpperBound())+"]"+getOrderedUniqueText(eAtt);
+		return eAtt.getName()+(eAtt.getEType()!=null ? " : "+eAtt.getEType().getName():"")+" ["+eAtt.getLowerBound()+".."+(eAtt.getUpperBound()==-1?"*":eAtt.getUpperBound())+"]"+getOrderedUniqueText(eAtt);
 	}
 	
 	/**
@@ -452,8 +457,9 @@ public  class DiagramUtils {
 	 * @param diagram
 	 * @param element - eNamedElement
 	 * @param visibility - true show, false hide.
+	 * @param otherElements - to know if we can modify these elements
 	 */
-	public static void setElementVisibility (Diagram diagram, ENamedElement element, boolean visibility){
+	public static void setElementVisibility (Diagram diagram, ENamedElement element, boolean visibility, List<ENamedElement> otherElements){
 		if (element instanceof EReference) {
 			Connection con = getConnection(diagram, (EReference) element);
 			if (con !=  null) con.setVisible(visibility);
@@ -468,12 +474,21 @@ public  class DiagramUtils {
 			}
 			
 			for (EReference ref: DiagramUtils.getEReferencesIncoming(diagram,(EClass)element)){
+				if (!otherElements.contains(ref))
 				if (!visibility)collapseEReference (diagram, ref);
 				else expandEReference(diagram, ref);
 			}
 			for (Anchor anchor: cs.getAnchors()){
-				for (Connection con : anchor.getOutgoingConnections()) if (con.isVisible()!= visibility) con.setVisible(visibility);
-				for (Connection con : anchor.getIncomingConnections()) if (con.isVisible()!= visibility) con.setVisible(visibility);
+				for (Connection con : anchor.getOutgoingConnections()){
+					EObject ref = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(con);
+					if (!otherElements.contains(ref))
+					if (con.isVisible()!= visibility) con.setVisible(visibility);
+				}
+				for (Connection con : anchor.getIncomingConnections()) {
+					EObject ref = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(con);
+					if (!otherElements.contains(ref))
+					if (con.isVisible()!= visibility) con.setVisible(visibility);
+				}
 			}
 
 		}else {
@@ -935,7 +950,7 @@ public  class DiagramUtils {
 	
 	/**
 	 * Static method that returns the pictogram to select in a validation by ENamedElement.
-	 * if the element is an epackage it's returned the shape, not the diagram. (2/09/2014)
+	 * if the element is an epackage it's returned the shape, not the diagram.
 	 * @param diagram
 	 * @param element
 	 * @return pictogram element
@@ -1028,6 +1043,44 @@ public  class DiagramUtils {
 			DiagramUtils.setDecoratorText(con, eOpposite.getLowerBound()+".."+((eOpposite.getUpperBound() == -1 ? "*" : eOpposite.getUpperBound())), DecoratorText.EREF_DECORATOR_BOUNDS_OP);
 			DiagramUtils.setDecoratorText(con, DiagramUtils.getOrderedUniqueText(eOpposite), DecoratorText.EREF_DECORATOR_ORUNI_OP);
 			DiagramUtils.createDirDecorator(diagram, con, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR);	
+		}
+		DiagramUtils.addCollapseReferenceText(diagram, eOpposite);
+		return eOpposite;
+	}
+	
+	
+	/**
+	 * Static method that create a epposite reference of the given reference with the opposite values
+	 * @param reference
+	 * @param opposite
+	 * @param diagram
+	 * @return created EReference
+	 */
+	public static EReference createEOppositeReference(EReference reference, EReference opposite, Diagram diagram){
+		EReference eOpposite = EcoreFactory.eINSTANCE.createEReference();
+		EClass sourceOpC = (EClass)reference.getEType();
+		EClass targetOpC = (EClass)reference.getEContainingClass();
+		eOpposite.setName(ModelUtils.getRefOpNameValid(sourceOpC));
+		eOpposite.setEType(targetOpC);
+		eOpposite.setLowerBound(opposite.getLowerBound());
+		eOpposite.setUpperBound(opposite.getUpperBound());
+		eOpposite.setContainment(opposite.isContainment());
+		sourceOpC.getEStructuralFeatures().add(eOpposite);
+		reference.setEOpposite(eOpposite);
+		eOpposite.setEOpposite(reference);
+		
+		Connection con = null;
+		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(diagram, reference);
+		for (PictogramElement pe: pes){
+			if (pe instanceof Connection)
+				con = (Connection)pe;
+		}
+		if (con!= null){
+			DiagramUtils.setDecoratorText(con, eOpposite.getName(), DecoratorText.EREF_DECORATOR_NAME_OP);
+			DiagramUtils.setDecoratorText(con, eOpposite.getLowerBound()+".."+((eOpposite.getUpperBound() == -1 ? "*" : eOpposite.getUpperBound())), DecoratorText.EREF_DECORATOR_BOUNDS_OP);
+			DiagramUtils.setDecoratorText(con, DiagramUtils.getOrderedUniqueText(eOpposite), DecoratorText.EREF_DECORATOR_ORUNI_OP);
+			DiagramUtils.createDirDecorator(diagram, con, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR);	
+			if (eOpposite.isContainment()) DiagramUtils.createContainmentDecorator(diagram, con, 1);	
 		}
 		DiagramUtils.addCollapseReferenceText(diagram, eOpposite);
 		return eOpposite;

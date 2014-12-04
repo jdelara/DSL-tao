@@ -55,7 +55,7 @@ public class DeleteEAnnotationFeature extends DeleteEModelElementDefaultFeature 
 			}
 			
 			//Children
-			for (EClass child : ModelUtils.getAllChildren(getDiagram(), eClass)){
+			for (EClass child : ModelUtils.getAllChildren(eClass)){
 				for (EAnnotation anot : child.getEAnnotations()){
 					anot.getReferences().remove(eAnnotation);
 				}
@@ -67,7 +67,7 @@ public class DeleteEAnnotationFeature extends DeleteEModelElementDefaultFeature 
 			if (text.contains("@"+eAnnotation.getSource()+"\n"))
 			text = text.replaceFirst("@"+eAnnotation.getSource()+"\n", "");
 			else if (text.endsWith("@"+eAnnotation.getSource()))
-				text = text.replaceFirst("@"+eAnnotation.getSource(), "");//it's the last one.
+				text = text.substring(0,text.length() - (eAnnotation.getSource().length()+1));//it's the last one.
 			
 			PictogramElement pe = DiagramUtils.paintEAnnotationText(getDiagram(), eAnnotation, text);
 			

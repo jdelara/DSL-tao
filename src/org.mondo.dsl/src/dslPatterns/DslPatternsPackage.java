@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see dslPatterns.DslPatternsFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/OCL/Import ecore='http://www.eclipse.org/emf/2002/Ecore#/'"
+ *        annotation="http://www.eclipse.org/OCL/Import ecore='http://www.eclipse.org/emf/2002/Ecore#/' servInt='http://mondo.org/serviceInterfaces#/'"
  * @generated
  */
 public interface DslPatternsPackage extends EPackage {
@@ -197,13 +197,22 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN__DESCRIPTION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Services</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN__SERVICES = 3;
+
+	/**
 	 * The number of structural features of the '<em>Pattern</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_FEATURE_COUNT = 3;
+	int PATTERN_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Pattern</em>' class.
@@ -215,6 +224,390 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.ServiceImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getService()
+	 * @generated
+	 */
+	int SERVICE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE__DESCRIPTION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Mandatory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE__MANDATORY = 2;
+
+	/**
+	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE__PORTS = 3;
+
+	/**
+	 * The number of structural features of the '<em>Service</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_FEATURE_COUNT = 4;
+
+	/**
+	 * The number of operations of the '<em>Service</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.PortImpl <em>Port</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.PortImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getPort()
+	 * @generated
+	 */
+	int PORT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Min Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__MIN_CARD = 1;
+
+	/**
+	 * The feature id for the '<em><b>Max Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__MAX_CARD = 2;
+
+	/**
+	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT__USES = 3;
+
+	/**
+	 * The number of structural features of the '<em>Port</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_FEATURE_COUNT = 4;
+
+	/**
+	 * The number of operations of the '<em>Port</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PORT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.PlugImpl <em>Plug</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.PlugImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getPlug()
+	 * @generated
+	 */
+	int PLUG = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLUG__NAME = PORT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Min Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLUG__MIN_CARD = PORT__MIN_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Max Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLUG__MAX_CARD = PORT__MAX_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLUG__USES = PORT__USES;
+
+	/**
+	 * The number of structural features of the '<em>Plug</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLUG_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Plug</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PLUG_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.SlotImpl <em>Slot</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.SlotImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getSlot()
+	 * @generated
+	 */
+	int SLOT = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLOT__NAME = PORT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Min Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLOT__MIN_CARD = PORT__MIN_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Max Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLOT__MAX_CARD = PORT__MAX_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLOT__USES = PORT__USES;
+
+	/**
+	 * The number of structural features of the '<em>Slot</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLOT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Slot</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLOT_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.InjectorImpl <em>Injector</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.InjectorImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getInjector()
+	 * @generated
+	 */
+	int INJECTOR = 7;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INJECTOR__NAME = PORT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Min Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INJECTOR__MIN_CARD = PORT__MIN_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Max Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INJECTOR__MAX_CARD = PORT__MAX_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INJECTOR__USES = PORT__USES;
+
+	/**
+	 * The number of structural features of the '<em>Injector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INJECTOR_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Injector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INJECTOR_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.AcceptorImpl <em>Acceptor</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.AcceptorImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getAcceptor()
+	 * @generated
+	 */
+	int ACCEPTOR = 8;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCEPTOR__NAME = PORT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Min Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCEPTOR__MIN_CARD = PORT__MIN_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Max Card</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCEPTOR__MAX_CARD = PORT__MAX_CARD;
+
+	/**
+	 * The feature id for the '<em><b>Uses</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCEPTOR__USES = PORT__USES;
+
+	/**
+	 * The number of structural features of the '<em>Acceptor</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCEPTOR_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Acceptor</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCEPTOR_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link dslPatterns.impl.VariantImpl <em>Variant</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -222,7 +615,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getVariant()
 	 * @generated
 	 */
-	int VARIANT = 3;
+	int VARIANT = 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -268,7 +661,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getSimpleFeature()
 	 * @generated
 	 */
-	int SIMPLE_FEATURE = 4;
+	int SIMPLE_FEATURE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -323,7 +716,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getComplexFeature()
 	 * @generated
 	 */
-	int COMPLEX_FEATURE = 5;
+	int COMPLEX_FEATURE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -405,7 +798,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getPatternMetaModel()
 	 * @generated
 	 */
-	int PATTERN_META_MODEL = 6;
+	int PATTERN_META_MODEL = 12;
 
 	/**
 	 * The feature id for the '<em><b>Class Interfaces</b></em>' containment reference list.
@@ -469,7 +862,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getPatternMetaModelReference()
 	 * @generated
 	 */
-	int PATTERN_META_MODEL_REFERENCE = 7;
+	int PATTERN_META_MODEL_REFERENCE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Class Interfaces</b></em>' containment reference list.
@@ -542,7 +935,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getMetaModel()
 	 * @generated
 	 */
-	int META_MODEL = 8;
+	int META_MODEL = 14;
 
 	/**
 	 * The feature id for the '<em><b>Class Interfaces</b></em>' containment reference list.
@@ -615,7 +1008,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getMMInterface()
 	 * @generated
 	 */
-	int MM_INTERFACE = 9;
+	int MM_INTERFACE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -679,7 +1072,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getClassInterface()
 	 * @generated
 	 */
-	int CLASS_INTERFACE = 10;
+	int CLASS_INTERFACE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -752,7 +1145,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getFeatureInterface()
 	 * @generated
 	 */
-	int FEATURE_INTERFACE = 11;
+	int FEATURE_INTERFACE = 17;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -825,7 +1218,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getFeatureType()
 	 * @generated
 	 */
-	int FEATURE_TYPE = 12;
+	int FEATURE_TYPE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -898,7 +1291,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getFeatureInstance()
 	 * @generated
 	 */
-	int FEATURE_INSTANCE = 13;
+	int FEATURE_INSTANCE = 19;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -971,7 +1364,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getReferenceInterface()
 	 * @generated
 	 */
-	int REFERENCE_INTERFACE = 14;
+	int REFERENCE_INTERFACE = 20;
 
 	/**
 	 * The feature id for the '<em><b>Icon</b></em>' attribute.
@@ -1044,7 +1437,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getFeatureKind()
 	 * @generated
 	 */
-	int FEATURE_KIND = 15;
+	int FEATURE_KIND = 21;
 
 
 	/**
@@ -1164,6 +1557,165 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPattern_Description();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link dslPatterns.Pattern#getServices <em>Services</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Services</em>'.
+	 * @see dslPatterns.Pattern#getServices()
+	 * @see #getPattern()
+	 * @generated
+	 */
+	EReference getPattern_Services();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Service <em>Service</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Service</em>'.
+	 * @see dslPatterns.Service
+	 * @generated
+	 */
+	EClass getService();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Service#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see dslPatterns.Service#getName()
+	 * @see #getService()
+	 * @generated
+	 */
+	EAttribute getService_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Service#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see dslPatterns.Service#getDescription()
+	 * @see #getService()
+	 * @generated
+	 */
+	EAttribute getService_Description();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Service#isMandatory <em>Mandatory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mandatory</em>'.
+	 * @see dslPatterns.Service#isMandatory()
+	 * @see #getService()
+	 * @generated
+	 */
+	EAttribute getService_Mandatory();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link dslPatterns.Service#getPorts <em>Ports</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Ports</em>'.
+	 * @see dslPatterns.Service#getPorts()
+	 * @see #getService()
+	 * @generated
+	 */
+	EReference getService_Ports();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Port <em>Port</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Port</em>'.
+	 * @see dslPatterns.Port
+	 * @generated
+	 */
+	EClass getPort();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Port#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see dslPatterns.Port#getName()
+	 * @see #getPort()
+	 * @generated
+	 */
+	EAttribute getPort_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Port#getMinCard <em>Min Card</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Min Card</em>'.
+	 * @see dslPatterns.Port#getMinCard()
+	 * @see #getPort()
+	 * @generated
+	 */
+	EAttribute getPort_MinCard();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Port#getMaxCard <em>Max Card</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Max Card</em>'.
+	 * @see dslPatterns.Port#getMaxCard()
+	 * @see #getPort()
+	 * @generated
+	 */
+	EAttribute getPort_MaxCard();
+
+	/**
+	 * Returns the meta object for the reference list '{@link dslPatterns.Port#getUses <em>Uses</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Uses</em>'.
+	 * @see dslPatterns.Port#getUses()
+	 * @see #getPort()
+	 * @generated
+	 */
+	EReference getPort_Uses();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Plug <em>Plug</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Plug</em>'.
+	 * @see dslPatterns.Plug
+	 * @generated
+	 */
+	EClass getPlug();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Slot <em>Slot</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Slot</em>'.
+	 * @see dslPatterns.Slot
+	 * @generated
+	 */
+	EClass getSlot();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Injector <em>Injector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Injector</em>'.
+	 * @see dslPatterns.Injector
+	 * @generated
+	 */
+	EClass getInjector();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Acceptor <em>Acceptor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Acceptor</em>'.
+	 * @see dslPatterns.Acceptor
+	 * @generated
+	 */
+	EClass getAcceptor();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.Variant <em>Variant</em>}'.
@@ -1631,6 +2183,138 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PATTERN__DESCRIPTION = eINSTANCE.getPattern_Description();
+
+		/**
+		 * The meta object literal for the '<em><b>Services</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PATTERN__SERVICES = eINSTANCE.getPattern_Services();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.ServiceImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getService()
+		 * @generated
+		 */
+		EClass SERVICE = eINSTANCE.getService();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE__NAME = eINSTANCE.getService_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE__DESCRIPTION = eINSTANCE.getService_Description();
+
+		/**
+		 * The meta object literal for the '<em><b>Mandatory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE__MANDATORY = eINSTANCE.getService_Mandatory();
+
+		/**
+		 * The meta object literal for the '<em><b>Ports</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE__PORTS = eINSTANCE.getService_Ports();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.PortImpl <em>Port</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.PortImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getPort()
+		 * @generated
+		 */
+		EClass PORT = eINSTANCE.getPort();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PORT__NAME = eINSTANCE.getPort_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Min Card</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PORT__MIN_CARD = eINSTANCE.getPort_MinCard();
+
+		/**
+		 * The meta object literal for the '<em><b>Max Card</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PORT__MAX_CARD = eINSTANCE.getPort_MaxCard();
+
+		/**
+		 * The meta object literal for the '<em><b>Uses</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PORT__USES = eINSTANCE.getPort_Uses();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.PlugImpl <em>Plug</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.PlugImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getPlug()
+		 * @generated
+		 */
+		EClass PLUG = eINSTANCE.getPlug();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.SlotImpl <em>Slot</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.SlotImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getSlot()
+		 * @generated
+		 */
+		EClass SLOT = eINSTANCE.getSlot();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.InjectorImpl <em>Injector</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.InjectorImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getInjector()
+		 * @generated
+		 */
+		EClass INJECTOR = eINSTANCE.getInjector();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.AcceptorImpl <em>Acceptor</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.AcceptorImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getAcceptor()
+		 * @generated
+		 */
+		EClass ACCEPTOR = eINSTANCE.getAcceptor();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.VariantImpl <em>Variant</em>}' class.

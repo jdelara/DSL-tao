@@ -116,6 +116,12 @@
 	              id="graphiti.main.tab.emfpackagensuri"
 	              tab="graphiti.main.tab">
 	        </propertySection>
+	         <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.EPackageAdditionalInformationSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EPackageFilter"
+	              id="graphiti.main.tab.emfpackageadditionalinformation"
+	              tab="graphiti.main.tab4">
+	        </propertySection>
 	        <propertySection
 	              class="org.mondo.editor.graphiti.diagram.properties.EReferenceNameSection"
 	              filter="org.mondo.editor.graphiti.diagram.properties.EReferenceFilter"
@@ -195,10 +201,6 @@
 	              id="graphiti.main.tab.emfannotation"
 	              tab="graphiti.main.tab3">
 	        </propertySection>
-	        
-	        
-	        
-	        
 	    </propertySections>
 	</extension>
 </plugin>

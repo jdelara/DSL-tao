@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
 encoding//model/dslPatterns.ecorediag=UTF-8
-encoding//samples/HierarchicalProject.ecorediag=UTF-8
-encoding//samples/Tree.ecorediag=UTF-8
+encoding//model/serviceInterfaces.ecorediag=UTF-8
+encoding//samples/ComponentLanguageShallow.ecore=UTF-8
+encoding//samples/StateMachine.ecore=UTF-8
+encoding//samples/StateMachineHyperedges.ecore=UTF-8
+encoding//samples/StateMachineUnnamed.ecore=UTF-8
 encoding//samples/WorkflowLanguage.ecore=UTF-8
-encoding//samples/WorkflowLanguage.ecorediag=UTF-8

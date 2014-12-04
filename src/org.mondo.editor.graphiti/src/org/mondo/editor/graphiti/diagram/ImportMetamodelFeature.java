@@ -31,12 +31,12 @@ public class ImportMetamodelFeature extends AbstractCustomFeature {
  
     @Override
     public String getName() {
-        return "Import Metamodel...";
+        return "Import Meta-model...";
     }
  
     @Override
     public String getDescription() {
-        return "Import Metamodel";
+        return "Import Meta-model";
     }
  
     @Override
@@ -69,10 +69,10 @@ public class ImportMetamodelFeature extends AbstractCustomFeature {
 		    	DiagramUtils.drawDiagram(getFeatureProvider(), getDiagram());
 		    	
 		    	hasDoneChanges = true;
-				Messages.displayGeneralMessage("Import Model", "Your metamodel was imported successfully");
+				Messages.displayGeneralMessage("Import Meta-model", "Your meta-model was imported successfully");
 			} 
     	}catch (Exception ex){ 
-    	 Messages.displayGeneralErrorMessage("Import Model", "Your metamodel wasn't imported successfully");
+    	 Messages.displayGeneralErrorMessage("Import Meta-model", "Your meta-model wasn't imported successfully");
     	 ex.printStackTrace(); 
     	} 
     }

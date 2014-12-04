@@ -14,4 +14,28 @@
             genModel="model/dslPatterns.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dslPatterns -->
+      <package
+            uri="http://mondo.org/serviceInterfaces"
+            class="serviceInterfaces.ServiceInterfacesPackage"
+            genModel="model/dslPatterns.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dslPatterns -->
+      <package
+            uri="http://mondo.org/serviceInterfaces/codegen"
+            class="serviceInterfaces.codegen.CodegenPackage"
+            genModel="model/dslPatterns.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated dslPatterns -->
+      <package
+            uri="http://mondo.org/serviceInterfaces/modelingenv"
+            class="serviceInterfaces.modelingenv.ModelingenvPackage"
+            genModel="model/dslPatterns.genmodel"/>
+   </extension>
+
 </plugin>

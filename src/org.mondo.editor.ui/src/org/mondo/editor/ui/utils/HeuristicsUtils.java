@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.mondo.editor.graphiti.diagram.utils.DataTypeUtils.DataType;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
 
 import dslPatterns.ClassInterface;
@@ -59,7 +60,7 @@ public final class HeuristicsUtils {
 		int contRefRefl = 0; //reflexive
 		int contRefContRefl = 0; //reflexive and containment
 		
-		//Same name of attributes, reflexive and containment references, containment references, reflexives 
+		//Same name of attributes, reflexive and containment references, containment references, reflexive 
 		//references and check the inheritance.
 		for (MMInterfaceRelDiagram child: children){
 			if (child.getMmInterface() instanceof ReferenceInterface){
@@ -113,7 +114,7 @@ public final class HeuristicsUtils {
 		//attributes that belongs to the class and have the same EType.
 		if (parentClass instanceof EClass){
     		for (EAttribute attrib : ((EClass) parentClass).getEAllAttributes()){
-				if (PatternUtils.getEType((FeatureType)mmird.getMmInterface())== attrib.getEAttributeType())
+    			if ((PatternUtils.getEType((FeatureType)mmird.getMmInterface())== DataType.EJAVAOBJECT.getEDataType()) || (PatternUtils.getEType((FeatureType)mmird.getMmInterface())== attrib.getEAttributeType()))
 					bestAttrib.add(attrib);
     		}
 		}

@@ -11,6 +11,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -41,55 +43,13 @@ import org.mondo.editor.ui.utils.ImagesUtils;
  * @author miso  partner AnaPescador
  *
  */
-
 public class AppliedPatternsView extends ViewPart {
 
 	public static final String ID = "org.mondo.editor.ui.views.AppliedPatternsView";
 
 	private TreeViewer viewer;
-	
 	private Diagram diagram = null;
 	final List<ENamedElement> layerElements = new ArrayList<ENamedElement>();
-
-	 IPartListener2 pl = new IPartListener2() {
-
-         public void partActivated(IWorkbenchPartReference ref) {   
-        }
-
-		@Override
-		public void partBroughtToTop(IWorkbenchPartReference partRef) {
-		}
-
-		@Override
-		public void partClosed(IWorkbenchPartReference partRef) {
-		}
-
-		@Override
-		public void partDeactivated(IWorkbenchPartReference partRef) {
-		}
-
-		@Override
-		public void partOpened(IWorkbenchPartReference partRef) {
-		}
-
-		@Override
-		public void partHidden(IWorkbenchPartReference partRef) {
-		}
-
-		@Override
-		public void partVisible(IWorkbenchPartReference partRef) {
-			IWorkbenchPart part = partRef.getPart(false);
-	           if (part instanceof IEditorPart) {
-	        	   part.setFocus();
-	        	   refresh();
-	           }
-		}
-
-		@Override
-		public void partInputChanged(IWorkbenchPartReference partRef) {	
-		}
-   };
-	
 	
 	/**
 	 * This is a callback that will allow us
@@ -99,7 +59,15 @@ public class AppliedPatternsView extends ViewPart {
 		
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
 		        | SWT.V_SCROLL);				    
-		viewer.setContentProvider(new ITreeContentProvider() {
+		viewer.setContentProvider(treeContentProvider);
+		viewer.setLabelProvider(treeLabelProvider);
+		viewer.getTree().addSelectionListener(listenerSelectionEAnnotation);
+		viewer.getTree().addMouseListener(mouseListener);
+		viewer.getTree().addFocusListener(focusListener);
+		
+	}	
+	
+	private ITreeContentProvider treeContentProvider = new ITreeContentProvider() {
 		
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -134,9 +102,9 @@ public class AppliedPatternsView extends ViewPart {
 				List<Object> listEAnnnotations = new ArrayList<>(Arrays.asList(((EAnnotation)parentElement).getReferences().toArray()));
 				return listEAnnnotations.toArray();
 		}
-	});
-    
-		viewer.setLabelProvider(new LabelProvider(){
+	};
+	
+	private LabelProvider treeLabelProvider = new LabelProvider(){
 		@Override
 		public String getText(Object element) {
 			String s = ((EAnnotation) element).getSource();
@@ -158,27 +126,44 @@ public class AppliedPatternsView extends ViewPart {
 			if (desc != null)return desc.createImage();
 			return null;
 			}
-		});
+		}; 
+	
+	private MouseListener mouseListener = new MouseListener() {
 		
-		viewer.getTree().addSelectionListener(listenerSelectionEAnnotation);
-		viewer.getTree().addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (diagram != null) {
-					DiagramUtils.selectPictogram(diagram);
-					showHiddenElements();				
-				}	
+		@Override
+		public void mouseUp(MouseEvent e) {
+			if (diagram != null) {
+				ISelection selection = viewer.getSelection();
+				Object obj = ((IStructuredSelection)selection).getFirstElement();
+				EAnnotation treeObj = (EAnnotation)obj;
+				if (treeObj != null){
+					if (!(treeObj.getEModelElement() instanceof EPackage)){	
+						DiagramUtils.selectPictogram(diagram);
+						showHiddenElements();		
+					}
+				}
+			}	
+		}
+		
+		@Override
+		public void mouseDown(MouseEvent e) {
+			ISelection selection = viewer.getSelection();
+			Object obj = ((IStructuredSelection)selection).getFirstElement();
+			EAnnotation treeObj = (EAnnotation)obj;
+			if (treeObj != null){
+				if (!(treeObj.getEModelElement() instanceof EPackage)){	
+					PictogramElement pe = DiagramUtils.getPictogramToSelect(diagram, (ENamedElement) treeObj.getEModelElement());
+					DiagramUtils.selectPictogram(pe);
+					showHiddenElements();
+				}
 			}
+		}
+		
+		@Override
+		public void mouseDoubleClick(MouseEvent e) {
 			
-			@Override
-			public void focusGained(FocusEvent e) {
-				
-			}
-		});
-		IWorkbenchPage page = this.getSite().getPage();
-	    page.addPartListener(pl);	
-	}
+		}
+	};
 	
 	private SelectionListener listenerSelectionEAnnotation = new SelectionListener() {
 		
@@ -207,15 +192,7 @@ public class AppliedPatternsView extends ViewPart {
 					DiagramUtils.selectPictograms(pes);
 					
 					if (pes.size()!=0)hideElements();
-			      
-					
-				} else {					
-					PictogramElement pe = DiagramUtils.getPictogramToSelect(diagram, (ENamedElement) treeObj.getEModelElement());
-					DiagramUtils.selectPictogram(pe);
-					showHiddenElements();
-
-				}
-				
+				}			
 			}
 		}
 		
@@ -224,25 +201,41 @@ public class AppliedPatternsView extends ViewPart {
 		}
 	};
 
-
+	private FocusListener focusListener = new FocusListener() {
+		
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (diagram != null) {
+				DiagramUtils.selectPictogram(diagram);
+				showHiddenElements();		
+			}	
+		}
+		
+		@Override
+		public void focusGained(FocusEvent e) {
+			
+		}
+	};
+	
 	public void setFocus() {
 		refresh();
 	}
 	
 	public void refresh(){
+		
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){	
 			IEditorPart editor = activePage.getActiveEditor();				
 			if (editor instanceof IDiagramContainerUI){	
-					final Menu menu = new Menu(viewer.getTree());
-					viewer.getTree().setMenu(menu);			
-					menu.addMenuListener(new AppliedPatternsMenuAdapter(menu, viewer, ((IDiagramContainerUI)editor).getDiagramTypeProvider().getFeatureProvider()));	
-					diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();
-					if (ModelUtils.existsPackage(diagram)){
-						viewer.setInput(ModelUtils.getPatterns(diagram));
-						return;
-					} 
-			} 
+				final Menu menu = new Menu(viewer.getTree());
+				viewer.getTree().setMenu(menu);			
+				menu.addMenuListener(new AppliedPatternsMenuAdapter(menu, viewer, ((IDiagramContainerUI)editor).getDiagramTypeProvider().getFeatureProvider()));	
+				diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();
+				if (ModelUtils.existsPackage(diagram)){
+					viewer.setInput(ModelUtils.getAllAppliedPatterns(diagram));
+					return;
+				} 
+			}
 		}
 		viewer.setInput(null);
 	}
@@ -257,11 +250,11 @@ public class AppliedPatternsView extends ViewPart {
 				protected void doExecute() {
 					for (EClassifier eclassif: pack.getEClassifiers() ){
 						if (!layerElements.contains(eclassif))
-							DiagramUtils.setElementVisibility(diagram, eclassif,true);
+							DiagramUtils.setElementVisibility(diagram, eclassif,true,layerElements);
 					}
 					for (EPackage epack: pack.getESubpackages() ){
 						if (!layerElements.contains(epack))
-						DiagramUtils.setElementVisibility(diagram, epack,true);
+						DiagramUtils.setElementVisibility(diagram, epack,true,layerElements);
 					}
 				}
 			});
@@ -278,16 +271,15 @@ public class AppliedPatternsView extends ViewPart {
 			protected void doExecute() {
 				for (EClassifier eclassif: pack.getEClassifiers()){
 					if (!layerElements.contains(eclassif))
-						if (eclassif instanceof EClass)DiagramUtils.setElementVisibility(diagram, eclassif,false);
+						if (eclassif instanceof EClass)DiagramUtils.setElementVisibility(diagram, eclassif,false,layerElements);
 				}
 				for (EPackage epack: pack.getESubpackages() ){
 					if (!layerElements.contains(epack))
-					DiagramUtils.setElementVisibility(diagram, epack,false);
+					DiagramUtils.setElementVisibility(diagram, epack,false,layerElements);
 				}
 				
 			}
 		});
 	}
-	
 	
 }

@@ -2,6 +2,7 @@
  */
 package dslPatterns;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link dslPatterns.Pattern#getRootVariant <em>Root Variant</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getDescription <em>Description</em>}</li>
+ *   <li>{@link dslPatterns.Pattern#getServices <em>Services</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,5 +102,21 @@ public interface Pattern extends EObject {
 	 * @generated
 	 */
 	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Services</b></em>' containment reference list.
+	 * The list contents are of type {@link dslPatterns.Service}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Services</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Services</em>' containment reference list.
+	 * @see dslPatterns.DslPatternsPackage#getPattern_Services()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Service> getServices();
 
 } // Pattern

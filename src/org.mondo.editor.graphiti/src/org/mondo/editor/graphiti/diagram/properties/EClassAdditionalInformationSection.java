@@ -1,9 +1,7 @@
 package org.mondo.editor.graphiti.diagram.properties;
 
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -11,19 +9,16 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
@@ -32,7 +27,7 @@ import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.graphiti.diagram.utils.PropertiesUtils;
 
 /**
- * Section to work with addional information about an EClass:
+ * Section to work with additional information about an EClass:
  * all the attributes, ancestor, children and references.
  * 
  * @author miso partner AnaPescador
@@ -44,10 +39,13 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 	private TableViewer viewerAncestors;
 	private TableViewer viewerChildren;
 	private TableViewer viewerReferences;
-	 
+	private TableViewer viewerContainedElements;
+	private TableViewer viewerContainerElements;
+
+	
 	private final static int MARGEN_TOP = 10;
 	private final int ALTO_GRUPO = 300;
-	private final int ANCHO_GRUPO = 325;
+	private final int ANCHO_GRUPO = 220;
 	
 	private List<ENamedElement> selectedNamedElements = new ArrayList<ENamedElement>();
 	
@@ -57,19 +55,50 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 
 		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 		Composite composite = factory.createFlatFormComposite(parent);
+				
+		Group grpContainerElements = factory.createGroup(composite, "All container elements: ");
+		grpContainerElements.redraw();
+		FormData data_1 = new FormData();
+		data_1.left = new FormAttachment(0, ANCHO_GRUPO*5);
+		data_1.top = new FormAttachment(0, MARGEN_TOP);
+		data_1.width = ANCHO_GRUPO;
+		data_1.height = ALTO_GRUPO;
+		grpContainerElements.setLayoutData(data_1);
+		grpContainerElements.setLayout(null);
+		viewerContainerElements = PropertiesUtils.createViewerClasses(grpContainerElements);
+		//viewerContainerElements.addSelectionChangedListener(listenerNamedElement);
+		//viewerContainerElements.getTable().addFocusListener(listenerFocusNamedElement);
+		viewerContainerElements.getTable().addMouseListener(mouseListener);
+		
+		Group grpContainedElements = factory.createGroup(composite, "All contained elements: ");
+		grpContainedElements.redraw();
+		FormData data0 = new FormData();
+		data0.left = new FormAttachment(0, ANCHO_GRUPO*4);
+		data0.right = new FormAttachment(grpContainerElements, -HSPACE);
+		data0.top = new FormAttachment(grpContainerElements, 0, SWT.CENTER);
+		data0.width = ANCHO_GRUPO;
+		data0.height = ALTO_GRUPO;
+		grpContainedElements.setLayoutData(data0);
+		grpContainedElements.setLayout(null);
+		viewerContainedElements = PropertiesUtils.createViewerClasses(grpContainedElements);
+		//viewerContainedElements.addSelectionChangedListener(listenerNamedElement);
+		//viewerContainedElements.getTable().addFocusListener(listenerFocusNamedElement);
+		viewerContainedElements.getTable().addMouseListener(mouseListener);
 		
 		Group grpReferences = factory.createGroup(composite, "All references: ");
 		grpReferences.redraw();
 		FormData data = new FormData();
 		data.left = new FormAttachment(0, ANCHO_GRUPO*3);
-		data.top = new FormAttachment(0, MARGEN_TOP);
+		data.right = new FormAttachment(grpContainedElements, -HSPACE);
+		data.top = new FormAttachment(grpContainedElements, 0, SWT.CENTER);
 		data.width = ANCHO_GRUPO;
 		data.height = ALTO_GRUPO;
 		grpReferences.setLayoutData(data);
 		grpReferences.setLayout(null);
 		viewerReferences = PropertiesUtils.createViewerReferences(grpReferences);
-		viewerReferences.addSelectionChangedListener(listenerNamedElement);
-		viewerReferences.getTable().addFocusListener(listenerFocusNamedElement);
+		//viewerReferences.addSelectionChangedListener(listenerNamedElement);
+		//viewerReferences.getTable().addFocusListener(listenerFocusNamedElement);
+		viewerReferences.getTable().addMouseListener(mouseListener);
 		
 		Group grpChildren = factory.createGroup(composite, "All children: ");
 		grpChildren.redraw();
@@ -82,8 +111,9 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpChildren.setLayoutData(data1);
 		grpChildren.setLayout(null);
 		viewerChildren = PropertiesUtils.createViewerClasses(grpChildren);
-		viewerChildren.addSelectionChangedListener(listenerNamedElement);
-		viewerChildren.getTable().addFocusListener(listenerFocusNamedElement);
+		//viewerChildren.addSelectionChangedListener(listenerNamedElement);
+		//viewerChildren.getTable().addFocusListener(listenerFocusNamedElement);
+		viewerChildren.getTable().addMouseListener(mouseListener);
 		
 		Group grpAncesters = factory.createGroup(composite, "All ancestors: ");
 		grpAncesters.redraw();
@@ -96,8 +126,9 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpAncesters.setLayoutData(data2);
 		grpAncesters.setLayout(null);
 		viewerAncestors = PropertiesUtils.createViewerClasses(grpAncesters);
-		viewerAncestors.addSelectionChangedListener(listenerNamedElement);
-		viewerAncestors.getTable().addFocusListener(listenerFocusNamedElement);
+		//viewerAncestors.addSelectionChangedListener(listenerNamedElement);
+		//viewerAncestors.getTable().addFocusListener(listenerFocusNamedElement);
+		viewerAncestors.getTable().addMouseListener(mouseListener);
 		
         Group grpAttributes = factory.createGroup(composite, "All attributes: ");
         grpAttributes.redraw();
@@ -111,9 +142,9 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpAttributes.setLayout(null);
 		
 		viewerAttributes = PropertiesUtils.createViewerAttributes(grpAttributes);
-		viewerAttributes.addSelectionChangedListener(listenerNamedElement);
-		viewerAttributes.getTable().addFocusListener(listenerFocusNamedElement);		
-	
+		//viewerAttributes.addSelectionChangedListener(listenerNamedElement);
+		//viewerAttributes.getTable().addFocusListener(listenerFocusNamedElement);
+		viewerAttributes.getTable().addMouseListener(mouseListener);
 	}
 
 	@Override
@@ -128,15 +159,20 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		        viewerAttributes.refresh();
 		        viewerAncestors.setInput(((EClass)bo).getEAllSuperTypes());
 		        viewerAncestors.refresh();
-	        	viewerChildren.setInput(ModelUtils.getAllChildren(getDiagram(),(EClass)bo));
+	        	viewerChildren.setInput(ModelUtils.getAllChildren((EClass)bo));
 	        	viewerChildren.refresh();
 		        viewerReferences.setInput(((EClass)bo).getEAllReferences());
 		        viewerReferences.refresh();
+		        viewerContainedElements.setInput(ModelUtils.getAllContainedElements((EClass)bo));
+		        viewerContainedElements.refresh();
+		        viewerContainerElements.setInput(ModelUtils.getAllContainerElements((EClass)bo));
+		        viewerContainerElements.refresh();   
 	        }catch(Exception e){
-	        	
 	        }
 	    }
 	}
+	
+	/*
 	
 	private ISelectionChangedListener listenerNamedElement = new ISelectionChangedListener() {
 		
@@ -179,8 +215,46 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		@Override
 		public void focusGained(FocusEvent e) {
 		}
-	  };
+	  };  
 	  
+	  */
 	  
+	  private MouseListener mouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+				DiagramUtils.selectPictogram(getDiagram());
+	        	selectedNamedElements.clear();
+	        	if (!((Table)e.getSource()).isDisposed()) ((Table)e.getSource()).deselectAll();
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {		        
+		        Table control = (Table)e.getSource();    
+		        TableItem[] selection = control.getSelection();
+		        if (selection != null) {
+
+		        	DiagramUtils.selectPictogram(getDiagram());
+		        	selectedNamedElements.clear();
+					for (TableItem ti : selection) {
+		        		  ENamedElement value = (ENamedElement)ti.getData();
+		        		  if (value instanceof EAttribute) value = ((EAttribute)value).getEContainingClass();
+		        		  selectedNamedElements.add(value);
+		        	}   
+		    		List<PictogramElement> pes = new ArrayList<>();			
+		    		for (ENamedElement element:selectedNamedElements){
+		    			PictogramElement pe = DiagramUtils.getPictogramToSelect(getDiagram(), element);
+		    			if (pe != null)	pes.add(pe);					
+		    		}
+		    		DiagramUtils.selectPictograms(pes);	
+		        }
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				
+			}
+		};
+ 
 } 
 

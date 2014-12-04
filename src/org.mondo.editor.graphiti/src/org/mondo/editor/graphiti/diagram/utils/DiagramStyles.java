@@ -28,10 +28,10 @@ public class DiagramStyles {
 	public static final int ENUM_MIN_HEIGHT = 80;
 	public static final int ENUM_HEIGHT = 100;
 	
-	public static final int EXTRA_BIG_SIZE_FONT = 8;
-	public static final int BIG_SIZE_FONT = 7;
-	public static final int MEDIUM_SIZE_FONT = 6;
-	public static final int SMALL_SIZE_FONT = 5;
+	public static final int EXTRA_BIG_SIZE_FONT = 9;
+	public static final int BIG_SIZE_FONT = 8;
+	public static final int MEDIUM_SIZE_FONT = 7;
+	public static final int SMALL_SIZE_FONT = 6;
 	
 	public static final IColorConstant PACKAGE_BACKGROUND = new ColorConstant(194, 148, 166);
 	public static final IColorConstant PACKAGE_FOREGROUND = ColorConstant.BLACK;
@@ -49,6 +49,6 @@ public class DiagramStyles {
 	
 	public static final IColorConstant TAG_TEXT = ColorConstant.DARK_GRAY;
 
-	public static final IColorConstant ANNOTATION_FOREGROUND =  new ColorConstant(15,132,102);
+	public static final IColorConstant ANNOTATION_FOREGROUND =  /*new ColorConstant(15,132,102)*/ColorConstant.BLACK;
 	
 }

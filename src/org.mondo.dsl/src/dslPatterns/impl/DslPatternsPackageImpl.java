@@ -2,6 +2,7 @@
  */
 package dslPatterns.impl;
 
+import dslPatterns.Acceptor;
 import dslPatterns.Category;
 import dslPatterns.ClassInterface;
 import dslPatterns.ComplexFeature;
@@ -11,23 +12,32 @@ import dslPatterns.FeatureInstance;
 import dslPatterns.FeatureInterface;
 import dslPatterns.FeatureKind;
 import dslPatterns.FeatureType;
+import dslPatterns.Injector;
 import dslPatterns.MMInterface;
 import dslPatterns.MetaModel;
 import dslPatterns.Pattern;
 import dslPatterns.PatternMetaModel;
 import dslPatterns.PatternMetaModelReference;
 import dslPatterns.PatternSet;
+import dslPatterns.Plug;
+import dslPatterns.Port;
 import dslPatterns.ReferenceInterface;
+import dslPatterns.Service;
 import dslPatterns.SimpleFeature;
+import dslPatterns.Slot;
 import dslPatterns.Variant;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import serviceInterfaces.ServiceInterfacesPackage;
+import serviceInterfaces.codegen.CodegenPackage;
+import serviceInterfaces.codegen.impl.CodegenPackageImpl;
+import serviceInterfaces.impl.ServiceInterfacesPackageImpl;
+import serviceInterfaces.modelingenv.ModelingenvPackage;
+import serviceInterfaces.modelingenv.impl.ModelingenvPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -56,6 +66,48 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * @generated
 	 */
 	private EClass patternEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass serviceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass portEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass plugEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass slotEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass injectorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass acceptorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,11 +246,22 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 
 		isInited = true;
 
+		// Obtain or create and register interdependencies
+		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
+		CodegenPackageImpl theCodegenPackage = (CodegenPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) instanceof CodegenPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) : CodegenPackage.eINSTANCE);
+		ModelingenvPackageImpl theModelingenvPackage = (ModelingenvPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) instanceof ModelingenvPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) : ModelingenvPackage.eINSTANCE);
+
 		// Create package meta-data objects
 		theDslPatternsPackage.createPackageContents();
+		theServiceInterfacesPackage.createPackageContents();
+		theCodegenPackage.createPackageContents();
+		theModelingenvPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theDslPatternsPackage.initializePackageContents();
+		theServiceInterfacesPackage.initializePackageContents();
+		theCodegenPackage.initializePackageContents();
+		theModelingenvPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theDslPatternsPackage.freeze();
@@ -306,6 +369,141 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EAttribute getPattern_Description() {
 		return (EAttribute)patternEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPattern_Services() {
+		return (EReference)patternEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getService() {
+		return serviceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getService_Name() {
+		return (EAttribute)serviceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getService_Description() {
+		return (EAttribute)serviceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getService_Mandatory() {
+		return (EAttribute)serviceEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getService_Ports() {
+		return (EReference)serviceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPort() {
+		return portEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPort_Name() {
+		return (EAttribute)portEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPort_MinCard() {
+		return (EAttribute)portEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPort_MaxCard() {
+		return (EAttribute)portEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPort_Uses() {
+		return (EReference)portEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPlug() {
+		return plugEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSlot() {
+		return slotEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInjector() {
+		return injectorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAcceptor() {
+		return acceptorEClass;
 	}
 
 	/**
@@ -646,6 +844,27 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		createEReference(patternEClass, PATTERN__ROOT_VARIANT);
 		createEAttribute(patternEClass, PATTERN__NAME);
 		createEAttribute(patternEClass, PATTERN__DESCRIPTION);
+		createEReference(patternEClass, PATTERN__SERVICES);
+
+		serviceEClass = createEClass(SERVICE);
+		createEAttribute(serviceEClass, SERVICE__NAME);
+		createEAttribute(serviceEClass, SERVICE__DESCRIPTION);
+		createEAttribute(serviceEClass, SERVICE__MANDATORY);
+		createEReference(serviceEClass, SERVICE__PORTS);
+
+		portEClass = createEClass(PORT);
+		createEAttribute(portEClass, PORT__NAME);
+		createEAttribute(portEClass, PORT__MIN_CARD);
+		createEAttribute(portEClass, PORT__MAX_CARD);
+		createEReference(portEClass, PORT__USES);
+
+		plugEClass = createEClass(PLUG);
+
+		slotEClass = createEClass(SLOT);
+
+		injectorEClass = createEClass(INJECTOR);
+
+		acceptorEClass = createEClass(ACCEPTOR);
 
 		variantEClass = createEClass(VARIANT);
 		createEAttribute(variantEClass, VARIANT__NAME);
@@ -718,11 +937,18 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		ServiceInterfacesPackage theServiceInterfacesPackage = (ServiceInterfacesPackage)EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		plugEClass.getESuperTypes().add(this.getPort());
+		slotEClass.getESuperTypes().add(this.getPort());
+		injectorEClass.getESuperTypes().add(this.getPort());
+		acceptorEClass.getESuperTypes().add(this.getPort());
 		simpleFeatureEClass.getESuperTypes().add(this.getVariant());
 		complexFeatureEClass.getESuperTypes().add(this.getVariant());
 		patternMetaModelReferenceEClass.getESuperTypes().add(this.getPatternMetaModel());
@@ -747,6 +973,27 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEReference(getPattern_RootVariant(), this.getComplexFeature(), null, "rootVariant", null, 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_Name(), ecorePackage.getEString(), "name", null, 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_Description(), ecorePackage.getEString(), "description", null, 0, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPattern_Services(), this.getService(), null, "services", null, 0, -1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getService_Name(), ecorePackage.getEString(), "name", null, 1, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getService_Description(), ecorePackage.getEString(), "description", null, 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getService_Mandatory(), ecorePackage.getEBoolean(), "mandatory", "true", 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getService_Ports(), this.getPort(), null, "ports", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(portEClass, Port.class, "Port", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPort_Name(), ecorePackage.getEString(), "name", null, 1, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPort_MinCard(), ecorePackage.getEBigInteger(), "minCard", "0", 1, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPort_MaxCard(), ecorePackage.getEBigInteger(), "maxCard", "-1", 1, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPort_Uses(), theServiceInterfacesPackage.getInterface(), null, "uses", null, 0, -1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(plugEClass, Plug.class, "Plug", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(slotEClass, Slot.class, "Slot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(injectorEClass, Injector.class, "Injector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(acceptorEClass, Acceptor.class, "Acceptor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(variantEClass, Variant.class, "Variant", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVariant_Name(), ecorePackage.getEString(), "name", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -820,7 +1067,8 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		  (this, 
 		   source, 
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/",
+			 "servInt", "http://mondo.org/serviceInterfaces#/"
 		   });		
 	}
 

@@ -1,6 +1,7 @@
 package org.mondo.editor.ui.views;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
@@ -16,12 +17,17 @@ import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
+import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.utils.PatternUtils;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.services.PatternServiceInfo;
 import org.mondo.editor.ui.wizards.PatternWizard;
 
 import dslPatterns.Category;
@@ -39,46 +45,6 @@ import dslPatterns.PatternSet;
 
 public class PatternsView extends ViewPart {
 	
-	 IPartListener2 pl = new IPartListener2() {
-
-	        public void partActivated(IWorkbenchPartReference ref) {				   
-	        }
-
-			@Override
-			public void partBroughtToTop(IWorkbenchPartReference partRef) {
-			}
-
-			@Override
-			public void partClosed(IWorkbenchPartReference partRef) {
-			}
-
-			@Override
-			public void partDeactivated(IWorkbenchPartReference partRef) {
-			}
-
-			@Override
-			public void partOpened(IWorkbenchPartReference partRef) {
-			}
-
-			@Override
-			public void partHidden(IWorkbenchPartReference partRef) {
-			}
-
-			@Override
-			public void partVisible(IWorkbenchPartReference partRef) {
-				IWorkbenchPart part = partRef.getPart(false);
-		           if (part instanceof IEditorPart) {
-		        	   part.setFocus();
-		        	   refresh();
-		           }
-			}
-
-			@Override
-			public void partInputChanged(IWorkbenchPartReference partRef) {
-			}
-	    };
-
-	
 	public static final String ID = "org.mondo.editor.ui.views.PatternsView";
 
 	private TreeViewer viewer;
@@ -86,7 +52,6 @@ public class PatternsView extends ViewPart {
 	private Action doubleClickAction;
 	
 	private EPackage ecoreDiagram = null;
-
 	 
 	class TreeObject implements IAdaptable {
 		private String name;
@@ -145,9 +110,7 @@ public class PatternsView extends ViewPart {
 			return children.size()>0;
 		}
 	}
-	
-	
-
+		
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
 		private TreeParent invisibleRoot;
@@ -199,7 +162,7 @@ public class PatternsView extends ViewPart {
 		}
 
 		private void initialize() {	
-			PatternSet patternModel = PatternUtils.getPatternsModel();	
+			PatternSet patternModel = PatternUtils.getPatternSetModel();	
 			if (patternModel != null){
 				TreeParent root = new TreeParent("Patterns");
 				for (Category cat: patternModel.getCategories()){
@@ -210,8 +173,7 @@ public class PatternsView extends ViewPart {
 			}
 		}
 	}
-	
-	
+		
 	class ViewLabelProvider extends LabelProvider {
 
 		public String getText(Object obj) {
@@ -223,8 +185,6 @@ public class PatternsView extends ViewPart {
 			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
 			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
-	}
-	class NameSorter extends ViewerSorter {
 	}
 
 	/**
@@ -242,7 +202,6 @@ public class PatternsView extends ViewPart {
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "org.mondo.patterns.viewer");
 		makeActions();
@@ -250,8 +209,8 @@ public class PatternsView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		
-		IWorkbenchPage page = this.getSite().getPage();
-	    page.addPartListener(pl);
+		//IWorkbenchPage page = this.getSite().getPage();
+	    //page.addPartListener(pl);
 	}
 
 	private void hookContextMenu() {
@@ -288,7 +247,6 @@ public class PatternsView extends ViewPart {
 		drillDownAdapter.addNavigationActions(manager);
 	}
 
-	
 	private void makeActions() {
 		doubleClickAction = new Action() {
 			public void run() {
@@ -315,6 +273,27 @@ public class PatternsView extends ViewPart {
 							IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 							IDiagramContainerUI editor = (IDiagramContainerUI)activePage.getActiveEditor();
 							PatternUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern.getName());
+							
+							IDiagramTypeProvider dtp = editor.getDiagramBehavior().getDiagramTypeProvider();
+							if (dtp instanceof EcoreDiagramTypeProvider){
+								Object info = ((EcoreDiagramTypeProvider)dtp).getPatternServicesInfo();
+								if(info== null) {
+									info = new LinkedList<PatternServiceInfo>();
+									((EcoreDiagramTypeProvider)dtp).setPatternServicesInfo(info);
+								}
+								Object intModel = ((EcoreDiagramTypeProvider)dtp).getInterfaceModel();
+								if(intModel== null) {
+									intModel = PatternUtils.getInterfaceModel();
+									((EcoreDiagramTypeProvider)dtp).setInterfaceModel(intModel);
+								}
+								List<PatternServiceInfo> patternServiceInfoList = (List<PatternServiceInfo>)info;
+								
+								EPackage pack = ModelUtils.getBusinessModel(editor.getDiagramBehavior().getDiagramTypeProvider().getDiagram());
+								List<EAnnotation> annots = pack.getEAnnotations();
+								String patternName = annots.get(annots.size()-1).getSource().replace("@", "");
+								PatternUtils.addPatternServicesInfo(patternServiceInfoList, pattern, patternName,(Resource)intModel);
+							}		
+							
 						}		
 					}
 					else showMessage("Pattern not available");				    
@@ -332,6 +311,7 @@ public class PatternsView extends ViewPart {
 			}
 		});
 	}
+	
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
@@ -339,7 +319,6 @@ public class PatternsView extends ViewPart {
 			message);
 	}
 	
-
 	public void setFocus() {
 		refresh();
 	}
@@ -349,11 +328,13 @@ public class PatternsView extends ViewPart {
 		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){
 			IEditorPart editor = activePage.getActiveEditor();	
 			if (editor instanceof IDiagramContainerUI){
-				Diagram diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();
-				if (ModelUtils.existsPackage(diagram))
-					ecoreDiagram = ModelUtils.getBusinessModel(diagram);
-				viewer.setInput(getViewSite());
-				viewer.getControl().setFocus();
+				if (viewer!= null){
+					Diagram diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();
+					if (ModelUtils.existsPackage(diagram))
+						ecoreDiagram = ModelUtils.getBusinessModel(diagram);
+					viewer.setInput(getViewSite());
+					viewer.getControl().setFocus();
+				}
 			}		
 		} else viewer.setInput(null);
 	}

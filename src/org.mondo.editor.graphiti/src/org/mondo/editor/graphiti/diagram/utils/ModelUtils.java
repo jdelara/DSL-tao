@@ -2,6 +2,7 @@ package org.mondo.editor.graphiti.diagram.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -51,7 +52,6 @@ public  class ModelUtils {
 	            diagram.eResource().getContents().add(pack);
 	            
 	            DiagramUtils.initShowAnnotations(diagram);
-
             }
         }
         return pack;
@@ -164,12 +164,13 @@ public  class ModelUtils {
 		for (int i=0; i<atts.size(); i++){
 			EAttribute att = atts.get(i);
 			if (att.isID()) 
-				if (id) errors+="Error: "+eClass.getName()+", "+att.getName()+" ID duplicated\n";
+				if (id) 
+					errors+= att.getName()+" ID duplicated\n";
 				else id = true;
 			for (int j=i+1; j<atts.size();j++){
 				EAttribute att2 = atts.get(j);
 				if ((att!=att2)&&(att.getName().compareTo(att2.getName())==0))
-					errors += "Error: "+eClass.getName()+", "+att.getName()+" is duplicated\n";
+					errors += att.getName()+" is duplicated\n";
 			}
 		}
 		
@@ -179,7 +180,7 @@ public  class ModelUtils {
 			for (int j=i+1; j<refs.size();j++){
 				EReference ref2 = refs.get(j);
 				if ((ref!=ref2)&&(ref.getName().compareTo(ref2.getName())==0))
-					errors += "Error: "+eClass.getName()+", "+ref.getName()+" is duplicated\n";
+					errors += ref.getName()+" is duplicated\n";
 			}
 		}	
 		return errors;
@@ -566,13 +567,13 @@ public  class ModelUtils {
 	
 	/**
 	 * Static method that returns all the eClass children.
-	 * @param diagram
 	 * @param eclass
 	 * @return List<EClass>
 	 */
-	public static List<EClass> getAllChildren (Diagram diagram, EClass eclass){
+	public static List<EClass> getAllChildren (EClass eclass){
 		List<EClass> children = new ArrayList<EClass>();
-        for (EClassifier classif: getBusinessModel(diagram).getEClassifiers()){
+        if (eclass != null) if (eclass.getEPackage()!= null)
+		for (EClassifier classif: eclass.getEPackage().getEClassifiers()){
         	if (classif instanceof EClass) {
         		EList<EClass> superTypes = ((EClass)classif).getEAllSuperTypes();
         		if (superTypes!=null)
@@ -585,13 +586,12 @@ public  class ModelUtils {
 	
 	/**
 	 * Static method that returns if any children of the eclass is a child of the parent class or its ancestors.
-	 * @param diagram
 	 * @param eclass
 	 * @param parent
 	 * @return true if any children of the class is a child of this parent or parent ancestors, false not
 	 */
-	public static boolean hasAnyChildren(Diagram diagram, EClass eclass, EClass parent){
-		List<EClass> children = getAllChildren(diagram, eclass);
+	public static boolean hasAnyChildren(EClass eclass, EClass parent){
+		List<EClass> children = getAllChildren(eclass);
 		for (EClass child: children){
 			if (child.getEAllSuperTypes().contains(parent)) return true;
 			for (EClass fa: parent.getEAllSuperTypes()){
@@ -621,11 +621,11 @@ public  class ModelUtils {
 	}
 	
 	/**
-	 * Static method that returns the list of annotations,names of the patter, applied to the specified diagram
+	 * Static method that returns the list of annotations,pattern names, applied to the specified diagram
 	 * @param diagram
 	 * @return list of annotations
 	 */
-	public static List<EAnnotation> getPatterns (Diagram diagram){
+	public static List<EAnnotation> getAllAppliedPatterns (Diagram diagram){
 		EPackage ecoreDiagram = ModelUtils.getBusinessModel(diagram);
 		List<EAnnotation> annots = new ArrayList<EAnnotation>();
 		for (EAnnotation element : ecoreDiagram.getEAnnotations()){
@@ -634,6 +634,25 @@ public  class ModelUtils {
 			}
 		}	
 		return annots;		
+	}
+	
+	/**
+	 * Static method that returns the list of applied patterns, if the pattern has been applied twice only returns one.
+	 * @param diagram
+	 * @return list of pattern names (without the enumeration)
+	 */
+	public static List<String> getAppliedPatternNames (Diagram diagram){
+		List<String> patterns = new ArrayList<String>();
+		if (ModelUtils.existsPackage(diagram)){
+			EPackage ecoreDiagram = ModelUtils.getBusinessModel(diagram);
+			for (EAnnotation element : ecoreDiagram.getEAnnotations()){
+				if (Graphiti.getLinkService().getPictogramElements(diagram, (EAnnotation) element).size()>0){
+					String patternName = element.getSource().replaceAll("\\d","");
+					if (!patterns.contains(patternName)) patterns.add(patternName);
+				}
+			}	
+		}
+		return patterns;		
 	}
 	
 	/**
@@ -653,4 +672,183 @@ public  class ModelUtils {
 			return null;
 		}
 	}
+
+
+	/**
+	 * Static method that returns the list of EClass reached by containment associations (included inheritance)
+	 * @param eClass
+	 * @return list of EClass
+	 */
+	public static List<EClass> getAllContainedElements (EClass eClass){
+		List<EClass> ce = new LinkedList<EClass>(); 
+		for (EReference ref: eClass.getEAllContainments()){
+			EClass nextClass = (EClass)ref.getEType();
+			if (!ce.contains(nextClass))ce.add(nextClass);
+			if (!eClass.equals(nextClass))
+				for (EClass contNextClass: getAllContainedElements(nextClass))
+					if (!ce.contains(contNextClass))ce.add(contNextClass);
+			for (EClass child : getAllChildren(nextClass)){
+				if (!ce.contains(child))ce.add(child);
+				for (EClass contChildClass: getAllContainedElements(child))
+					if (!ce.contains(contChildClass))ce.add(contChildClass);
+			}
+		}
+		return ce;
+	}
+
+	
+	/**
+	 * Static backtracking method that fill all the EClasses that contains the eClass, its root is known.
+	 * @param root
+	 * @param eClass
+	 * @param containerElements
+	 * @return true if the eClass has been found.
+	 */
+	public static boolean getAllContainerElements(EClass root, EClass eClass, List<EClass> containerElements){
+		if (root.equals(eClass)){
+			if (hasReflexiveReference(root)) containerElements.add(root);
+			return true;
+		} else {
+			List<EClass> children = new LinkedList<EClass>();
+			for (EReference ref: root.getEAllContainments()){
+				EClass refEClass = (EClass)ref.getEType();
+				if (!refEClass.equals(root)){
+					children.add(refEClass);
+					children.addAll(getAllChildren(refEClass));
+				}
+			}
+			for (EClass child: children){
+				if (getAllContainerElements(child, eClass, containerElements)){
+					containerElements.add(root);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that returns if the eClass has any reflexive containment reference.
+	 * @param eClass
+	 * @return true if it's reflexive, false if not.
+	 */
+	private static boolean hasReflexiveReference(EClass eClass){
+		for (EReference ref: eClass.getEAllContainments()){
+			if (ref.getEType().equals(eClass)) return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that returns the list of EClass that contains the eClass by containment associations (included inheritance)
+	 * @param eClass
+	 * @return list of EClass
+	 */
+	public static List<EClass> getAllContainerElements (EClass eClass){
+		List<EClass> ce = new LinkedList<EClass>(); 
+		List<EClass> roots = getRootContaintmentElement(eClass.getEPackage(), eClass);
+		for (EClass root: roots){
+			getAllContainerElements (root, eClass, ce);
+		}
+		return ce;
+	}
+	
+		
+	/**
+	 * Static method that returns the list of EClass that are root in containment associations.
+	 * @param pack
+	 * @return list of EClass
+	 */
+	public static List<EClass> getAllRootContaintmentElements(EPackage pack){
+		List<EClass> candidates = new LinkedList<EClass>();
+		for (EClassifier classif: pack.getEClassifiers()){
+			if (classif instanceof EClass) candidates.add((EClass)classif);
+		}		
+		for (EClassifier classif: pack.getEClassifiers()){
+			if ((classif instanceof EClass) &&  (candidates.contains(classif))){
+				if (((EClass)classif).getEAllContainments().size()!=0){
+					List<EClass> contained = getAllContainedElements((EClass)classif);
+					//root with reflexive relation
+					if (contained.contains(classif)) contained.remove(classif);
+					candidates.removeAll(contained);
+				}else candidates.remove((EClass)classif);
+			}
+		}
+		return candidates;
+	}
+	
+	/**
+	 * Static method that returns the list of EClass that are root of an EClass.
+	 * @param pack
+	 * @param eclass
+	 * @return list of EClass
+	 */
+	public static List<EClass> getRootContaintmentElement(EPackage pack, EClass eclass){
+		List<EClass> candidates = new LinkedList<EClass>();
+		for (EClassifier classif: pack.getEClassifiers()){
+			if (classif instanceof EClass) candidates.add((EClass)classif);
+		}		
+		for (EClassifier classif: pack.getEClassifiers()){
+			if ((classif instanceof EClass) &&  (candidates.contains(classif))){
+				if (((EClass)classif).getEAllContainments().size()!=0){
+					List<EClass> containedElements = getAllContainedElements((EClass)classif);
+					//root with reflexive relation
+					if (containedElements.contains(classif))
+						containedElements.remove(classif);	
+					if ((!classif.equals(eclass))&&(!containedElements.contains(eclass))) 
+						//the possible root doesn't contain the class.
+						candidates.remove((EClass)classif);
+					candidates.removeAll(containedElements);
+				}else candidates.remove((EClass)classif);
+			}
+		}
+		return candidates;
+	}
+	
+	/**
+	 * Static method that returns all the inheritance root EClasses 
+	 * @param pack
+	 * @return list of EClass
+	 */
+	public static List<EClass> getAllRootInheritanceElements(EPackage pack){
+		List<EClass> candidates = new LinkedList<EClass>();
+		for (EClassifier classif: pack.getEClassifiers()){
+			if (classif instanceof EClass) candidates.add((EClass)classif);
+		}		
+		for (EClassifier classif: pack.getEClassifiers()){
+			if ((classif instanceof EClass) &&  (candidates.contains(classif))){
+				if (((EClass)classif).getESuperTypes().size() == 0){
+					List<EClass> children = getAllChildren((EClass)classif);
+					 if (children.size()!= 0) candidates.removeAll(children);
+					 else candidates.remove((EClass)classif);
+				}else candidates.remove((EClass)classif);
+			}
+		}
+		return candidates;
+	}
+	
+	/**
+	 * static method that returns an array with the metrics.
+	 * pos 0 = number of EClasses
+	 * pos 1 = number of EAttributes
+	 * pos 2 = number of EReferences
+	 * With an array is more efficient, we dont have to go EClass by EClass three times
+	 * @param pack
+	 * @return int[3]
+	 */
+	public static int[] getMetrics(EPackage pack){
+		int[] metrics = new int[3];
+		metrics[0] = 0;
+		metrics[1] = 0;
+		metrics[2] = 0;
+		for (EClassifier classif: pack.getEClassifiers()){
+			if (classif instanceof EClass){
+				metrics[0]++;
+				metrics[1] +=((EClass)classif).getEAttributes().size();
+				metrics[2] +=((EClass)classif).getEReferences().size();
+			}
+		}		
+		return metrics;
+	}
+
 }

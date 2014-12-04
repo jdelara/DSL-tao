@@ -2,9 +2,11 @@ package org.mondo.editor.ui.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -23,6 +25,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -46,15 +52,27 @@ import org.mondo.editor.graphiti.diagram.CreateESuperTypeFeature;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.services.PatternServiceInfo;
 import org.osgi.framework.Bundle;
 
+import serviceInterfaces.Interface;
+import serviceInterfaces.impl.InterfaceImpl;
+
+import dslPatterns.Acceptor;
+import dslPatterns.Category;
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInstance;
 import dslPatterns.FeatureInterface;
 import dslPatterns.FeatureType;
+import dslPatterns.Injector;
+import dslPatterns.Pattern;
 import dslPatterns.PatternMetaModel;
 import dslPatterns.PatternSet;
+import dslPatterns.Plug;
+import dslPatterns.Port;
 import dslPatterns.ReferenceInterface;
+import dslPatterns.Service;
+import dslPatterns.Slot;
 
 /**
  * Class of utility functions to work with patterns.
@@ -66,6 +84,7 @@ public final class PatternUtils {
 
 	static final String RELATIVE_DIR = "samples"+File.separator;
 	static final String PATTERN_FILE_NAME = "repository.dslpatterns";
+	static final String PATTERN_INTERFACES_NAME = "interfaces.serviceInterfaces";
 	static final String PLUGIN_DSL_ID = "org.mondo.dsl";
 	static final String PATH_IMAGE_DEFAULT = "samples"+File.separator+"icons"+File.separator+"NoImagePattern.gif";
 
@@ -73,7 +92,7 @@ public final class PatternUtils {
 	 * Static method that returns the PatternSet object stored on RELATIVE_PATH
 	 * @return PatternSet, null if it's not possible
 	 */
-	public static PatternSet getPatternsModel() {
+	public static PatternSet getPatternSetModel() {
 		try{
 			Bundle plugin = Platform.getBundle(PLUGIN_DSL_ID);
 			IPath relativeIPath = new Path(PatternUtils.RELATIVE_DIR+PatternUtils.PATTERN_FILE_NAME);	
@@ -209,6 +228,7 @@ public final class PatternUtils {
 
 		final IFeatureProvider fp = diagramBehavior.getDiagramTypeProvider().getFeatureProvider();	
 		diagramBehavior.getEditingDomain().getCommandStack().execute(new RecordingCommand(diagramBehavior.getEditingDomain()) {
+
 			@Override
 			protected void doExecute() {
 				EPackage pack = null;
@@ -231,7 +251,7 @@ public final class PatternUtils {
 							 annotationEPackage.getReferences().add(annotation);
 							 info.setAnnotation(annotation);
 	
-						 }else if (selObj == null){
+						 }else if ((selObj == null) && (info.getMinValue()>0)){
 							CreateContext cc = new CreateContext();
 							CreateEClassFeature ccf = new CreateEClassFeature(fp);
 							Object[] eClasses = ccf.create(cc);
@@ -304,7 +324,7 @@ public final class PatternUtils {
 				 			
 							info.setAnnotation(annotation);
 
-						 }else if ((selObj == null)&&(info.getMmInterface() instanceof ReferenceInterface)){
+						 }else if ((selObj == null)&&(info.getMmInterface() instanceof ReferenceInterface)  && (info.getMinValue()>0)){
 	
 						  String refName = info.getTextMMInterfaceRelDiagram();
 						  String[] cads = refName.split("/");
@@ -321,7 +341,7 @@ public final class PatternUtils {
 										MMInterfaceRelDiagram mmirdOpposite = getMMInterfaceRelDiagram(patternRelDiagram, nameOpposite, info.getOrder());
 										if (!mmirdOpposite.getElementDiagram().isEmpty()){
 											EReference refOp = (EReference) ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), mmirdOpposite.getElementDiagram());
-											EReference newRef= DiagramUtils.createEOppositeReference(refOp,diagramBehavior.getDiagramTypeProvider().getDiagram());
+											EReference newRef= DiagramUtils.createEOppositeReference(refOp,(EReference)eRefObject,diagramBehavior.getDiagramTypeProvider().getDiagram());
 											
 											EAnnotation annotation = createEAnnotation(diagramBehavior,newRef,info.getTextMMInterfaceRelDiagram() );	
 											MMInterfaceRelDiagram mmirdClass = getMMInterfaceRelDiagram(patternRelDiagram, classAnnot, info.getOrder());
@@ -362,7 +382,7 @@ public final class PatternUtils {
 	
 					  }
 	 
-					  else if ((selObj == null)&&(info.getMmInterface() instanceof FeatureType)){
+					  else if ((selObj == null)&&(info.getMmInterface() instanceof FeatureType)  && (info.getMinValue()>0)){
 	
 						  String refName = info.getTextMMInterfaceRelDiagram();
 						  String[] cads = refName.split("/");
@@ -383,6 +403,8 @@ public final class PatternUtils {
 										CreateEAttributeFeature crf = new CreateEAttributeFeature(fp);
 										Object[] atts = crf.create(cc);									
 										
+										((EAttribute)atts[0]).setEType(eAttObject.getEType());
+										
 										EAnnotation annotation = createEAnnotation(diagramBehavior, (EAttribute)atts[0],info.getTextMMInterfaceRelDiagram() );
 										
 										infoContentEClass.getAnnotation().getReferences().add(annotation);
@@ -391,8 +413,7 @@ public final class PatternUtils {
 						  }
 					  }  
 					
-					}
-					
+					}		
 				}
 			}
 		});
@@ -508,7 +529,9 @@ public final class PatternUtils {
 		EReference eRefObject = getEReference(refTarget);
 		EClass eTypeClassPattern = (EClass) eRefObject.getEType();
 		MMInterfaceRelDiagram mmird = getMMInterfaceRelDiagram(patternRelDiagram, eTypeClassPattern.getName(), orderPoint);
+		if (mmird == null) return true;
 		String elementDiagram = mmird.getElementDiagram();
+		
 		if (!elementDiagram.isEmpty()){
 			  EClass eTypeClassDiagram = (EClass)ModelsUtils.getEObject(modelPack,elementDiagram);
 			  if (eClass.getEAllSuperTypes() != null)  
@@ -539,6 +562,32 @@ public final class PatternUtils {
 		}
 		return refs;
 	}
+	
+	
+	/**
+	 * Static method that returns a list that contains all of the MMInterfaceRelDiagram objects that points to the specified classInterface (without its
+	 * reflexive references)
+	 * @param patternRelDiagram of the pattern
+	 * @param classInterface
+	 * @param order
+	 * @return a list that contains MMInterfaceRelDiagram objects 
+	 */
+	public static List<MMInterfaceRelDiagram> getMMInterfaceRelDiagramRefsEClassWithoutReflexives(List<MMInterfaceRelDiagram> patternRelDiagram, ClassInterface classInterface, int order){
+
+		EClass classObject = getEClass(classInterface);
+		
+		List<MMInterfaceRelDiagram> refs = new ArrayList<MMInterfaceRelDiagram>();
+		for (MMInterfaceRelDiagram mmird : patternRelDiagram){
+			if ((mmird.getMmInterface() instanceof ReferenceInterface)&&(mmird.getOrderPointer()==order)){
+				EReference ref = getEReference((ReferenceInterface)mmird.getMmInterface());
+				if ((ref.getEType().getName().compareTo(classObject.getName()) ==0) 
+						&& !(isReflexiveReference((ReferenceInterface)mmird.getMmInterface()) && (order==mmird.getOrder())))				
+					refs.add(mmird);
+			}
+		}
+		return refs;
+	}
+	
 	
 	/**
 	 * Static method that returns the MMInterfaceRelDiagram pointed by the specified ReferenceInterface.
@@ -573,26 +622,32 @@ public final class PatternUtils {
 			
 			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
 			
-			int orderPointer = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(patternRelDiagram, mmirdRef)+1;
-			if (((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)) || (mmird.getMaxValue()==-1)  )
-					&& ((mmirdRef.getMaxValue() > PatternUtils.getNumMMInterfaceRelDiagram(patternRelDiagram,mmirdRef))|| (mmirdRef.getMaxValue()==-1))){
-				patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", orderPointer));
-				
-				for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
-					if (child.getMmInterface() instanceof ReferenceInterface){
-						if (((isReflexiveReference((ReferenceInterface)child.getMmInterface())) && (child.getOrder()== child.getOrderPointer()))
-								|| (!isContainmentReference((ReferenceInterface)child.getMmInterface())))
-							patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", orderPointer, orderPointer));
-						else duplicateStructureReference(patternRelDiagram,child,orderPointer);			
-					}else {
-						if (child.getMmInterface() instanceof FeatureInstance)							
-							patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), orderPointer));
-						else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", orderPointer));
+			if (mmirdRef != null){
+				int orderPointer = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(patternRelDiagram, mmirdRef)+1;
+				if (((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)) || (mmird.getMaxValue()==-1)  )
+						&& ((mmirdRef.getMaxValue() > PatternUtils.getNumMMInterfaceRelDiagram(patternRelDiagram,mmirdRef))|| (mmirdRef.getMaxValue()==-1))){
+					patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", orderPointer));
+					
+					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
+						if (child.getMmInterface() instanceof ReferenceInterface){
+							if (((isReflexiveReference((ReferenceInterface)child.getMmInterface())) && (child.getOrder()== child.getOrderPointer()))
+									|| (!isContainmentReference((ReferenceInterface)child.getMmInterface())))
+								patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", orderPointer, orderPointer));
+							else duplicateStructureReference(patternRelDiagram,child,orderPointer);			
+						}else {
+							if (child.getMmInterface() instanceof FeatureInstance)							
+								patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), orderPointer));
+							else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", orderPointer));
+						}
 					}
+					patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,orderPointer));
 				}
-				patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,orderPointer));
-
+			}else {
+				//Reference to nothing
+				if ((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)) || (mmird.getMaxValue()==-1))
+				patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,0));
 			}
+			
 		}
 	}
 	
@@ -635,28 +690,22 @@ public final class PatternUtils {
 			
 			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
 			
-			if (!((isReflexiveReference((ReferenceInterface)mmird.getMmInterface())) && (mmird.getOrder()== mmird.getOrderPointer()))){
-			
-				if (((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)))
-						&& ((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(patternRelDiagram,mmirdRef)))){
-	
+				if ((mmirdRef != null)&&(!((isReflexiveReference((ReferenceInterface)mmird.getMmInterface())) && (mmird.getOrder()== mmird.getOrderPointer())))){
+					
 					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 						if (child.getMmInterface() instanceof ReferenceInterface){
 							if  (!isContainmentReference((ReferenceInterface)child.getMmInterface()))
 								patternRelDiagram.remove(child);
 							else deleteStructureReference(patternRelDiagram,child);			
-						}else {
+						}else 
 							patternRelDiagram.remove(child);
-						}
-					}
+
 					patternRelDiagram.remove(mmirdRef);
 					
 					patternRelDiagram.remove(mmird);
-				}
-				
-			
-			}else if ((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)))
-				patternRelDiagram.remove(mmird);
+				}			
+				}else 
+					patternRelDiagram.remove(mmird);
 		}
 	}
 	
@@ -863,4 +912,308 @@ public final class PatternUtils {
 		return annotations;
 	}
 
+	/**
+	 * Static method that returns the list of plug interfaces associated with the service.	
+	 * @param service
+	 * @param intModel resource with the interface model
+	 * @return list of interfaces
+	 */
+	public static List<Interface> getPlugInterfaces(Service service, Resource intModel){
+		List<Interface> interfaces = new LinkedList<Interface>();
+		for (Port port : service.getPorts()){
+			if (port instanceof Plug)
+				for (Interface interf : port.getUses()){
+					if (interf.eIsProxy())	interf = getProxyInterface(interf, intModel);
+					interfaces.add(interf);
+				}
+		}
+		return interfaces;
+	}
+	
+	/**
+	 * Static method that returns the interface related to the proxy interface.
+	 * @param proxyI
+	 * @param intModel
+	 * @return interface object
+	 */
+	private static Interface getProxyInterface(Interface proxyI, Resource intModel){
+		URI uri = ((InterfaceImpl)proxyI).eProxyURI();
+		if (uri.isRelative()){
+			URI uri2= intModel.getURI();
+			uri2 = uri2.appendFragment(uri.fragment());
+			((InterfaceImpl)proxyI).eSetProxyURI(uri2);
+		}
+		return (Interface)EcoreUtil.resolve(proxyI, intModel);
+	}
+	
+	/**
+	 * Static method that returns the list of slots interfaces associated with the service.	
+	 * @param service
+	 * @param intModel resource with the interface model
+	 * @return list of interfaces
+	 */
+	public static List<Interface> getSlotInterfaces(Service service, Resource intModel){
+		List<Interface> interfaces = new LinkedList<Interface>();
+		for (Port port : service.getPorts()){
+			if (port instanceof Slot)
+				for (Interface interf : port.getUses()){
+					if (interf.eIsProxy())	interf = getProxyInterface(interf, intModel);
+					interfaces.add(interf);
+				}
+		}
+		return interfaces;
+	}
+	
+	/**
+	 * Static method that returns the list of acceptor interfaces associated with the service.	
+	 * @param service
+	 * @param intModel resource with the interface model
+	 * @return list of interfaces
+	 */
+	public static List<Interface> getAcceptorInterfaces(Service service, Resource intModel){
+		List<Interface> interfaces = new LinkedList<Interface>();
+		for (Port port : service.getPorts()){
+			if (port instanceof Acceptor)
+				for (Interface interf : port.getUses()){
+					if (interf.eIsProxy()) interf = getProxyInterface(interf, intModel);
+					interfaces.add(interf);
+				}
+		}
+		return interfaces;
+	}
+	
+	/**
+	 * Static method that returns the list of injector interfaces associated with the service.	
+	 * @param service
+	 * @param intModel resource with the interface model
+	 * @return list of interfaces
+	 */
+	public static List<Interface> getInjectorInterfaces(Service service, Resource intModel){
+		List<Interface> interfaces = new LinkedList<Interface>();
+		for (Port port : service.getPorts()){
+			if (port instanceof Injector)
+				for (Interface interf : port.getUses()){
+					if (interf.eIsProxy())interf = getProxyInterface(interf, intModel);
+					interfaces.add(interf);
+				}
+		}
+		return interfaces;
+	}
+	
+	/**
+	 * Static method that adds the services and their info associated with the pattern.
+	 * @param patternServiceInfoList - current list of pattern service info.
+	 * @param pattern 
+	 * @param name - name of the pattern, can't be the name of the pattern (pattern applies many times)
+	 * @param intModel - interfaces Model
+	 * @return operation success
+	 */
+	public static boolean addPatternServicesInfo(List<PatternServiceInfo> patternServiceInfoList, Pattern pattern, String name, Resource intModel  ){
+		for (Service service : pattern.getServices()){
+			PatternServiceInfo psi = new PatternServiceInfo();
+			psi.setPatternName(name);
+			psi.setPattern(pattern);
+			psi.setService(service);
+			psi.setActivated(true);
+			
+			//Activable
+			checkActivableService(psi,patternServiceInfoList,intModel);
+						
+			//check for updates
+			if ((psi.isActivated())&&(psi.getMissing().isEmpty()))addCheckActivableServiceForUpdates(patternServiceInfoList, pattern);
+			patternServiceInfoList.add(psi);
+		}
+		return true;
+	}
+	
+	/**
+	 * Static method that checks if a service is activable
+	 * @param psi
+	 * @param patternServiceInfoList
+	 * @param intModel - interface model
+	 */
+	public static void checkActivableService(PatternServiceInfo psi, List<PatternServiceInfo> patternServiceInfoList, Resource intModel){
+		
+		psi.getMissing().clear();
+		//PLUG-SLOT
+		List<Interface> ri = getPlugInterfaces(psi.getService(), intModel);
+		for (Interface i: ri){
+			if (!slotProvidedByAnotherService(patternServiceInfoList, i, intModel)) {
+				psi.getMissing().put(i, getSlotOfferedBy(i, intModel));
+			}
+		}
+		//ACCEPTOR-INJECTOR
+		ri = getAcceptorInterfaces(psi.getService(), intModel);
+		for (Interface i: ri){
+			if (!injectorProvidedByAnotherService(patternServiceInfoList, i, intModel)) {
+				psi.getMissing().put(i, getInjectorOfferedBy(i, intModel));
+			}
+		}
+	}
+	
+	/**
+	 * Static method that checks if a service is activable due to updates.
+	 * @param patternServiceInfoList
+	 * @param pattern
+	 */
+	public static void addCheckActivableServiceForUpdates(List<PatternServiceInfo> patternServiceInfoList, Pattern pattern){
+		for (PatternServiceInfo psi : patternServiceInfoList){
+			List<Interface> interfsToRemove = new LinkedList<Interface>();
+			for (Interface interf : psi.getMissing().keySet()){
+				if (containsPattern(pattern, psi.getMissing().get(interf)))
+					interfsToRemove.add(interf);
+			}
+			for (int i=0; i<interfsToRemove.size();i++){
+				psi.getMissing().remove(interfsToRemove.get(i));
+			}
+		}
+	}
+	
+	/**
+	 * Static method that check if a service is activable after a delete operation.
+	 * @param patternServiceInfoList
+	 * @param intModel - interface model
+	 */
+	public static void deleteCheckActivableServiceForUpdates(List<PatternServiceInfo> patternServiceInfoList, Resource intModel){
+		for (PatternServiceInfo psi: patternServiceInfoList){
+			checkActivableService(psi, patternServiceInfoList, intModel);
+		}
+	}
+	
+	/**
+	 * Static method that returns if the list of patterns contain the specific pattern.
+	 * @param pattern
+	 * @param patterns
+	 * @return true if is contained, false if not.
+	 */
+	private static boolean containsPattern(Pattern pattern, List<Pattern> patterns){
+		for (Pattern patAux: patterns){
+			if (patAux.getName().compareToIgnoreCase(pattern.getName())==0) 
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that remove the information about the services of a pattern.
+	 * @param patternServiceInfoList
+	 * @param patternName
+	 * @param intModel - interface model
+	 * @return true - success method.
+	 */
+	public static boolean deletePatternServicesInfo(List<PatternServiceInfo> patternServiceInfoList, String patternName, Resource intModel){
+		
+		for (PatternServiceInfo psi: patternServiceInfoList){
+			if (psi.getPatternName().compareTo(patternName)==0) 
+				patternServiceInfoList.remove(psi);
+		}
+		deleteCheckActivableServiceForUpdates(patternServiceInfoList, intModel);
+		return true;
+	}
+	
+	/**
+	 * Static method that returns if the interface is implemented by any activated service (check only slot interfaces)
+	 * @param patternServiceInfoList
+	 * @param interf
+	 * @return true if any service implements the interface.
+	 */
+	private static boolean slotProvidedByAnotherService(List<PatternServiceInfo> patternServiceInfoList, Interface interf, Resource intModel){
+		for (PatternServiceInfo psi: patternServiceInfoList){
+			if (psi.isActivated())
+				for (Interface provInt: getSlotInterfaces(psi.getService(), intModel)){
+					if (provInt.equals(interf)) return true;
+				}		
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that returns if the interface is implemented by any activated service (check only injector interfaces)
+	 * @param patternServiceInfoList
+	 * @param interf
+	 * @return true if any service implements the interface.
+	 */
+	private static boolean injectorProvidedByAnotherService(List<PatternServiceInfo> patternServiceInfoList, Interface interf, Resource intModel){
+		for (PatternServiceInfo psi: patternServiceInfoList){
+			if (psi.isActivated())
+				for (Interface provInt: getInjectorInterfaces(psi.getService(), intModel)){
+					if (provInt.equals(interf)) return true;
+				}		
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that returns the patterns that offer the slot interface 
+	 * @param interf
+	 * @param intModel - interface model
+	 * @return list of pattern
+	 */
+	private static List<Pattern> getSlotOfferedBy (Interface interf, Resource intModel){
+		List<Pattern> patterns = new LinkedList<Pattern>();
+		for (Pattern pattern: getAllPatterns()){
+			for (Service service: pattern.getServices()){
+				for (Interface interfAux : getSlotInterfaces(service, intModel)){
+					if (interfAux.equals(interf)) patterns.add(pattern);
+				}
+			}
+		}
+		return patterns;
+	}
+	
+	/**
+	 * Static method that returns the patterns that offer the injector interface
+	 * @param interf
+	 * @param intModel - interface method
+	 * @return list of patterns
+	 */
+	private static List<Pattern> getInjectorOfferedBy (Interface interf, Resource intModel){
+		List<Pattern> patterns = new LinkedList<Pattern>();
+		for (Pattern pattern: getAllPatterns()){
+			for (Service service: pattern.getServices()){
+				for (Interface interfAux : getInjectorInterfaces(service, intModel)){
+					if (interfAux.equals(interf)) patterns.add(pattern);
+				}
+			}
+		}
+		return patterns;
+		
+	}
+	
+	/**
+	 * Static method that returns all the patterns of the model
+	 * @return list of pattern
+	 */
+	public static List<Pattern> getAllPatterns (){
+		List<Pattern> patterns = new LinkedList<Pattern>();
+		for (Category cat: getPatternSetModel().getCategories()){
+			patterns.addAll(cat.getPatterns());
+		}
+		return patterns;
+	}
+	
+	/**
+	 * Static method that returns the interface model to work
+	 * @return resource.
+	 */
+	public static Resource getInterfaceModel(){
+			Bundle plugin = Platform.getBundle(PLUGIN_DSL_ID);
+			IPath relativeIPath = new Path(PatternUtils.RELATIVE_DIR+PatternUtils.PATTERN_INTERFACES_NAME);	
+			URL fileInPlugin = FileLocator.find(plugin, relativeIPath, null);
+
+			try {
+				URL srcUrl = FileLocator.toFileURL(fileInPlugin);
+				File src = new File(srcUrl.getPath());	
+				String filename = src.getAbsolutePath();
+				URI uri = URI.createFileURI(filename);
+				ResourceSet resourceSet = new ResourceSetImpl();
+				Resource resource = resourceSet.getResource(uri, true);
+				return resource;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}		
+
+		return null;
+	}
+	
 }

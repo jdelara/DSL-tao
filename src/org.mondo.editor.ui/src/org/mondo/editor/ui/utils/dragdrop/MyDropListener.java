@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.TransferData;
+import org.mondo.editor.graphiti.diagram.utils.DataTypeUtils.DataType;
 import org.mondo.editor.ui.utils.ModelsUtils;
 import org.mondo.editor.ui.utils.PatternUtils;
 
@@ -97,8 +98,11 @@ public class MyDropListener extends ViewerDropAdapter {
 					  return (PatternUtils.isETypeTarget(((ReferenceInterface)((MMInterfaceRelDiagram)target).getMmInterface()), (EClass)((EReference)object).getEType(), content, modelPack, ((MMInterfaceRelDiagram)target).getOrderPointer())
 							  &&(PatternUtils.areCompatibleReferences((ReferenceInterface)((MMInterfaceRelDiagram)target).getMmInterface(), (EReference)object)   
 								&& (PatternUtils.areCompatibleEOppositeReferences(content, (MMInterfaceRelDiagram)target, (EReference)object)) ));
-				  } if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType){
-					  return PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == ((EAttribute)object).getEAttributeType();
+				  }
+				  if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType){
+					  if (PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == DataType.EJAVAOBJECT.getEDataType()) return true;
+					  else return PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == ((EAttribute)object).getEAttributeType();
+				  
 				  } if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof ClassInterface)	
 					  return (PatternUtils.areCompatibleClasses(content, (MMInterfaceRelDiagram)target, (EClass) object));		  
 				  else return true;
