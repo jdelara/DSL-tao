@@ -40,6 +40,7 @@ import org.mondo.editor.ui.utils.PatternUtils;
 
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInstance;
+import dslPatterns.FeatureInterface;
 import dslPatterns.FeatureType;
 import dslPatterns.ReferenceInterface;
 
@@ -182,6 +183,8 @@ public class DragAndDropUtils {
 			    		if (relElement.getMmInterface() instanceof ClassInterface){
 			    			if (relElement.getOrder()==0) return relElement.getCardText();
 			    		} else if (relElement.getMmInterface() instanceof ReferenceInterface){ 
+			    			if (relElement.getOrderPointer()==0) return relElement.getCardText();
+			        	} else if (relElement.getMmInterface() instanceof FeatureInterface){ 
 			    			if (relElement.getOrderPointer()==0) return relElement.getCardText();
 			        	}return null;
 		          case 4:

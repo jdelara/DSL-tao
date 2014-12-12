@@ -18,8 +18,7 @@ import dslPatterns.Service;
  * Missing: map with information about missing interfaces and the patterns that implement them
  * 
  * @author miso partner AnaPescador
- *
- */
+ * */
 public class PatternServiceInfo {
 	
 	private String patternName;

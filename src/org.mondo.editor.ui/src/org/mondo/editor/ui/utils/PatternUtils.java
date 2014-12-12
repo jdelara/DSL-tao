@@ -251,7 +251,7 @@ public final class PatternUtils {
 							 annotationEPackage.getReferences().add(annotation);
 							 info.setAnnotation(annotation);
 	
-						 }else if ((selObj == null) && (info.getMinValue()>0)){
+						 }else if ((selObj == null) /*&& (info.getMinValue()>0)*/){
 							CreateContext cc = new CreateContext();
 							CreateEClassFeature ccf = new CreateEClassFeature(fp);
 							Object[] eClasses = ccf.create(cc);
@@ -269,11 +269,12 @@ public final class PatternUtils {
 							
 							EClass eclass = PatternUtils.getEClass((ClassInterface)info.getMmInterface());
 							
-							if (eclass.getESuperTypes().size()!=0){
+							//if (eclass.getESuperTypes().size()!=0){
+							for (int i=0; i<eclass.getESuperTypes().size(); i++ ){
 								CreateConnectionContext ccc = new CreateConnectionContext();
 								Anchor sourceAnc = DiagramUtils.getAnchor(diagramBehavior.getDiagramTypeProvider().getDiagram(), ((EClass)eClasses[0]));
 								
-								EClass superType = (EClass)eclass.getESuperTypes().get(0);
+								EClass superType = (EClass)eclass.getESuperTypes().get(i);
 								MMInterfaceRelDiagram infoESuperEClass = getMMInterfaceRelDiagram(patternRelDiagram, superType.getName(), info.getOrderPointer());
 								EObject eTypeEClass = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), infoESuperEClass.getElementDiagram());
 
@@ -324,7 +325,7 @@ public final class PatternUtils {
 				 			
 							info.setAnnotation(annotation);
 
-						 }else if ((selObj == null)&&(info.getMmInterface() instanceof ReferenceInterface)  && (info.getMinValue()>0)){
+						 }else if ((selObj == null)&&(info.getMmInterface() instanceof ReferenceInterface) /* && (info.getMinValue()>0)*/){
 	
 						  String refName = info.getTextMMInterfaceRelDiagram();
 						  String[] cads = refName.split("/");
@@ -382,7 +383,7 @@ public final class PatternUtils {
 	
 					  }
 	 
-					  else if ((selObj == null)&&(info.getMmInterface() instanceof FeatureType)  && (info.getMinValue()>0)){
+					  else if ((selObj == null)&&(info.getMmInterface() instanceof FeatureType) /* && (info.getMinValue()>0)*/){
 	
 						  String refName = info.getTextMMInterfaceRelDiagram();
 						  String[] cads = refName.split("/");
@@ -451,7 +452,7 @@ public final class PatternUtils {
 	}
 		
 	/**
-	 * Static method that returns the number of the MMInterfaceRelDiagram objects with the same MMInterface than mmird. 
+	 * Static method that returns the number of the MMInterfaceRelDiagram objects with the same MMInterface as mmird. 
 	 * @param patternRelDiagram
 	 * @param mmird
 	 * @return an integer that contains the order.
@@ -466,6 +467,7 @@ public final class PatternUtils {
 		}
 		return cont;
 	}
+	
 	
 	/**
 	 * Static method that returns the maximun order of the MMInterfaceRelDiagram objects with the same MMInterface than mmird. 
@@ -631,7 +633,7 @@ public final class PatternUtils {
 					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 						if (child.getMmInterface() instanceof ReferenceInterface){
 							if (((isReflexiveReference((ReferenceInterface)child.getMmInterface())) && (child.getOrder()== child.getOrderPointer()))
-									|| (!isContainmentReference((ReferenceInterface)child.getMmInterface())))
+									/*All references same behavior || (!isContainmentReference((ReferenceInterface)child.getMmInterface()))*/)
 								patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", orderPointer, orderPointer));
 							else duplicateStructureReference(patternRelDiagram,child,orderPointer);			
 						}else {
@@ -655,27 +657,41 @@ public final class PatternUtils {
 	 * Static method that copy the structure pointed by the specified MMInterfaceRelDiagram (it has to contain a classInterface, if not, this method doesn't do anything).
 	 * @param patternRelDiagram of the pattern
 	 * @param mmirdRef MMInterfaceRelDiagram which's going to be copy
-	 * @param orderPointer of the MMInterfaceRelDiagram which's going to be created
+	 * @param order of the MMInterfaceRelDiagram which's going to be created
 	 */
-	public static void duplicateStructureClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef, int orderPointer){
+	public static void duplicateStructureClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef, int order){
 		
 		if (mmirdRef.getMmInterface() instanceof ClassInterface){
-			if ((mmirdRef.getMaxValue() > orderPointer)|| (mmirdRef.getMaxValue()==-1)){
-				patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", orderPointer));
+			//if ((mmirdRef.getMaxValue() > order)|| (mmirdRef.getMaxValue()==-1)){//yo creo que esto ya se comprueba
+				patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", order));
 				
 				for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 					if (child.getMmInterface() instanceof ReferenceInterface){
 						if (((isReflexiveReference((ReferenceInterface)child.getMmInterface())) && (child.getOrder()== child.getOrderPointer()))
 								|| (!isContainmentReference((ReferenceInterface)child.getMmInterface())))
-							patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", orderPointer, orderPointer));
-						else duplicateStructureReference(patternRelDiagram,child,orderPointer);			
+							patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", order, order));
+						else duplicateStructureReference(patternRelDiagram,child,order);			
 					}else {
 						if (child.getMmInterface() instanceof FeatureInstance)							
-							patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), orderPointer));
-						else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", orderPointer));
+							patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), order));
+						else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", order));
 					}
 				}
-			}
+			//}
+		}
+	}
+	
+	/**
+	 * Static method that copy an attribute
+	 * @param patternRelDiagram of the pattern
+	 * @param mmirdRef MMInterfaceRelDiagram which's going to be copy
+	 * @param order of the MMInterfaceRelDiagram which's going to be created
+	 */
+	public static void duplicateAttribute(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef, int order){
+		if (mmirdRef.getMmInterface() instanceof FeatureInterface){
+			if (mmirdRef.getMmInterface() instanceof FeatureInstance)							
+				patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)mmirdRef.getMmInterface()), order));
+			else patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", order));
 		}
 	}
 		
@@ -694,9 +710,10 @@ public final class PatternUtils {
 					
 					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 						if (child.getMmInterface() instanceof ReferenceInterface){
-							if  (!isContainmentReference((ReferenceInterface)child.getMmInterface()))
-								patternRelDiagram.remove(child);
-							else deleteStructureReference(patternRelDiagram,child);			
+							//All references same behavior if  (!isContainmentReference((ReferenceInterface)child.getMmInterface()))
+							//All references same behavior patternRelDiagram.remove(child);
+							//All references same behavior else 
+								deleteStructureReference(patternRelDiagram,child);			
 						}else 
 							patternRelDiagram.remove(child);
 
@@ -715,6 +732,7 @@ public final class PatternUtils {
 	 * @param mmirdRef MMInterfaceRelDiagram which's going to be copy
 	 */
 	public static void deleteStructureClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef){						
+		if (mmirdRef.getMmInterface() instanceof ClassInterface)
 		if ((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(patternRelDiagram,mmirdRef))){
 			for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 				if (child.getMmInterface() instanceof ReferenceInterface){
@@ -727,6 +745,16 @@ public final class PatternUtils {
 			}
 			patternRelDiagram.remove(mmirdRef);
 		}
+	}
+	
+	/**
+	 * Static method that delete the attribute pointed by the specified MMInterfaceRelDiagram (it has to contain a featureInterface, if not, this method doesn't do anything).
+	 * @param patternRelDiagram of the pattern
+	 * @param mmirdRef MMInterfaceRelDiagram which's going to be copy
+	 */
+	public static void deleteAttribute(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef){						
+		if (mmirdRef.getMmInterface() instanceof FeatureInterface)
+			patternRelDiagram.remove(mmirdRef);
 	}
 	
 	/**
