@@ -13,9 +13,12 @@
         eOpposite="#//Tree/root"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//Child" containment="true" eOpposite="#//Child/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeChildren" upperBound="-1"
+        eType="#//Child" eOpposite="#//Child/node"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Child">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="" eType="#//NodeKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//NodeKind"
+        eOpposite="#//NodeKind/nodeChildren"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//NodeKind"
         eOpposite="#//NodeKind/children"/>
   </eClassifiers>

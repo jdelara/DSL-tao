@@ -299,7 +299,97 @@
         </andChildren>
       </rootVariant>
     </patterns>
-    <patterns name="Expression Language"/>
+    <patterns name="Expression Language">
+      <rootVariant name="Expressions Language">
+        <andChildren xsi:type="dslpat:ComplexFeature" name="Expressions Language (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/ExpressionsLanguage.gif">
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="ExpressionsLanguage.ecore#//Expression"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="ExpressionsLanguage.ecore#//UnaryExpression"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="ExpressionsLanguage.ecore#//BinaryExpression"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="ExpressionsLanguage.ecore#//NaryExpression"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="ExpressionsLanguage.ecore#//DataValue"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="ExpressionsLanguage.ecore#//Variable"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="-1">
+              <ref href="ExpressionsLanguage.ecore#//AnotherUnaryExpression"/>
+            </classInterfaces>
+            <classInterfaces icon="" minCard="0" maxCard="-1">
+              <ref href="ExpressionsLanguage.ecore#//AnotherBinaryExpression"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="-1">
+              <ref href="ExpressionsLanguage.ecore#//AnotherNaryExpression"/>
+            </classInterfaces>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
+    <patterns name="Information Definition">
+      <rootVariant name="Information Definition">
+        <andChildren xsi:type="dslpat:ComplexFeature" name="Information Definition (shallow)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/InformationDefinition.gif">
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//NamedElement"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Entity"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//MultiplicityElement"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Attribute"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Reference"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//DataType"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//IntType"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//DoubleType"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//StringType"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//NamedElement/name"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//MultiplicityElement/min"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//MultiplicityElement/max"/>
+            </attrInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Entity/supers"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Reference/dest"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Entity/features"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="InformationDefinition.ecore#//Attribute/type"/>
+            </refInterfaces>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
   </categories>
   <categories name="Design" description="Simple structural meta-modelling patterns">
     <patterns name="Tree-like Structures" description="Pattern for recursive, tree-like structures">
@@ -385,6 +475,12 @@
             <refInterfaces minCard="1" maxCard="1">
               <ref href="TreeOverlapping.ecore#//Tree/children"/>
             </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="TreeOverlapping.ecore#//Child/node"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="TreeOverlapping.ecore#//NodeKind/nodeChildren"/>
+            </refInterfaces>
           </metaModel>
         </xorChildren>
         <xorChildren xsi:type="dslpat:ComplexFeature" name="Tree Changing over Time">
@@ -446,7 +542,7 @@
             <classInterfaces minCard="1" maxCard="1" constraint="">
               <ref href="HierarchicalProject.ecore#//Project"/>
             </classInterfaces>
-            <classInterfaces minCard="0" maxCard="-1">
+            <classInterfaces minCard="1" maxCard="-1">
               <ref href="HierarchicalProject.ecore#//Package"/>
             </classInterfaces>
             <classInterfaces minCard="1" maxCard="-1">
@@ -493,13 +589,13 @@
       <rootVariant name="Filter" description="Model Filter">
         <andChildren xsi:type="dslpat:ComplexFeature" name="Filter (default)" description="Model Filter">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="samples/icons/Filter.gif">
-            <classInterfaces minCard="0" maxCard="3">
+            <classInterfaces minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable"/>
             </classInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable/aKey"/>
             </attrInterfaces>
-            <refInterfaces icon="" minCard="1" maxCard="-1">
+            <refInterfaces icon="" minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable/rKey"/>
             </refInterfaces>
           </metaModel>

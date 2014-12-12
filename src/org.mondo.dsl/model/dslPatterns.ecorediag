@@ -530,10 +530,10 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_KGyd0HChEeS4g9xdH6vA-w" type="3002" source="_KGbRcnChEeS4g9xdH6vA-w" target="_KGcfknChEeS4g9xdH6vA-w">
     <children xmi:type="notation:Node" xmi:id="_KGyd1HChEeS4g9xdH6vA-w" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_KGyd1XChEeS4g9xdH6vA-w" x="-10" y="-10"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_KGyd1XChEeS4g9xdH6vA-w" x="-66" y="-17"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_KGyd1nChEeS4g9xdH6vA-w" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_KGyd13ChEeS4g9xdH6vA-w" x="10" y="10"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_KGyd13ChEeS4g9xdH6vA-w" x="-41" y="-42"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_KGyd0XChEeS4g9xdH6vA-w" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_KGyd0nChEeS4g9xdH6vA-w" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
@@ -546,7 +546,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_KGzE4XChEeS4g9xdH6vA-w" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_KGzE4nChEeS4g9xdH6vA-w" fontName="Segoe UI"/>
     <element xsi:nil="true"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KGzE43ChEeS4g9xdH6vA-w" points="[0, 0, -328, 60]$[0, -30, -328, 30]$[328, -30, 0, 30]$[328, -60, 0, 0]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KGzE43ChEeS4g9xdH6vA-w" points="[-47, 0, -235, 69]$[-47, -50, -235, 19]$[235, -50, 47, 19]$[235, -69, 47, 0]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KJEVwXChEeS4g9xdH6vA-w" id="(0.5,0.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KJE80HChEeS4g9xdH6vA-w" id="(0.1625,1.0)"/>
   </edges>
