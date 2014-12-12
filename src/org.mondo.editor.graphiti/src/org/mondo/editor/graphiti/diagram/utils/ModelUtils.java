@@ -679,23 +679,24 @@ public  class ModelUtils {
 	 * @param eClass
 	 * @return list of EClass
 	 */
-	public static List<EClass> getAllContainedElements (EClass eClass){
-		List<EClass> ce = new LinkedList<EClass>(); 
-		for (EReference ref: eClass.getEAllContainments()){
-			EClass nextClass = (EClass)ref.getEType();
-			if (!ce.contains(nextClass))ce.add(nextClass);
-			if (!eClass.equals(nextClass))
-				for (EClass contNextClass: getAllContainedElements(nextClass))
-					if (!ce.contains(contNextClass))ce.add(contNextClass);
-			for (EClass child : getAllChildren(nextClass)){
-				if (!ce.contains(child))ce.add(child);
-				for (EClass contChildClass: getAllContainedElements(child))
-					if (!ce.contains(contChildClass))ce.add(contChildClass);
+	public static void getAllContainedElements (EClass eClass, List<EClass> ce){
+		if (!ce.contains(eClass)){
+			ce.add(eClass);
+			for (EReference ref: eClass.getEAllContainments()){
+				EClass nextClass = (EClass)ref.getEType();			
+				getAllContainedElements(nextClass, ce);
+			}
+			for (EClass child : getAllChildren(eClass)){
+				getAllContainedElements(child, ce);
 			}
 		}
+	}
+	
+	public static List<EClass> getAllContainedElements (EClass eClass){
+		List<EClass> ce = new LinkedList<EClass>(); 
+		for (EReference ref: eClass.getEAllContainments())	getAllContainedElements((EClass)ref.getEType(), ce);
 		return ce;
 	}
-
 	
 	/**
 	 * Static backtracking method that fill all the EClasses that contains the eClass, its root is known.
@@ -712,10 +713,9 @@ public  class ModelUtils {
 			List<EClass> children = new LinkedList<EClass>();
 			for (EReference ref: root.getEAllContainments()){
 				EClass refEClass = (EClass)ref.getEType();
-				if (!refEClass.equals(root)){
+				if (!refEClass.equals(root) && !(root.getEAllSuperTypes().contains(refEClass)))
 					children.add(refEClass);
-					children.addAll(getAllChildren(refEClass));
-				}
+				if (!(root.getEAllSuperTypes().contains(refEClass))) children.addAll(getAllChildren(refEClass));
 			}
 			for (EClass child: children){
 				if (getAllContainerElements(child, eClass, containerElements)){
@@ -734,7 +734,9 @@ public  class ModelUtils {
 	 */
 	private static boolean hasReflexiveReference(EClass eClass){
 		for (EReference ref: eClass.getEAllContainments()){
-			if (ref.getEType().equals(eClass)) return true;
+			if (ref.getEType().equals(eClass))  return true;
+			else if (eClass.getEAllSuperTypes() != null)
+					if (eClass.getEAllSuperTypes().contains(ref.getEType())) return true;
 		}
 		return false;
 	}
@@ -770,6 +772,7 @@ public  class ModelUtils {
 					List<EClass> contained = getAllContainedElements((EClass)classif);
 					//root with reflexive relation
 					if (contained.contains(classif)) contained.remove(classif);
+					
 					candidates.removeAll(contained);
 				}else candidates.remove((EClass)classif);
 			}

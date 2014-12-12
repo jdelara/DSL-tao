@@ -118,12 +118,12 @@ public class CreateEAnnotationCustomFeature extends AbstractCustomFeature {
 	    		Rectangle figure = gaService.createRectangle(container);
 	    		figure.setFilled(false);
 	    		figure.setLineVisible(false);
-	    		gaService.setLocationAndSize(figure, 0, 0, 200, 60);
+	    		gaService.setLocationAndSize(figure, 0, 0, 300, 75);
 	    		
 	            Shape shapeText = peCreateService.createShape(container, false);
 	    		Text text = gaService.createText(shapeText,"@"+annotation.getSource());
 	    		text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT);
-	    		gaService.setLocationAndSize(text, 0, 0, 200, 60);
+	    		gaService.setLocationAndSize(text, 0, 0, 300, 75);
 	    		text.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.BIG_SIZE_FONT, false, true));
 	    		text.setForeground(manageColor(DiagramStyles.ANNOTATION_FOREGROUND));
 

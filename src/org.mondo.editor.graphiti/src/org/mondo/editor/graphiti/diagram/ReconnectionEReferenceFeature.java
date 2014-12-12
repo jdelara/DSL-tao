@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
+import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
@@ -42,7 +43,8 @@ public class ReconnectionEReferenceFeature extends DefaultReconnectionFeature{
 		EClass oldC = (EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(oldA.getParent());
 		EClass newC = (EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(newA.getParent());
 
-		if (ref.getEType()== oldC){
+		if (context.getReconnectType() == ReconnectionContext.RECONNECT_TARGET){
+		//if (ref.getEType()== oldC){
 			String oldKey = DiagramUtils.getCollapseReferenceTextKey(ref);
 			ref.setEType(newC);			
 			DiagramUtils.updateCollapseReferenceText(getDiagram(), oldKey, ref);
@@ -59,7 +61,8 @@ public class ReconnectionEReferenceFeature extends DefaultReconnectionFeature{
 		//EOpposite
 		EReference op = ref.getEOpposite();
 		if (op!=null){
-			if (op.getEType()== oldC){
+			if (context.getReconnectType() == ReconnectionContext.RECONNECT_SOURCE){
+			//if (op.getEType()== oldC){
 				String oldKey = DiagramUtils.getCollapseReferenceTextKey(op);
 				op.setEType(newC);	
 				DiagramUtils.updateCollapseReferenceText(getDiagram(), oldKey, op);
