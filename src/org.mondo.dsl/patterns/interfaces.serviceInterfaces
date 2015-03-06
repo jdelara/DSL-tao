@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<servInt:InterfaceRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:servInt="http://mondo.org/serviceInterfaces" xmlns:servInt_modelingenv="http://mondo.org/serviceInterfaces/modelingenv">
+  <contents xsi:type="servInt:Package" name="Modelling environment interfaces">
+    <contents xsi:type="servInt_modelingenv:SlotPlugInterfaceL0" qName="EditorTab" description="EditorTab">
+      <slot id="editorTabExtension"/>
+    </contents>
+    <contents xsi:type="servInt_modelingenv:InjectorAcceptorInterfaceL0" qName="ModelDescriptor" description="Model descriptor" mode="PLAIN_JAVA">
+      <injectorImplements xsi:type="servInt_modelingenv:JavaInterface">
+        <qualifiedName>IModelDescriptor</qualifiedName>
+        <operations name="hide"/>
+        <operations name="show"/>
+        <operations name="getElements"/>
+      </injectorImplements>
+    </contents>
+  </contents>
+  <contents xsi:type="servInt:Package" name="Code generation interfaces"/>
+</servInt:InterfaceRepository>
