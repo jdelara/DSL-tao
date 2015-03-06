@@ -17,9 +17,17 @@ import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
  *
  */
 public class CreateEClassFeature extends AbstractCreateFeature {
-
+	
+	private String rootName = null;
+	private boolean abstractAtt = false;
 	public CreateEClassFeature(IFeatureProvider fp) {
 		super(fp, "Class", "Create a new class");
+	}
+	
+	public CreateEClassFeature(IFeatureProvider fp, String rootName, boolean abstractAtt) {
+		super(fp, "Class", "Create a new class");
+		this.rootName = rootName;
+		this.abstractAtt = abstractAtt;
 	}
 
 	@Override
@@ -37,11 +45,12 @@ public class CreateEClassFeature extends AbstractCreateFeature {
 			link(getDiagram(), pack);
 		} else pack = ModelUtils.getBusinessModel(getDiagram());
 		
+		String name = "";
+		if (this.rootName == null) name = ModelUtils.getClassNameValid(getDiagram());
+		else name = ModelUtils.getClassNameValid(getDiagram(), rootName);
 		
-		String name = null;
-		name = ModelUtils.getClassNameValid(getDiagram());
 		newEClass.setName(name);
-		newEClass.setAbstract(false);
+		newEClass.setAbstract(abstractAtt);
 
 		pack.getEClassifiers().add(newEClass);
 		

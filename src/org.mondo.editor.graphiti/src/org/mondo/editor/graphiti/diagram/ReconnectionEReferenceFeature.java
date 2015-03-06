@@ -44,7 +44,6 @@ public class ReconnectionEReferenceFeature extends DefaultReconnectionFeature{
 		EClass newC = (EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(newA.getParent());
 
 		if (context.getReconnectType() == ReconnectionContext.RECONNECT_TARGET){
-		//if (ref.getEType()== oldC){
 			String oldKey = DiagramUtils.getCollapseReferenceTextKey(ref);
 			ref.setEType(newC);			
 			DiagramUtils.updateCollapseReferenceText(getDiagram(), oldKey, ref);
@@ -62,7 +61,6 @@ public class ReconnectionEReferenceFeature extends DefaultReconnectionFeature{
 		EReference op = ref.getEOpposite();
 		if (op!=null){
 			if (context.getReconnectType() == ReconnectionContext.RECONNECT_SOURCE){
-			//if (op.getEType()== oldC){
 				String oldKey = DiagramUtils.getCollapseReferenceTextKey(op);
 				op.setEType(newC);	
 				DiagramUtils.updateCollapseReferenceText(getDiagram(), oldKey, op);

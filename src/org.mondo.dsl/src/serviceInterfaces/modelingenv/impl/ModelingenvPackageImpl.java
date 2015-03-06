@@ -14,6 +14,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import runtimePatterns.RuntimePatternsPackage;
+import runtimePatterns.impl.RuntimePatternsPackageImpl;
+import runtimeServices.RuntimeServicesPackage;
+import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.ServiceInterfacesPackage;
 
 import serviceInterfaces.codegen.CodegenPackage;
@@ -143,19 +147,16 @@ public class ModelingenvPackageImpl extends EPackageImpl implements ModelingenvP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
 		CodegenPackageImpl theCodegenPackage = (CodegenPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) instanceof CodegenPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) : CodegenPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theModelingenvPackage.createPackageContents();
-		theDslPatternsPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
 		theCodegenPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theModelingenvPackage.initializePackageContents();
-		theDslPatternsPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
 		theCodegenPackage.initializePackageContents();
 
@@ -402,7 +403,7 @@ public class ModelingenvPackageImpl extends EPackageImpl implements ModelingenvP
 		javaClassEClass.getESuperTypes().add(this.getJavaTypeDeclaration());
 		slotPlugInterfaceL0EClass.getESuperTypes().add(theServiceInterfacesPackage.getInterface());
 
-		// Initialize classes, features, and operations; add parameters
+		// Initialize classes and features; add operations and parameters
 		initEClass(injectorAcceptorInterfaceL0EClass, InjectorAcceptorInterfaceL0.class, "InjectorAcceptorInterfaceL0", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInjectorAcceptorInterfaceL0_InjectorImplements(), this.getJavaTypeDeclaration(), null, "injectorImplements", null, 1, -1, InjectorAcceptorInterfaceL0.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInjectorAcceptorInterfaceL0_Mode(), this.getInjectionMode(), "mode", null, 0, 1, InjectorAcceptorInterfaceL0.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

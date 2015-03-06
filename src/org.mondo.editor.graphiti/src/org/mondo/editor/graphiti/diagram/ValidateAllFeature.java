@@ -94,9 +94,8 @@ public class ValidateAllFeature extends AbstractCustomFeature {
     	validate = msg.isEmpty() && vi.noErrors();
 		if (!validate) Messages.displayValidateErrorMessage("Meta-model Validation", msg+(!vi.noErrors()?"Errors have been detected.":""));
 		else {
-
 			//Pattern Validations.
-			//Init validationInfo
+			//Initial validationInfo
 			if (dtp instanceof EcoreDiagramTypeProvider){ 
 				((EcoreDiagramTypeProvider)dtp).setValidationInfo(null);
 			}

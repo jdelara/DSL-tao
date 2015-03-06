@@ -3,6 +3,7 @@ package org.mondo.editor.ui.wizards;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.wizard.Wizard;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
@@ -25,19 +26,21 @@ public class PatternWizard extends Wizard {
   private EPackage ecoreDiagram = null;
   private List<PatternMetaModel> metamodels = new ArrayList<PatternMetaModel>();
   private List<MMInterfaceRelDiagram> patternRelDiagram;
+  private IProject project = null;
 
-  public PatternWizard(Pattern pattern, EPackage ecoreDiagram, List<MMInterfaceRelDiagram> patternRelDiagram) {
+  public PatternWizard(Pattern pattern, EPackage ecoreDiagram, List<MMInterfaceRelDiagram> patternRelDiagram, IProject project) {
     super();
     setNeedsProgressMonitor(true);
     this.pattern = pattern;
     this.ecoreDiagram = ecoreDiagram;
     this.patternRelDiagram = patternRelDiagram;
+    this.project = project;
   }
 
   @Override
   public void addPages() {
     one = new PatternWizardPageOne(pattern.getName(), pattern.getDescription());
-    two = new PatternWizardPageTwo(pattern.getRootVariant(), metamodels);
+    two = new PatternWizardPageTwo(pattern.getRootVariant(), metamodels, project);
     three = new PatternWizardPageThree(ecoreDiagram, metamodels, patternRelDiagram, pattern.getName());
     addPage(one);
     addPage(two);

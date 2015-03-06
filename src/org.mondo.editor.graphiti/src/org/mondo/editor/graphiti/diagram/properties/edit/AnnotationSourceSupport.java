@@ -10,7 +10,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 
 /**
  * Class to support the edition of EAnnotation sources.
@@ -55,15 +54,9 @@ public class AnnotationSourceSupport extends EditingSupport {
 				@Override
 				protected void doExecute() {		
 					((EAnnotation) element).setSource(String.valueOf(userInputValue)); 
-					if (Graphiti.getLinkService().getPictogramElements(diagram, (EAnnotation) element).size()>0){
-						String text = DiagramUtils.getEAnnotationPictogramText(diagram, (EAnnotation)element);
-						text = text.replaceFirst(oldValue, String.valueOf(userInputValue));
-						DiagramUtils.paintEAnnotationText(diagram, (EAnnotation)element,text);
-					}
 				}
 			});
 			viewer.update(element, null);
 		}
 	  }
-
 }

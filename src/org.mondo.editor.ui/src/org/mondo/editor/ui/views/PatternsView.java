@@ -1,7 +1,6 @@
 package org.mondo.editor.ui.views;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
@@ -16,25 +15,22 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
-import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
+import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
-import org.mondo.editor.ui.utils.PatternUtils;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
-import org.mondo.editor.ui.utils.services.PatternServiceInfo;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
+import org.mondo.editor.ui.utils.patterns.RuntimePatternsModelUtils;
 import org.mondo.editor.ui.wizards.PatternWizard;
 
 import dslPatterns.Category;
 import dslPatterns.ComplexFeature;
 import dslPatterns.Pattern;
 import dslPatterns.PatternSet;
-
 
 /**
  * View to work with patterns.
@@ -116,6 +112,7 @@ public class PatternsView extends ViewPart {
 		private TreeParent invisibleRoot;
 
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+			invisibleRoot = null;
 		}
 		public void dispose() {
 		}
@@ -162,7 +159,11 @@ public class PatternsView extends ViewPart {
 		}
 
 		private void initialize() {	
-			PatternSet patternModel = PatternUtils.getPatternSetModel();	
+			
+			IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IDiagramContainerUI editor = (IDiagramContainerUI)activePage.getActiveEditor();
+			
+			PatternSet patternModel = PatternUtils.getPatternSetModel(IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource()));	
 			if (patternModel != null){
 				TreeParent root = new TreeParent("Patterns");
 				for (Category cat: patternModel.getCategories()){
@@ -208,9 +209,7 @@ public class PatternsView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-		
-		//IWorkbenchPage page = this.getSite().getPage();
-	    //page.addPartListener(pl);
+
 	}
 
 	private void hookContextMenu() {
@@ -257,44 +256,32 @@ public class PatternsView extends ViewPart {
 					ComplexFeature cf = pattern.getRootVariant();
 					if (cf != null) {
 						List<MMInterfaceRelDiagram> patternRelDiagram = new ArrayList<MMInterfaceRelDiagram>();
-						WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram))
-						{
-							@Override
-					        protected void configureShell(Shell newShell) {
-							super.configureShell(newShell);
-							newShell.setSize(950, 675);
-							}
-						};
-						dialog.create();
+						IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						IDiagramContainerUI editor = (IDiagramContainerUI)activePage.getActiveEditor();
 						
-						dialog.getShell().setText("PATTERNS");
-						int result = dialog.open();
-						if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
-							IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-							IDiagramContainerUI editor = (IDiagramContainerUI)activePage.getActiveEditor();
-							PatternUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern.getName());
+						int numIns = RuntimePatternsModelUtils.getNumPatternInstances(editor.getDiagramBehavior(), pattern);
+						int maxNumIns = pattern.getMaxInstances();
+						
+						if ( (maxNumIns==-1) || (numIns<maxNumIns)){
+						
+							IProject project= IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource());
 							
-							IDiagramTypeProvider dtp = editor.getDiagramBehavior().getDiagramTypeProvider();
-							if (dtp instanceof EcoreDiagramTypeProvider){
-								Object info = ((EcoreDiagramTypeProvider)dtp).getPatternServicesInfo();
-								if(info== null) {
-									info = new LinkedList<PatternServiceInfo>();
-									((EcoreDiagramTypeProvider)dtp).setPatternServicesInfo(info);
+							WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, project))
+							{
+								@Override
+						        protected void configureShell(Shell newShell) {
+								super.configureShell(newShell);
+								newShell.setSize(950, 675);
 								}
-								Object intModel = ((EcoreDiagramTypeProvider)dtp).getInterfaceModel();
-								if(intModel== null) {
-									intModel = PatternUtils.getInterfaceModel();
-									((EcoreDiagramTypeProvider)dtp).setInterfaceModel(intModel);
-								}
-								List<PatternServiceInfo> patternServiceInfoList = (List<PatternServiceInfo>)info;
-								
-								EPackage pack = ModelUtils.getBusinessModel(editor.getDiagramBehavior().getDiagramTypeProvider().getDiagram());
-								List<EAnnotation> annots = pack.getEAnnotations();
-								String patternName = annots.get(annots.size()-1).getSource().replace("@", "");
-								PatternUtils.addPatternServicesInfo(patternServiceInfoList, pattern, patternName,(Resource)intModel);
-							}		
+							};
+							dialog.create();
 							
-						}		
+							dialog.getShell().setText("PATTERNS");
+							int result = dialog.open();
+							if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
+								PatternUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern);	
+							}	
+						} else showMessage("Max. number of pattern instances");
 					}
 					else showMessage("Pattern not available");				    
 				}
@@ -333,6 +320,7 @@ public class PatternsView extends ViewPart {
 					if (ModelUtils.existsPackage(diagram))
 						ecoreDiagram = ModelUtils.getBusinessModel(diagram);
 					viewer.setInput(getViewSite());
+					
 					viewer.getControl().setFocus();
 				}
 			}		

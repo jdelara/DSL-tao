@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
@@ -28,7 +28,7 @@ import serviceInterfaces.modelingenv.ModelingenvPackage;
  *
  * @generated
  */
-public abstract class JavaTypeDeclarationImpl extends MinimalEObjectImpl.Container implements JavaTypeDeclaration {
+public abstract class JavaTypeDeclarationImpl extends EObjectImpl implements JavaTypeDeclaration {
 	/**
 	 * The cached value of the '{@link #getQualifiedName() <em>Qualified Name</em>}' attribute list.
 	 * <!-- begin-user-doc -->

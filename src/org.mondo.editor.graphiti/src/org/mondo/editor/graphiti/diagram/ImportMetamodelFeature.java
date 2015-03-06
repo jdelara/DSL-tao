@@ -45,7 +45,7 @@ public class ImportMetamodelFeature extends AbstractCustomFeature {
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
-            	ret = !ModelUtils.existsPackage(getDiagram());
+        		return true;
             }
         }
         return ret;
@@ -62,10 +62,17 @@ public class ImportMetamodelFeature extends AbstractCustomFeature {
   		  	if (path != null) {
   		  		path = new File(path).toURI().toString();
 
-				EPackage pack= ModelUtils.openModel(path);
+  		  		//delete old package and erase diagram
+  		  		EPackage packOld = ModelUtils.getBusinessModel(getDiagram());
+  		  		DiagramUtils.deleteDiagramContent(getFeatureProvider());
+  		  		getDiagram().eResource().getContents().remove(packOld);
+  		  		getDiagram().eResource().getContents().remove(ModelUtils.getPatternsModel(getDiagram()));		
+  		  		link(getDiagram(), null);
+
+  		  		//add new package and paint diagram
+  		  		EPackage pack= ModelUtils.openModel(path);
 				getDiagram().eResource().getContents().add(pack);
 				link(getDiagram(), pack);
-				
 		    	DiagramUtils.drawDiagram(getFeatureProvider(), getDiagram());
 		    	
 		    	hasDoneChanges = true;

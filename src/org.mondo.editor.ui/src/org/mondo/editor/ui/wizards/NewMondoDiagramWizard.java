@@ -16,13 +16,16 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jface.operation.*;
+
 import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
+import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 
 /**
  * Wizard to create new mondo diagrams. 
@@ -34,18 +37,15 @@ public class NewMondoDiagramWizard extends Wizard implements INewWizard {
 	private NewMondoDiagramWizardPage page;
 	private ISelection selection;
 
-
 	public NewMondoDiagramWizard() {
 		super();
 		setNeedsProgressMonitor(true);
 	}
 	
-
 	public void addPages() {
 		page = new NewMondoDiagramWizardPage(selection);
 		addPage(page);
 	}
-
 
 	public boolean performFinish() {
 		final String containerName = page.getContainerName();
@@ -73,7 +73,6 @@ public class NewMondoDiagramWizard extends Wizard implements INewWizard {
 		return true;
 	}
 	
-
 	private void doFinish(String containerName,String fileName,IProgressMonitor monitor)
 		throws CoreException {
 		monitor.beginTask("Creating " + fileName, 2);
@@ -86,33 +85,27 @@ public class NewMondoDiagramWizard extends Wizard implements INewWizard {
 		
 		final IFile file = container.getFile(new Path(fileName));
 		ResourceSet metaResourceSet = new ResourceSetImpl();
+		
 		final Resource metaResource = metaResourceSet.createResource(URI.createURI(file.getLocationURI().toString()));	
 		TransactionalEditingDomain editingDomain = GraphitiUi.getEmfService().createResourceSetAndEditingDomain();
-		final Diagram diagram = Graphiti.getPeCreateService().createDiagram("mondo", fileName, true);
-		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
-		
+		final Diagram diagram = Graphiti.getPeCreateService().createDiagram("mondo", fileName.replace(".diagram", ""), true);
+		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {	
 				@Override
 				protected void doExecute() {
 					metaResource.getContents().add(diagram);
 				}
 		   });
-		try{
-			metaResource.save(null);
-		} catch (Exception ex){
-			
-		}
-				
+		IResourceUtils.saveResource(metaResource);
+						
 		monitor.worked(1);
 		monitor.setTaskName("Opening file for editing...");
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				IWorkbenchPage page =
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {					
 					IEditorPart ep = IDE.openEditor(page, file);
 					page.closeEditor(ep, false);
 					IDE.openEditor(page, file);
-					
 				} catch (PartInitException e) {
 				}
 			}
@@ -120,7 +113,6 @@ public class NewMondoDiagramWizard extends Wizard implements INewWizard {
 		monitor.worked(1);
 	}
 	
-
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
 			new Status(IStatus.ERROR, "org.mondo.editor.ui", IStatus.OK, message, null);

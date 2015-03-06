@@ -15,7 +15,7 @@ public class DiagramStyles {
 	public static final int PACKAGE_HEIGHT = 100;
 
 	public static final int CLASS_MIN_WIDTH = 185;
-	public static final int CLASS_WIDTH = 185;
+	public static final int CLASS_WIDTH = 235;
 	
 	public static final int CLASS_MIN_HEIGHT = 80;
 	public static final int CLASS_HEIGHT = 100;

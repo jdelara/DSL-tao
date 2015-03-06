@@ -1,5 +1,7 @@
 package org.mondo.editor.graphiti.diagram.utils;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -106,5 +108,16 @@ public class IResourceUtils {
 		else possibleName = initNameV[0]+"("+cont+")"+ ".diagram";
 		cont++;
 		}
+	}
+	
+	public static boolean saveResource(Resource resource){
+		try {
+			resource.save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
 	}
 }

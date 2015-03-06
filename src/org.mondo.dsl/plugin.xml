@@ -37,5 +37,21 @@
             class="serviceInterfaces.modelingenv.ModelingenvPackage"
             genModel="model/dslPatterns.genmodel"/>
    </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="runtimePatterns.RuntimePatternsPackage"
+            genModel="model/runtimePatterns.genmodel"
+            uri="http://mondo.org/runtimePatterns">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="runtimeServices.RuntimeServicesPackage"
+            genModel="model/runtimeServices.genmodel"
+            uri="http://mondo.org/runtimeServices">
+      </package>
+   </extension>
 
 </plugin>

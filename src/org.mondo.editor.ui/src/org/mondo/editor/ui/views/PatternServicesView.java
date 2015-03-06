@@ -1,7 +1,9 @@
 package org.mondo.editor.ui.views;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
@@ -21,9 +23,14 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
+import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.ui.utils.ImagesUtils;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
 import org.mondo.editor.ui.utils.services.ActivateSupport;
 import org.mondo.editor.ui.utils.services.PatternServiceInfo;
+import org.mondo.editor.ui.utils.services.RuntimeServicesModelUtils;
+
+import dslPatterns.Pattern;
 
 public class PatternServicesView extends ViewPart {
 
@@ -35,7 +42,7 @@ public class PatternServicesView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		 viewer = new TableViewer(parent,SWT.BORDER);
+		viewer = new TableViewer(parent,SWT.BORDER);
 		
 	    viewer.setContentProvider(new IStructuredContentProvider() {
 			
@@ -55,17 +62,12 @@ public class PatternServicesView extends ViewPart {
 		});	
 	    viewer.getTable().setHeaderVisible(true);
 		
-	   
 	    createTableViewerColumn(viewer, "Activate",80, 0);
 	    createTableViewerColumn(viewer, "Pattern",200, 1);
 	    createTableViewerColumn(viewer, "Service", 250,2);
 	    createTableViewerColumn(viewer, "Activable",90, 3);
 	    createTableViewerColumn(viewer, "Missing", 350,4);
 	    createTableViewerColumn(viewer, "OfferedBy",700, 5);
-	    
-	    
-       
-		
 	}
 	
 	private static TableViewerColumn createTableViewerColumn(TableViewer viewer, String title, int width,  final int colNumber) {
@@ -83,7 +85,6 @@ public class PatternServicesView extends ViewPart {
 		    	case 0: return ((((PatternServiceInfo)element).getMissing().isEmpty()?(((PatternServiceInfo)element).isActivated()?"Yes":"No"):""));
 		    	case 1: return (((PatternServiceInfo)element).getPatternName());
 				case 2: return (((PatternServiceInfo)element).getService()!=null?((PatternServiceInfo)element).getService().getName(): "No Service");
-				//case 3: return (((PatternServiceInfo)element).getMissing().isEmpty()?"Yes":"No");
 				case 4: return ((PatternServiceInfo)element).getMissingText();
 				case 5: return ((PatternServiceInfo)element).getOfferedByText();
 				}  
@@ -102,8 +103,6 @@ public class PatternServicesView extends ViewPart {
 				}  
 		    	return null;
 			}
-			
-	    	
 	    });
 	    
 	    return viewerColumn;
@@ -114,25 +113,26 @@ public class PatternServicesView extends ViewPart {
 		List<PatternServiceInfo> services = null;
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		Resource intModel= null;
+		List<Pattern> allPatterns = new LinkedList<>();
 		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){	
 			IEditorPart editor = activePage.getActiveEditor();				
 			if (editor instanceof IDiagramContainerUI){	
 				
 				IDiagramTypeProvider dtp = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider();
 				if (dtp instanceof EcoreDiagramTypeProvider){
-					Object info = ((EcoreDiagramTypeProvider)dtp).getPatternServicesInfo();
-					if(info!= null){
-						services = (List<PatternServiceInfo>)info;
-						Object intModelO = ((EcoreDiagramTypeProvider)dtp).getInterfaceModel();
-						intModel = (Resource)intModelO;
+					services = RuntimeServicesModelUtils.getPatternServicesInfo(((IDiagramContainerUI)editor).getDiagramBehavior());
+					IProject project = IResourceUtils.getProject(dtp.getDiagram().eResource());
+					intModel = (Resource)((EcoreDiagramTypeProvider)dtp).getInterfaceModel();
+					if(intModel== null) {
+						intModel = PatternUtils.getInterfaceModel(project);
+						((EcoreDiagramTypeProvider)dtp).setInterfaceModel(intModel);
 					}
+					allPatterns = PatternUtils.getAllPatterns(project);
 				}				
 			}
 		}
 		TableViewerColumn tvc = (TableViewerColumn)viewer.getTable().getColumn(0).getData(Policy.JFACE + ".columnViewer"); 
-		tvc.setEditingSupport(new ActivateSupport(viewer, intModel));
-		
+		tvc.setEditingSupport(new ActivateSupport(viewer, intModel, allPatterns));		
 		viewer.setInput(services);
 	}
-
 }

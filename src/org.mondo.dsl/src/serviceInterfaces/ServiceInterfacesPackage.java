@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>each class,</li>
  *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
@@ -85,15 +84,6 @@ public interface ServiceInterfacesPackage extends EPackage {
 	int INTERFACE_REPOSITORY_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of operations of the '<em>Interface Repository</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTERFACE_REPOSITORY_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.impl.PackageableImpl <em>Packageable</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -111,15 +101,6 @@ public interface ServiceInterfacesPackage extends EPackage {
 	 * @ordered
 	 */
 	int PACKAGEABLE_FEATURE_COUNT = 0;
-
-	/**
-	 * The number of operations of the '<em>Packageable</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PACKAGEABLE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.impl.PackageImpl <em>Package</em>}' class.
@@ -159,15 +140,6 @@ public interface ServiceInterfacesPackage extends EPackage {
 	int PACKAGE_FEATURE_COUNT = PACKAGEABLE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Package</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PACKAGE_OPERATION_COUNT = PACKAGEABLE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.impl.InterfaceImpl <em>Interface</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -203,15 +175,6 @@ public interface ServiceInterfacesPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTERFACE_FEATURE_COUNT = PACKAGEABLE_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Interface</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTERFACE_OPERATION_COUNT = PACKAGEABLE_OPERATION_COUNT + 0;
 
 
 	/**
@@ -324,7 +287,6 @@ public interface ServiceInterfacesPackage extends EPackage {
 	 * <ul>
 	 *   <li>each class,</li>
 	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
 	 *   <li>each enum,</li>
 	 *   <li>and each data type</li>
 	 * </ul>

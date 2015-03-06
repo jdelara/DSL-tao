@@ -114,7 +114,7 @@ public class AddEReferenceFeature extends AbstractAddFeature {
         textAn.setForeground(manageColor(DiagramStyles.ANNOTATION_FOREGROUND));
         textAn.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.SMALL_SIZE_FONT, false, false));
         gaService.setLocation(textOU, -75, 25);
-        textDecoratorAn.setVisible(DiagramUtils.isShowAnnotations(getDiagram()));
+        textDecoratorAn.setVisible(DiagramUtils.isPatternInfo(getDiagram()));
        
 		DiagramUtils.addCollapseReferenceText(getDiagram(), addedEReference);
 
@@ -147,7 +147,7 @@ public class AddEReferenceFeature extends AbstractAddFeature {
         textAnOp.setForeground(manageColor(DiagramStyles.ANNOTATION_FOREGROUND));
         textAnOp.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.SMALL_SIZE_FONT, false, false));
         gaService.setLocation(textOUOp, -75, 25);
-        textDecoratorAnOp.setVisible(DiagramUtils.isShowAnnotations(getDiagram()));
+        textDecoratorAnOp.setVisible(DiagramUtils.isPatternInfo(getDiagram()));
 
 		if (addedEReference.isContainment()) DiagramUtils.createContainmentDecorator(getDiagram(), connection, 0);
         if (addedEReference.getEOpposite()!=null){

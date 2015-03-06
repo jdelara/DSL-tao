@@ -59,7 +59,7 @@ public interface Variant extends EObject {
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
 	 * @see dslPatterns.DslPatternsPackage#getVariant_Description()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	String getDescription();

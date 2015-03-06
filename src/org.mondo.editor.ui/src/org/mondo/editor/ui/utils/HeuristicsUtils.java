@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.mondo.editor.graphiti.diagram.utils.DataTypeUtils.DataType;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureType;

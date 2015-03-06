@@ -103,10 +103,10 @@ public class AddEClassFeature extends AbstractAddFeature {
 		
 		Property marker3 = MmFactory.eINSTANCE.createProperty();
 		marker3.setKey("type");
-		marker3.setValue(DiagramUtils.TYPE_ANNOTATION);		
+		marker3.setValue(DiagramUtils.TYPE_INFO_PATTERNS);		
 		textAnn.getProperties().add(marker3);
 		
-		shapeAnn.setVisible(DiagramUtils.isShowAnnotations(getDiagram()));
+		shapeAnn.setVisible(DiagramUtils.isPatternInfo(getDiagram()));
 		
 		Shape shapeLine = peCreateService.createShape(container, false); 
 		Polyline polyline = gaService.createPolyline(shapeLine, new int[] { 0, lineGap, width, lineGap});
@@ -121,7 +121,7 @@ public class AddEClassFeature extends AbstractAddFeature {
 		textcollapse.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT);
 		textcollapse.setForeground(manageColor(ColorConstant.BLACK));
 		textcollapse.setFont(gaService.manageFont(getDiagram(), "Verdana",DiagramStyles.MEDIUM_SIZE_FONT, false, false));
-		gaService.setLocationAndSize(textcollapse, 5, DiagramStyles.CLASS_DEF_HEIGHT, figure.getWidth(), 0);
+		gaService.setLocationAndSize(textcollapse, 5, figure.getHeight(), figure.getWidth(), 0);
 		shapeCollapse.setVisible(false);
 		
 		Property marker4 = MmFactory.eINSTANCE.createProperty();

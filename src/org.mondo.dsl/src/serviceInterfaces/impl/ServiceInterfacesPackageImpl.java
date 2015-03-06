@@ -13,6 +13,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import runtimePatterns.RuntimePatternsPackage;
+import runtimePatterns.impl.RuntimePatternsPackageImpl;
+import runtimeServices.RuntimeServicesPackage;
+import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.Interface;
 import serviceInterfaces.InterfaceRepository;
 import serviceInterfaces.Packageable;
@@ -109,19 +113,16 @@ public class ServiceInterfacesPackageImpl extends EPackageImpl implements Servic
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		CodegenPackageImpl theCodegenPackage = (CodegenPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) instanceof CodegenPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) : CodegenPackage.eINSTANCE);
 		ModelingenvPackageImpl theModelingenvPackage = (ModelingenvPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) instanceof ModelingenvPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) : ModelingenvPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theServiceInterfacesPackage.createPackageContents();
-		theDslPatternsPackage.createPackageContents();
 		theCodegenPackage.createPackageContents();
 		theModelingenvPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theServiceInterfacesPackage.initializePackageContents();
-		theDslPatternsPackage.initializePackageContents();
 		theCodegenPackage.initializePackageContents();
 		theModelingenvPackage.initializePackageContents();
 
@@ -296,7 +297,7 @@ public class ServiceInterfacesPackageImpl extends EPackageImpl implements Servic
 		packageEClass.getESuperTypes().add(this.getPackageable());
 		interfaceEClass.getESuperTypes().add(this.getPackageable());
 
-		// Initialize classes, features, and operations; add parameters
+		// Initialize classes and features; add operations and parameters
 		initEClass(interfaceRepositoryEClass, InterfaceRepository.class, "InterfaceRepository", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInterfaceRepository_Contents(), this.getPackageable(), null, "contents", null, 0, -1, InterfaceRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -13,7 +14,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import org.eclipse.swt.widgets.Group;
-import org.mondo.editor.ui.utils.PatternUtils;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ComplexFeature;
 import dslPatterns.FeatureKind;
@@ -46,28 +46,34 @@ public class PatternWizardPageTwo extends WizardPage {
   private String messageError;
   private List<Button> andButtons = new ArrayList<Button>();
   private Label patternImg ;
+  private IProject project = null;
   
   private List<PatternMetaModel> metamodels;
 
-  public PatternWizardPageTwo(ComplexFeature cf, List<PatternMetaModel> metamodels) {
+  public PatternWizardPageTwo(ComplexFeature cf, List<PatternMetaModel> metamodels, IProject project) {
     super("Pattern Wizard");
     setTitle("Select Features");
     this.cf = cf;
     this.metamodels = metamodels;
+    this.project = project;
   }
 
   @Override
   public void createControl(Composite parent) {
     container = new Composite(parent, SWT.NONE);
-    container.setLayout(new FillLayout()); 
+    GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+    container.setLayout(new GridLayout(2,false)); 
+    container.setLayoutData(gd);
     
     group = new Group(container, SWT.NONE); 
     group.setText("Features"); 
-    GridLayout layout = new GridLayout();
-    layout.numColumns = 2;
-    group.setLayout(layout); 
-    
-    patternImg = new Label(container, SWT.NONE);
+    group.setLayout(new GridLayout(2,false));
+    GridData gd2 = new GridData(SWT.FILL, SWT.FILL, false, false);
+    group.setLayoutData(gd2);
+
+    Group group2 = new Group(container, SWT.NONE); 
+    group2.setLayout(new GridLayout());
+    patternImg = new Label(group2, SWT.CENTER);
     
     if (cf.getAndChildren().size() > 0) createButtons(group,cf.getAndChildren(), SWT.CHECK, false, true);
     if (cf.getOrChildren().size() > 0) createButtons(group,cf.getOrChildren(), SWT.CHECK, true, false);
@@ -99,7 +105,6 @@ public class PatternWizardPageTwo extends WizardPage {
     	if ((!enabled)&&(checked))
     		this.andButtons.add(button);
 
-    	
     	if (var instanceof SimpleFeature){ 	
     		Control control;
     		GridData gd = new GridData();
@@ -134,20 +139,20 @@ public class PatternWizardPageTwo extends WizardPage {
     	    dependencies.put(button, control);
     	}else {
     		//ComplexFeature
-    		Group groupCf = new Group(group, SWT.NONE); 
-    	    GridLayout layout = new GridLayout();
-    	    layout.numColumns = 2;
-    	    groupCf.setLayout(layout);
-    	    dependencies.put(button, groupCf);
-    	    
     	    //PaternMetamodel
     	    if (((ComplexFeature)var).getMetaModel()!= null){
     	    	button.setData(((ComplexFeature)var).getMetaModel());
     	    	if (button.getSelection()) {
     	    		PatternMetaModel pmm = ((ComplexFeature)var).getMetaModel();
-    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm));
+    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
     	    	}
     	    }
+    	    
+    	    Group groupCf = new Group(group, SWT.NONE); 
+    	    GridLayout layout = new GridLayout();
+    	    layout.numColumns = 2;
+    	    groupCf.setLayout(layout);
+    	    dependencies.put(button, groupCf);
     	    
     	    if (((ComplexFeature)var).getAndChildren().size() > 0) createButtons(groupCf,((ComplexFeature)var).getAndChildren(), SWT.CHECK, false, true);
     	    if (((ComplexFeature)var).getOrChildren().size() > 0) createButtons(groupCf,((ComplexFeature)var).getOrChildren(), SWT.CHECK, button.getSelection(), false);
@@ -162,7 +167,7 @@ public class PatternWizardPageTwo extends WizardPage {
 					
 					if (((Button)e.getSource()).getData() instanceof PatternMetaModel) {
 	    	    		PatternMetaModel pmm = (PatternMetaModel)((Button)e.getSource()).getData();
-	    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm));
+	    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
 	    	    	}
 					
 					
@@ -334,7 +339,8 @@ public class PatternWizardPageTwo extends WizardPage {
   
   	private boolean existsElement(List<PatternMetaModel> metamodels,PatternMetaModel element){
   		for (PatternMetaModel pmm : metamodels){
-  		  if (pmm.equals(element)) return true;
+  		  if (pmm!=null)
+  			  if (pmm.equals(element)) return true;
   		}
   		return false;
   	}

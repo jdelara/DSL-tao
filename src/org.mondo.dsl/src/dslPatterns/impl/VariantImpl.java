@@ -10,7 +10,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public abstract class VariantImpl extends MinimalEObjectImpl.Container implements Variant {
+public abstract class VariantImpl extends EObjectImpl implements Variant {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->

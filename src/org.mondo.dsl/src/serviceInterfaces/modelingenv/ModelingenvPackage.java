@@ -17,7 +17,6 @@ import serviceInterfaces.ServiceInterfacesPackage;
  * <ul>
  *   <li>each class,</li>
  *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
@@ -115,15 +114,6 @@ public interface ModelingenvPackage extends EPackage {
 	int INJECTOR_ACCEPTOR_INTERFACE_L0_FEATURE_COUNT = ServiceInterfacesPackage.INTERFACE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Injector Acceptor Interface L0</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INJECTOR_ACCEPTOR_INTERFACE_L0_OPERATION_COUNT = ServiceInterfacesPackage.INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.impl.JavaTypeDeclarationImpl <em>Java Type Declaration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -150,15 +140,6 @@ public interface ModelingenvPackage extends EPackage {
 	 * @ordered
 	 */
 	int JAVA_TYPE_DECLARATION_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Java Type Declaration</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JAVA_TYPE_DECLARATION_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.impl.JavaInterfaceImpl <em>Java Interface</em>}' class.
@@ -198,15 +179,6 @@ public interface ModelingenvPackage extends EPackage {
 	int JAVA_INTERFACE_FEATURE_COUNT = JAVA_TYPE_DECLARATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Java Interface</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JAVA_INTERFACE_OPERATION_COUNT = JAVA_TYPE_DECLARATION_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.impl.JavaClassImpl <em>Java Class</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -244,15 +216,6 @@ public interface ModelingenvPackage extends EPackage {
 	int JAVA_CLASS_FEATURE_COUNT = JAVA_TYPE_DECLARATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Java Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JAVA_CLASS_OPERATION_COUNT = JAVA_TYPE_DECLARATION_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.impl.OperationImpl <em>Operation</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -279,15 +242,6 @@ public interface ModelingenvPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Operation</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.impl.SlotPlugInterfaceL0Impl <em>Slot Plug Interface L0</em>}' class.
@@ -336,15 +290,6 @@ public interface ModelingenvPackage extends EPackage {
 	int SLOT_PLUG_INTERFACE_L0_FEATURE_COUNT = ServiceInterfacesPackage.INTERFACE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Slot Plug Interface L0</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLOT_PLUG_INTERFACE_L0_OPERATION_COUNT = ServiceInterfacesPackage.INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.impl.ExtensionPointImpl <em>Extension Point</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -371,15 +316,6 @@ public interface ModelingenvPackage extends EPackage {
 	 * @ordered
 	 */
 	int EXTENSION_POINT_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Extension Point</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXTENSION_POINT_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.modelingenv.InjectionMode <em>Injection Mode</em>}' enum.
@@ -575,7 +511,6 @@ public interface ModelingenvPackage extends EPackage {
 	 * <ul>
 	 *   <li>each class,</li>
 	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
 	 *   <li>each enum,</li>
 	 *   <li>and each data type</li>
 	 * </ul>

@@ -5,18 +5,21 @@ package dslPatterns.impl;
 import dslPatterns.ComplexFeature;
 import dslPatterns.DslPatternsPackage;
 import dslPatterns.Pattern;
-
 import dslPatterns.Service;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -31,12 +34,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link dslPatterns.impl.PatternImpl#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getServices <em>Services</em>}</li>
+ *   <li>{@link dslPatterns.impl.PatternImpl#getMaxInstances <em>Max Instances</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern {
+public class PatternImpl extends EObjectImpl implements Pattern {
 	/**
 	 * The cached value of the '{@link #getRootVariant() <em>Root Variant</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -96,6 +100,26 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 	 * @ordered
 	 */
 	protected EList<Service> services;
+
+	/**
+	 * The default value of the '{@link #getMaxInstances() <em>Max Instances</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaxInstances()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MAX_INSTANCES_EDEFAULT = -1;
+
+	/**
+	 * The cached value of the '{@link #getMaxInstances() <em>Max Instances</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaxInstances()
+	 * @generated
+	 * @ordered
+	 */
+	protected int maxInstances = MAX_INSTANCES_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -218,6 +242,27 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getMaxInstances() {
+		return maxInstances;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMaxInstances(int newMaxInstances) {
+		int oldMaxInstances = maxInstances;
+		maxInstances = newMaxInstances;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DslPatternsPackage.PATTERN__MAX_INSTANCES, oldMaxInstances, maxInstances));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -245,6 +290,8 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 				return getDescription();
 			case DslPatternsPackage.PATTERN__SERVICES:
 				return getServices();
+			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
+				return getMaxInstances();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -271,6 +318,9 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 				getServices().clear();
 				getServices().addAll((Collection<? extends Service>)newValue);
 				return;
+			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
+				setMaxInstances((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -295,6 +345,9 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 			case DslPatternsPackage.PATTERN__SERVICES:
 				getServices().clear();
 				return;
+			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
+				setMaxInstances(MAX_INSTANCES_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -315,6 +368,8 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case DslPatternsPackage.PATTERN__SERVICES:
 				return services != null && !services.isEmpty();
+			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
+				return maxInstances != MAX_INSTANCES_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -333,6 +388,8 @@ public class PatternImpl extends MinimalEObjectImpl.Container implements Pattern
 		result.append(name);
 		result.append(", description: ");
 		result.append(description);
+		result.append(", maxInstances: ");
+		result.append(maxInstances);
 		result.append(')');
 		return result.toString();
 	}

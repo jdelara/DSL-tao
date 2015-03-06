@@ -7,7 +7,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import serviceInterfaces.modelingenv.ExtensionPoint;
 import serviceInterfaces.modelingenv.ModelingenvPackage;
@@ -25,7 +25,7 @@ import serviceInterfaces.modelingenv.ModelingenvPackage;
  *
  * @generated
  */
-public class ExtensionPointImpl extends MinimalEObjectImpl.Container implements ExtensionPoint {
+public class ExtensionPointImpl extends EObjectImpl implements ExtensionPoint {
 	/**
 	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->

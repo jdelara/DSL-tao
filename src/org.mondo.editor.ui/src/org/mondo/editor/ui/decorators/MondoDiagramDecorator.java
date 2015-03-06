@@ -1,7 +1,9 @@
 package org.mondo.editor.ui.decorators;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -13,6 +15,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
+import org.mondo.editor.ui.MondoNature;
 import org.mondo.editor.ui.utils.ImagesUtils;
 
 /**
@@ -73,6 +76,18 @@ public class MondoDiagramDecorator implements ILightweightLabelDecorator {
 					
 				}
 			}
+		} else if (resource instanceof IProject){
+			IProject project= (IProject) resource;
+			try {
+				if (project.getNature(MondoNature.ID)!= null){
+					ImageDescriptor descriptor = ImagesUtils.getImageDescriptor(iconPath);
+					int quadrant = IDecoration.TOP_RIGHT;
+					decoration.addOverlay(descriptor,quadrant);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 

@@ -66,8 +66,6 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpContainerElements.setLayoutData(data_1);
 		grpContainerElements.setLayout(null);
 		viewerContainerElements = PropertiesUtils.createViewerClasses(grpContainerElements);
-		//viewerContainerElements.addSelectionChangedListener(listenerNamedElement);
-		//viewerContainerElements.getTable().addFocusListener(listenerFocusNamedElement);
 		viewerContainerElements.getTable().addMouseListener(mouseListener);
 		
 		Group grpContainedElements = factory.createGroup(composite, "All contained elements: ");
@@ -81,8 +79,6 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpContainedElements.setLayoutData(data0);
 		grpContainedElements.setLayout(null);
 		viewerContainedElements = PropertiesUtils.createViewerClasses(grpContainedElements);
-		//viewerContainedElements.addSelectionChangedListener(listenerNamedElement);
-		//viewerContainedElements.getTable().addFocusListener(listenerFocusNamedElement);
 		viewerContainedElements.getTable().addMouseListener(mouseListener);
 		
 		Group grpReferences = factory.createGroup(composite, "All references: ");
@@ -96,8 +92,6 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpReferences.setLayoutData(data);
 		grpReferences.setLayout(null);
 		viewerReferences = PropertiesUtils.createViewerReferences(grpReferences);
-		//viewerReferences.addSelectionChangedListener(listenerNamedElement);
-		//viewerReferences.getTable().addFocusListener(listenerFocusNamedElement);
 		viewerReferences.getTable().addMouseListener(mouseListener);
 		
 		Group grpChildren = factory.createGroup(composite, "All children: ");
@@ -111,8 +105,6 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpChildren.setLayoutData(data1);
 		grpChildren.setLayout(null);
 		viewerChildren = PropertiesUtils.createViewerClasses(grpChildren);
-		//viewerChildren.addSelectionChangedListener(listenerNamedElement);
-		//viewerChildren.getTable().addFocusListener(listenerFocusNamedElement);
 		viewerChildren.getTable().addMouseListener(mouseListener);
 		
 		Group grpAncesters = factory.createGroup(composite, "All ancestors: ");
@@ -126,8 +118,6 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpAncesters.setLayoutData(data2);
 		grpAncesters.setLayout(null);
 		viewerAncestors = PropertiesUtils.createViewerClasses(grpAncesters);
-		//viewerAncestors.addSelectionChangedListener(listenerNamedElement);
-		//viewerAncestors.getTable().addFocusListener(listenerFocusNamedElement);
 		viewerAncestors.getTable().addMouseListener(mouseListener);
 		
         Group grpAttributes = factory.createGroup(composite, "All attributes: ");
@@ -142,8 +132,6 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 		grpAttributes.setLayout(null);
 		
 		viewerAttributes = PropertiesUtils.createViewerAttributes(grpAttributes);
-		//viewerAttributes.addSelectionChangedListener(listenerNamedElement);
-		//viewerAttributes.getTable().addFocusListener(listenerFocusNamedElement);
 		viewerAttributes.getTable().addMouseListener(mouseListener);
 	}
 
@@ -172,52 +160,7 @@ public class EClassAdditionalInformationSection extends GFPropertySection implem
 	    }
 	}
 	
-	/*
 	
-	private ISelectionChangedListener listenerNamedElement = new ISelectionChangedListener() {
-		
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) { 
-			
-			TableViewer control = (TableViewer)event.getSource();    
-	        ISelection selection = control.getSelection();
-	        if (selection != null && selection instanceof IStructuredSelection) {
-	        	IStructuredSelection sel = (IStructuredSelection) selection; 
-
-	        	DiagramUtils.selectPictogram(getDiagram());
-	        	selectedNamedElements.clear();
-	        	for (@SuppressWarnings("unchecked")
-				Iterator<ENamedElement> iterator = sel.iterator(); iterator.hasNext();) {
-	        		  ENamedElement value = (ENamedElement)iterator.next();
-	        		  if (value instanceof EAttribute) value = ((EAttribute)value).getEContainingClass();
-	        		  selectedNamedElements.add(value);
-	        	}   
-	    		List<PictogramElement> pes = new ArrayList<>();			
-	    		for (ENamedElement element:selectedNamedElements){
-	    			PictogramElement pe = DiagramUtils.getPictogramToSelect(getDiagram(), element);
-	    			if (pe != null)	pes.add(pe);					
-	    		}
-	    		DiagramUtils.selectPictograms(pes);	
-	       }
-	    }	
-	  };
-	  
-	  
-	private FocusListener listenerFocusNamedElement = new FocusListener() {
-		
-		@Override
-		public void focusLost(FocusEvent e) {
-			DiagramUtils.selectPictogram(getDiagram());
-        	selectedNamedElements.clear();
-        	if (!((Table)e.getSource()).isDisposed()) ((Table)e.getSource()).deselectAll();
-		}
-		
-		@Override
-		public void focusGained(FocusEvent e) {
-		}
-	  };  
-	  
-	  */
 	  
 	  private MouseListener mouseListener = new MouseListener() {
 			

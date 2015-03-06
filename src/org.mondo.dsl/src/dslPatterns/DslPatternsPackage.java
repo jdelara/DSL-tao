@@ -15,14 +15,13 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>each class,</li>
  *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
  * @see dslPatterns.DslPatternsFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/OCL/Import ecore='http://www.eclipse.org/emf/2002/Ecore#/' servInt='http://mondo.org/serviceInterfaces#/'"
+ *        annotation="http://www.eclipse.org/OCL/Import ecore='http://www.eclipse.org/emf/2002/Ecore#/'"
  * @generated
  */
 public interface DslPatternsPackage extends EPackage {
@@ -87,15 +86,6 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN_SET_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of operations of the '<em>Pattern Set</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATTERN_SET_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.CategoryImpl <em>Category</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -151,15 +141,6 @@ public interface DslPatternsPackage extends EPackage {
 	int CATEGORY_FEATURE_COUNT = 4;
 
 	/**
-	 * The number of operations of the '<em>Category</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CATEGORY_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.PatternImpl <em>Pattern</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -206,22 +187,22 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN__SERVICES = 3;
 
 	/**
+	 * The feature id for the '<em><b>Max Instances</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN__MAX_INSTANCES = 4;
+
+	/**
 	 * The number of structural features of the '<em>Pattern</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_FEATURE_COUNT = 4;
-
-	/**
-	 * The number of operations of the '<em>Pattern</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATTERN_OPERATION_COUNT = 0;
+	int PATTERN_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
@@ -279,15 +260,6 @@ public interface DslPatternsPackage extends EPackage {
 	int SERVICE_FEATURE_COUNT = 4;
 
 	/**
-	 * The number of operations of the '<em>Service</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.PortImpl <em>Port</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -341,15 +313,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int PORT_FEATURE_COUNT = 4;
-
-	/**
-	 * The number of operations of the '<em>Port</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.PlugImpl <em>Plug</em>}' class.
@@ -407,15 +370,6 @@ public interface DslPatternsPackage extends EPackage {
 	int PLUG_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Plug</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PLUG_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.SlotImpl <em>Slot</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -469,15 +423,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int SLOT_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Slot</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLOT_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.InjectorImpl <em>Injector</em>}' class.
@@ -535,15 +480,6 @@ public interface DslPatternsPackage extends EPackage {
 	int INJECTOR_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Injector</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INJECTOR_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.AcceptorImpl <em>Acceptor</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -599,15 +535,6 @@ public interface DslPatternsPackage extends EPackage {
 	int ACCEPTOR_FEATURE_COUNT = PORT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Acceptor</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCEPTOR_OPERATION_COUNT = PORT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.VariantImpl <em>Variant</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -643,15 +570,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIANT_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Variant</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VARIANT_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.SimpleFeatureImpl <em>Simple Feature</em>}' class.
@@ -698,15 +616,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int SIMPLE_FEATURE_FEATURE_COUNT = VARIANT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Simple Feature</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SIMPLE_FEATURE_OPERATION_COUNT = VARIANT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ComplexFeatureImpl <em>Complex Feature</em>}' class.
@@ -782,15 +691,6 @@ public interface DslPatternsPackage extends EPackage {
 	int COMPLEX_FEATURE_FEATURE_COUNT = VARIANT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of operations of the '<em>Complex Feature</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPLEX_FEATURE_OPERATION_COUNT = VARIANT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.PatternMetaModelImpl <em>Pattern Meta Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -844,15 +744,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int PATTERN_META_MODEL_FEATURE_COUNT = 4;
-
-	/**
-	 * The number of operations of the '<em>Pattern Meta Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATTERN_META_MODEL_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.PatternMetaModelReferenceImpl <em>Pattern Meta Model Reference</em>}' class.
@@ -919,15 +810,6 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN_META_MODEL_REFERENCE_FEATURE_COUNT = PATTERN_META_MODEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Pattern Meta Model Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATTERN_META_MODEL_REFERENCE_OPERATION_COUNT = PATTERN_META_MODEL_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.MetaModelImpl <em>Meta Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -992,15 +874,6 @@ public interface DslPatternsPackage extends EPackage {
 	int META_MODEL_FEATURE_COUNT = PATTERN_META_MODEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Meta Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int META_MODEL_OPERATION_COUNT = PATTERN_META_MODEL_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.MMInterfaceImpl <em>MM Interface</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1054,15 +927,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int MM_INTERFACE_FEATURE_COUNT = 4;
-
-	/**
-	 * The number of operations of the '<em>MM Interface</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MM_INTERFACE_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ClassInterfaceImpl <em>Class Interface</em>}' class.
@@ -1129,15 +993,6 @@ public interface DslPatternsPackage extends EPackage {
 	int CLASS_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Class Interface</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_INTERFACE_OPERATION_COUNT = MM_INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.FeatureInterfaceImpl <em>Feature Interface</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1200,15 +1055,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Feature Interface</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_INTERFACE_OPERATION_COUNT = MM_INTERFACE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.FeatureTypeImpl <em>Feature Type</em>}' class.
@@ -1275,15 +1121,6 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_TYPE_FEATURE_COUNT = FEATURE_INTERFACE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Feature Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_TYPE_OPERATION_COUNT = FEATURE_INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.FeatureInstanceImpl <em>Feature Instance</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1348,15 +1185,6 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_INSTANCE_FEATURE_COUNT = FEATURE_INTERFACE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Feature Instance</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_INSTANCE_OPERATION_COUNT = FEATURE_INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ReferenceInterfaceImpl <em>Reference Interface</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1419,15 +1247,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int REFERENCE_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Reference Interface</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REFERENCE_INTERFACE_OPERATION_COUNT = MM_INTERFACE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}' enum.
@@ -1568,6 +1387,17 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPattern_Services();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Pattern#getMaxInstances <em>Max Instances</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Max Instances</em>'.
+	 * @see dslPatterns.Pattern#getMaxInstances()
+	 * @see #getPattern()
+	 * @generated
+	 */
+	EAttribute getPattern_MaxInstances();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.Service <em>Service</em>}'.
@@ -2082,7 +1912,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * <ul>
 	 *   <li>each class,</li>
 	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
 	 *   <li>each enum,</li>
 	 *   <li>and each data type</li>
 	 * </ul>
@@ -2191,6 +2020,14 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PATTERN__SERVICES = eINSTANCE.getPattern_Services();
+
+		/**
+		 * The meta object literal for the '<em><b>Max Instances</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PATTERN__MAX_INSTANCES = eINSTANCE.getPattern_MaxInstances();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.

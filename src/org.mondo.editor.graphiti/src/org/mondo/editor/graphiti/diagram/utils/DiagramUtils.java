@@ -1,6 +1,5 @@
 package org.mondo.editor.graphiti.diagram.utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,12 +14,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -62,6 +61,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 import org.eclipse.graphiti.util.ColorConstant;
@@ -83,7 +83,7 @@ public  class DiagramUtils {
 	
 	public static final String TYPE_TEXT = "text";
 	public static final String TYPE_TAG = "tag";
-	public static final String TYPE_ANNOTATION = "annotation";
+	public static final String TYPE_INFO_PATTERNS = "infoPatterns";
 	public static final String TYPE_COLLAPSE_INFO_REF = "collapseInfoRef";
 	public static final String TYPE_PATTERN_NAMES = "patternNames";
 	public static final String TYPE_INHERITANCE = "inheritance";
@@ -91,7 +91,7 @@ public  class DiagramUtils {
 	public static final String MODE = "mode";
 	public static final String COLLAPSE = "collapse";
 	public static final String EXPAND = "expand";
-	public static final String SHOW_ANNOTATIONS = "showAnnotations";
+	public static final String SHOW_PATTERN_INFO = "showPatternInfo";
 	public static final String NOT_DELETE = "notDelete";
 	public static final String NOT_REMOVE = "notRemove";
 	
@@ -101,11 +101,11 @@ public  class DiagramUtils {
 		EREF_DECORATOR_NAME(1),
 		EREF_DECORATOR_BOUNDS(2),
 		EREF_DECORATOR_ORUNI(3),
-		EREF_DECORATOR_ANNOT(4),
+		EREF_DECORATOR_PATTERN(4),
 		EREF_DECORATOR_NAME_OP(5),
 		EREF_DECORATOR_BOUNDS_OP(6),
 		EREF_DECORATOR_ORUNI_OP(7),
-		EREF_DECORATOR_ANNOT_OP(8);
+		EREF_DECORATOR_PATTERN_OP(8);
 		
 		private final int pos; 
 	    
@@ -125,7 +125,7 @@ public  class DiagramUtils {
 	}
 
 	/**
-	 * Static method that returns if an  algorithm.text contains the specified text.
+	 * Static method that returns if an algorithm.text contains the specified text.
 	 * @param text
 	 * @return boolean - true is a text, false not.
 	 */
@@ -138,7 +138,7 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that returns if an  algorithm.text is a tag.
+	 * Static method that returns if an algorithm.text is a tag.
 	 * @param text
 	 * @return boolean - true is a tag, false not.
 	 */
@@ -151,13 +151,13 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that returns if an  algorithm.text is an annotation.
+	 * Static method that returns if an algorithm.text is info about patterns.
 	 * @param text
-	 * @return boolean - true is a tag, false not.
+	 * @return boolean - true is patterns info, false not.
 	 */
-	public static boolean isAnnotation (Text text){
+	public static boolean isInfoPatterns (Text text){
 		for (Property property: text.getProperties()){
-			if ((property.getKey().equals("type")) && (property.getValue().equals(TYPE_ANNOTATION)))
+			if ((property.getKey().equals("type")) && (property.getValue().equals(TYPE_INFO_PATTERNS)))
 				return true;
 		}
 		return false;
@@ -188,6 +188,8 @@ public  class DiagramUtils {
 			
 			@Override
 			protected void doExecute() {
+  		  		DiagramUtils.paintPatternInfoText((DiagramBehavior)fp.getDiagramTypeProvider().getDiagramBehavior(), pack, "");
+
 				List<EClassifier> lc = pack.getEClassifiers();
 				for (int i = 0; i<lc.size();i=0){
 					EClassifier classif = lc.get(i);
@@ -242,7 +244,7 @@ public  class DiagramUtils {
 			@Override
 			protected void doExecute() {
 				
-	            DiagramUtils.initShowAnnotations(diagram);
+	            DiagramUtils.initPatternInfo(diagram);
 				
 				int x = 100, y= 100, lim_x = 1100;
 				
@@ -298,11 +300,8 @@ public  class DiagramUtils {
 					for (Diagram diagram: linkedDiagrams){
 						dp.init(diagram, dp.getDiagramBehavior());
 						drawDiagram(dp.getFeatureProvider(), ecoreDiagram);
-						try{
-							diagram.eResource().save(null);
-						}catch (IOException e) {
-							e.printStackTrace();
-						}
+						IResourceUtils.saveResource(diagram.eResource());
+						
 					}
 					
 					if (x<lim_x)x += 500;
@@ -496,9 +495,7 @@ public  class DiagramUtils {
 			if (cs != null) cs.setVisible(visibility);
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Static method that inserts a collapse reference text into the box that contains all the collapse references of the specified eclass.
 	 * @param diagram
@@ -685,7 +682,7 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that inits the mode expand in the specified shape.
+	 * Static method that initialises the mode expand in the specified shape.
 	 * @param shape
 	 */
 	public static void initMode (Shape shape){
@@ -765,7 +762,7 @@ public  class DiagramUtils {
 			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_NAME).setVisible(false);
 			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_BOUNDS).setVisible(false);
 			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_ORUNI).setVisible(false);
-			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_ANNOT).setVisible(false);
+			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_PATTERN).setVisible(false);
 			
 			getConnectionDecorator(con, DecoratorFigure.EREF_DECORATOR_DIR).setVisible(false);
 			if (eRef.isContainment()){
@@ -785,7 +782,7 @@ public  class DiagramUtils {
 				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_NAME_OP).setVisible(false);
 				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_BOUNDS_OP).setVisible(false);
 				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_ORUNI_OP).setVisible(false);
-				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_ANNOT_OP).setVisible(false);
+				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_PATTERN_OP).setVisible(false);
 				
 				getConnectionDecorator(conOp, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR).setVisible(false);
 				if (eRef.getEOpposite().isContainment()){
@@ -813,7 +810,7 @@ public  class DiagramUtils {
 			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_NAME).setVisible(true);
 			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_BOUNDS).setVisible(true);
 			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_ORUNI).setVisible(true);
-			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_ANNOT).setVisible(isShowAnnotations(diagram));
+			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_PATTERN).setVisible(isPatternInfo(diagram));
 			
 			getConnectionDecorator(con, DecoratorFigure.EREF_DECORATOR_DIR).setVisible(true);
 			if (eRef.isContainment()){
@@ -830,7 +827,7 @@ public  class DiagramUtils {
 				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_NAME_OP).setVisible(true);
 				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_BOUNDS_OP).setVisible(true);
 				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_ORUNI_OP).setVisible(true);
-				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_ANNOT_OP).setVisible(isShowAnnotations(diagram));
+				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_PATTERN_OP).setVisible(isPatternInfo(diagram));
 				
 				getConnectionDecorator(conOp, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR).setVisible(true);
 				if (eRef.getEOpposite().isContainment()){
@@ -868,8 +865,8 @@ public  class DiagramUtils {
 		
 		ResizeEClassFeature ref = new ResizeEClassFeature(fp);
         ResizeShapeContext rsContext = new ResizeShapeContext(shape);
-        rsContext.setWidth(DiagramStyles.CLASS_MIN_WIDTH);
-        rsContext.setHeight(DiagramStyles.CLASS_DEF_HEIGHT+10+heightReferences);
+        rsContext.setWidth(DiagramStyles.CLASS_MIN_WIDTH+50);
+        rsContext.setHeight(DiagramStyles.CLASS_DEF_HEIGHT+heightReferences);
         rsContext.setX((shape).getGraphicsAlgorithm().getX());
         rsContext.setY((shape).getGraphicsAlgorithm().getY());
         ref.resizeShape(rsContext);
@@ -899,7 +896,7 @@ public  class DiagramUtils {
 		
         //Annotations.
         Shape eAnnotationText = shapes.get(2);
-        eAnnotationText.setVisible(isShowAnnotations(fp.getDiagramTypeProvider().getDiagram()));
+        eAnnotationText.setVisible(isPatternInfo(fp.getDiagramTypeProvider().getDiagram()));
         
         Shape collapseReferenceText = shapes.get(4);
         collapseReferenceText.setVisible(false);
@@ -1048,7 +1045,6 @@ public  class DiagramUtils {
 		return eOpposite;
 	}
 	
-	
 	/**
 	 * Static method that create a epposite reference of the given reference with the opposite values
 	 * @param reference
@@ -1060,7 +1056,7 @@ public  class DiagramUtils {
 		EReference eOpposite = EcoreFactory.eINSTANCE.createEReference();
 		EClass sourceOpC = (EClass)reference.getEType();
 		EClass targetOpC = (EClass)reference.getEContainingClass();
-		eOpposite.setName(ModelUtils.getRefOpNameValid(sourceOpC));
+		eOpposite.setName(ModelUtils.getRefNameValid(sourceOpC, opposite.getName()));
 		eOpposite.setEType(targetOpC);
 		eOpposite.setLowerBound(opposite.getLowerBound());
 		eOpposite.setUpperBound(opposite.getUpperBound());
@@ -1086,8 +1082,6 @@ public  class DiagramUtils {
 		return eOpposite;
 	}
 
-	
-		
 	/**
 	 * Static method that inserts the specified text into the specified decorator.
 	 * @param pe
@@ -1247,24 +1241,24 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static methos that insert the specified anotations text into a decorator related to the specified EReference.
+	 * Static method that insert the specified pattern text into a decorator related to the specified EReference.
 	 * @param diagram
 	 * @param eRef
 	 * @param text - annotations text
 	 * @return connection decorator
 	 */
-	public static ConnectionDecorator setDecoratorAnnotationsText(Diagram diagram, EReference eRef, String text){
+	public static ConnectionDecorator setDecoratorPatternInfoText(Diagram diagram, EReference eRef, String text){
 		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(diagram, eRef);
 		Connection con = null;
 		if (pes.size()>0) {
 			con = ((Connection)pes.get(0));
-			return setDecoratorText(con, text, DecoratorText.EREF_DECORATOR_ANNOT);
+			return setDecoratorText(con, text, DecoratorText.EREF_DECORATOR_PATTERN);
 		}else {
 			EReference opp = eRef.getEOpposite();
 			List<PictogramElement> pesOpp = Graphiti.getLinkService().getPictogramElements(diagram, opp);
 			if (pesOpp.size()>0){
 				con = ((Connection)pesOpp.get(0));
-				return setDecoratorText(con, text, DecoratorText.EREF_DECORATOR_ANNOT_OP);
+				return setDecoratorText(con, text, DecoratorText.EREF_DECORATOR_PATTERN_OP);
 			}
 		}
 		return null;
@@ -1276,46 +1270,46 @@ public  class DiagramUtils {
 	 * @param eRef
 	 * @return text
 	 */
-	public static String getDecoratorAnnotationsText(Diagram diagram, EReference eRef){
+	public static String getDecoratorPatternInfoText(Diagram diagram, EReference eRef){
 		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(diagram, eRef);
 		Connection con = null;
 		if (pes.size()>0) {
 			con = ((Connection)pes.get(0));
-			return getDecoratorText(con, DecoratorText.EREF_DECORATOR_ANNOT);
+			return getDecoratorText(con, DecoratorText.EREF_DECORATOR_PATTERN);
 		}else {
 			EReference opp = eRef.getEOpposite();
 			List<PictogramElement> pesOpp = Graphiti.getLinkService().getPictogramElements(diagram, opp);
 			if (pesOpp.size()>0){
 				con = ((Connection)pesOpp.get(0));
-				return getDecoratorText(con, DecoratorText.EREF_DECORATOR_ANNOT_OP);
+				return getDecoratorText(con, DecoratorText.EREF_DECORATOR_PATTERN_OP);
 			}
 		}
 		return null;
 	}
 	
 	/**
-	 * Static method that returns the annotationtext related to the specified EAnnotation.
+	 * RUNTIMEPATTERNS
+	 * Static method that returns the pattern text related to the specified element.
 	 * @param diagram
-	 * @param eAnn
+	 * @param element EModelElement
 	 * @return text
 	 */
-	public static String getEAnnotationPictogramText (Diagram diagram, EAnnotation eAnn){	
-		if ((eAnn.getEModelElement() instanceof EClass) ||(eAnn.getEModelElement() instanceof EPackage)){
-			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eAnn.getEModelElement())){
+	public static String getPatternPictogramText (Diagram diagram, EModelElement element){	
+		if ((element instanceof EClass) ||(element instanceof EPackage)){
+			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, element)){
                 if (pe instanceof Shape) {
                 	if (pe.getGraphicsAlgorithm() instanceof Text){
 	                	Text textShape = (Text) pe.getGraphicsAlgorithm();					                   
-	                    if (DiagramUtils.isAnnotation(textShape)){
+	                    if (DiagramUtils.isInfoPatterns(textShape)){
 	                    	return textShape.getValue();
 	                    }   
                 	}
-
 				}
 			}
-		} else if (eAnn.getEModelElement() instanceof EReference){
-			return DiagramUtils.getDecoratorAnnotationsText(diagram, (EReference)eAnn.getEModelElement());
+		} else if (element instanceof EReference){
+			return DiagramUtils.getDecoratorPatternInfoText(diagram, (EReference)element);
 			
-		} else if (eAnn.getEModelElement() instanceof EAttribute){
+		} else if (element instanceof EAttribute){
 			return "";
 		} 
 		return null;
@@ -1324,23 +1318,23 @@ public  class DiagramUtils {
 	/**
 	 * Static method that returns the pictogram element to draw the specified annotation text.
 	 * @param diagram
-	 * @param eAnn
+	 * @param element EModelElement
 	 * @return pictogram element
 	 */
-	public static PictogramElement getEAnnotationPictogram (Diagram diagram, EAnnotation eAnn){	
-		if (((eAnn.getEModelElement() instanceof EClass)||(eAnn.getEModelElement() instanceof EPackage))){
-			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eAnn.getEModelElement())){
+	public static PictogramElement getPatternInfoPictogram (Diagram diagram, EModelElement element){	
+		if (((element instanceof EClass)||(element instanceof EPackage))){
+			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, element)){
                 if (pe instanceof Shape) {
                 	if (pe.getGraphicsAlgorithm() instanceof Text){
                 	Text textShape = (Text) pe.getGraphicsAlgorithm();					                   
-	                    if (DiagramUtils.isAnnotation(textShape)){
+	                    if (DiagramUtils.isInfoPatterns(textShape)){
 	                    	return pe;
 	                    }  
                 	}
 				}
 			}
-		} else if (eAnn.getEModelElement() instanceof EAttribute){
-			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eAnn.getEModelElement())){
+		} else if (element instanceof EAttribute){
+			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, element)){
                 if (pe instanceof ContainerShape) return pe;
 			}
 		} 
@@ -1348,31 +1342,37 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that draw the annotation text of the specified EAnnotation.
+	 * Static method that draw the text on the specified element.
 	 * @param diagram
-	 * @param eAnn
-	 * @param text
+	 * @param element EModelElement
+	 * @param text pattern text
 	 * @return pictogramElement
 	 */
-	public static PictogramElement paintEAnnotationText (Diagram diagram, EAnnotation eAnn, String text){	
-		if (((eAnn.getEModelElement() instanceof EClass)||(eAnn.getEModelElement() instanceof EPackage))&& (text!=null)){
-			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eAnn.getEModelElement())){
+	public static PictogramElement paintPatternInfoText (DiagramBehavior diagramB, EModelElement element, String text){	
+		Diagram diagram = diagramB.getDiagramTypeProvider().getDiagram();
+		if (((element instanceof EClass)||(element instanceof EPackage))&& (text!=null)){
+			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, element)){
                 if (pe instanceof Shape) {
                 	if (pe.getGraphicsAlgorithm() instanceof Text){
                 	Text textShape = (Text) pe.getGraphicsAlgorithm();					                   
-	                    if (DiagramUtils.isAnnotation(textShape)){
+	                    if (DiagramUtils.isInfoPatterns(textShape)){
 	                    	textShape.setValue(text);
+	                    	if ((element instanceof EPackage)&& (text.isEmpty())){
+	                    		DeleteContext dc = new DeleteContext(((Shape)pe).getContainer());
+	                    		DefaultDeleteFeature ddf = new DefaultDeleteFeature(diagramB.getDiagramTypeProvider().getFeatureProvider());
+	                    		ddf.execute(dc);
+	                    	}
 	                    	return pe;
 	                    }  
                 	}
 				}
 			}
-		} else if ((eAnn.getEModelElement() instanceof EReference) && (text != null)){
-			ConnectionDecorator cd = DiagramUtils.setDecoratorAnnotationsText(diagram, (EReference)eAnn.getEModelElement(), text);
+		} else if ((element instanceof EReference) && (text != null)){
+			ConnectionDecorator cd = DiagramUtils.setDecoratorPatternInfoText(diagram, (EReference)element, text);
 			return cd;
 			
-		}else if (eAnn.getEModelElement() instanceof EAttribute){
-			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eAnn.getEModelElement())){
+		}else if (element instanceof EAttribute){
+			for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, element)){
                 if (pe instanceof ContainerShape) return pe;
 			}
 		} 
@@ -1380,37 +1380,37 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that inits the mode show_annotations in the specified shape.
+	 * Static method that initialises the mode show_pattern_info in the specified shape.
 	 * @param shape
 	 */
-	public static void initShowAnnotations (Shape shape){
+	public static void initPatternInfo (Shape shape){
 		Property marker  = MmFactory.eINSTANCE.createProperty();
-		marker.setKey(SHOW_ANNOTATIONS);
+		marker.setKey(SHOW_PATTERN_INFO);
 		marker.setValue(String.valueOf(true));		
 		shape.getProperties().add(marker);
 	}
 	
 	/**
-	 * Static method that returns if the specified shape is showing the annotations.
+	 * Static method that returns if the specified shape is showing the pattern information.
 	 * @param shape
-	 * @return true if the annotations are showed, false it not.
+	 * @return true if the pattern information is showed, false it not.
 	 */
-	public static boolean isShowAnnotations (Shape shape){
+	public static boolean isPatternInfo (Shape shape){
 		for (Property property: shape.getProperties()){
-			if ((property.getKey().equals(SHOW_ANNOTATIONS)) && (property.getValue().equals(String.valueOf(true))))
+			if ((property.getKey().equals(SHOW_PATTERN_INFO)) && (property.getValue().equals(String.valueOf(true))))
 				return true;
 		}
 		return false;
 	}
 	
 	/**
-	 * Static method that inserts the mode show_annotations (true/false)into the specified shape
+	 * Static method that inserts the mode show_pattern_info (true/false)into the specified shape
 	 * @param shape
 	 * @param show
 	 */
-	public static void setShowAnnotations (Shape shape, boolean show){
+	public static void setPatternInfo (Shape shape, boolean show){
 		for (Property p : shape.getProperties()){
-			if (p.getKey().compareTo(SHOW_ANNOTATIONS)==0){
+			if (p.getKey().compareTo(SHOW_PATTERN_INFO)==0){
 				p.setValue(String.valueOf(show));
 				break;
 			}
@@ -1418,11 +1418,11 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that hides the annotations of the specified shape of an Eclass
+	 * Static method that hides the pattern information of the specified shape of an Eclass
 	 * @param shape
 	 * @param fp
 	 */
-	public static void hideAnnotationsEClass (ContainerShape shape, IFeatureProvider fp){        
+	public static void hidePatternInfoEClass (ContainerShape shape, IFeatureProvider fp){        
         List<Shape> shapes = shape.getChildren();    		
 		
         Shape eAnnotationText = shapes.get(2);
@@ -1431,11 +1431,11 @@ public  class DiagramUtils {
 	}
 
 	/**
-	 * Static method that shows the annotations of the specified shape of an Eclass
+	 * Static method that shows the pattern information of the specified shape of an Eclass
 	 * @param shape
 	 * @param fp
 	 */
-	public static void showAnnotationsEClass (ContainerShape shape, IFeatureProvider fp){
+	public static void showPatternInfoEClass (ContainerShape shape, IFeatureProvider fp){
         List<Shape> shapes = shape.getChildren();    		
 		
         Shape eAnnotationText = shapes.get(2);
@@ -1444,49 +1444,47 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * static method that hides the annotations of the specified EReference.
+	 * static method that hides the pattern information of the specified EReference.
 	 * @param eRef
 	 */
-	public static void hideAnnotationsEReference (Diagram diagram, EReference eRef){
+	public static void hidePatternInfoEReference (Diagram diagram, EReference eRef){
 		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(diagram, eRef);
 		Connection con = null;
 		if (pes.size()>0) {
 			con = ((Connection)pes.get(0));	
-			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_ANNOT).setVisible(false);
+			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_PATTERN).setVisible(false);
 			
 		} else {
 			List<PictogramElement> pesOp = Graphiti.getLinkService().getPictogramElements(diagram, eRef.getEOpposite());
 			Connection conOp = null;
 			if (pesOp.size()>0) {
 				conOp = ((Connection)pesOp.get(0));	
-				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_ANNOT_OP).setVisible(false);
+				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_PATTERN_OP).setVisible(false);
 			}
 		}
 	}
 		
 	/**
-	 * Static method that shows the annotations of the specified EReference
+	 * Static method that shows the pattern information of the specified EReference
 	 * @param diagram
 	 * @param eRef
 	 */
-	public static void showAnnotationsEReference (Diagram diagram, EReference eRef){
+	public static void showPatternInfoEReference (Diagram diagram, EReference eRef){
 		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(diagram, eRef);
 		Connection con = null;
 		if (pes.size()>0) {
 			con = ((Connection)pes.get(0));			
-			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_ANNOT).setVisible(true);
+			getConnectionDecorator(con, DecoratorText.EREF_DECORATOR_PATTERN).setVisible(true);
 		} else {
 			List<PictogramElement> pesOp = Graphiti.getLinkService().getPictogramElements(diagram, eRef.getEOpposite());
 			Connection conOp = null;
 			if (pesOp.size()>0) {
 				conOp = ((Connection)pesOp.get(0));	
-				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_ANNOT_OP).setVisible(true);
+				getConnectionDecorator(conOp, DecoratorText.EREF_DECORATOR_PATTERN_OP).setVisible(true);
 			}
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Static method that returns the diagrams contained on the specified iprojetc.
 	 * @param p

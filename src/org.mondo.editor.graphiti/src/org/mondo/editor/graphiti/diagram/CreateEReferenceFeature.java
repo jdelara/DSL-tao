@@ -20,9 +20,15 @@ import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
  *
  */
 public class CreateEReferenceFeature extends AbstractCreateConnectionFeature {
-
+	
+	private String rootName = null;
 	public CreateEReferenceFeature(IFeatureProvider fp) {
 		super(fp, "Association", "adds a new association");
+	}
+	
+	public CreateEReferenceFeature(IFeatureProvider fp, String rootName) {
+		super(fp, "Association", "adds a new association");
+		this.rootName = rootName;
 	}
 	
 	@Override
@@ -49,8 +55,6 @@ public class CreateEReferenceFeature extends AbstractCreateConnectionFeature {
 		PictogramElement source = context.getSourceAnchor().getParent();
 		PictogramElement target = context.getTargetAnchor().getParent();
 		
-		
-		
 		EClass sourceC = (EClass)getBusinessObjectForPictogramElement(source);
 		EClass targetC = (EClass)getBusinessObjectForPictogramElement(target);
  
@@ -74,7 +78,15 @@ public class CreateEReferenceFeature extends AbstractCreateConnectionFeature {
 	
     private EReference createEReference(EClass source, EClass target) {
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
-        eReference.setName(ModelUtils.getRefNameValid(source));
+        
+		String name = "";
+		if (this.rootName == null) name = ModelUtils.getRefNameValid(source);
+		else name = ModelUtils.getRefNameValid(source, rootName);
+        
+        eReference.setName(name);
+        
+        
+        
         eReference.setEType(target);
         source.getEStructuralFeatures().add(eReference);
         return eReference;
@@ -82,7 +94,12 @@ public class CreateEReferenceFeature extends AbstractCreateConnectionFeature {
     
     private EReference createEReference(EClass source, EClass target, EReference ref) {
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
-        eReference.setName(ModelUtils.getRefNameValid(source));
+        
+        String name = "";
+		if (this.rootName == null) name = ModelUtils.getRefNameValid(source);
+		else name = ModelUtils.getRefNameValid(source, rootName);
+        eReference.setName(name);
+        
         eReference.setEType(target);
         
         eReference.setContainment(ref.isContainment());

@@ -14,7 +14,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_KGVK0XChEeS4g9xdH6vA-w" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="dslPatterns.ecore#//PatternSet"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KGVK0nChEeS4g9xdH6vA-w" x="816" y="833"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KGVK0nChEeS4g9xdH6vA-w" x="483" y="756"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_KGY1MHChEeS4g9xdH6vA-w" type="1001">
     <children xmi:type="notation:Node" xmi:id="_KGY1M3ChEeS4g9xdH6vA-w" type="4001"/>

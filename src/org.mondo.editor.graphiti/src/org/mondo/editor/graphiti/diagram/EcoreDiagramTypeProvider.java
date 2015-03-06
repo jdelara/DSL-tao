@@ -87,4 +87,5 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 		}
 		}
 	}
+
 }

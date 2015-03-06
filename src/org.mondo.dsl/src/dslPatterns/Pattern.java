@@ -3,6 +3,7 @@
 package dslPatterns;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link dslPatterns.Pattern#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getServices <em>Services</em>}</li>
+ *   <li>{@link dslPatterns.Pattern#getMaxInstances <em>Max Instances</em>}</li>
  * </ul>
  * </p>
  *
@@ -118,5 +120,32 @@ public interface Pattern extends EObject {
 	 * @generated
 	 */
 	EList<Service> getServices();
+
+	/**
+	 * Returns the value of the '<em><b>Max Instances</b></em>' attribute.
+	 * The default value is <code>"-1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Max Instances</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Max Instances</em>' attribute.
+	 * @see #setMaxInstances(int)
+	 * @see dslPatterns.DslPatternsPackage#getPattern_MaxInstances()
+	 * @model default="-1" required="true"
+	 * @generated
+	 */
+	int getMaxInstances();
+
+	/**
+	 * Sets the value of the '{@link dslPatterns.Pattern#getMaxInstances <em>Max Instances</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Max Instances</em>' attribute.
+	 * @see #getMaxInstances()
+	 * @generated
+	 */
+	void setMaxInstances(int value);
 
 } // Pattern

@@ -27,44 +27,63 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="org.mondo.editor.ui"
+            id="org.mondo.editor.ui.MondoCategory"
             name="Mondo">
       </category>
       <wizard
-            category="org.mondo.editor.ui"
+            category="org.mondo.editor.ui.MondoCategory"
             class="org.mondo.editor.ui.wizards.NewMondoDiagramWizard"
             icon="icons/mondo.gif"
             id="org.mondo.editor.ui.wizards.MondoDiagramWizard"
             name="Mondo Diagram">
       </wizard>
+      <wizard
+            category="org.mondo.editor.ui.MondoCategory"
+            class="org.mondo.editor.ui.wizards.NewMondoProjectWizard"
+            icon="icons/mondo.gif"
+            id="org.mondo.editor.ui.wizards.MondoProjectWizard"
+            name="Mondo Project">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <category
-            id="org.mondo.editor.ui"
-            name="Mondo Patterns Category">
+            id="org.mondo.editor.ui.views.mondoPatternsCategory"
+            name="Mondo Patterns">
       </category>
       <view
-            category="org.mondo.editor.ui"
+            category="org.mondo.editor.ui.views.mondoPatternsCategory"
             class="org.mondo.editor.ui.views.PatternsView"
             icon="icons/patternsView.gif"
             id="org.mondo.editor.ui.views.PatternsView"
             name="Patterns View">
       </view>
       <view
-            category="org.mondo.editor.ui"
+            category="org.mondo.editor.ui.views.mondoPatternsCategory"
             class="org.mondo.editor.ui.views.AppliedPatternsView"
             icon="icons/appliedPatternsView.gif"
             id="org.mondo.editor.ui.views.AppliedPatternsView"
             name="Applied Patterns View">
       </view>
       <view
-            category="org.mondo.editor.ui"
+            category="org.mondo.editor.ui.views.mondoPatternsCategory"
             class="org.mondo.editor.ui.views.PatternServicesView"
             icon="icons/appliedPatternsView.gif"
             id="org.mondo.editor.ui.views.PatternServicesView"
             name="Pattern Services View">
       </view>
+      <view
+            category="org.mondo.editor.ui.views.MondoVisualizationCategory"
+            class="org.mondo.editor.ui.views.LayersView"
+            icon="icons/layersView.gif"
+            id="org.mondo.editor.ui.views.LayersView"
+            name="Layers View"
+            restorable="true">
+      </view>
+      <category
+            id="org.mondo.editor.ui.views.MondoVisualizationCategory"
+            name="Mondo Visualization">
+      </category>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -110,6 +129,16 @@
             </and>
          </enablement>
       </decorator>
+   </extension>
+   <extension
+         id="mondoNature"
+         name="Mondo Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.mondo.editor.ui.MondoNature">
+         </run>
+      </runtime>
    </extension>
 
 </plugin>

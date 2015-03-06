@@ -1,9 +1,9 @@
 package org.mondo.editor.ui.utils.services;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import runtimeServices.DisconnectedElement;
+import runtimeServices.ServiceInstance;
 import serviceInterfaces.Interface;
 
 import dslPatterns.Pattern;
@@ -15,89 +15,81 @@ import dslPatterns.Service;
  * Pattern: pattern object applied
  * Activated: boolean to indicate if the user has decided if the service is going to be used
  * Service: service object 
- * Missing: map with information about missing interfaces and the patterns that implement them
+ * Missing: list with information about missing interfaces and the patterns that implement them
  * 
  * @author miso partner AnaPescador
  * */
 public class PatternServiceInfo {
-	
+		
 	private String patternName;
 	private Pattern pattern;
-	private boolean activated;
-	private Service service;
-	private Map<Interface, List<Pattern>> missing;
-	
-	
+	private ServiceInstance serviceInstance;
 	
 	public String getPatternName() {
 		return patternName;
 	}
 
-	public void setPatternName(String pattern) {
-		this.patternName = pattern;
-	}
-	
 	public Pattern getPattern() {
 		return pattern;
 	}
 
-	public void setPattern(Pattern pattern) {
-		this.pattern = pattern;
-	}
-
 	public boolean isActivated() {
-		return activated;
+		return serviceInstance.isActivated();
 	}
 
 	public void setActivated(boolean activated) {
-		this.activated = activated;
+		serviceInstance.setActivated(activated);
 	}
 	
 	public Service getService() {
-		return service;
+		return serviceInstance.getService();
 	}
 
-	public void setService(Service service) {
-		this.service = service;
+	public ServiceInstance getServiceInstance(){
+		return serviceInstance;
 	}
-
-
 
 	public String getName() {
-		return service.getName();
+		return getService().getName();
 	}
 
-	public Map<Interface, List<Pattern>> getMissing() {
-		return missing;
+	public List<DisconnectedElement> getMissing() {
+		return serviceInstance.getDisconnectedElements();
 	}
 
-	public void setMissing(Map<Interface, List<Pattern>> missing) {
-		this.missing = missing;
+	public void addMissing(Interface interf, List<Pattern> patterns) {
+		RuntimeServicesModelUtils.addDisconnectedElement(serviceInstance, interf, patterns);
 	}
-
-		
+	
+	public void removeMissing(DisconnectedElement de) {
+		RuntimeServicesModelUtils.removeDisconnectedElement(serviceInstance, de);
+	}
+	
 	public String getMissingText(){
 		String cad = "";
-		for (Interface interf : this.getMissing().keySet()){
-			cad += (cad.isEmpty()?"":" ,")+interf.getQName();
+		for (DisconnectedElement de : getMissing()){
+			cad += (cad.isEmpty()?"":" ,")+de.getInterface().getQName();
 		}
 		return cad; 
 	}
 	
 	public String getOfferedByText(){
 		String cad = "";
-		for (Interface interf : this.getMissing().keySet()){
-			for (Pattern pattern: this.getMissing().get(interf)){
+		
+		for (DisconnectedElement de: getMissing()){
+			for (Pattern pattern: de.getPatterns()){
 				cad += (cad.isEmpty()?"":" ,")+pattern.getName();
 			}
-			cad += "("+interf.getQName()+") ";
+			cad += "("+de.getInterface().getQName()+") ";
 		}
 		return cad;
 	}
 
 	
-	public PatternServiceInfo() {
-		this.missing = new HashMap<Interface, List<Pattern>>();
+	public PatternServiceInfo(String patternName, Pattern pattern, ServiceInstance si) {
+		this.patternName = patternName;
+		this.pattern = pattern;
+		this.serviceInstance = si;
 	}
 
 }

@@ -26,6 +26,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 
+import runtimePatterns.PatternInstances;
+
 /**
  * Class of utility functions to work with emf ecore.
  * 
@@ -46,12 +48,12 @@ public  class ModelUtils {
             // if EPackage does not exist, create new one
             if (pack == null) {
                 pack = EcoreFactory.eINSTANCE.createEPackage();
-        		pack.setName("");
+        		pack.setName(diagram.getName());
 	            pack.setNsPrefix("");
-	            pack.setNsURI("");
+	            pack.setNsURI("http://mondo.org/"+diagram.getName());
 	            diagram.eResource().getContents().add(pack);
 	            
-	            DiagramUtils.initShowAnnotations(diagram);
+	            DiagramUtils.initPatternInfo(diagram);
             }
         }
         return pack;
@@ -106,18 +108,35 @@ public  class ModelUtils {
 	}
 	
 	/**
-	 * Static method that stores a metamodel  on a resourse.
+	 * Static method that stores a meta-model  on a resource.
 	 * @param path  of the resource
-	 * @param rootElement metamodel
+	 * @param rootElement meta-model
 	 * @throws IOException
 	 */
-	public static void saveModel(String path, EPackage rootElement) throws IOException	{
+	public static void saveModel(String path, EObject rootElement) throws IOException	{
 		ResourceSet metaResourceSet = new ResourceSetImpl();
 		Resource metaResource = metaResourceSet.createResource(URI.createURI(path));	
 		metaResource.getContents().add(rootElement);
-		metaResource.save(null);
-		
+		IResourceUtils.saveResource(metaResource);
 	} 
+	
+	/**
+	 * Static method that returns the pattern model stored on the diagram
+	 * @param diagram
+	 * @return the object if exists, null if it doesn't exist.
+	 */
+	public static EObject getPatternsModel (Diagram diagram){
+		ResourceSet rs =diagram.eResource().getResourceSet();
+		List<Resource> res = rs.getResources();
+		if (res.size()>=1){
+			for (EObject obj:res.get(0).getContents() ){
+				if (obj instanceof PatternInstances){
+					return obj;
+				}
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Static method that returns the ePackage contained on the specified path. 
@@ -193,6 +212,16 @@ public  class ModelUtils {
 	 */
 	public static String getClassNameValid(Diagram diagram){
 		String name = "EClass";
+		return getClassNameValid(diagram, name);
+	}
+	
+	/**
+	 * Static method that returns a valid eClass name.
+	 * @param diagram
+	 * @param name rootName
+	 * @return String - name.
+	 */
+	public static String getClassNameValid(Diagram diagram, String name){
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
@@ -308,11 +337,21 @@ public  class ModelUtils {
 	
 	/**
 	 * Static method that returns an valid eAttribute name.
-	 * @param eClass - eattribute container
+	 * @param eClass - eAttribute container
 	 * @return String - name.
 	 */
 	public static String getAttNameValid(EClass eClass){
 		String name = "EAttribute";
+		return getAttNameValid(eClass,name);
+	}
+	
+	/**
+	 * Static method that returns an valid eAttribute name.
+	 * @param eClass - eAttribute container
+	 * @param name - rootName
+	 * @return String - name.
+	 */
+	public static String getAttNameValid(EClass eClass, String name){
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
@@ -376,6 +415,16 @@ public  class ModelUtils {
 	 */
 	public static String getRefNameValid(EClass eClass){
 		String name = "ERef";
+		return getRefNameValid(eClass, name);
+	}
+	
+	/**
+	 * Static method that returns a valid EReference name.
+	 * @param eClass
+	 * @param name rootName
+	 * @return String - name.
+	 */
+	public static String getRefNameValid(EClass eClass, String name){
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
@@ -385,6 +434,7 @@ public  class ModelUtils {
 		return name+cont;
 	}
 	
+	
 	/**
 	 * Static method that returns a valid eReference name.
 	 * @param eClass - eclass container
@@ -392,13 +442,7 @@ public  class ModelUtils {
 	 */
 	public static String getRefOpNameValid(EClass eClass){
 		String name = "EOpp";
-		boolean enc = true;
-		int cont = -1;
-		while (enc){
-			cont++;
-			enc = existsRefName(eClass, name+cont);
-		}
-		return name+cont;
+		return getRefNameValid(eClass, name);
 	}
 	
 	
@@ -621,36 +665,17 @@ public  class ModelUtils {
 	}
 	
 	/**
-	 * Static method that returns the list of annotations,pattern names, applied to the specified diagram
-	 * @param diagram
-	 * @return list of annotations
-	 */
-	public static List<EAnnotation> getAllAppliedPatterns (Diagram diagram){
-		EPackage ecoreDiagram = ModelUtils.getBusinessModel(diagram);
-		List<EAnnotation> annots = new ArrayList<EAnnotation>();
-		for (EAnnotation element : ecoreDiagram.getEAnnotations()){
-			if (Graphiti.getLinkService().getPictogramElements(diagram, (EAnnotation) element).size()>0){
-				annots.add(element);
-			}
-		}	
-		return annots;		
-	}
-	
-	/**
 	 * Static method that returns the list of applied patterns, if the pattern has been applied twice only returns one.
 	 * @param diagram
 	 * @return list of pattern names (without the enumeration)
 	 */
 	public static List<String> getAppliedPatternNames (Diagram diagram){
 		List<String> patterns = new ArrayList<String>();
-		if (ModelUtils.existsPackage(diagram)){
-			EPackage ecoreDiagram = ModelUtils.getBusinessModel(diagram);
-			for (EAnnotation element : ecoreDiagram.getEAnnotations()){
-				if (Graphiti.getLinkService().getPictogramElements(diagram, (EAnnotation) element).size()>0){
-					String patternName = element.getSource().replaceAll("\\d","");
-					if (!patterns.contains(patternName)) patterns.add(patternName);
-				}
-			}	
+		
+		String patternsS = DiagramUtils.getPatternPictogramText(diagram, getBusinessModel(diagram));
+		if (patternsS != null)
+		for (String pattern: patternsS.split("\n")){
+			patterns.add(pattern.replace("@", ""));
 		}
 		return patterns;		
 	}

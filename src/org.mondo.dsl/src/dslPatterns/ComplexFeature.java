@@ -35,7 +35,7 @@ public interface ComplexFeature extends Variant {
 	 * @return the value of the '<em>Meta Model</em>' containment reference.
 	 * @see #setMetaModel(PatternMetaModel)
 	 * @see dslPatterns.DslPatternsPackage#getComplexFeature_MetaModel()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	PatternMetaModel getMetaModel();

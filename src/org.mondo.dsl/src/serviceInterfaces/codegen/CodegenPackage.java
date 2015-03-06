@@ -17,7 +17,6 @@ import serviceInterfaces.ServiceInterfacesPackage;
  * <ul>
  *   <li>each class,</li>
  *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
@@ -106,15 +105,6 @@ public interface CodegenPackage extends EPackage {
 	int INJECTOR_ACCEPTOR_INTERFACE_L1_FEATURE_COUNT = ServiceInterfacesPackage.INTERFACE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Injector Acceptor Interface L1</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INJECTOR_ACCEPTOR_INTERFACE_L1_OPERATION_COUNT = ServiceInterfacesPackage.INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.TransformationLibraryImpl <em>Transformation Library</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -150,15 +140,6 @@ public interface CodegenPackage extends EPackage {
 	 * @ordered
 	 */
 	int TRANSFORMATION_LIBRARY_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Transformation Library</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_LIBRARY_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.SlotPlugInterfaceL1Impl <em>Slot Plug Interface L1</em>}' class.
@@ -207,15 +188,6 @@ public interface CodegenPackage extends EPackage {
 	int SLOT_PLUG_INTERFACE_L1_FEATURE_COUNT = ServiceInterfacesPackage.INTERFACE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Slot Plug Interface L1</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLOT_PLUG_INTERFACE_L1_OPERATION_COUNT = ServiceInterfacesPackage.INTERFACE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.PointcutImpl <em>Pointcut</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -242,15 +214,6 @@ public interface CodegenPackage extends EPackage {
 	 * @ordered
 	 */
 	int POINTCUT_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Pointcut</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int POINTCUT_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.ClassPointcutImpl <em>Class Pointcut</em>}' class.
@@ -281,15 +244,6 @@ public interface CodegenPackage extends EPackage {
 	int CLASS_POINTCUT_FEATURE_COUNT = POINTCUT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Class Pointcut</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_POINTCUT_OPERATION_COUNT = POINTCUT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.MethodPoincutImpl <em>Method Poincut</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -316,15 +270,6 @@ public interface CodegenPackage extends EPackage {
 	 * @ordered
 	 */
 	int METHOD_POINCUT_FEATURE_COUNT = POINTCUT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Method Poincut</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METHOD_POINCUT_OPERATION_COUNT = POINTCUT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.ImportElementPointcutImpl <em>Import Element Pointcut</em>}' class.
@@ -355,15 +300,6 @@ public interface CodegenPackage extends EPackage {
 	int IMPORT_ELEMENT_POINTCUT_FEATURE_COUNT = POINTCUT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Import Element Pointcut</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_ELEMENT_POINTCUT_OPERATION_COUNT = POINTCUT_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.impl.StatementPoincutImpl <em>Statement Poincut</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -390,15 +326,6 @@ public interface CodegenPackage extends EPackage {
 	 * @ordered
 	 */
 	int STATEMENT_POINCUT_FEATURE_COUNT = POINTCUT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Statement Poincut</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATEMENT_POINCUT_OPERATION_COUNT = POINTCUT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link serviceInterfaces.codegen.CodeGenLanguage <em>Code Gen Language</em>}' enum.
@@ -591,7 +518,6 @@ public interface CodegenPackage extends EPackage {
 	 * <ul>
 	 *   <li>each class,</li>
 	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
 	 *   <li>each enum,</li>
 	 *   <li>and each data type</li>
 	 * </ul>

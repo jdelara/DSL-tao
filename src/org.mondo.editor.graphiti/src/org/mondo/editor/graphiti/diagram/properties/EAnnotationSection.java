@@ -9,7 +9,7 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
-import org.eclipse.graphiti.features.context.impl.CustomContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -33,7 +33,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.mondo.editor.graphiti.diagram.CreateEAnnotationEntryFeature;
-import org.mondo.editor.graphiti.diagram.CreateEAnnotationCustomFeature;
+import org.mondo.editor.graphiti.diagram.CreateEAnnotationFeature;
 import org.mondo.editor.graphiti.diagram.DeleteEAnnotationFeature;
 import org.mondo.editor.graphiti.diagram.properties.edit.AnnotationKeySupport;
 import org.mondo.editor.graphiti.diagram.properties.edit.AnnotationSourceSupport;
@@ -81,7 +81,6 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 		grpValues.setLayoutData(data);
 		grpValues.setLayout(null);
 		viewerValues = PropertiesUtils.createViewerValues(grpValues);
-		viewerValues.addSelectionChangedListener(listenerValue);
 		
 		Button btnAddValue = factory.createButton(grpValues, "Add", SWT.PUSH);
 		btnAddValue.setBounds(MARGEN_IZQ*2+ANCHO_LST*2,SEPARACION_VERTICAL+ALTO_LST/4, ANCHO_BTN, ALTO_BTN);
@@ -154,7 +153,6 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 	            EAnnotation annotation = (EAnnotation)sel.getFirstElement();            
 	            if (annotation!=null){
 		            viewerValues.setInput(annotation.getDetails());        
-		            btnDeleteAnnotation.setEnabled(!(Graphiti.getLinkService().getPictogramElements(getDiagram(), annotation).size()>0));
 	            }else  viewerValues.setInput(null);
 	            viewerValues.refresh();
 	        }
@@ -175,8 +173,10 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 			        domain.getCommandStack().execute(new RecordingCommand(domain) {
 						@Override
 						protected void doExecute() {
-							 CreateEAnnotationCustomFeature caf = new CreateEAnnotationCustomFeature(getDiagramTypeProvider().getFeatureProvider(), (EModelElement)bo);
-						     caf.execute(new CustomContext());
+						     CreateEAnnotationFeature caf = new CreateEAnnotationFeature(getDiagramTypeProvider().getFeatureProvider());
+						     CreateContext cc = new CreateContext();
+						     cc.setTargetContainer((ContainerShape)pe);
+						     caf.execute(cc);
 					         viewerSources.refresh();
 						}
 			        });
@@ -208,7 +208,6 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 						Iterator<EAnnotation> iterator = sel.iterator(); iterator.hasNext();) {
 			                final EAnnotation annotation = iterator.next();
 			               
-			                
 			                TransactionalEditingDomain domain = TransactionUtil.getEditingDomain((EModelElement)bo);
 					        domain.getCommandStack().execute(new RecordingCommand(domain) {
 								@Override
@@ -269,23 +268,7 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 		};
 	
 		
-		private ISelectionChangedListener listenerValue = new ISelectionChangedListener() {
 			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) { 
-		        TableViewer control = (TableViewer)event.getSource();    
-		        ISelection selection = control.getSelection();
-		        if (selection != null && selection instanceof IStructuredSelection) {
-		        	IStructuredSelection sel = (IStructuredSelection) selection; 
-		        	EStringToStringMapEntryImpl entry = (EStringToStringMapEntryImpl)sel.getFirstElement();            
-		            if (entry!=null){
-			            btnDeleteValue.setEnabled(!(Graphiti.getLinkService().getPictogramElements(getDiagram(), entry).size()>0));
-		            }
-		        }
-		    }	
-		  };	
-		
-		
 	
 	  private SelectionListener listenerDeleteValueAction = new SelectionListener() {
 			@Override
@@ -319,6 +302,5 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 				
 			}
 		};
-
 } 
 

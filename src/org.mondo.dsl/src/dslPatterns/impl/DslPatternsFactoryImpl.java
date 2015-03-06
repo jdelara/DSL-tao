@@ -28,7 +28,7 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	 */
 	public static DslPatternsFactory init() {
 		try {
-			DslPatternsFactory theDslPatternsFactory = (DslPatternsFactory)EPackage.Registry.INSTANCE.getEFactory(DslPatternsPackage.eNS_URI);
+			DslPatternsFactory theDslPatternsFactory = (DslPatternsFactory)EPackage.Registry.INSTANCE.getEFactory("http://mondo.org/dslPatterns"); 
 			if (theDslPatternsFactory != null) {
 				return theDslPatternsFactory;
 			}

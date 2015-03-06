@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -35,7 +36,7 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
     private boolean individualMode = true;
     
     /**
-     * @param fp
+     * @param fp - feature provider
      * @param patternName - name of the pattern 
      * @param individualMode boolean that says if the execution is isolated or not.
      */
@@ -61,7 +62,7 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
             	if (ModelUtils.existsPackage((Diagram) pes[0])){
-            		this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), this.patternName, ModelUtils.getBusinessModel((Diagram) pes[0]));
+            		this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), this.patternName);
             		return this.pi != null;
             	}
             }
@@ -73,14 +74,14 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
     public void execute(ICustomContext context) {   
 
 		EPackage mm = ModelUtils.getBusinessModel(getDiagram());
-						
-		ValidationInfo vi = EvaluateExtensionPoint.evaluateValidatePattern(this.pi, mm);
+		EObject patterns = ModelUtils.getPatternsModel(getDiagram());				
+		ValidationInfo vi = EvaluateExtensionPoint.evaluateValidatePattern(this.pi, patterns, patternName, mm);
     	
 		IDiagramTypeProvider dtp = getFeatureProvider().getDiagramTypeProvider();
-		
+		List<PictogramElement> pes = new ArrayList<>();
+
 
     	if (vi != null){
-    		List<PictogramElement> pes = new ArrayList<>();
     		if (!vi.noErrors()) {
     			Messages.displayValidateErrorMessage(this.patternName+" Validation","Errors have been found.");
     			if (dtp instanceof EcoreDiagramTypeProvider){ 
@@ -122,15 +123,25 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
 	    		}
     		else {
     			validate = true;
-    			if (individualMode) Messages.displayValidateSuccessfulMessage(this.patternName+" Validation"); 
+    			if (individualMode) {
+    				Messages.displayValidateSuccessfulMessage(this.patternName+" Validation"); 
+    				((EcoreDiagramTypeProvider)dtp).setValidationInfo(vi);
+        			pes.add(getDiagram());
+    			}
+    			
     		}
-
-    		DiagramUtils.selectPictograms(pes);	
     		
     	}else {
     		validate = true;
-    		if (individualMode) Messages.displayValidateSuccessfulMessage(this.patternName+" Validation");
+    		if (individualMode) {
+    			Messages.displayValidateSuccessfulMessage(this.patternName+" Validation");
+    			((EcoreDiagramTypeProvider)dtp).setValidationInfo(vi);
+        		pes.add(getDiagram());
+    		}
+    		
     	}
+		DiagramUtils.selectPictograms(pes);	
+
     }
  
     @Override

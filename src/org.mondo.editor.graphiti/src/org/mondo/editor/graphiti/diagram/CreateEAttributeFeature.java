@@ -17,8 +17,14 @@ import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
  */
 public class CreateEAttributeFeature extends AbstractCreateFeature {
 
+	private String rootName = null;
 	public CreateEAttributeFeature(IFeatureProvider fp) {
 		super(fp, "Attribute", "Create a new Attribute");
+	}
+	
+	public CreateEAttributeFeature(IFeatureProvider fp, String name) {
+		super(fp, "Attribute", "Create a new Attribute");
+		this.rootName = name;
 	}
 
 	@Override
@@ -32,8 +38,9 @@ public class CreateEAttributeFeature extends AbstractCreateFeature {
 		EAttribute newEAttribute =	EcoreFactory.eINSTANCE.createEAttribute();			
 		EClass eClass = (EClass) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
-		String name = null;
-		name = ModelUtils.getAttNameValid(eClass);
+		String name = "";
+		if (this.rootName == null) name = ModelUtils.getAttNameValid(eClass);
+		else name = ModelUtils.getAttNameValid(eClass, rootName);
 		newEAttribute.setName(name);
 		
 		newEAttribute.setEType(EcoreFactory.eINSTANCE.getEcorePackage().getEString());

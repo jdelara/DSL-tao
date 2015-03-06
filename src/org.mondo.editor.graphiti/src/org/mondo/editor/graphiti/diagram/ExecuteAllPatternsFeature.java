@@ -61,7 +61,6 @@ public class ExecuteAllPatternsFeature extends AbstractCustomFeature {
     	if (dtp instanceof EcoreDiagramTypeProvider){ 
 			((EcoreDiagramTypeProvider)dtp).setValidationInfo(null);
 		}
-    	
     	for (String pattern : ModelUtils.getAppliedPatternNames(getDiagram())){			
     		ExecutePatternFeature epf = new ExecutePatternFeature(getFeatureProvider(), pattern, false);
 			CustomContext cc = new CustomContext(new PictogramElement[]{getDiagram()});

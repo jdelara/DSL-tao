@@ -232,7 +232,7 @@ public class EReferenceEOppositeSection extends GFPropertySection implements ITa
 							DiagramUtils.setDecoratorText((Connection)pe, "", DecoratorText.EREF_DECORATOR_NAME_OP);
 							DiagramUtils.setDecoratorText((Connection)pe, "", DecoratorText.EREF_DECORATOR_BOUNDS_OP);
 							DiagramUtils.setDecoratorText((Connection)pe, "", DecoratorText.EREF_DECORATOR_ORUNI_OP);
-							DiagramUtils.setDecoratorText((Connection)pe, "", DecoratorText.EREF_DECORATOR_ANNOT_OP);
+							DiagramUtils.setDecoratorText((Connection)pe, "", DecoratorText.EREF_DECORATOR_PATTERN_OP);
 							
 							
 							DiagramUtils.deleteDecorator((Connection)pe, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR);

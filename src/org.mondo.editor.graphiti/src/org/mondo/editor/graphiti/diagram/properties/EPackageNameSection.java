@@ -1,6 +1,5 @@
 package org.mondo.editor.graphiti.diagram.properties;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.emf.ecore.EAnnotation;
@@ -36,6 +35,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
+import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
@@ -230,20 +230,13 @@ public class EPackageNameSection extends GFPropertySection implements ITabbedPro
 										dp.getFeatureProvider().link(pe,diagramsNewPictR.get(diagram).get(pe));
 									}
 									
-									try {
-										diagram.eResource().save(null);
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
+									IResourceUtils.saveResource(diagram.eResource());
+									
 								}
 							}
 								
 							getDiagramTypeProvider().getFeatureProvider().link(getDiagram(),  Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(getDiagram()));
-							try {
-								getDiagram().eResource().save(null);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
+							IResourceUtils.saveResource(getDiagram().eResource());
 						}
 					});
 				}

@@ -7,7 +7,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import serviceInterfaces.codegen.CodeGenLanguage;
 import serviceInterfaces.codegen.CodegenPackage;
@@ -27,7 +27,7 @@ import serviceInterfaces.codegen.TransformationLibrary;
  *
  * @generated
  */
-public class TransformationLibraryImpl extends MinimalEObjectImpl.Container implements TransformationLibrary {
+public class TransformationLibraryImpl extends EObjectImpl implements TransformationLibrary {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->

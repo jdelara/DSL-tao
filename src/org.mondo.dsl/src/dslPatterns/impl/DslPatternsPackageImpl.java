@@ -26,17 +26,29 @@ import dslPatterns.Service;
 import dslPatterns.SimpleFeature;
 import dslPatterns.Slot;
 import dslPatterns.Variant;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import runtimePatterns.RuntimePatternsPackage;
+import runtimePatterns.impl.RuntimePatternsPackageImpl;
+import runtimeServices.RuntimeServicesPackage;
+import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.ServiceInterfacesPackage;
+
 import serviceInterfaces.codegen.CodegenPackage;
+
 import serviceInterfaces.codegen.impl.CodegenPackageImpl;
+
 import serviceInterfaces.impl.ServiceInterfacesPackageImpl;
+
 import serviceInterfaces.modelingenv.ModelingenvPackage;
+
 import serviceInterfaces.modelingenv.impl.ModelingenvPackageImpl;
 
 /**
@@ -247,18 +259,21 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		RuntimeServicesPackageImpl theRuntimeServicesPackage = (RuntimeServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) instanceof RuntimeServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) : RuntimeServicesPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
 		CodegenPackageImpl theCodegenPackage = (CodegenPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) instanceof CodegenPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) : CodegenPackage.eINSTANCE);
 		ModelingenvPackageImpl theModelingenvPackage = (ModelingenvPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) instanceof ModelingenvPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) : ModelingenvPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theDslPatternsPackage.createPackageContents();
+		theRuntimeServicesPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
 		theCodegenPackage.createPackageContents();
 		theModelingenvPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theDslPatternsPackage.initializePackageContents();
+		theRuntimeServicesPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
 		theCodegenPackage.initializePackageContents();
 		theModelingenvPackage.initializePackageContents();
@@ -378,6 +393,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EReference getPattern_Services() {
 		return (EReference)patternEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPattern_MaxInstances() {
+		return (EAttribute)patternEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -845,6 +869,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		createEAttribute(patternEClass, PATTERN__NAME);
 		createEAttribute(patternEClass, PATTERN__DESCRIPTION);
 		createEReference(patternEClass, PATTERN__SERVICES);
+		createEAttribute(patternEClass, PATTERN__MAX_INSTANCES);
 
 		serviceEClass = createEClass(SERVICE);
 		createEAttribute(serviceEClass, SERVICE__NAME);
@@ -959,13 +984,13 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		featureInstanceEClass.getESuperTypes().add(this.getFeatureInterface());
 		referenceInterfaceEClass.getESuperTypes().add(this.getMMInterface());
 
-		// Initialize classes, features, and operations; add parameters
+		// Initialize classes and features; add operations and parameters
 		initEClass(patternSetEClass, PatternSet.class, "PatternSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPatternSet_Categories(), this.getCategory(), null, "categories", null, 0, -1, PatternSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(categoryEClass, Category.class, "Category", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCategory_Name(), ecorePackage.getEString(), "name", null, 1, 1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCategory_Description(), ecorePackage.getEString(), "description", null, 1, 1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCategory_Description(), ecorePackage.getEString(), "description", null, 0, 1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCategory_Subcategories(), this.getCategory(), null, "subcategories", null, 0, -1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getCategory_Patterns(), this.getPattern(), null, "patterns", null, 0, -1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
@@ -974,6 +999,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEAttribute(getPattern_Name(), ecorePackage.getEString(), "name", null, 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_Description(), ecorePackage.getEString(), "description", null, 0, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPattern_Services(), this.getService(), null, "services", null, 0, -1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPattern_MaxInstances(), ecorePackage.getEInt(), "maxInstances", "-1", 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getService_Name(), ecorePackage.getEString(), "name", null, 1, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -997,13 +1023,13 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 
 		initEClass(variantEClass, Variant.class, "Variant", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVariant_Name(), ecorePackage.getEString(), "name", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVariant_Description(), ecorePackage.getEString(), "description", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVariant_Description(), ecorePackage.getEString(), "description", null, 0, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(simpleFeatureEClass, SimpleFeature.class, "SimpleFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSimpleFeature_FeatureKind(), this.getFeatureKind(), "featureKind", null, 1, 1, SimpleFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(complexFeatureEClass, ComplexFeature.class, "ComplexFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getComplexFeature_MetaModel(), this.getPatternMetaModel(), null, "metaModel", null, 1, 1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComplexFeature_MetaModel(), this.getPatternMetaModel(), null, "metaModel", null, 0, 1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComplexFeature_AndChildren(), this.getVariant(), null, "andChildren", null, 0, -1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComplexFeature_OrChildren(), this.getVariant(), null, "orChildren", null, 0, -1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComplexFeature_XorChildren(), this.getVariant(), null, "xorChildren", null, 0, -1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1021,10 +1047,10 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEReference(getMetaModel_Mmreference(), ecorePackage.getEPackage(), null, "mmreference", null, 0, -1, MetaModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(mmInterfaceEClass, MMInterface.class, "MMInterface", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMMInterface_Icon(), ecorePackage.getEString(), "icon", null, 1, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMMInterface_Icon(), ecorePackage.getEString(), "icon", null, 0, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMMInterface_MinCard(), ecorePackage.getEBigInteger(), "minCard", null, 1, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMMInterface_MaxCard(), ecorePackage.getEBigInteger(), "maxCard", null, 1, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMMInterface_Constraint(), ecorePackage.getEString(), "constraint", null, 1, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMMInterface_Constraint(), ecorePackage.getEString(), "constraint", null, 0, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classInterfaceEClass, ClassInterface.class, "ClassInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassInterface_Ref(), ecorePackage.getEClass(), null, "ref", null, 0, -1, ClassInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1067,8 +1093,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		  (this, 
 		   source, 
 		   new String[] {
-			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/",
-			 "servInt", "http://mondo.org/serviceInterfaces#/"
+			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
 		   });		
 	}
 

@@ -4,7 +4,7 @@ package serviceInterfaces.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import serviceInterfaces.Packageable;
 import serviceInterfaces.ServiceInterfacesPackage;
@@ -18,7 +18,7 @@ import serviceInterfaces.ServiceInterfacesPackage;
  *
  * @generated
  */
-public abstract class PackageableImpl extends MinimalEObjectImpl.Container implements Packageable {
+public abstract class PackageableImpl extends EObjectImpl implements Packageable {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

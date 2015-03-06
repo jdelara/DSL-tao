@@ -1,15 +1,10 @@
 package org.mondo.editor.ui.utils.dragdrop;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EAttributeImpl;
-import org.eclipse.emf.ecore.impl.EClassImpl;
-import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
-import org.mondo.editor.ui.utils.PatternUtils;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInterface;
@@ -27,7 +22,6 @@ public class MMInterfaceRelDiagram {
 
 	private MMInterface mmInterface;
 	private String elementDiagram;
-	private EAnnotation annotation;
 	private int order;
 	private int orderPointer = 0;
 
@@ -46,14 +40,6 @@ public class MMInterfaceRelDiagram {
 
 	public void setElementDiagram(String elementDiagram) {
 		this.elementDiagram = elementDiagram;
-	}
-	
-	public EAnnotation getAnnotation() {
-		return annotation;
-	}
-
-	public void setAnnotation(EAnnotation annotation) {
-		this.annotation = annotation;
 	}
 	
 	public int getOrder() {
@@ -85,6 +71,7 @@ public class MMInterfaceRelDiagram {
 				else cad += ","+parent.getName();
 			}
 			if (cad.isEmpty())
+				if (eclass.getEPackage()!=null)
 				for (EClass child:ModelUtils.getChildren(eclass.getEPackage(), eclass)){
 					if (cad.isEmpty()) cad += child.getName(); 
 					else cad += ","+child.getName();
@@ -117,7 +104,6 @@ public class MMInterfaceRelDiagram {
 	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
-	    this.annotation = null;
 	    this.order = 0;
 	}
 	
@@ -130,7 +116,6 @@ public class MMInterfaceRelDiagram {
 	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram, int order) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
-	    this.annotation = null;
 	    this.order = order;
 	}
 	
@@ -144,7 +129,6 @@ public class MMInterfaceRelDiagram {
 	public MMInterfaceRelDiagram( ReferenceInterface mmInterface, String elementDiagram, int order, int orderPoint) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
-	    this.annotation = null;
 	    this.order = order;
 	    this.orderPointer = orderPoint;
 	}
@@ -157,20 +141,17 @@ public class MMInterfaceRelDiagram {
 	public String getTextMMInterfaceRelDiagram (){
 		if (mmInterface instanceof ClassInterface){
       		if (((ClassInterface)mmInterface).getRef().size() !=0){
-      			EClass eClass = (EClass)((ClassInterface)mmInterface).getRef().get(0);
-      			URI uri =((EClassImpl)eClass).eProxyURI();
-				return uri.fragment().substring(2);
+      			EClass eClass = (EClass)((ClassInterface)mmInterface).getRef().get(0);	
+      			return eClass.getName();
       		}
       	} else if (mmInterface instanceof FeatureInterface){
       		if (((FeatureInterface)mmInterface).getRef().size() !=0){
       			EAttribute eAttr = (EAttribute)((FeatureInterface)mmInterface).getRef().get(0);
-      			URI uri =((EAttributeImpl)eAttr).eProxyURI();
-      			return uri.fragment().substring(2);
+      			return eAttr.getEContainingClass().getName()+"/"+eAttr.getName();
       		}
       	} else if (mmInterface instanceof ReferenceInterface)	{	
       		EReference eRef = (EReference)((ReferenceInterface)mmInterface).getRef();
-  			URI uri =((EReferenceImpl)eRef).eProxyURI();
-  			return uri.fragment().substring(2);
+      		return eRef.getEContainingClass().getName()+"/"+eRef.getName();
       	}return "";
 	}
 	
@@ -183,27 +164,21 @@ public class MMInterfaceRelDiagram {
 		if (mmInterface instanceof ClassInterface){
       		if (((ClassInterface)mmInterface).getRef().size() !=0){
       			EClass eClass = (EClass)((ClassInterface)mmInterface).getRef().get(0);
-      			URI uri =((EClassImpl)eClass).eProxyURI();
-				return uri.fragment().substring(2);
+      			return eClass.getName();
       		}
       	} else if (mmInterface instanceof FeatureInterface){
       		if (((FeatureInterface)mmInterface).getRef().size() !=0){
       			EAttribute eAttr = (EAttribute)((FeatureInterface)mmInterface).getRef().get(0);
-      			URI uri =((EAttributeImpl)eAttr).eProxyURI();
-      			String attName = uri.fragment().substring(2);
-      			String[] cads = attName.split("/");
-
+      			String attName = eAttr.getName();
       			if (mmInterface instanceof FeatureType){
       			EAttribute att = PatternUtils.getEAttribute((FeatureType)mmInterface);
-    			if (att != null) return cads[1]+ (type?getEType():"");
-      			}else return cads[1];
+    			if (att != null) return attName+ (type?getEType():"");
+      			}else return attName;
       		}
       	} else if (mmInterface instanceof ReferenceInterface)	{	
       		EReference eRef = (EReference)((ReferenceInterface)mmInterface).getRef();
-  			URI uri =((EReferenceImpl)eRef).eProxyURI();
-  			String attRef = uri.fragment().substring(2);
-  			String[] cads = attRef.split("/");
-  			return cads[1]+ (type?getEType():"");
+      		String attRef = eRef.getName();
+  			return attRef+ (type?getEType():"");
       	}return "";
 	}
 	
@@ -215,17 +190,11 @@ public class MMInterfaceRelDiagram {
 		if (mmInterface instanceof FeatureInterface){
       		if (((FeatureInterface)mmInterface).getRef().size() !=0){
       			EAttribute eAttr = (EAttribute)((FeatureInterface)mmInterface).getRef().get(0);
-      			URI uri =((EAttributeImpl)eAttr).eProxyURI();
-      			String attName = uri.fragment().substring(2);
-      			String[] cads = attName.split("/");
-      			return cads[0];
+      			return eAttr.getEContainingClass().getName();
       		}
       	} else if (mmInterface instanceof ReferenceInterface)	{	
       		EReference eRef = (EReference)((ReferenceInterface)mmInterface).getRef();
-  			URI uri =((EReferenceImpl)eRef).eProxyURI();
-  			String attRef = uri.fragment().substring(2);
-  			String[] cads = attRef.split("/");
-  			return cads[0];
+      		return eRef.getEContainingClass().getName();
       	}return "";
 	}
 	
@@ -250,7 +219,7 @@ public class MMInterfaceRelDiagram {
 	}
 	
 	/**
-	 * Method that returns an string with the cardinalty text of the object
+	 * Method that returns an string with the cardinality text of the object
 	 * @return text
 	 */
 	public String getCardText (){

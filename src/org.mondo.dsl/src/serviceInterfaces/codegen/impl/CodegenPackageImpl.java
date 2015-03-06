@@ -14,6 +14,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import runtimePatterns.RuntimePatternsPackage;
+import runtimePatterns.impl.RuntimePatternsPackageImpl;
+import runtimeServices.RuntimeServicesPackage;
+import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.ServiceInterfacesPackage;
 
 import serviceInterfaces.codegen.ClassPointcut;
@@ -159,19 +163,16 @@ public class CodegenPackageImpl extends EPackageImpl implements CodegenPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
 		ModelingenvPackageImpl theModelingenvPackage = (ModelingenvPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) instanceof ModelingenvPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) : ModelingenvPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theCodegenPackage.createPackageContents();
-		theDslPatternsPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
 		theModelingenvPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCodegenPackage.initializePackageContents();
-		theDslPatternsPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
 		theModelingenvPackage.initializePackageContents();
 
@@ -411,7 +412,7 @@ public class CodegenPackageImpl extends EPackageImpl implements CodegenPackage {
 		importElementPointcutEClass.getESuperTypes().add(this.getPointcut());
 		statementPoincutEClass.getESuperTypes().add(this.getPointcut());
 
-		// Initialize classes, features, and operations; add parameters
+		// Initialize classes and features; add operations and parameters
 		initEClass(injectorAcceptorInterfaceL1EClass, InjectorAcceptorInterfaceL1.class, "InjectorAcceptorInterfaceL1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInjectorAcceptorInterfaceL1_InjectorProvides(), this.getTransformationLibrary(), null, "injectorProvides", null, 0, 1, InjectorAcceptorInterfaceL1.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

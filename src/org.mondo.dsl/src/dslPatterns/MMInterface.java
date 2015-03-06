@@ -37,7 +37,7 @@ public interface MMInterface extends EObject {
 	 * @return the value of the '<em>Icon</em>' attribute.
 	 * @see #setIcon(String)
 	 * @see dslPatterns.DslPatternsPackage#getMMInterface_Icon()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	String getIcon();
@@ -115,7 +115,7 @@ public interface MMInterface extends EObject {
 	 * @return the value of the '<em>Constraint</em>' attribute.
 	 * @see #setConstraint(String)
 	 * @see dslPatterns.DslPatternsPackage#getMMInterface_Constraint()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	String getConstraint();

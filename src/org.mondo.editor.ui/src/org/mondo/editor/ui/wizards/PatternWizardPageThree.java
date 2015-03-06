@@ -18,10 +18,10 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.mondo.editor.ui.utils.PatternUtils;
 import org.mondo.editor.ui.utils.dragdrop.DragAndDropUtils;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.dragdrop.MyDropListener;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInstance;
@@ -121,29 +121,34 @@ public class PatternWizardPageThree extends WizardPage {
 	  if (metamodels != null){    	 		  
 		  patternRelDiagram.clear();
 		  for (PatternMetaModel metamodel: metamodels){
-			  for (ClassInterface ci: metamodel.getClassInterfaces()){
-				  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, "");
-				  patternRelDiagram.add(relElement);
-			  }
-			  for (FeatureInterface fi: metamodel.getAttrInterfaces()){
-				  if (fi instanceof FeatureType){
-					  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, "");
-					  patternRelDiagram.add(relElement);
-				  }else {//FeatureInstance
-					  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, PatternUtils.getDefaultValue((FeatureInstance)fi));
-					  patternRelDiagram.add(relElement);
+			  if (metamodel!=null){
+				  for (ClassInterface ci: metamodel.getClassInterfaces()){ 
+					  if (PatternUtils.existsEClass(ci)){
+						  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, "");
+						  patternRelDiagram.add(relElement);
+					  }
 				  }
-			  }
-			  for (ReferenceInterface ri: metamodel.getRefInterfaces())	 {   	
-				 MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ri, "");
-				 patternRelDiagram.add(relElement);
-			  }
-	    	}
+				  for (FeatureInterface fi: metamodel.getAttrInterfaces()){  
+					  if (PatternUtils.existsEAttribute(fi))
+						  if (fi instanceof FeatureType){
+							  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, "");
+							  patternRelDiagram.add(relElement);
+						  }else {//FeatureInstance
+							  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, PatternUtils.getDefaultValue((FeatureInstance)fi));
+							  patternRelDiagram.add(relElement);
+						  }
+				  }
+				  for (ReferenceInterface ri: metamodel.getRefInterfaces())	 {   	
+					  if (PatternUtils.existsEReference(ri)){
+						  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ri, "");
+						  patternRelDiagram.add(relElement);
+					  }
+				  }
+		    	}
+		  }
 		  patternTable.setInput(patternRelDiagram); 
 		  
-		  mdl.setContent(patternRelDiagram);
-		  
-		  
+		  mdl.setContent(patternRelDiagram);  
 	    }
   }
   

@@ -35,8 +35,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.Utils;
 import org.mondo.editor.ui.utils.ImagesUtils;
-import org.mondo.editor.ui.utils.PatternMenuAdapter;
-import org.mondo.editor.ui.utils.PatternUtils;
+import org.mondo.editor.ui.utils.patterns.PatternMenuAdapter;
+import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInstance;
@@ -53,7 +53,7 @@ import dslPatterns.ReferenceInterface;
 public class DragAndDropUtils {
 
 	/**
-	 * Static method that creates a treeViewer  that receives (drop) metamodel elements(ecoreDiagram) to apply a metamodel.
+	 * Static method that creates a treeViewer  that receives (drop) meta-model elements(ecoreDiagram) to apply a meta-model.
 	 * @param parent
 	 * @param ecoreDiagram
 	 * @param viewerEcore -> to select optimal elements to apply the pattern

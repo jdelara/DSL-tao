@@ -47,11 +47,9 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 		super();
 	}
 
-	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 	}
 
-	
 	public void run(IAction action) {
 		
 		if (selection instanceof IStructuredSelection){
@@ -80,19 +78,16 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 
 				String path = file.getLocationURI().toString();
 				try{ 
-				
 				  	if (path != null) {									
 						final EPackage pack= ModelUtils.openModel(path);
 					    TransactionalEditingDomain editingDomain = GraphitiUi.getEmfService().createResourceSetAndEditingDomain();
   		
 						ResourceSet metaResourceSet = editingDomain.getResourceSet();
 					    
-						
 						String ifilePath = file.getParent().getFullPath().makeRelative().toString()+"/"+dw.getDiagramName()+".diagram"; 
 						
 						final Resource metaResource = new XMIResourceImpl(URI.createPlatformResourceURI(ifilePath, false));
 						metaResourceSet.getResources().add(metaResource);
-						
 
 						final Diagram diagram = Graphiti.getPeCreateService().createDiagram("mondo", dw.getDiagramName(), true);							
 						final EcoreDiagramTypeProvider dp = new EcoreDiagramTypeProvider();	
@@ -102,27 +97,16 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 								protected void doExecute() {
 									metaResource.getContents().add(diagram);
 									metaResource.getContents().add(pack);
+																		
 									dp.init(diagram, dp.getDiagramBehavior());
 									dp.getFeatureProvider().link(diagram, pack);
 								}
 						   });
-						try{
-							metaResource.save(null);
-						} catch (Exception ex){
-							
-						}
-						
+						IResourceUtils.saveResource(metaResource);						
 						file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);		
-
-						DiagramUtils.drawDiagram(dp.getFeatureProvider(), diagram);    	
-						
-						try{
-							metaResource.save(null);
-						} catch (Exception ex){
-							
-						}
+						DiagramUtils.drawDiagram(dp.getFeatureProvider(), diagram);    							
+						IResourceUtils.saveResource(metaResource);
 					   
-					   //Refresh project
 					   file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 						
 						try {

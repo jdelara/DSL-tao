@@ -69,8 +69,7 @@ public class ExportMetamodelFeature extends AbstractCustomFeature {
 	    		String path=fileDialog.open();
 	  		  	if (path != null) {
 	  		  		path = new File(path).toURI().toString();
-					ModelUtils.saveModel(path, pack);
-										
+					ModelUtils.saveModel(path, pack);				
 					((Diagram)pes[0]).eResource().getContents().add(pack);
 					Messages.displayGeneralMessage("Export Meta-model", "Your meta-model was exported successfully");
 				} 

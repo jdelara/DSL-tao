@@ -111,7 +111,7 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	    }  if (bo instanceof EReference) {
 	        return new DeleteEReferenceFeature(this);
 	    } if (bo instanceof EClass){
-	    	return new DeleteEClassFeature(this);
+	    	//return new DeleteEClassFeature(this);
 	    } else if (bo == null && pictogramElement.getProperties().size()>0) {
 			for (Property p: pictogramElement.getProperties()) {
 				if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_INHERITANCE))
@@ -184,17 +184,19 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		
 		if (context.getPictogramElements()[0] instanceof Diagram){
-			ICustomFeature[] basicCf =  new ICustomFeature[] { new ValidateAllFeature(this), new ImportMetamodelFeature(this), new ExportMetamodelFeature(this), 
+			ICustomFeature[] basicCf =  new ICustomFeature[] { new ValidateAllFeature(this), new ImportMetamodelFeature(this), new ExportMetamodelFeature(this), new ExportMetamodelPatternsFeature(this),
 	    		new CollapseAllFeature(this), new ExpandAllFeature(this), 
-	    		new ShowPatternAnnotationsFeature(this),new HidePatternAnnotationsFeature(this),
+	    		new ShowPatternInfoFeature(this),new HidePatternInfoFeature(this),
 	    		new DrillDownEPackageFeature(this),
 	    		new ExecuteAllPatternsFeature(this)};
 		
 		List<ICustomFeature> list = new ArrayList<ICustomFeature>(Arrays.asList(basicCf));
 		
-		for (String pattern : ModelUtils.getAppliedPatternNames(this.getDiagramTypeProvider().getDiagram())){			
-			list.add(new ValidatePatternFeature(this, pattern, true));
-			list.add(new ExecutePatternFeature(this, pattern, true));
+		if (ModelUtils.existsPackage(this.getDiagramTypeProvider().getDiagram())){
+			for (String pattern : ModelUtils.getAppliedPatternNames(this.getDiagramTypeProvider().getDiagram())){			
+				list.add(new ValidatePatternFeature(this, pattern, true));
+				list.add(new ExecutePatternFeature(this, pattern, true));
+			}
 		}
 		
 		ICustomFeature[] cfs = new ICustomFeature[list.size()];
@@ -202,7 +204,7 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 			cfs[i] = list.get(i);
 		}
 		return cfs;
-		} return new ICustomFeature[]{}; 
+		} return new ICustomFeature[]{new DrillDownEPackageFeature(this)}; 
 	}
 
 	@Override

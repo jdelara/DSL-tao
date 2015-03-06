@@ -4,6 +4,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.emf.ecore.EPackage;
 
+import runtimePatterns.PatternInstance;
+
 /**
  * Class that implements the interface: ISafeRunnable, and allows to create a modular project 
  * according to the applied "Hierarchical Project" pattern.
@@ -20,12 +22,14 @@ public class ExecutePatternRunnable implements ISafeRunnable {
 	}
 
 	private EPackage ePack =null;
+	private PatternInstance pattern = null;
 	private IPatternImplementation cmp = null;
 	private IPath iPath= null;
 	
-	public ExecutePatternRunnable(IPatternImplementation o, EPackage ePack, IPath iPath) {
+	public ExecutePatternRunnable(IPatternImplementation o, EPackage ePack, PatternInstance pattern, IPath iPath) {
 		this.cmp = o;
 		this.ePack = ePack;
+		this.pattern = pattern;
 		this.iPath = iPath;
 	}
 
@@ -35,12 +39,12 @@ public class ExecutePatternRunnable implements ISafeRunnable {
 	}
 	@Override
 	public void run() throws Exception {
-		ValidationInfo vi = ((IPatternImplementation) cmp).validate(ePack);
+		ValidationInfo vi = ((IPatternImplementation) cmp).validate(ePack, pattern);
 		ci = new ExecuteInfo();
 		ci.setValidationInfo(vi);
 		if (vi == null){
-			 ci.setSuccess(((IPatternImplementation) cmp).execute(ePack, iPath));
+			 ci.setSuccess(((IPatternImplementation) cmp).execute(ePack, pattern, iPath));
 		} else if (vi.noErrors()) 
-			ci.setSuccess(((IPatternImplementation) cmp).execute(ePack, iPath));
+			ci.setSuccess(((IPatternImplementation) cmp).execute(ePack, pattern, iPath));
 	}
 }

@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -70,7 +71,7 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
             	if (ModelUtils.existsPackage((Diagram) pes[0])){
-            		this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), this.patternName, ModelUtils.getBusinessModel((Diagram) pes[0]));
+            		this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), this.patternName);
             		return this.pi != null;
             	}
             }
@@ -86,15 +87,16 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
 		
 		IFile file = IResourceUtils.getFile(getDiagram().eResource());
 		iPath = file.getLocation();
-		ExecuteInfo ci = EvaluateExtensionPoint.evaluateExecutePattern(this.pi, mm, iPath);
+		
+		EObject patterns = ModelUtils.getPatternsModel(getDiagram());
+		
+		ExecuteInfo ci = EvaluateExtensionPoint.evaluateExecutePattern(this.pi,patterns,patternName, mm, iPath);
     	
 		IDiagramTypeProvider dtp = getFeatureProvider().getDiagramTypeProvider();
 		
-		
-		
+		List<PictogramElement> pes = new ArrayList<>();
 		if (ci!= null){
 	    	if (ci.getValidationInfo() != null){
-	    		List<PictogramElement> pes = new ArrayList<>();
 	    		if (!ci.getValidationInfo().noErrors()) {
 	    			Messages.displayValidateErrorMessage(this.patternName+" Validation","Errors have been found.");
 	    			if (dtp instanceof EcoreDiagramTypeProvider){ //no needed
@@ -104,8 +106,7 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
 			    			if (pe != null)	pes.add(pe);
 		    			}
 	    			}
-	    		}
-	    		else if (!ci.getValidationInfo().noWarnings()){
+	    		}else if (!ci.getValidationInfo().noWarnings()){
 	    			if (individualMode){
 		    			Messages.displayValidateWarningMessage(this.patternName+" Validation", "Warnings have been found");
 		    			displayCreationInfoResult(ci);
@@ -133,14 +134,23 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
 			    				}
 			    			}
 	    				}
-	    			}
-			    		
-			    		
-		    	} else displayCreationInfoResult(ci);
-	    		
-	    		DiagramUtils.selectPictograms(pes);	
-	    		
-	    	}else displayCreationInfoResult(ci);
+	    			}	
+		    	} else {
+		    		displayCreationInfoResult(ci);
+		    		if (individualMode){
+			    		((EcoreDiagramTypeProvider)dtp).setValidationInfo(ci.getValidationInfo());
+			    		pes.add(getDiagram());
+		    		}
+		    	}	
+	    	}else {
+	    		displayCreationInfoResult(ci);
+	    		if (individualMode){
+		    		((EcoreDiagramTypeProvider)dtp).setValidationInfo(ci.getValidationInfo());
+		    		pes.add(getDiagram());
+	    		}
+	    	}
+    		DiagramUtils.selectPictograms(pes);	
+
 		}
     }
 

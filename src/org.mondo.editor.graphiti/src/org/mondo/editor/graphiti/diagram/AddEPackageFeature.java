@@ -31,6 +31,7 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.mondo.editor.graphiti.diagram.utils.DiagramStyles;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
+import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.Utils;
 
 /**
@@ -125,7 +126,7 @@ public class AddEPackageFeature extends AbstractAddFeature {
 	
 			@Override
 			protected void doExecute() {
-				DiagramUtils.initShowAnnotations(diagram);
+				DiagramUtils.initPatternInfo(diagram);
 				
 				metaResource.getContents().add(diagram);
 				dp.getFeatureProvider().link(diagram, newEPackage);	
@@ -136,7 +137,7 @@ public class AddEPackageFeature extends AbstractAddFeature {
 			}
 		});
 		try {
-			metaResource.save(null);
+			IResourceUtils.saveResource(metaResource);
 			fileResource.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (Exception e) {
 			e.printStackTrace();
