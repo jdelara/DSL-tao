@@ -85,7 +85,10 @@ public class CreateEReferenceFeature extends AbstractCreateConnectionFeature {
         
         eReference.setName(name);
         
-        
+        /////TEMPORAL
+        eReference.setOrdered(false);
+        eReference.setUnique(false);
+        ////
         
         eReference.setEType(target);
         source.getEStructuralFeatures().add(eReference);
@@ -105,6 +108,14 @@ public class CreateEReferenceFeature extends AbstractCreateConnectionFeature {
         eReference.setContainment(ref.isContainment());
         eReference.setLowerBound(ref.getLowerBound());
         eReference.setUpperBound(ref.getUpperBound());
+        
+        /////TEMPORAL
+        eReference.setOrdered(false);
+        eReference.setUnique(false);
+        ///eReference.setOrdered(ref.isOrdered());
+        ///eReference.setUnique(ref.isUnique());
+        ////
+        
         
         source.getEStructuralFeatures().add(eReference);
         return eReference;

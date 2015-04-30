@@ -22,13 +22,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pattern">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rootVariant" lowerBound="1"
-        eType="#//ComplexFeature" containment="true"/>
+        eType="#//ComplexFeatureMain" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
         eType="#//Service" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxInstances" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootAttachedVariant" eType="#//ComplexFeatureAttached"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Service">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -61,9 +63,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureKind" lowerBound="1"
         eType="#//FeatureKind"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ComplexFeature" eSuperTypes="#//Variant">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="metaModel" eType="#//PatternMetaModel"
-        containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexFeature" abstract="true" eSuperTypes="#//Variant">
     <eStructuralFeatures xsi:type="ecore:EReference" name="andChildren" ordered="false"
         upperBound="-1" eType="#//Variant" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="orChildren" ordered="false"
@@ -107,10 +107,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxCard" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attached" upperBound="-1"
+        eType="#//MMInterfaceAttached"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassInterface" eSuperTypes="#//MMInterface">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" ordered="false" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FeatureInterface" abstract="true" eSuperTypes="#//MMInterface">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" ordered="false" upperBound="-1"
@@ -120,5 +124,40 @@
   <eClassifiers xsi:type="ecore:EClass" name="FeatureInstance" eSuperTypes="#//FeatureInterface"/>
   <eClassifiers xsi:type="ecore:EClass" name="ReferenceInterface" eSuperTypes="#//MMInterface">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexFeatureMain" eSuperTypes="#//ComplexFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metaModel" eType="#//PatternMetaModel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexFeatureAttached" eSuperTypes="#//ComplexFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metaModelAttached" eType="#//PatternMetaModelAttached"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternMetaModelAttached">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classIntAtt" upperBound="-1"
+        eType="#//ClassInterfaceAttached" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" lowerBound="1"
+        eType="#//Pattern"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassInterfaceAttached" eSuperTypes="#//MMInterfaceAttached">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refIntAtt" upperBound="-1"
+        eType="#//ReferenceInterfaceAttached" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="featIntAtt" upperBound="-1"
+        eType="#//FeatureInterfaceAttached" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureInterfaceAttached" abstract="true"
+      eSuperTypes="#//MMInterfaceAttached"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceInterfaceAttached" eSuperTypes="#//MMInterfaceAttached"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureTypeAttached" eSuperTypes="#//FeatureInterfaceAttached">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" lowerBound="1"
+        eType="#//FeatureType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureInstanceAttached" eSuperTypes="#//FeatureInterfaceAttached">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" lowerBound="1"
+        eType="#//FeatureInstance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MMInterfaceAttached">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//MMInterface"/>
   </eClassifiers>
 </ecore:EPackage>

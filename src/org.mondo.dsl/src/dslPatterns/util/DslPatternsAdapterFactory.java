@@ -152,6 +152,42 @@ public class DslPatternsAdapterFactory extends AdapterFactoryImpl {
 				return createReferenceInterfaceAdapter();
 			}
 			@Override
+			public Adapter caseComplexFeatureMain(ComplexFeatureMain object) {
+				return createComplexFeatureMainAdapter();
+			}
+			@Override
+			public Adapter caseComplexFeatureAttached(ComplexFeatureAttached object) {
+				return createComplexFeatureAttachedAdapter();
+			}
+			@Override
+			public Adapter casePatternMetaModelAttached(PatternMetaModelAttached object) {
+				return createPatternMetaModelAttachedAdapter();
+			}
+			@Override
+			public Adapter caseClassInterfaceAttached(ClassInterfaceAttached object) {
+				return createClassInterfaceAttachedAdapter();
+			}
+			@Override
+			public Adapter caseFeatureInterfaceAttached(FeatureInterfaceAttached object) {
+				return createFeatureInterfaceAttachedAdapter();
+			}
+			@Override
+			public Adapter caseReferenceInterfaceAttached(ReferenceInterfaceAttached object) {
+				return createReferenceInterfaceAttachedAdapter();
+			}
+			@Override
+			public Adapter caseFeatureTypeAttached(FeatureTypeAttached object) {
+				return createFeatureTypeAttachedAdapter();
+			}
+			@Override
+			public Adapter caseFeatureInstanceAttached(FeatureInstanceAttached object) {
+				return createFeatureInstanceAttachedAdapter();
+			}
+			@Override
+			public Adapter caseMMInterfaceAttached(MMInterfaceAttached object) {
+				return createMMInterfaceAttachedAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -462,6 +498,132 @@ public class DslPatternsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReferenceInterfaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.ComplexFeatureMain <em>Complex Feature Main</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.ComplexFeatureMain
+	 * @generated
+	 */
+	public Adapter createComplexFeatureMainAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.ComplexFeatureAttached <em>Complex Feature Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.ComplexFeatureAttached
+	 * @generated
+	 */
+	public Adapter createComplexFeatureAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.PatternMetaModelAttached <em>Pattern Meta Model Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.PatternMetaModelAttached
+	 * @generated
+	 */
+	public Adapter createPatternMetaModelAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.ClassInterfaceAttached <em>Class Interface Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.ClassInterfaceAttached
+	 * @generated
+	 */
+	public Adapter createClassInterfaceAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.FeatureInterfaceAttached <em>Feature Interface Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.FeatureInterfaceAttached
+	 * @generated
+	 */
+	public Adapter createFeatureInterfaceAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.ReferenceInterfaceAttached <em>Reference Interface Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.ReferenceInterfaceAttached
+	 * @generated
+	 */
+	public Adapter createReferenceInterfaceAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.FeatureTypeAttached <em>Feature Type Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.FeatureTypeAttached
+	 * @generated
+	 */
+	public Adapter createFeatureTypeAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.FeatureInstanceAttached <em>Feature Instance Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.FeatureInstanceAttached
+	 * @generated
+	 */
+	public Adapter createFeatureInstanceAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.MMInterfaceAttached <em>MM Interface Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.MMInterfaceAttached
+	 * @generated
+	 */
+	public Adapter createMMInterfaceAttachedAdapter() {
 		return null;
 	}
 

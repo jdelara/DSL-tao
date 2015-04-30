@@ -1343,7 +1343,7 @@ public  class DiagramUtils {
 	
 	/**
 	 * Static method that draw the text on the specified element.
-	 * @param diagram
+	 * @param diagramB - diagram behaviour
 	 * @param element EModelElement
 	 * @param text pattern text
 	 * @return pictogramElement

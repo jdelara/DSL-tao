@@ -700,26 +700,30 @@ public  class ModelUtils {
 
 
 	/**
-	 * Static method that returns the list of EClass reached by containment associations (included inheritance)
+	 * Static method that adds to the list "ce" all the contained elements of the class.
 	 * @param eClass
-	 * @return list of EClass
 	 */
-	public static void getAllContainedElements (EClass eClass, List<EClass> ce){
+	public static void addAllContainedElements (EClass eClass, List<EClass> ce){
 		if (!ce.contains(eClass)){
 			ce.add(eClass);
 			for (EReference ref: eClass.getEAllContainments()){
 				EClass nextClass = (EClass)ref.getEType();			
-				getAllContainedElements(nextClass, ce);
+				addAllContainedElements(nextClass, ce);
 			}
 			for (EClass child : getAllChildren(eClass)){
-				getAllContainedElements(child, ce);
+				addAllContainedElements(child, ce);
 			}
 		}
 	}
 	
+	/**
+	 * Static method that returns the list of EClass reached by containment associations (included inheritance)
+	 * @param eClass
+	 * @return list of EClass objects
+	 */
 	public static List<EClass> getAllContainedElements (EClass eClass){
 		List<EClass> ce = new LinkedList<EClass>(); 
-		for (EReference ref: eClass.getEAllContainments())	getAllContainedElements((EClass)ref.getEType(), ce);
+		for (EReference ref: eClass.getEAllContainments())	addAllContainedElements((EClass)ref.getEType(), ce);
 		return ce;
 	}
 	

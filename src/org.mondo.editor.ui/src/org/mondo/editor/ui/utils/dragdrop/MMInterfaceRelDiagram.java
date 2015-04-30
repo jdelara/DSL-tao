@@ -1,5 +1,8 @@
 package org.mondo.editor.ui.utils.dragdrop;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
@@ -24,8 +27,18 @@ public class MMInterfaceRelDiagram {
 	private String elementDiagram;
 	private int order;
 	private int orderPointer = 0;
+	private MMInterfaceRelDiagram parent = null;
+	private List<MMInterfaceRelDiagram> children = new LinkedList<MMInterfaceRelDiagram>();
+	private MMInterfaceRelDiagram toConcreteSubtype = null;
 
-	
+	public List<MMInterfaceRelDiagram> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<MMInterfaceRelDiagram> children) {
+		this.children = children;
+	}
+
 	public MMInterface getMmInterface() {
 		return mmInterface;
 	}
@@ -58,6 +71,24 @@ public class MMInterfaceRelDiagram {
 		this.orderPointer = orderPointer;
 	}
 
+	public MMInterfaceRelDiagram getParent() {
+		return parent;
+	}
+
+	public void setParent(MMInterfaceRelDiagram parent) {
+		this.parent = parent;
+	}
+	
+	public MMInterfaceRelDiagram getToConcreteSubtype() {
+		return toConcreteSubtype;
+	}
+
+	public void setToConcreteSubtype(MMInterfaceRelDiagram toConcreteSubtype) {
+		//control 
+		if ((this.getMmInterface() instanceof ReferenceInterface)&& (toConcreteSubtype.getMmInterface() instanceof ClassInterface))
+		this.toConcreteSubtype = toConcreteSubtype;
+	}
+		
 	/**
 	 * Method that return information about the inheritance within the pattern.
 	 * @return a String with the information.
@@ -77,7 +108,6 @@ public class MMInterfaceRelDiagram {
 					else cad += ","+child.getName();
 				}
 			return cad;
-			
 		}return "";
 	}
 	
@@ -91,20 +121,22 @@ public class MMInterfaceRelDiagram {
 			if (att != null) return (att.getEType() != null ? ":"+att.getEType().getName():"");
 		} else if (this.mmInterface instanceof ReferenceInterface){
 			EReference ref = PatternUtils.getEReference((ReferenceInterface)mmInterface);
-			if (ref != null) return (ref.getEType() != null ? ":"+ref.getEType().getName():"")+"["+(ref.getUpperBound() == -1 ? "*":ref.getUpperBound())+"]";
+			if (ref != null) return (ref.getEType() != null ? ":"+(toConcreteSubtype!=null?toConcreteSubtype.getTextMMInterfaceRelDiagram():ref.getEType().getName()):"")+"["+(ref.getUpperBound() == -1 ? "*":ref.getUpperBound())+"]";
 		}return "";	
 	}
-
 
 	/**
 	 * Constructor
 	 * @param mmInterface
 	 * @param elementDiagram
 	 */
-	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram) {
+	public MMInterfaceRelDiagram(MMInterface mmInterface, String elementDiagram, List<MMInterfaceRelDiagram> mmirds) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
 	    this.order = 0;
+	    
+	    this.parent = getParent(mmirds, this);
+	    if (getParent() != null) this.parent.children.add(this);
 	}
 	
 	/**
@@ -113,10 +145,12 @@ public class MMInterfaceRelDiagram {
 	 * @param elementDiagram
 	 * @param order
 	 */
-	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram, int order) {
+	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram, int order, List<MMInterfaceRelDiagram> mmirds) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
 	    this.order = order;
+	    this.parent = getParent(mmirds, this);
+	    if (getParent() != null) this.parent.children.add(this);
 	}
 	
 	/**
@@ -126,14 +160,98 @@ public class MMInterfaceRelDiagram {
 	 * @param order
 	 * @param orderPoint
 	 */
-	public MMInterfaceRelDiagram( ReferenceInterface mmInterface, String elementDiagram, int order, int orderPoint) {
+	public MMInterfaceRelDiagram( ReferenceInterface mmInterface, String elementDiagram, int order, int orderPoint, List<MMInterfaceRelDiagram> mmirds) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
 	    this.order = order;
 	    this.orderPointer = orderPoint;
+	    this.parent = getParent(mmirds, this);
+	    if (getParent() != null) this.parent.children.add(this);
 	}
 	
+	/**
+	 * Static method that returns the MMInterfaceRelDiagram object (mmird) parent (classinterface att and refs belong to)
+	 * @param list
+	 * @param mmird
+	 * @return a list that contains the children, if doesn't have children null.
+	 */
+	private static MMInterfaceRelDiagram getParent(List<MMInterfaceRelDiagram> list, MMInterfaceRelDiagram mmird){
+		if ((mmird.getMmInterface() instanceof FeatureInterface) || (mmird.getMmInterface() instanceof ReferenceInterface)) {
+			String eObjectName = mmird.getTextMMInterfaceRelDiagram();
+			String[] cads = eObjectName.split("/");
+			try{
+				for (MMInterfaceRelDiagram info: list){
+					if (info.getMmInterface() instanceof ClassInterface){
+						String eClassName = info.getTextMMInterfaceRelDiagram();
+						if ((cads[0].compareTo(eClassName)==0)&& (mmird.getOrder()== info.getOrder())) 
+							return info;
+					}
+				}
+				
+			}catch(Exception e){
+				System.out.println("Error "+e.getMessage());
+			}
+		}
+		return null;
+	}
 	
+	/**
+	 * Constructor
+	 * @param mmInterface
+	 * @param elementDiagram
+	 * @param mmirds
+	 * @param parent
+	 */
+	public MMInterfaceRelDiagram(MMInterface mmInterface, String elementDiagram, List<MMInterfaceRelDiagram> mmirds, MMInterfaceRelDiagram parent) {
+	    this.mmInterface = mmInterface;
+	    this.elementDiagram = elementDiagram;
+	    this.order = 0;
+	    
+	    if (parent!= null){
+	    	this.parent = parent;
+	    	this.parent.children.add(this);
+	    }
+	}
+	
+	/**
+	 * Constructor
+	 * @param mmInterface
+	 * @param elementDiagram
+	 * @param order
+	 * @param mmirds
+	 * @param parent
+	 */
+	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram, int order, List<MMInterfaceRelDiagram> mmirds, MMInterfaceRelDiagram parent) {
+	    this.mmInterface = mmInterface;
+	    this.elementDiagram = elementDiagram;
+	    this.order = order;
+	    if (parent != null){
+	    	this.parent = parent;
+	    	this.parent.children.add(this);
+	    }
+	}
+	
+	/**
+	 * Constructor
+	 * @param mmInterface
+	 * @param elementDiagram
+	 * @param order
+	 * @param orderPoint
+	 * @param mmirds
+	 * @param parent
+	 */
+	public MMInterfaceRelDiagram( ReferenceInterface mmInterface, String elementDiagram, int order, int orderPoint, List<MMInterfaceRelDiagram> mmirds, MMInterfaceRelDiagram parent) {
+	    this.mmInterface = mmInterface;
+	    this.elementDiagram = elementDiagram;
+	    this.order = order;
+	    this.orderPointer = orderPoint;
+	    if (parent != null){
+	    	this.parent = parent;
+	    	this.parent.children.add(this);
+	    }
+	}
+	
+
 	/**
 	 * Method that returns the complete text about the interface.
 	 * @return text
@@ -149,14 +267,14 @@ public class MMInterfaceRelDiagram {
       			EAttribute eAttr = (EAttribute)((FeatureInterface)mmInterface).getRef().get(0);
       			return eAttr.getEContainingClass().getName()+"/"+eAttr.getName();
       		}
-      	} else if (mmInterface instanceof ReferenceInterface)	{	
+      	} else if (mmInterface instanceof ReferenceInterface){	
       		EReference eRef = (EReference)((ReferenceInterface)mmInterface).getRef();
       		return eRef.getEContainingClass().getName()+"/"+eRef.getName();
       	}return "";
 	}
 	
 	/**
-	 * Method that returns the text with only the interface name and it depends on the parameter, the EType.
+	 * Method that returns the text with only the interface name and ,it depends on the parameter, the EType.
 	 * @param type - EType
 	 * @return text
 	 */
@@ -175,7 +293,7 @@ public class MMInterfaceRelDiagram {
     			if (att != null) return attName+ (type?getEType():"");
       			}else return attName;
       		}
-      	} else if (mmInterface instanceof ReferenceInterface)	{	
+      	} else if (mmInterface instanceof ReferenceInterface){	
       		EReference eRef = (EReference)((ReferenceInterface)mmInterface).getRef();
       		String attRef = eRef.getName();
   			return attRef+ (type?getEType():"");

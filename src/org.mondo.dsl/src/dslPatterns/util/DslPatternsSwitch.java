@@ -207,6 +207,71 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case DslPatternsPackage.COMPLEX_FEATURE_MAIN: {
+				ComplexFeatureMain complexFeatureMain = (ComplexFeatureMain)theEObject;
+				T result = caseComplexFeatureMain(complexFeatureMain);
+				if (result == null) result = caseComplexFeature(complexFeatureMain);
+				if (result == null) result = caseVariant(complexFeatureMain);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.COMPLEX_FEATURE_ATTACHED: {
+				ComplexFeatureAttached complexFeatureAttached = (ComplexFeatureAttached)theEObject;
+				T result = caseComplexFeatureAttached(complexFeatureAttached);
+				if (result == null) result = caseComplexFeature(complexFeatureAttached);
+				if (result == null) result = caseVariant(complexFeatureAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.PATTERN_META_MODEL_ATTACHED: {
+				PatternMetaModelAttached patternMetaModelAttached = (PatternMetaModelAttached)theEObject;
+				T result = casePatternMetaModelAttached(patternMetaModelAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.CLASS_INTERFACE_ATTACHED: {
+				ClassInterfaceAttached classInterfaceAttached = (ClassInterfaceAttached)theEObject;
+				T result = caseClassInterfaceAttached(classInterfaceAttached);
+				if (result == null) result = caseMMInterfaceAttached(classInterfaceAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.FEATURE_INTERFACE_ATTACHED: {
+				FeatureInterfaceAttached featureInterfaceAttached = (FeatureInterfaceAttached)theEObject;
+				T result = caseFeatureInterfaceAttached(featureInterfaceAttached);
+				if (result == null) result = caseMMInterfaceAttached(featureInterfaceAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.REFERENCE_INTERFACE_ATTACHED: {
+				ReferenceInterfaceAttached referenceInterfaceAttached = (ReferenceInterfaceAttached)theEObject;
+				T result = caseReferenceInterfaceAttached(referenceInterfaceAttached);
+				if (result == null) result = caseMMInterfaceAttached(referenceInterfaceAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.FEATURE_TYPE_ATTACHED: {
+				FeatureTypeAttached featureTypeAttached = (FeatureTypeAttached)theEObject;
+				T result = caseFeatureTypeAttached(featureTypeAttached);
+				if (result == null) result = caseFeatureInterfaceAttached(featureTypeAttached);
+				if (result == null) result = caseMMInterfaceAttached(featureTypeAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.FEATURE_INSTANCE_ATTACHED: {
+				FeatureInstanceAttached featureInstanceAttached = (FeatureInstanceAttached)theEObject;
+				T result = caseFeatureInstanceAttached(featureInstanceAttached);
+				if (result == null) result = caseFeatureInterfaceAttached(featureInstanceAttached);
+				if (result == null) result = caseMMInterfaceAttached(featureInstanceAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.MM_INTERFACE_ATTACHED: {
+				MMInterfaceAttached mmInterfaceAttached = (MMInterfaceAttached)theEObject;
+				T result = caseMMInterfaceAttached(mmInterfaceAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -523,6 +588,141 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseReferenceInterface(ReferenceInterface object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Complex Feature Main</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Complex Feature Main</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComplexFeatureMain(ComplexFeatureMain object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Complex Feature Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Complex Feature Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComplexFeatureAttached(ComplexFeatureAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Pattern Meta Model Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Pattern Meta Model Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePatternMetaModelAttached(PatternMetaModelAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Class Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Class Interface Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseClassInterfaceAttached(ClassInterfaceAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Feature Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Feature Interface Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFeatureInterfaceAttached(FeatureInterfaceAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Interface Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferenceInterfaceAttached(ReferenceInterfaceAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Feature Type Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Feature Type Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFeatureTypeAttached(FeatureTypeAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Feature Instance Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Feature Instance Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFeatureInstanceAttached(FeatureInstanceAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>MM Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>MM Interface Attached</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMMInterfaceAttached(MMInterfaceAttached object) {
 		return null;
 	}
 

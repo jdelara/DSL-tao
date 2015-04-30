@@ -4,6 +4,7 @@ package dslPatterns;
 
 import java.math.BigInteger;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link dslPatterns.MMInterface#getMinCard <em>Min Card</em>}</li>
  *   <li>{@link dslPatterns.MMInterface#getMaxCard <em>Max Card</em>}</li>
  *   <li>{@link dslPatterns.MMInterface#getConstraint <em>Constraint</em>}</li>
+ *   <li>{@link dslPatterns.MMInterface#getAttached <em>Attached</em>}</li>
  * </ul>
  * </p>
  *
@@ -129,5 +131,21 @@ public interface MMInterface extends EObject {
 	 * @generated
 	 */
 	void setConstraint(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Attached</b></em>' reference list.
+	 * The list contents are of type {@link dslPatterns.MMInterfaceAttached}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Attached</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Attached</em>' reference list.
+	 * @see dslPatterns.DslPatternsPackage#getMMInterface_Attached()
+	 * @model
+	 * @generated
+	 */
+	EList<MMInterfaceAttached> getAttached();
 
 } // MMInterface

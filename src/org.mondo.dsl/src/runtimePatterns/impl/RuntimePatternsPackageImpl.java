@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import runtimeLayers.RuntimeLayersPackage;
+import runtimeLayers.impl.RuntimeLayersPackageImpl;
 import runtimePatterns.ClassRoleInstance;
 import runtimePatterns.FeatureRoleInstance;
 import runtimePatterns.InstanceFeatureRoleInstance;
@@ -150,6 +152,7 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		RuntimeLayersPackageImpl theRuntimeLayersPackage = (RuntimeLayersPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RuntimeLayersPackage.eNS_URI) instanceof RuntimeLayersPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RuntimeLayersPackage.eNS_URI) : RuntimeLayersPackage.eINSTANCE);
 		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		RuntimeServicesPackageImpl theRuntimeServicesPackage = (RuntimeServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) instanceof RuntimeServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) : RuntimeServicesPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
@@ -158,6 +161,7 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 
 		// Create package meta-data objects
 		theRuntimePatternsPackage.createPackageContents();
+		theRuntimeLayersPackage.createPackageContents();
 		theDslPatternsPackage.createPackageContents();
 		theRuntimeServicesPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
@@ -166,6 +170,7 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 
 		// Initialize created meta-data
 		theRuntimePatternsPackage.initializePackageContents();
+		theRuntimeLayersPackage.initializePackageContents();
 		theDslPatternsPackage.initializePackageContents();
 		theRuntimeServicesPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();

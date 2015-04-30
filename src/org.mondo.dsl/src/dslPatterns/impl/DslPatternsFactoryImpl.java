@@ -66,13 +66,20 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 			case DslPatternsPackage.INJECTOR: return createInjector();
 			case DslPatternsPackage.ACCEPTOR: return createAcceptor();
 			case DslPatternsPackage.SIMPLE_FEATURE: return createSimpleFeature();
-			case DslPatternsPackage.COMPLEX_FEATURE: return createComplexFeature();
 			case DslPatternsPackage.PATTERN_META_MODEL_REFERENCE: return createPatternMetaModelReference();
 			case DslPatternsPackage.META_MODEL: return createMetaModel();
 			case DslPatternsPackage.CLASS_INTERFACE: return createClassInterface();
 			case DslPatternsPackage.FEATURE_TYPE: return createFeatureType();
 			case DslPatternsPackage.FEATURE_INSTANCE: return createFeatureInstance();
 			case DslPatternsPackage.REFERENCE_INTERFACE: return createReferenceInterface();
+			case DslPatternsPackage.COMPLEX_FEATURE_MAIN: return createComplexFeatureMain();
+			case DslPatternsPackage.COMPLEX_FEATURE_ATTACHED: return createComplexFeatureAttached();
+			case DslPatternsPackage.PATTERN_META_MODEL_ATTACHED: return createPatternMetaModelAttached();
+			case DslPatternsPackage.CLASS_INTERFACE_ATTACHED: return createClassInterfaceAttached();
+			case DslPatternsPackage.REFERENCE_INTERFACE_ATTACHED: return createReferenceInterfaceAttached();
+			case DslPatternsPackage.FEATURE_TYPE_ATTACHED: return createFeatureTypeAttached();
+			case DslPatternsPackage.FEATURE_INSTANCE_ATTACHED: return createFeatureInstanceAttached();
+			case DslPatternsPackage.MM_INTERFACE_ATTACHED: return createMMInterfaceAttached();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -203,16 +210,6 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ComplexFeature createComplexFeature() {
-		ComplexFeatureImpl complexFeature = new ComplexFeatureImpl();
-		return complexFeature;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public PatternMetaModelReference createPatternMetaModelReference() {
 		PatternMetaModelReferenceImpl patternMetaModelReference = new PatternMetaModelReferenceImpl();
 		return patternMetaModelReference;
@@ -266,6 +263,86 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	public ReferenceInterface createReferenceInterface() {
 		ReferenceInterfaceImpl referenceInterface = new ReferenceInterfaceImpl();
 		return referenceInterface;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComplexFeatureMain createComplexFeatureMain() {
+		ComplexFeatureMainImpl complexFeatureMain = new ComplexFeatureMainImpl();
+		return complexFeatureMain;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComplexFeatureAttached createComplexFeatureAttached() {
+		ComplexFeatureAttachedImpl complexFeatureAttached = new ComplexFeatureAttachedImpl();
+		return complexFeatureAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PatternMetaModelAttached createPatternMetaModelAttached() {
+		PatternMetaModelAttachedImpl patternMetaModelAttached = new PatternMetaModelAttachedImpl();
+		return patternMetaModelAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ClassInterfaceAttached createClassInterfaceAttached() {
+		ClassInterfaceAttachedImpl classInterfaceAttached = new ClassInterfaceAttachedImpl();
+		return classInterfaceAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReferenceInterfaceAttached createReferenceInterfaceAttached() {
+		ReferenceInterfaceAttachedImpl referenceInterfaceAttached = new ReferenceInterfaceAttachedImpl();
+		return referenceInterfaceAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FeatureTypeAttached createFeatureTypeAttached() {
+		FeatureTypeAttachedImpl featureTypeAttached = new FeatureTypeAttachedImpl();
+		return featureTypeAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FeatureInstanceAttached createFeatureInstanceAttached() {
+		FeatureInstanceAttachedImpl featureInstanceAttached = new FeatureInstanceAttachedImpl();
+		return featureInstanceAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MMInterfaceAttached createMMInterfaceAttached() {
+		MMInterfaceAttachedImpl mmInterfaceAttached = new MMInterfaceAttachedImpl();
+		return mmInterfaceAttached;
 	}
 
 	/**

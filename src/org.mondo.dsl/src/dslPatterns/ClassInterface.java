@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
  * The following features are supported:
  * <ul>
  *   <li>{@link dslPatterns.ClassInterface#getRef <em>Ref</em>}</li>
+ *   <li>{@link dslPatterns.ClassInterface#isAbstract <em>Abstract</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,5 +39,32 @@ public interface ClassInterface extends MMInterface {
 	 * @generated
 	 */
 	EList<EClass> getRef();
+
+	/**
+	 * Returns the value of the '<em><b>Abstract</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Abstract</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Abstract</em>' attribute.
+	 * @see #setAbstract(boolean)
+	 * @see dslPatterns.DslPatternsPackage#getClassInterface_Abstract()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isAbstract();
+
+	/**
+	 * Sets the value of the '{@link dslPatterns.ClassInterface#isAbstract <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstract</em>' attribute.
+	 * @see #isAbstract()
+	 * @generated
+	 */
+	void setAbstract(boolean value);
 
 } // ClassInterface

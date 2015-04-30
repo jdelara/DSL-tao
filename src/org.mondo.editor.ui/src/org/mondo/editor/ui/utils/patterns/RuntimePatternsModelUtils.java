@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.mm.MmFactory;
 import org.eclipse.graphiti.mm.Property;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
@@ -56,7 +57,7 @@ public final class RuntimePatternsModelUtils {
 	 * @param diagramBehavior
 	 * @return PatternInstaces object, null if the diagramBehavior is incorrect.
 	 */
-	public static PatternInstances getPatternInstances(DiagramBehavior diagramBehavior, boolean create){
+	public static PatternInstances getPatternInstances(final DiagramBehavior diagramBehavior, boolean create){
 		ResourceSet rs = diagramBehavior.getResourceSet();
 		List<Resource> res = rs.getResources();
 		if (res.size()>=1){
@@ -65,9 +66,15 @@ public final class RuntimePatternsModelUtils {
 					return (PatternInstances)obj;
 			}
 			if (create){
-				PatternInstances pis = RuntimePatternsFactory.eINSTANCE.createPatternInstances();
-				saveRuntimePatternsInstances(diagramBehavior, pis);
-				return pis;
+				diagramBehavior.getEditingDomain().getCommandStack().execute(new RecordingCommand(diagramBehavior.getEditingDomain()) {
+					@Override
+					protected void doExecute() {
+						PatternInstances pis = RuntimePatternsFactory.eINSTANCE.createPatternInstances();
+						saveRuntimePatternsInstances(diagramBehavior, pis);
+					}	
+				});
+				
+				return getPatternInstances(diagramBehavior, false);
 			}
 		}
 		return null;
@@ -173,7 +180,7 @@ public final class RuntimePatternsModelUtils {
 			if (textPic != null){
 				if ((!textPic.isEmpty())&&(!textPic.endsWith("\n"))) textPic += "\n";
 				textPic += "@"+patternText;
-				/*PictogramElement pe = */DiagramUtils.paintPatternInfoText(diagramBehavior, element, textPic);
+				DiagramUtils.paintPatternInfoText(diagramBehavior, element, textPic);
 				
 			} else if (element instanceof EPackage) {
 		    		IPeCreateService peCreateService = Graphiti.getPeCreateService();

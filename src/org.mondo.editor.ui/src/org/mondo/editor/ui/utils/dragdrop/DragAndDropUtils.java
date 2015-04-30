@@ -9,9 +9,12 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ITableColorProvider;
+import org.eclipse.jface.viewers.ITableFontProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -23,10 +26,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
@@ -89,11 +95,10 @@ public class DragAndDropUtils {
 		
 		viewer.getTree().setHeaderVisible(true);
 		
-	    viewer.setContentProvider(new ITreeContentProvider() {
-	    	List<MMInterfaceRelDiagram> list = null;
-	    	
-	    	
-	    	@Override
+	    class TreeContentProviderDrop implements ITreeContentProvider{
+	    	private List<MMInterfaceRelDiagram> list = null;
+
+			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 			
@@ -109,7 +114,7 @@ public class DragAndDropUtils {
 			
 			@Override
 			public Object getParent(Object element) {
-				return null;
+				return ((MMInterfaceRelDiagram)element).getParent();
 			}
 			
 			@SuppressWarnings("unchecked")
@@ -120,19 +125,28 @@ public class DragAndDropUtils {
 			    for (MMInterfaceRelDiagram element: list){
 			    	if (element.getMmInterface() instanceof ClassInterface)classInterfaces.add(element);
 			    }
-			    
 			    return classInterfaces.toArray();
 			}
 			
 			@Override
 			public Object[] getChildren(Object parentElement) {
-				List<MMInterfaceRelDiagram> children = (List<MMInterfaceRelDiagram>) PatternUtils.getChildren(list, (MMInterfaceRelDiagram) parentElement);
-				return children.toArray();
+				List<MMInterfaceRelDiagram> children = ((MMInterfaceRelDiagram)parentElement).getChildren();			
+					return children.toArray();
 			}
-		});	
+			
+			private boolean isAbstract (MMInterfaceRelDiagram mmird){
+				return PatternUtils.isAbstract(mmird, list);
+			}
+	    }
+	    class LabelProviderDrop implements ITableLabelProvider,  ITableFontProvider, ITableColorProvider{
 	    	
-	    viewer.setLabelProvider(new ITableLabelProvider() {
-	    	@Override
+	    	public TreeContentProviderDrop cpd = null;
+	    	public LabelProviderDrop(TreeContentProviderDrop cpd) {
+				super();
+				this.cpd = cpd;
+			}
+
+			@Override
 	    	public Image getColumnImage(Object element, int columnIndex){
 	    		ImageDescriptor desc = null;
 				MMInterfaceRelDiagram mmo = (MMInterfaceRelDiagram) element;
@@ -159,7 +173,6 @@ public class DragAndDropUtils {
 				}
 				return null;
 		      }
-	    	
 	    			 
 			@Override  
 			public String getColumnText(Object element, int columnIndex){
@@ -207,8 +220,35 @@ public class DragAndDropUtils {
 			@Override
 			public void removeListener(ILabelProviderListener listener){
 			}
-		   		
-		});
+
+			@Override
+			public Font getFont(Object element, int columnIndex) {
+				FontRegistry registry = new FontRegistry();
+				if (element instanceof MMInterfaceRelDiagram){
+					if (cpd.isAbstract((MMInterfaceRelDiagram)element)) 
+						return registry.getItalic(Display.getCurrent().getSystemFont()
+								.getFontData()[0].getName());
+				}
+				return null;
+			}
+
+			@Override
+			public Color getForeground(Object element, int columnIndex) {
+				if (element instanceof MMInterfaceRelDiagram){
+					if (cpd.isAbstract((MMInterfaceRelDiagram)element))return Display.getCurrent().getSystemColor(SWT.COLOR_RED);	
+				}
+				return null;
+			}
+					
+			@Override
+			public Color getBackground(Object element, int columnIndex) {
+				return null;
+			}
+		}
+	    
+	    TreeContentProviderDrop tcpd =  new TreeContentProviderDrop();
+	    viewer.setContentProvider(tcpd);	
+	    viewer.setLabelProvider(new LabelProviderDrop(tcpd));
 	    
 	    final Menu menu = new Menu(addressTree);
 	  	addressTree.setMenu(menu);
@@ -387,7 +427,7 @@ public class DragAndDropUtils {
 	}
 	
 	/**
-	 * Static method that selects the given elements on the treeViewer, it doesn`t matter the parent.
+	 * Static method that selects the given elements on the treeViewer, it doesn't matter the parent.
 	 * @param dragViewer - TreeViewer destiny 
 	 * @param elements - eNamedElements to select on the treeViewer
 	 */

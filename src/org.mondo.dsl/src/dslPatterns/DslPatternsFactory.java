@@ -103,15 +103,6 @@ public interface DslPatternsFactory extends EFactory {
 	SimpleFeature createSimpleFeature();
 
 	/**
-	 * Returns a new object of class '<em>Complex Feature</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Complex Feature</em>'.
-	 * @generated
-	 */
-	ComplexFeature createComplexFeature();
-
-	/**
 	 * Returns a new object of class '<em>Pattern Meta Model Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -164,6 +155,78 @@ public interface DslPatternsFactory extends EFactory {
 	 * @generated
 	 */
 	ReferenceInterface createReferenceInterface();
+
+	/**
+	 * Returns a new object of class '<em>Complex Feature Main</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Complex Feature Main</em>'.
+	 * @generated
+	 */
+	ComplexFeatureMain createComplexFeatureMain();
+
+	/**
+	 * Returns a new object of class '<em>Complex Feature Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Complex Feature Attached</em>'.
+	 * @generated
+	 */
+	ComplexFeatureAttached createComplexFeatureAttached();
+
+	/**
+	 * Returns a new object of class '<em>Pattern Meta Model Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Pattern Meta Model Attached</em>'.
+	 * @generated
+	 */
+	PatternMetaModelAttached createPatternMetaModelAttached();
+
+	/**
+	 * Returns a new object of class '<em>Class Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Class Interface Attached</em>'.
+	 * @generated
+	 */
+	ClassInterfaceAttached createClassInterfaceAttached();
+
+	/**
+	 * Returns a new object of class '<em>Reference Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Interface Attached</em>'.
+	 * @generated
+	 */
+	ReferenceInterfaceAttached createReferenceInterfaceAttached();
+
+	/**
+	 * Returns a new object of class '<em>Feature Type Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Feature Type Attached</em>'.
+	 * @generated
+	 */
+	FeatureTypeAttached createFeatureTypeAttached();
+
+	/**
+	 * Returns a new object of class '<em>Feature Instance Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Feature Instance Attached</em>'.
+	 * @generated
+	 */
+	FeatureInstanceAttached createFeatureInstanceAttached();
+
+	/**
+	 * Returns a new object of class '<em>MM Interface Attached</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>MM Interface Attached</em>'.
+	 * @generated
+	 */
+	MMInterfaceAttached createMMInterfaceAttached();
 
 	/**
 	 * Returns the package supported by this factory.

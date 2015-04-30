@@ -3,7 +3,7 @@
   <categories name="Domain" description="">
     <patterns name="Component Language" description="Component Language">
       <rootVariant name="Component Language" description="Component Language">
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Component Language Shallow" description="Component Language Shallow">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Component Language Shallow" description="Component Language Shallow">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/ComponentLanguageShallow.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="ComponentLanguageShallow.ecore#//Component"/>
@@ -31,7 +31,7 @@
             </refInterfaces>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Component Language Deep">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Component Language Deep">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/ComponentLanguageDeep.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="ComponentLanguageDeep.ecore#//Component"/>
@@ -99,7 +99,7 @@
     </patterns>
     <patterns name="State Machine">
       <rootVariant name="State Machine">
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="State Machine (default)">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="State Machine (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/StateMachine.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="StateMachine.ecore#//StateMachine"/>
@@ -151,7 +151,7 @@
             </refInterfaces>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="State Machine Hyperedges">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="State Machine Hyperedges">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/StateMachineHyperedges.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="StateMachineHyperedges.ecore#//StateMachine"/>
@@ -203,7 +203,7 @@
             </refInterfaces>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="State Machine Unnamed">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="State Machine Unnamed">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/StateMachineUnnamed.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="StateMachineUnnamed.ecore#//StateMachine"/>
@@ -232,10 +232,17 @@
           </metaModel>
         </xorChildren>
       </rootVariant>
+      <rootAttachedVariant name="StateMachineAttachedOptions">
+        <orChildren xsi:type="dslpat:ComplexFeatureAttached" name="Representation">
+          <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Graph-based"/>
+          <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Table-based"/>
+          <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Form-based"/>
+        </orChildren>
+      </rootAttachedVariant>
     </patterns>
     <patterns name="Workflow" description="Pattern for workflow languages">
       <rootVariant name="Workflow Language" description="samples/icons/WorkflowLanguage.gif">
-        <andChildren xsi:type="dslpat:ComplexFeature" name="Workflow Language (default)">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Workflow Language (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/WorkflowLanguage.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="WorkflowLanguage.ecore#//FlowDiagram"/>
@@ -301,7 +308,7 @@
     </patterns>
     <patterns name="Expression Language">
       <rootVariant name="Expressions Language">
-        <andChildren xsi:type="dslpat:ComplexFeature" name="Expressions Language (default)">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Expressions Language (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/ExpressionsLanguage.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="ExpressionsLanguage.ecore#//Expression"/>
@@ -336,7 +343,7 @@
     </patterns>
     <patterns name="Information Definition">
       <rootVariant name="Information Definition">
-        <andChildren xsi:type="dslpat:ComplexFeature" name="Information Definition (shallow)">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Information Definition (shallow)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/InformationDefinition.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="InformationDefinition.ecore#//NamedElement"/>
@@ -394,7 +401,7 @@
   <categories name="Design" description="Simple structural meta-modelling patterns">
     <patterns name="Tree-like Structures" description="Pattern for recursive, tree-like structures">
       <rootVariant name="Tree">
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Hard-Coded Tree">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Hard-Coded Tree">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Hard-CodedTree.gif">
             <classInterfaces minCard="1" maxCard="-1">
               <ref href="TreeHardCoded.ecore#//NodeKind"/>
@@ -404,7 +411,7 @@
             </refInterfaces>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Simple Tree">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Simple Tree">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/SimpleTree.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="Tree.ecore#//Tree"/>
@@ -421,7 +428,7 @@
             <mmreference href="Tree.ecore#/"/>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Structured Tree">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Structured Tree">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/StructuredTree.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="TreeStructured.ecore#//Tree"/>
@@ -449,7 +456,7 @@
             </refInterfaces>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Overlapping Tree">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Overlapping Tree">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/OverlappingTree.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="TreeOverlapping.ecore#//Tree"/>
@@ -483,7 +490,7 @@
             </refInterfaces>
           </metaModel>
         </xorChildren>
-        <xorChildren xsi:type="dslpat:ComplexFeature" name="Tree Changing over Time">
+        <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Tree Changing over Time">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/TreeChangingOverTime.gif">
             <classInterfaces minCard="1" maxCard="1">
               <ref href="TreeStampedOverTime.ecore#//TimeStampedElement"/>
@@ -530,74 +537,147 @@
     </patterns>
   </categories>
   <categories name="Concrete Syntax" description="">
-    <patterns name="Visualization" description="">
-      <rootVariant name="Visualization">
-        <andChildren xsi:type="dslpat:ComplexFeature" name="Visualization (default)">
-          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Visualization.gif">
+    <patterns name="Graph-based Representation" description="Pattern to custom the appearance of graph objects">
+      <rootVariant name="Graph Representation">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Graph-based Representation (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/RepresentationGraph.gif">
             <classInterfaces icon="" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//Root"/>
+              <ref href="RepresentationGraph.ecore#//Root"/>
+            </classInterfaces>
+            <classInterfaces icon="" minCard="1" maxCard="1" abstract="true">
+              <ref href="RepresentationGraph.ecore#//GraphicElement"/>
             </classInterfaces>
             <classInterfaces minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//NodeElement"/>
+              <ref href="RepresentationGraph.ecore#//NodeElement"/>
             </classInterfaces>
             <classInterfaces minCard="0" maxCard="-1">
-              <ref href="Visualization.ecore#//EdgeElement"/>
+              <ref href="RepresentationGraph.ecore#//EdgeElement"/>
             </classInterfaces>
             <classInterfaces icon="" minCard="0" maxCard="-1">
-              <ref href="Visualization.ecore#//Circle"/>
+              <ref href="RepresentationGraph.ecore#//Circle"/>
             </classInterfaces>
             <classInterfaces minCard="0" maxCard="-1">
-              <ref href="Visualization.ecore#//Rectangle"/>
+              <ref href="RepresentationGraph.ecore#//Rectangle"/>
             </classInterfaces>
             <classInterfaces minCard="0" maxCard="-1">
-              <ref href="Visualization.ecore#//IconElement"/>
+              <ref href="RepresentationGraph.ecore#//IconElement"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1" abstract="true">
+              <ref href="RepresentationGraph.ecore#//ContainerElement"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="-1">
+              <ref href="RepresentationGraph.ecore#//Rhombus"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//Circle/radius"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//Rectangle/width"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//Rectangle/height"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//IconElement/filepath"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" icon="" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//GraphicElement/paletteName"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" icon="" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//GraphicElement/paletteIconPath"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//GraphicElement/color"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" icon="" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//Rhombus/width"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//Rhombus/height"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//NodeElement/label"/>
+            </attrInterfaces>
+            <refInterfaces minCard="0" maxCard="-1">
+              <ref href="RepresentationGraph.ecore#//NodeElement/link"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//EdgeElement/source"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//EdgeElement/target"/>
+            </refInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationGraph.ecore#//Root/elements"/>
+            </refInterfaces>
+            <refInterfaces minCard="0" maxCard="-1">
+              <ref href="RepresentationGraph.ecore#//ContainerElement/contains"/>
+            </refInterfaces>
+            <mmreference href="RepresentationGraph.ecore#/"/>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
+    <patterns name="Table-based Representation" description="Pattern to custom the appearance of table objects">
+      <rootVariant name="Table Representation">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Table-based Representation (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/RepresentationTable.gif">
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationTable.ecore#//Table"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1" abstract="true">
+              <ref href="RepresentationTable.ecore#//Cell"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1" abstract="true">
+              <ref href="RepresentationTable.ecore#//Header"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationTable.ecore#//Data"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationTable.ecore#//Row"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationTable.ecore#//Column"/>
             </classInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//Circle/radius"/>
+              <ref href="RepresentationTable.ecore#//Cell/value"/>
             </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//Rectangle/width"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//Rectangle/height"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//IconElement/filepath"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//EdgeElement/color"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//EdgeElement/paletteName"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//EdgeElement/paletteIconPath"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//NodeElement/color"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//NodeElement/paletteName"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//NodeElement/paletteIconPath"/>
-            </attrInterfaces>
-            <refInterfaces minCard="0" maxCard="1">
-              <ref href="Visualization.ecore#//NodeElement/link"/>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationTable.ecore#//Table/elements"/>
             </refInterfaces>
             <refInterfaces minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//EdgeElement/source"/>
+              <ref href="RepresentationTable.ecore#//Data/col"/>
             </refInterfaces>
             <refInterfaces minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//EdgeElement/target"/>
+              <ref href="RepresentationTable.ecore#//Data/row"/>
+            </refInterfaces>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
+    <patterns name="Form-based Representation" description="Pattern to custom the appearance of form objects">
+      <rootVariant name="Form Respresentation">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Form-based Representation (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/RepresentationForm.gif">
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationForm.ecore#//Root"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationForm.ecore#//Tab"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationForm.ecore#//Field"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
+              <ref href="RepresentationForm.ecore#//Field/showable"/>
+            </attrInterfaces>
+            <refInterfaces minCard="1" maxCard="1">
+              <ref href="RepresentationForm.ecore#//Root/elements"/>
             </refInterfaces>
             <refInterfaces minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//Root/nodes"/>
+              <ref href="RepresentationForm.ecore#//Tab/contains"/>
             </refInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
-              <ref href="Visualization.ecore#//Root/edges"/>
-            </refInterfaces>
-            <mmreference href="Visualization.ecore#/"/>
           </metaModel>
         </andChildren>
       </rootVariant>
@@ -607,7 +687,7 @@
   <categories name="Infrastructure Functionality" description="">
     <patterns name="Modularity" description="Simple organizational meta-modelling pattern" maxInstances="1">
       <rootVariant name="Modularity">
-        <andChildren xsi:type="dslpat:ComplexFeature" name="Modularity (default)">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Modularity (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Modularity.gif">
             <classInterfaces minCard="1" maxCard="1" constraint="">
               <ref href="Modularity.ecore#//Project"/>
@@ -663,7 +743,7 @@
     </patterns>
     <patterns name="Filter" description="A pattern to customize filters">
       <rootVariant name="Filter" description="Model Filter">
-        <andChildren xsi:type="dslpat:ComplexFeature" name="Filter (default)" description="Model Filter">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Filter (default)" description="Model Filter">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Filter.gif">
             <classInterfaces minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable"/>

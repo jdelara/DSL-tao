@@ -53,5 +53,13 @@
             uri="http://mondo.org/runtimeServices">
       </package>
    </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="runtimeLayers.RuntimeLayersPackage"
+            genModel="model/runtimeLayers.genmodel"
+            uri="http://mondo.org/runtimeLayers">
+      </package>
+   </extension>
 
 </plugin>

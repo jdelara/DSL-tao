@@ -107,8 +107,6 @@ public class AppliedPatternsView extends ViewPart {
 		viewer.getTree().addFocusListener(focusListener);
 		IWorkbenchPage page = this.getSite().getPage();
 		page.addPartListener(pl);	
-
-		
 	}	
 	
 	private ITreeContentProvider treeContentProvider = new ITreeContentProvider() {
@@ -216,9 +214,6 @@ public class AppliedPatternsView extends ViewPart {
 					DiagramUtils.selectPictogram(pe);
 					showHiddenElements();
 				}
-				
-				
-				
 			}
 		}
 		
@@ -239,7 +234,6 @@ public class AppliedPatternsView extends ViewPart {
 		
 		@Override
 		public void focusGained(FocusEvent e) {
-			
 		}
 	};
 	
@@ -271,43 +265,55 @@ public class AppliedPatternsView extends ViewPart {
 	
 	private void showHiddenElements(){
 		if (!layerElements.isEmpty()){
-			final EPackage pack = ModelUtils.getBusinessModel(diagram);
-			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(pack);
-	        domain.getCommandStack().execute(new RecordingCommand(domain) {
-				
-				@Override
-				protected void doExecute() {
-					for (EClassifier eclassif: pack.getEClassifiers() ){
-						if (!layerElements.contains(eclassif))
-							DiagramUtils.setElementVisibility(diagram, eclassif,true,layerElements);
+			if (!allLayerElementsNull()){
+				final EPackage pack = ModelUtils.getBusinessModel(diagram);
+				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(pack);
+		        domain.getCommandStack().execute(new RecordingCommand(domain) {
+					
+					@Override
+					protected void doExecute() {
+						for (EClassifier eclassif: pack.getEClassifiers() ){
+							if (!layerElements.contains(eclassif))
+								DiagramUtils.setElementVisibility(diagram, eclassif,true,layerElements);
+						}
+						for (EPackage epack: pack.getESubpackages() ){
+							if (!layerElements.contains(epack))
+							DiagramUtils.setElementVisibility(diagram, epack,true,layerElements);
+						}
 					}
-					for (EPackage epack: pack.getESubpackages() ){
-						if (!layerElements.contains(epack))
-						DiagramUtils.setElementVisibility(diagram, epack,true,layerElements);
-					}
-				}
-			});
+				});
+			}
 	        layerElements.clear();
 		}
 	}
 	
+	private boolean allLayerElementsNull(){
+		for (ENamedElement element: layerElements)
+			if (element!=null)
+				return false;
+		return true;
+	}
+	
 	private void hideElements(){
-		final EPackage pack = ModelUtils.getBusinessModel(diagram);
-		TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(pack);
-        domain.getCommandStack().execute(new RecordingCommand(domain) {
-			
-			@Override
-			protected void doExecute() {
-				for (EClassifier eclassif: pack.getEClassifiers()){
-					if (!layerElements.contains(eclassif))
-						if (eclassif instanceof EClass)DiagramUtils.setElementVisibility(diagram, eclassif,false,layerElements);
-				}
-				for (EPackage epack: pack.getESubpackages() ){
-					if (!layerElements.contains(epack))
-					DiagramUtils.setElementVisibility(diagram, epack,false,layerElements);
-				}
+		if (!layerElements.isEmpty())
+			if (!allLayerElementsNull()){
+				final EPackage pack = ModelUtils.getBusinessModel(diagram);
+				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(pack);
+		        domain.getCommandStack().execute(new RecordingCommand(domain) {
+					
+					@Override
+					protected void doExecute() {
+						for (EClassifier eclassif: pack.getEClassifiers()){
+							if (!layerElements.contains(eclassif))
+								if (eclassif instanceof EClass)DiagramUtils.setElementVisibility(diagram, eclassif,false,layerElements);
+						}
+						for (EPackage epack: pack.getESubpackages() ){
+							if (!layerElements.contains(epack))
+							DiagramUtils.setElementVisibility(diagram, epack,false,layerElements);
+						}
+					}
+				});
 			}
-		});
 	}
 	
 }

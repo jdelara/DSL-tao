@@ -102,7 +102,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zRkbwYQ3EeSgrPi2NJkJrQ" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="runtimePatterns.ecore#//InstanceFeatureRoleInstance"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zRkbwoQ3EeSgrPi2NJkJrQ" y="291"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zRkbwoQ3EeSgrPi2NJkJrQ" x="28" y="287"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zRlC0oQ3EeSgrPi2NJkJrQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_zRlC1YQ3EeSgrPi2NJkJrQ" type="4001"/>
@@ -142,14 +142,6 @@
       <children xmi:type="notation:Node" xmi:id="_zRoGIIQ3EeSgrPi2NJkJrQ" type="2007">
         <element xmi:type="ecore:EStringToStringMapEntry" href="runtimePatterns.ecore#//%http:%2F%2Fwww.eclipse.org%2FOCL%2FImport%/@details.0"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_zRoGIYQ3EeSgrPi2NJkJrQ"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_zRoGIoQ3EeSgrPi2NJkJrQ" type="2007">
-        <element xmi:type="ecore:EStringToStringMapEntry" href="runtimePatterns.ecore#//%http:%2F%2Fwww.eclipse.org%2FOCL%2FImport%/@details.1"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_zRoGI4Q3EeSgrPi2NJkJrQ"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_zRoGJIQ3EeSgrPi2NJkJrQ" type="2007">
-        <element xmi:type="ecore:EStringToStringMapEntry" href="runtimePatterns.ecore#//%http:%2F%2Fwww.eclipse.org%2FOCL%2FImport%/@details.2"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_zRoGJYQ3EeSgrPi2NJkJrQ"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_zRnfEYQ3EeSgrPi2NJkJrQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_zRnfEoQ3EeSgrPi2NJkJrQ"/>

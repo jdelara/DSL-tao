@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getMetaModel <em>Meta Model</em>}</li>
  *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getAndChildren <em>And Children</em>}</li>
  *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getOrChildren <em>Or Children</em>}</li>
  *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getXorChildren <em>Xor Children</em>}</li>
@@ -38,17 +37,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
-	/**
-	 * The cached value of the '{@link #getMetaModel() <em>Meta Model</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMetaModel()
-	 * @generated
-	 * @ordered
-	 */
-	protected PatternMetaModel metaModel;
-
+public abstract class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	/**
 	 * The cached value of the '{@link #getAndChildren() <em>And Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -103,49 +92,6 @@ public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PatternMetaModel getMetaModel() {
-		return metaModel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetMetaModel(PatternMetaModel newMetaModel, NotificationChain msgs) {
-		PatternMetaModel oldMetaModel = metaModel;
-		metaModel = newMetaModel;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DslPatternsPackage.COMPLEX_FEATURE__META_MODEL, oldMetaModel, newMetaModel);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMetaModel(PatternMetaModel newMetaModel) {
-		if (newMetaModel != metaModel) {
-			NotificationChain msgs = null;
-			if (metaModel != null)
-				msgs = ((InternalEObject)metaModel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DslPatternsPackage.COMPLEX_FEATURE__META_MODEL, null, msgs);
-			if (newMetaModel != null)
-				msgs = ((InternalEObject)newMetaModel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DslPatternsPackage.COMPLEX_FEATURE__META_MODEL, null, msgs);
-			msgs = basicSetMetaModel(newMetaModel, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, DslPatternsPackage.COMPLEX_FEATURE__META_MODEL, newMetaModel, newMetaModel));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Variant> getAndChildren() {
 		if (andChildren == null) {
 			andChildren = new EObjectContainmentEList<Variant>(Variant.class, this, DslPatternsPackage.COMPLEX_FEATURE__AND_CHILDREN);
@@ -185,8 +131,6 @@ public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case DslPatternsPackage.COMPLEX_FEATURE__META_MODEL:
-				return basicSetMetaModel(null, msgs);
 			case DslPatternsPackage.COMPLEX_FEATURE__AND_CHILDREN:
 				return ((InternalEList<?>)getAndChildren()).basicRemove(otherEnd, msgs);
 			case DslPatternsPackage.COMPLEX_FEATURE__OR_CHILDREN:
@@ -205,8 +149,6 @@ public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case DslPatternsPackage.COMPLEX_FEATURE__META_MODEL:
-				return getMetaModel();
 			case DslPatternsPackage.COMPLEX_FEATURE__AND_CHILDREN:
 				return getAndChildren();
 			case DslPatternsPackage.COMPLEX_FEATURE__OR_CHILDREN:
@@ -226,9 +168,6 @@ public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case DslPatternsPackage.COMPLEX_FEATURE__META_MODEL:
-				setMetaModel((PatternMetaModel)newValue);
-				return;
 			case DslPatternsPackage.COMPLEX_FEATURE__AND_CHILDREN:
 				getAndChildren().clear();
 				getAndChildren().addAll((Collection<? extends Variant>)newValue);
@@ -253,9 +192,6 @@ public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case DslPatternsPackage.COMPLEX_FEATURE__META_MODEL:
-				setMetaModel((PatternMetaModel)null);
-				return;
 			case DslPatternsPackage.COMPLEX_FEATURE__AND_CHILDREN:
 				getAndChildren().clear();
 				return;
@@ -277,8 +213,6 @@ public class ComplexFeatureImpl extends VariantImpl implements ComplexFeature {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case DslPatternsPackage.COMPLEX_FEATURE__META_MODEL:
-				return metaModel != null;
 			case DslPatternsPackage.COMPLEX_FEATURE__AND_CHILDREN:
 				return andChildren != null && !andChildren.isEmpty();
 			case DslPatternsPackage.COMPLEX_FEATURE__OR_CHILDREN:

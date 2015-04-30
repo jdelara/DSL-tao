@@ -124,23 +124,23 @@ public class PatternWizardPageThree extends WizardPage {
 			  if (metamodel!=null){
 				  for (ClassInterface ci: metamodel.getClassInterfaces()){ 
 					  if (PatternUtils.existsEClass(ci)){
-						  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, "");
+						  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, "", patternRelDiagram);
 						  patternRelDiagram.add(relElement);
 					  }
 				  }
 				  for (FeatureInterface fi: metamodel.getAttrInterfaces()){  
 					  if (PatternUtils.existsEAttribute(fi))
 						  if (fi instanceof FeatureType){
-							  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, "");
+							  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, "", patternRelDiagram);
 							  patternRelDiagram.add(relElement);
 						  }else {//FeatureInstance
-							  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, PatternUtils.getDefaultValue((FeatureInstance)fi));
+							  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(fi, PatternUtils.getDefaultValue((FeatureInstance)fi), patternRelDiagram);
 							  patternRelDiagram.add(relElement);
 						  }
 				  }
 				  for (ReferenceInterface ri: metamodel.getRefInterfaces())	 {   	
 					  if (PatternUtils.existsEReference(ri)){
-						  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ri, "");
+						  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ri, "", patternRelDiagram);
 						  patternRelDiagram.add(relElement);
 					  }
 				  }

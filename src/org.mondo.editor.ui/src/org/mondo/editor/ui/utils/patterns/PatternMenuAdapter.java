@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
@@ -87,7 +88,6 @@ public class PatternMenuAdapter extends MenuAdapter {
 		    							clearMMInterfaceRelDiagram(childClass, content);
 		    					}
 	            			}
-	            			
 	            		}
 	            	}
 	            	
@@ -259,7 +259,6 @@ public class PatternMenuAdapter extends MenuAdapter {
             	@SuppressWarnings("unchecked")
 	            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
 				boolean ok = ((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)));
-
 				itemDelete.setEnabled(ok);	
 
             	itemDelete.addSelectionListener(new SelectionListener() {
@@ -296,7 +295,6 @@ public class PatternMenuAdapter extends MenuAdapter {
 						if (DragAndDropUtils.noDragElementsToSelect(elements)){
 								elements = HeuristicsUtils.getOptimalElements((MMInterfaceRelDiagram)item.getData(), pack,(List<MMInterfaceRelDiagram>) viewer.getInput());	
 						}	
-						
 						DragAndDropUtils.selectDragElements(viewerEcore, elements);
 					}
 					
@@ -324,7 +322,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 							if (DragAndDropUtils.noDragElementsToSelect(elements)){
 									elements = HeuristicsUtils.getOptimalElements((MMInterfaceRelDiagram)item.getData(), pack,(List<MMInterfaceRelDiagram>) viewer.getInput());	
 							}								
-							MMInterfaceRelDiagram parent = PatternUtils.getParent((List<MMInterfaceRelDiagram>) viewer.getInput(), (MMInterfaceRelDiagram)item.getData());
+							MMInterfaceRelDiagram parent = ((MMInterfaceRelDiagram)item.getData()).getParent();
 							EObject parentClass = ModelsUtils.getEObject(pack, parent.getElementDiagram());
 
 							DragAndDropUtils.selectDragElements(viewerEcore,(EClass) parentClass, elements);
@@ -354,7 +352,7 @@ public class PatternMenuAdapter extends MenuAdapter {
     						if (DragAndDropUtils.noDragElementsToSelect(elements)){
     								elements = HeuristicsUtils.getOptimalElements((MMInterfaceRelDiagram)item.getData(), pack,(List<MMInterfaceRelDiagram>) viewer.getInput());	
     						}
-							MMInterfaceRelDiagram parent = PatternUtils.getParent((List<MMInterfaceRelDiagram>) viewer.getInput(), (MMInterfaceRelDiagram)item.getData());
+    						MMInterfaceRelDiagram parent = ((MMInterfaceRelDiagram)item.getData()).getParent();
 							EObject parentClass = ModelsUtils.getEObject(pack, parent.getElementDiagram());
 
 							DragAndDropUtils.selectDragElements(viewerEcore,(EClass) parentClass, elements);
@@ -366,7 +364,96 @@ public class PatternMenuAdapter extends MenuAdapter {
         			});
         		}
         	}
+			 final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
+        	//Subtypes of an Abstract Class.
+        	if ((((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ClassInterface)){
+    			MenuItem itemAbstractElements = new MenuItem(menu, SWT.NONE);
+    			itemAbstractElements.setText("Copy abstract elements");
+    			boolean ok = !PatternUtils.isAbstract((MMInterfaceRelDiagram)item.getData(), input);
+    			List<MMInterfaceRelDiagram> supertypesA = PatternApplicationUtils.getSuperTypesAbstract(input, (MMInterfaceRelDiagram)item.getData());
+    			ok = ok && (supertypesA.size() > 0);
+    			
+    			itemAbstractElements.setEnabled(ok);	
+    			
+    			itemAbstractElements.addSelectionListener(new SelectionListener() {
+		
+					@Override
+    				public void widgetSelected(SelectionEvent e) {
+    					PatternApplicationUtils.copyAttRefParentAbstractClasses(input, (MMInterfaceRelDiagram)item.getData());
+    					
+    					Object[] expandedElements =viewer.getExpandedElements();
+						viewer.setInput(input);
+						viewer.setExpandedElements(expandedElements);
+    				}
+		
+    				@Override
+    				public void widgetDefaultSelected(SelectionEvent e) {
+    				}
+    			});
+        	}    	
+        	//References to concrete subtypes.
+        	if (((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ReferenceInterface){
+    			
+        		final MMInterfaceRelDiagram info = ((MMInterfaceRelDiagram)item.getData());
+        		MenuItem itemConcreteRefs = new MenuItem(menu, SWT.NONE);
+        		itemConcreteRefs.setText("Create concrete refs");
+    				
+				EObject eRefObject = PatternUtils.getEReference((ReferenceInterface)info.getMmInterface());
+				MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(input, ((EReference)eRefObject).getEType().getName(), info.getOrderPointer());
+				boolean ok = info.getElementDiagram().isEmpty()
+				 && (PatternUtils.isAbstract(infoETypeEClass, input))
+				 && (!PatternUtils.isReflexiveReference((ReferenceInterface)info.getMmInterface()))
+				 && (!PatternUtils.isAbstract(info, input))
+				 && (info.getToConcreteSubtype()==null);
+    			
+				itemConcreteRefs.setEnabled(ok);	
+				itemConcreteRefs.addSelectionListener(new SelectionListener() {
+		
+					@Override
+    				public void widgetSelected(SelectionEvent e) {
+    					PatternApplicationUtils.createConcreteRefs(input, info);
+    					Object[] expandedElements =viewer.getExpandedElements();
+						viewer.setInput(input);
+						viewer.setExpandedElements(expandedElements);
+    				}
+		
+    				@Override
+    				public void widgetDefaultSelected(SelectionEvent e) {
+    				}
+    			});
+        	}	
+
+        	//Refresh concrete references.
+        	if (((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof ReferenceInterface){
+    			
+        		final MMInterfaceRelDiagram info = ((MMInterfaceRelDiagram)item.getData());
+        		MenuItem itemConcreteRefs = new MenuItem(menu, SWT.NONE);
+        		itemConcreteRefs.setText("Refresh concrete refs");
+    				
+				EObject eRefObject = PatternUtils.getEReference((ReferenceInterface)info.getMmInterface());
+				MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(input, ((EReference)eRefObject).getEType().getName(), info.getOrderPointer());
+				boolean ok = /*info.getElementDiagram().isEmpty()
+				 &&*/ (PatternUtils.isAbstract(infoETypeEClass, input))
+				 && (!PatternUtils.isReflexiveReference((ReferenceInterface)info.getMmInterface()))
+				 && (!PatternUtils.isAbstract(info, input))
+				 && (info.getToConcreteSubtype()!=null);
+    			
+				itemConcreteRefs.setEnabled(ok);	
+				itemConcreteRefs.addSelectionListener(new SelectionListener() {
+		
+					@Override
+    				public void widgetSelected(SelectionEvent e) {
+    					PatternApplicationUtils.refreshConcreteRefs(input, info);
+    					Object[] expandedElements =viewer.getExpandedElements();
+						viewer.setInput(input);
+						viewer.setExpandedElements(expandedElements);
+    				}
+		
+    				@Override
+    				public void widgetDefaultSelected(SelectionEvent e) {
+    				}
+    			});
+        	}	    	
         }
 	} 
-
 }

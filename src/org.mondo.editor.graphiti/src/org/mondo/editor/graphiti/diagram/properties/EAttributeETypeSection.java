@@ -90,6 +90,8 @@ public class EAttributeETypeSection extends GFPropertySection implements ITabbed
 	        	
 	        }else if (edt != null){
 		        DataType dt= DataTypeUtils.getDataType(edt);
+		        //No obtiene ese tipo de datos porque para la herramienta no exite.
+		        
 		        cDataType.select(DataTypeUtils.getIndex(dt));
 	        }
 	    }

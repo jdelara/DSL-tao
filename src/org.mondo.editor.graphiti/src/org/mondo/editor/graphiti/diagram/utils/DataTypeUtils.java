@@ -45,7 +45,7 @@ public class DataTypeUtils {
 		ESHORT (EcoreFactory.eINSTANCE.getEcorePackage().getEShort()),
 		ESHORTOBJECT (EcoreFactory.eINSTANCE.getEcorePackage().getEShortObject()),
 		ESTRING (EcoreFactory.eINSTANCE.getEcorePackage().getEString()),
-		ETREEITERATOR (EcoreFactory.eINSTANCE.getEcorePackage().getETreeIterator());	
+		ETREEITERATOR (EcoreFactory.eINSTANCE.getEcorePackage().getETreeIterator()); 
 		
 		private final EDataType eDataType;   
 	    private final String text; 

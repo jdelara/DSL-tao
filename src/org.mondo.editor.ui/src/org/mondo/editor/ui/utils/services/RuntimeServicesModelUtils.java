@@ -65,7 +65,7 @@ public final class RuntimeServicesModelUtils {
 	public static void addDisconnectedElement(ServiceInstance si, Interface interf, List<Pattern> patterns){	
 		DisconnectedElement de = RuntimeServicesFactory.eINSTANCE.createDisconnectedElement();
 		
-		///Change the uri to relative
+		//Change the uri to relative
 		if (!interf.eResource().getURI().isRelative())
 		PatternUtils.setInterfacesRelativeURI(interf.eResource());
 		
@@ -82,5 +82,4 @@ public final class RuntimeServicesModelUtils {
 	public static void removeDisconnectedElement(ServiceInstance si,DisconnectedElement de){			
 		si.getDisconnectedElements().remove(de);
 	}
-
 }

@@ -7,8 +7,10 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 
 import runtimePatterns.PatternInstance;
+import runtimePatterns.PatternInstances;
 
 import dslPatterns.MMInterface;
+import dslPatterns.Pattern;
 
 /**
  * Interface that defines methods to apply a pattern.
@@ -42,4 +44,13 @@ public interface IPatternImplementation {
 	 * @return a list of eNamedElements they are the optimal elements to assign mminterface.
 	 */
 	List<ENamedElement> getOptimalElements(EPackage ePack, MMInterface mminterface);
+	
+	/**
+	 * Method that apply a pattern to an ecore
+	 * @param ePack - initial meta-model package
+	 * @param pattern - pattern for being applied
+	 * @param patternInstances - object that contents the applied patterns, it is used to add the new one.
+	 * @return boolean that specifies the mapping success
+	 */
+	boolean applyPattern(EPackage ePack, Pattern pattern, PatternInstances patternInstances);
 }

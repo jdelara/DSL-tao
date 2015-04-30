@@ -108,7 +108,8 @@ public final class HeuristicsUtils {
 	 * @return List of optimal attributes
 	 */
 	private static List<ENamedElement> getOptimalFeatures(MMInterfaceRelDiagram mmird, EPackage ecore, List<MMInterfaceRelDiagram> status){
-		MMInterfaceRelDiagram parent = PatternUtils.getParent(status, mmird);
+		//MMInterfaceRelDiagram parent = PatternUtils.getParent(status, mmird);
+		MMInterfaceRelDiagram parent = mmird.getParent();
 		EObject parentClass = ModelsUtils.getEObject(ecore, parent.getElementDiagram());
 		List<ENamedElement> bestAttrib = new ArrayList<ENamedElement>();
 
@@ -130,7 +131,8 @@ public final class HeuristicsUtils {
 	 * @return list of optimal references.
 	 */
 	private static List<ENamedElement> getOptimalReferences(MMInterfaceRelDiagram mmird, EPackage ecore, List<MMInterfaceRelDiagram> status){
-    	MMInterfaceRelDiagram parent = PatternUtils.getParent(status, mmird);
+    	//MMInterfaceRelDiagram parent = PatternUtils.getParent(status, mmird);
+		MMInterfaceRelDiagram parent = mmird.getParent();
 		EObject parentClass = ModelsUtils.getEObject(ecore, parent.getElementDiagram());
 		List<ENamedElement> bestReferences = new ArrayList<ENamedElement>();
 
@@ -139,7 +141,7 @@ public final class HeuristicsUtils {
 		if (parentClass instanceof EClass){
     		for (EReference ref: ((EClass) parentClass).getEAllReferences()){
     			if (PatternUtils.areCompatibleReferences((ReferenceInterface)mmird.getMmInterface(), ref)){
-	    			if (PatternUtils.isETypeTarget((ReferenceInterface)mmird.getMmInterface(), (EClass)ref.getEType(), status, ecore, mmird.getOrderPointer())){
+	    			if (PatternUtils.isETypeTarget(mmird, (EClass)ref.getEType(), status, ecore, mmird.getOrderPointer())){
 	    				if (PatternUtils.areCompatibleEOppositeReferences(status, mmird, ref))
 	    					bestReferences.add(ref);
 	    			}

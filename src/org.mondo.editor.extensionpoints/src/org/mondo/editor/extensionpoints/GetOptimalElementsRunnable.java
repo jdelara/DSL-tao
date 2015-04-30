@@ -24,11 +24,11 @@ public class GetOptimalElementsRunnable implements ISafeRunnable {
 	}
 
 	private EPackage pathMetamodel =null;
-	private IPatternImplementation cmp = null;
+	private IPatternImplementation pi = null;
 	private MMInterface mmi = null;
 	
 	public GetOptimalElementsRunnable(IPatternImplementation o, EPackage pathMetamodel,  MMInterface mminterface) {
-		this.cmp = o;
+		this.pi = o;
 		this.pathMetamodel = pathMetamodel;
 		this.mmi = mminterface;
 	}
@@ -39,6 +39,6 @@ public class GetOptimalElementsRunnable implements ISafeRunnable {
 	}
 	@Override
 	public void run() throws Exception {
-		optimal = ((IPatternImplementation) cmp).getOptimalElements(pathMetamodel, mmi);
+		optimal = ((IPatternImplementation) pi).getOptimalElements(pathMetamodel, mmi);
 	}
 }

@@ -15,6 +15,7 @@ import runtimePatterns.PatternInstance;
 import runtimePatterns.PatternInstances;
 
 import dslPatterns.MMInterface;
+import dslPatterns.Pattern;
 
 /**
  * Class of utility functions to evaluate extensions.
@@ -28,7 +29,7 @@ public class EvaluateExtensionPoint {
 	private static final String IPATTERN_IMPLEMENTATION_ATTRIBUTE = "pattern";
 	
 	/**
-	 * Method that searches the plug-ins that implement the functionality and execute the associated
+	 * Method that searches the plug-in that implement the functionality and execute the associated
 	 * @param pi - pattern implementation
 	 * @param patterns - pattern instances
 	 * @param patternName -  name of the pattern.
@@ -46,7 +47,7 @@ public class EvaluateExtensionPoint {
 	}
 	
 	/**
-	 * Method that searches the plug-ins that implement the functionality and execute "validate pattern."
+	 * Method that searches the plug-in that implement the functionality and execute "validate pattern."
 	 * @param pi - pattern implementation
 	 * @param patterns - pattern instances.
 	 * @param patternName - name of the pattern.
@@ -76,7 +77,7 @@ public class EvaluateExtensionPoint {
 	
 	
 	/**
-	 * Method that searches the plug-ins that implement the functionality and execute "getOptimalElements"
+	 * Method that searches the plug-in that implement the functionality and execute "getOptimalElements"
 	 * @param registry - extension registry
 	 * @param pattern - pattern name
 	 * @param ePack  - meta-model initial package
@@ -88,6 +89,24 @@ public class EvaluateExtensionPoint {
 		if (o!= null) return executeGetOptimalElementsExtension(o, ePack,  mmInterface);
 		else return null;
 	}
+	
+	/**
+	 * Method that searches the plug-in that implement the functionality and execute "applyPattern"
+	 * @param registry - extension registry
+	 * @param pattern - pattern object
+	 * @param ePack - meta-model initial package
+	 * @param patternInstances - patternInstances object
+	 * @return boolean that specifies the success of the application.
+	 */
+	public static boolean evaluateApplyPattern(IExtensionRegistry registry, Pattern pattern, EPackage ePack,PatternInstances patternInstances) {
+		IPatternImplementation o = getInstanceIPattern(registry, pattern.getName());
+		if (o!= null) {
+			return executeApplyPatternExtension(o, pattern, ePack, patternInstances);
+		}
+		else return false;
+	}
+	
+	
 	
 	/**
 	 * Method that returns the instance that implements the interface "IPattern"
@@ -146,7 +165,7 @@ public class EvaluateExtensionPoint {
 	 * Method that executes the method getOptimalElements of the extension and returns a list with the elements.
 	 * @param o - instance that implements the interface "IPattern"
 	 * @param ePack - meta-model initial package.
-	 * @param mminterface MMInterface target
+	 * @param mminterface - MMInterface target
 	 * @return List<ENamedElement>
 	 */
 	private static List<ENamedElement> executeGetOptimalElementsExtension(final Object o,final EPackage ePack, MMInterface mminterface) {
@@ -154,6 +173,20 @@ public class EvaluateExtensionPoint {
 		SafeRunner.run(runnable);
 		return runnable.getOptimalElements();
 		
+	}
+	
+	/**
+	 * Method that execute the method applyPattern.
+	 * @param o - instance that implements the interface "IPattern"
+	 * @param pattern - meta-model initial package.
+	 * @param ePack - ePackage
+	 * @param pis - patternInstances
+	 * @return boolean that specifies the success of the application
+	 */
+	private static boolean executeApplyPatternExtension(final Object o,Pattern pattern, final EPackage ePack, PatternInstances pis) {
+		ApplyPatternRunnable runnable = new ApplyPatternRunnable((IPatternImplementation)o, pattern, ePack, pis);
+		SafeRunner.run(runnable);	
+		return runnable.isSuccessful();
 	}
 	
 

@@ -27,6 +27,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/services"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/maxInstances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/rootAttachedVariant"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//Service">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/name"/>
@@ -52,7 +53,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//SimpleFeature/featureKind"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeature">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/metaModel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/andChildren"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/orChildren"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/xorChildren"/>
@@ -74,9 +74,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/minCard"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/maxCard"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/constraint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MMInterface/attached"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//ClassInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterface/ref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ClassInterface/abstract"/>
     </genClasses>
     <genClasses image="false" ecoreClass="dslPatterns.ecore#//FeatureInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//FeatureInterface/ref"/>
@@ -85,6 +87,32 @@
     <genClasses ecoreClass="dslPatterns.ecore#//FeatureInstance"/>
     <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ReferenceInterface/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeatureMain">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeatureMain/metaModel"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeatureAttached">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeatureAttached/metaModelAttached"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//PatternMetaModelAttached">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelAttached/classIntAtt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelAttached/content"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ClassInterfaceAttached">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterfaceAttached/refIntAtt"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterfaceAttached/featIntAtt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterfaceAttached/value"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureInterfaceAttached"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterfaceAttached"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureTypeAttached">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//FeatureTypeAttached/content"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureInstanceAttached">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//FeatureInstanceAttached/content"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//MMInterfaceAttached">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MMInterfaceAttached/type"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="ServiceInterfaces" ecorePackage="serviceInterfaces.ecore#/">

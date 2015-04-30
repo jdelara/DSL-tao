@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>each class,</li>
  *   <li>each feature of each class,</li>
+ *   <li>each operation of each class,</li>
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
@@ -176,7 +177,6 @@ public interface ServiceInterfacesPackage extends EPackage {
 	 */
 	int INTERFACE_FEATURE_COUNT = PACKAGEABLE_FEATURE_COUNT + 2;
 
-
 	/**
 	 * Returns the meta object for class '{@link serviceInterfaces.InterfaceRepository <em>Interface Repository</em>}'.
 	 * <!-- begin-user-doc -->
@@ -287,6 +287,7 @@ public interface ServiceInterfacesPackage extends EPackage {
 	 * <ul>
 	 *   <li>each class,</li>
 	 *   <li>each feature of each class,</li>
+	 *   <li>each operation of each class,</li>
 	 *   <li>each enum,</li>
 	 *   <li>and each data type</li>
 	 * </ul>

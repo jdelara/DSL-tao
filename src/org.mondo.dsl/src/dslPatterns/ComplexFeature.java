@@ -12,7 +12,6 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link dslPatterns.ComplexFeature#getMetaModel <em>Meta Model</em>}</li>
  *   <li>{@link dslPatterns.ComplexFeature#getAndChildren <em>And Children</em>}</li>
  *   <li>{@link dslPatterns.ComplexFeature#getOrChildren <em>Or Children</em>}</li>
  *   <li>{@link dslPatterns.ComplexFeature#getXorChildren <em>Xor Children</em>}</li>
@@ -20,36 +19,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getComplexFeature()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface ComplexFeature extends Variant {
-	/**
-	 * Returns the value of the '<em><b>Meta Model</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Meta Model</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Meta Model</em>' containment reference.
-	 * @see #setMetaModel(PatternMetaModel)
-	 * @see dslPatterns.DslPatternsPackage#getComplexFeature_MetaModel()
-	 * @model containment="true"
-	 * @generated
-	 */
-	PatternMetaModel getMetaModel();
-
-	/**
-	 * Sets the value of the '{@link dslPatterns.ComplexFeature#getMetaModel <em>Meta Model</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Meta Model</em>' containment reference.
-	 * @see #getMetaModel()
-	 * @generated
-	 */
-	void setMetaModel(PatternMetaModel value);
-
 	/**
 	 * Returns the value of the '<em><b>And Children</b></em>' containment reference list.
 	 * The list contents are of type {@link dslPatterns.Variant}.

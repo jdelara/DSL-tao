@@ -5,50 +5,47 @@ package dslPatterns.impl;
 import dslPatterns.Acceptor;
 import dslPatterns.Category;
 import dslPatterns.ClassInterface;
+import dslPatterns.ClassInterfaceAttached;
 import dslPatterns.ComplexFeature;
+import dslPatterns.ComplexFeatureAttached;
+import dslPatterns.ComplexFeatureMain;
 import dslPatterns.DslPatternsFactory;
 import dslPatterns.DslPatternsPackage;
 import dslPatterns.FeatureInstance;
+import dslPatterns.FeatureInstanceAttached;
 import dslPatterns.FeatureInterface;
+import dslPatterns.FeatureInterfaceAttached;
 import dslPatterns.FeatureKind;
 import dslPatterns.FeatureType;
+import dslPatterns.FeatureTypeAttached;
 import dslPatterns.Injector;
 import dslPatterns.MMInterface;
+import dslPatterns.MMInterfaceAttached;
 import dslPatterns.MetaModel;
 import dslPatterns.Pattern;
 import dslPatterns.PatternMetaModel;
+import dslPatterns.PatternMetaModelAttached;
 import dslPatterns.PatternMetaModelReference;
 import dslPatterns.PatternSet;
 import dslPatterns.Plug;
 import dslPatterns.Port;
 import dslPatterns.ReferenceInterface;
+import dslPatterns.ReferenceInterfaceAttached;
 import dslPatterns.Service;
 import dslPatterns.SimpleFeature;
 import dslPatterns.Slot;
 import dslPatterns.Variant;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import runtimePatterns.RuntimePatternsPackage;
-import runtimePatterns.impl.RuntimePatternsPackageImpl;
-import runtimeServices.RuntimeServicesPackage;
-import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.ServiceInterfacesPackage;
-
 import serviceInterfaces.codegen.CodegenPackage;
-
 import serviceInterfaces.codegen.impl.CodegenPackageImpl;
-
 import serviceInterfaces.impl.ServiceInterfacesPackageImpl;
-
 import serviceInterfaces.modelingenv.ModelingenvPackage;
-
 import serviceInterfaces.modelingenv.impl.ModelingenvPackageImpl;
 
 /**
@@ -210,6 +207,69 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass complexFeatureMainEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass complexFeatureAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass patternMetaModelAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass classInterfaceAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureInterfaceAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referenceInterfaceAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureTypeAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureInstanceAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mmInterfaceAttachedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum featureKindEEnum = null;
 
 	/**
@@ -259,21 +319,18 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		RuntimeServicesPackageImpl theRuntimeServicesPackage = (RuntimeServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) instanceof RuntimeServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) : RuntimeServicesPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
 		CodegenPackageImpl theCodegenPackage = (CodegenPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) instanceof CodegenPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) : CodegenPackage.eINSTANCE);
 		ModelingenvPackageImpl theModelingenvPackage = (ModelingenvPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) instanceof ModelingenvPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) : ModelingenvPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theDslPatternsPackage.createPackageContents();
-		theRuntimeServicesPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
 		theCodegenPackage.createPackageContents();
 		theModelingenvPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theDslPatternsPackage.initializePackageContents();
-		theRuntimeServicesPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
 		theCodegenPackage.initializePackageContents();
 		theModelingenvPackage.initializePackageContents();
@@ -402,6 +459,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EAttribute getPattern_MaxInstances() {
 		return (EAttribute)patternEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPattern_RootAttachedVariant() {
+		return (EReference)patternEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -589,7 +655,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComplexFeature_MetaModel() {
+	public EReference getComplexFeature_AndChildren() {
 		return (EReference)complexFeatureEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -598,7 +664,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComplexFeature_AndChildren() {
+	public EReference getComplexFeature_OrChildren() {
 		return (EReference)complexFeatureEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -607,17 +673,8 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComplexFeature_OrChildren() {
-		return (EReference)complexFeatureEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getComplexFeature_XorChildren() {
-		return (EReference)complexFeatureEClass.getEStructuralFeatures().get(3);
+		return (EReference)complexFeatureEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -751,6 +808,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getMMInterface_Attached() {
+		return (EReference)mmInterfaceEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getClassInterface() {
 		return classInterfaceEClass;
 	}
@@ -762,6 +828,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EReference getClassInterface_Ref() {
 		return (EReference)classInterfaceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClassInterface_Abstract() {
+		return (EAttribute)classInterfaceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -823,6 +898,177 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getComplexFeatureMain() {
+		return complexFeatureMainEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComplexFeatureMain_MetaModel() {
+		return (EReference)complexFeatureMainEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComplexFeatureAttached() {
+		return complexFeatureAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComplexFeatureAttached_MetaModelAttached() {
+		return (EReference)complexFeatureAttachedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPatternMetaModelAttached() {
+		return patternMetaModelAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPatternMetaModelAttached_ClassIntAtt() {
+		return (EReference)patternMetaModelAttachedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPatternMetaModelAttached_Content() {
+		return (EReference)patternMetaModelAttachedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getClassInterfaceAttached() {
+		return classInterfaceAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassInterfaceAttached_RefIntAtt() {
+		return (EReference)classInterfaceAttachedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassInterfaceAttached_FeatIntAtt() {
+		return (EReference)classInterfaceAttachedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassInterfaceAttached_Value() {
+		return (EReference)classInterfaceAttachedEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFeatureInterfaceAttached() {
+		return featureInterfaceAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReferenceInterfaceAttached() {
+		return referenceInterfaceAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFeatureTypeAttached() {
+		return featureTypeAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureTypeAttached_Content() {
+		return (EReference)featureTypeAttachedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFeatureInstanceAttached() {
+		return featureInstanceAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureInstanceAttached_Content() {
+		return (EReference)featureInstanceAttachedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMMInterfaceAttached() {
+		return mmInterfaceAttachedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMMInterfaceAttached_Type() {
+		return (EReference)mmInterfaceAttachedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getFeatureKind() {
 		return featureKindEEnum;
 	}
@@ -870,6 +1116,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		createEAttribute(patternEClass, PATTERN__DESCRIPTION);
 		createEReference(patternEClass, PATTERN__SERVICES);
 		createEAttribute(patternEClass, PATTERN__MAX_INSTANCES);
+		createEReference(patternEClass, PATTERN__ROOT_ATTACHED_VARIANT);
 
 		serviceEClass = createEClass(SERVICE);
 		createEAttribute(serviceEClass, SERVICE__NAME);
@@ -899,7 +1146,6 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		createEAttribute(simpleFeatureEClass, SIMPLE_FEATURE__FEATURE_KIND);
 
 		complexFeatureEClass = createEClass(COMPLEX_FEATURE);
-		createEReference(complexFeatureEClass, COMPLEX_FEATURE__META_MODEL);
 		createEReference(complexFeatureEClass, COMPLEX_FEATURE__AND_CHILDREN);
 		createEReference(complexFeatureEClass, COMPLEX_FEATURE__OR_CHILDREN);
 		createEReference(complexFeatureEClass, COMPLEX_FEATURE__XOR_CHILDREN);
@@ -921,9 +1167,11 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		createEAttribute(mmInterfaceEClass, MM_INTERFACE__MIN_CARD);
 		createEAttribute(mmInterfaceEClass, MM_INTERFACE__MAX_CARD);
 		createEAttribute(mmInterfaceEClass, MM_INTERFACE__CONSTRAINT);
+		createEReference(mmInterfaceEClass, MM_INTERFACE__ATTACHED);
 
 		classInterfaceEClass = createEClass(CLASS_INTERFACE);
 		createEReference(classInterfaceEClass, CLASS_INTERFACE__REF);
+		createEAttribute(classInterfaceEClass, CLASS_INTERFACE__ABSTRACT);
 
 		featureInterfaceEClass = createEClass(FEATURE_INTERFACE);
 		createEReference(featureInterfaceEClass, FEATURE_INTERFACE__REF);
@@ -934,6 +1182,34 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 
 		referenceInterfaceEClass = createEClass(REFERENCE_INTERFACE);
 		createEReference(referenceInterfaceEClass, REFERENCE_INTERFACE__REF);
+
+		complexFeatureMainEClass = createEClass(COMPLEX_FEATURE_MAIN);
+		createEReference(complexFeatureMainEClass, COMPLEX_FEATURE_MAIN__META_MODEL);
+
+		complexFeatureAttachedEClass = createEClass(COMPLEX_FEATURE_ATTACHED);
+		createEReference(complexFeatureAttachedEClass, COMPLEX_FEATURE_ATTACHED__META_MODEL_ATTACHED);
+
+		patternMetaModelAttachedEClass = createEClass(PATTERN_META_MODEL_ATTACHED);
+		createEReference(patternMetaModelAttachedEClass, PATTERN_META_MODEL_ATTACHED__CLASS_INT_ATT);
+		createEReference(patternMetaModelAttachedEClass, PATTERN_META_MODEL_ATTACHED__CONTENT);
+
+		classInterfaceAttachedEClass = createEClass(CLASS_INTERFACE_ATTACHED);
+		createEReference(classInterfaceAttachedEClass, CLASS_INTERFACE_ATTACHED__REF_INT_ATT);
+		createEReference(classInterfaceAttachedEClass, CLASS_INTERFACE_ATTACHED__FEAT_INT_ATT);
+		createEReference(classInterfaceAttachedEClass, CLASS_INTERFACE_ATTACHED__VALUE);
+
+		featureInterfaceAttachedEClass = createEClass(FEATURE_INTERFACE_ATTACHED);
+
+		referenceInterfaceAttachedEClass = createEClass(REFERENCE_INTERFACE_ATTACHED);
+
+		featureTypeAttachedEClass = createEClass(FEATURE_TYPE_ATTACHED);
+		createEReference(featureTypeAttachedEClass, FEATURE_TYPE_ATTACHED__CONTENT);
+
+		featureInstanceAttachedEClass = createEClass(FEATURE_INSTANCE_ATTACHED);
+		createEReference(featureInstanceAttachedEClass, FEATURE_INSTANCE_ATTACHED__CONTENT);
+
+		mmInterfaceAttachedEClass = createEClass(MM_INTERFACE_ATTACHED);
+		createEReference(mmInterfaceAttachedEClass, MM_INTERFACE_ATTACHED__TYPE);
 
 		// Create enums
 		featureKindEEnum = createEEnum(FEATURE_KIND);
@@ -983,6 +1259,13 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		featureTypeEClass.getESuperTypes().add(this.getFeatureInterface());
 		featureInstanceEClass.getESuperTypes().add(this.getFeatureInterface());
 		referenceInterfaceEClass.getESuperTypes().add(this.getMMInterface());
+		complexFeatureMainEClass.getESuperTypes().add(this.getComplexFeature());
+		complexFeatureAttachedEClass.getESuperTypes().add(this.getComplexFeature());
+		classInterfaceAttachedEClass.getESuperTypes().add(this.getMMInterfaceAttached());
+		featureInterfaceAttachedEClass.getESuperTypes().add(this.getMMInterfaceAttached());
+		referenceInterfaceAttachedEClass.getESuperTypes().add(this.getMMInterfaceAttached());
+		featureTypeAttachedEClass.getESuperTypes().add(this.getFeatureInterfaceAttached());
+		featureInstanceAttachedEClass.getESuperTypes().add(this.getFeatureInterfaceAttached());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(patternSetEClass, PatternSet.class, "PatternSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -995,11 +1278,12 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEReference(getCategory_Patterns(), this.getPattern(), null, "patterns", null, 0, -1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(patternEClass, Pattern.class, "Pattern", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPattern_RootVariant(), this.getComplexFeature(), null, "rootVariant", null, 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPattern_RootVariant(), this.getComplexFeatureMain(), null, "rootVariant", null, 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_Name(), ecorePackage.getEString(), "name", null, 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_Description(), ecorePackage.getEString(), "description", null, 0, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPattern_Services(), this.getService(), null, "services", null, 0, -1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_MaxInstances(), ecorePackage.getEInt(), "maxInstances", "-1", 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPattern_RootAttachedVariant(), this.getComplexFeatureAttached(), null, "rootAttachedVariant", null, 0, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getService_Name(), ecorePackage.getEString(), "name", null, 1, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1028,8 +1312,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEClass(simpleFeatureEClass, SimpleFeature.class, "SimpleFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSimpleFeature_FeatureKind(), this.getFeatureKind(), "featureKind", null, 1, 1, SimpleFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(complexFeatureEClass, ComplexFeature.class, "ComplexFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getComplexFeature_MetaModel(), this.getPatternMetaModel(), null, "metaModel", null, 0, 1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(complexFeatureEClass, ComplexFeature.class, "ComplexFeature", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComplexFeature_AndChildren(), this.getVariant(), null, "andChildren", null, 0, -1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComplexFeature_OrChildren(), this.getVariant(), null, "orChildren", null, 0, -1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComplexFeature_XorChildren(), this.getVariant(), null, "xorChildren", null, 0, -1, ComplexFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1051,9 +1334,11 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEAttribute(getMMInterface_MinCard(), ecorePackage.getEBigInteger(), "minCard", null, 1, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMMInterface_MaxCard(), ecorePackage.getEBigInteger(), "maxCard", null, 1, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMMInterface_Constraint(), ecorePackage.getEString(), "constraint", null, 0, 1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMMInterface_Attached(), this.getMMInterfaceAttached(), null, "attached", null, 0, -1, MMInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classInterfaceEClass, ClassInterface.class, "ClassInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassInterface_Ref(), ecorePackage.getEClass(), null, "ref", null, 0, -1, ClassInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getClassInterface_Abstract(), ecorePackage.getEBoolean(), "abstract", "false", 0, 1, ClassInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(featureInterfaceEClass, FeatureInterface.class, "FeatureInterface", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFeatureInterface_Ref(), ecorePackage.getEAttribute(), null, "ref", null, 0, -1, FeatureInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1064,6 +1349,34 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 
 		initEClass(referenceInterfaceEClass, ReferenceInterface.class, "ReferenceInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceInterface_Ref(), ecorePackage.getEReference(), null, "ref", null, 1, 1, ReferenceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(complexFeatureMainEClass, ComplexFeatureMain.class, "ComplexFeatureMain", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComplexFeatureMain_MetaModel(), this.getPatternMetaModel(), null, "metaModel", null, 0, 1, ComplexFeatureMain.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(complexFeatureAttachedEClass, ComplexFeatureAttached.class, "ComplexFeatureAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComplexFeatureAttached_MetaModelAttached(), this.getPatternMetaModelAttached(), null, "metaModelAttached", null, 0, 1, ComplexFeatureAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(patternMetaModelAttachedEClass, PatternMetaModelAttached.class, "PatternMetaModelAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPatternMetaModelAttached_ClassIntAtt(), this.getClassInterfaceAttached(), null, "classIntAtt", null, 0, -1, PatternMetaModelAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPatternMetaModelAttached_Content(), this.getPattern(), null, "content", null, 1, 1, PatternMetaModelAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(classInterfaceAttachedEClass, ClassInterfaceAttached.class, "ClassInterfaceAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getClassInterfaceAttached_RefIntAtt(), this.getReferenceInterfaceAttached(), null, "refIntAtt", null, 0, -1, ClassInterfaceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassInterfaceAttached_FeatIntAtt(), this.getFeatureInterfaceAttached(), null, "featIntAtt", null, 0, -1, ClassInterfaceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassInterfaceAttached_Value(), ecorePackage.getEObject(), null, "value", null, 0, 1, ClassInterfaceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(featureInterfaceAttachedEClass, FeatureInterfaceAttached.class, "FeatureInterfaceAttached", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(referenceInterfaceAttachedEClass, ReferenceInterfaceAttached.class, "ReferenceInterfaceAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(featureTypeAttachedEClass, FeatureTypeAttached.class, "FeatureTypeAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFeatureTypeAttached_Content(), this.getFeatureType(), null, "content", null, 1, 1, FeatureTypeAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(featureInstanceAttachedEClass, FeatureInstanceAttached.class, "FeatureInstanceAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFeatureInstanceAttached_Content(), this.getFeatureInstance(), null, "content", null, 1, 1, FeatureInstanceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mmInterfaceAttachedEClass, MMInterfaceAttached.class, "MMInterfaceAttached", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMMInterfaceAttached_Type(), this.getMMInterface(), null, "type", null, 1, 1, MMInterfaceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(featureKindEEnum, FeatureKind.class, "FeatureKind");

@@ -3,7 +3,6 @@
 package dslPatterns;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -31,7 +30,7 @@ public interface PatternMetaModel extends EObject {
 	 * The list contents are of type {@link dslPatterns.ClassInterface}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Class Interfaces</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Class Interfaces</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -47,7 +46,7 @@ public interface PatternMetaModel extends EObject {
 	 * The list contents are of type {@link dslPatterns.FeatureInterface}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Attr Interfaces</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Attr Interfaces</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -63,7 +62,7 @@ public interface PatternMetaModel extends EObject {
 	 * The list contents are of type {@link dslPatterns.ReferenceInterface}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ref Interfaces</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Ref Interfaces</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

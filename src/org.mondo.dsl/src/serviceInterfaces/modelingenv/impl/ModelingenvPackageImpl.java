@@ -14,10 +14,6 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import runtimePatterns.RuntimePatternsPackage;
-import runtimePatterns.impl.RuntimePatternsPackageImpl;
-import runtimeServices.RuntimeServicesPackage;
-import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.ServiceInterfacesPackage;
 
 import serviceInterfaces.codegen.CodegenPackage;
@@ -147,16 +143,19 @@ public class ModelingenvPackageImpl extends EPackageImpl implements ModelingenvP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
 		CodegenPackageImpl theCodegenPackage = (CodegenPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) instanceof CodegenPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CodegenPackage.eNS_URI) : CodegenPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theModelingenvPackage.createPackageContents();
+		theDslPatternsPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
 		theCodegenPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theModelingenvPackage.initializePackageContents();
+		theDslPatternsPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
 		theCodegenPackage.initializePackageContents();
 

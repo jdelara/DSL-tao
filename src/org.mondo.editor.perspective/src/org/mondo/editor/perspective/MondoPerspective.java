@@ -28,6 +28,7 @@ public class MondoPerspective implements IPerspectiveFactory {
         layout.addShowViewShortcut(PatternsView.ID);
         layout.addShowViewShortcut(AppliedPatternsView.ID);
         layout.addShowViewShortcut(PatternServicesView.ID);
+        layout.addShowViewShortcut(LayersView.ID);
 	}
 	
 	public void defineLayout(IPageLayout layout) {
@@ -43,6 +44,7 @@ public class MondoPerspective implements IPerspectiveFactory {
         bottom.addView(PatternsView.ID);
         bottom.addView(AppliedPatternsView.ID);
         bottom.addView(PatternServicesView.ID);
+        bottom.addView(LayersView.ID);
 	}
 
 }

@@ -103,7 +103,7 @@ public interface PatternInstance extends EObject {
 	 * The list contents are of type {@link runtimeServices.ServiceInstance}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Service Instances</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Service Instances</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

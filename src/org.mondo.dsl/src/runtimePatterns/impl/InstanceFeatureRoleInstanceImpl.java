@@ -48,7 +48,6 @@ public class InstanceFeatureRoleInstanceImpl extends FeatureRoleInstanceImpl imp
 	 * @ordered
 	 */
 	protected static final String VALUE_EDEFAULT = "";
-
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->

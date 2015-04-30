@@ -85,7 +85,7 @@ public interface ClassRoleInstance extends RoleInstance {
 	 * The list contents are of type {@link runtimePatterns.FeatureRoleInstance}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Feature Instances</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Feature Instances</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -101,7 +101,7 @@ public interface ClassRoleInstance extends RoleInstance {
 	 * The list contents are of type {@link runtimePatterns.ReferenceRoleInstance}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Reference Instances</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Reference Instances</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

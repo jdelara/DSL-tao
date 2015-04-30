@@ -17,15 +17,20 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
+import org.mondo.editor.extensionpoints.EvaluateExtensionPoint;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.patterns.PatternApplicationUtils;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 import org.mondo.editor.ui.utils.patterns.RuntimePatternsModelUtils;
 import org.mondo.editor.ui.wizards.PatternWizard;
+
+import runtimePatterns.PatternInstances;
 
 import dslPatterns.Category;
 import dslPatterns.ComplexFeature;
@@ -48,7 +53,47 @@ public class PatternsView extends ViewPart {
 	private Action doubleClickAction;
 	
 	private EPackage ecoreDiagram = null;
-	 
+	
+	IPartListener2 pl = new IPartListener2() {
+
+        public void partActivated(IWorkbenchPartReference ref) {   
+       }
+
+		@Override
+		public void partBroughtToTop(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partClosed(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partDeactivated(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partOpened(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partHidden(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partVisible(IWorkbenchPartReference partRef) {
+			IWorkbenchPart part = partRef.getPart(false);   
+			if (part instanceof IEditorPart) {
+	        	   part.setFocus();
+	        	   refresh();
+	           }
+		}
+
+		@Override
+		public void partInputChanged(IWorkbenchPartReference partRef) {	
+		}
+  };
+	
+
 	class TreeObject implements IAdaptable {
 		private String name;
 		private TreeParent parent;
@@ -196,7 +241,7 @@ public class PatternsView extends ViewPart {
 
 	/**
 	 * This is a callback that will allow us
-	 * to create the viewer and initialize it.
+	 * to create the viewer and initialise it.
 	 */
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -209,6 +254,9 @@ public class PatternsView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		
+		IWorkbenchPage page = this.getSite().getPage();
+		page.addPartListener(pl);	
 
 	}
 
@@ -263,24 +311,28 @@ public class PatternsView extends ViewPart {
 						int maxNumIns = pattern.getMaxInstances();
 						
 						if ( (maxNumIns==-1) || (numIns<maxNumIns)){
-						
-							IProject project= IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource());
-							
-							WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, project))
-							{
-								@Override
-						        protected void configureShell(Shell newShell) {
-								super.configureShell(newShell);
-								newShell.setSize(950, 675);
-								}
-							};
-							dialog.create();
-							
-							dialog.getShell().setText("PATTERNS");
-							int result = dialog.open();
-							if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
-								PatternUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern);	
-							}	
+							PatternInstances pis = RuntimePatternsModelUtils.getPatternInstances(editor.getDiagramBehavior(), true);
+
+							if (!EvaluateExtensionPoint.evaluateApplyPattern(Platform.getExtensionRegistry(), pattern, ecoreDiagram, pis))
+							{		
+								IProject project= IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource());
+								
+								WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, project))
+								{
+									@Override
+							        protected void configureShell(Shell newShell) {
+									super.configureShell(newShell);
+									newShell.setSize(/*950*/925, /*675*/725);
+									}
+								};
+								dialog.create();
+								
+								dialog.getShell().setText("PATTERNS");
+								int result = dialog.open();
+								if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
+									PatternApplicationUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern, pis);	
+								}	
+							}
 						} else showMessage("Max. number of pattern instances");
 					}
 					else showMessage("Pattern not available");				    
@@ -310,21 +362,35 @@ public class PatternsView extends ViewPart {
 		refresh();
 	}
 	
-	public void refresh(){
+
+	public void refresh() {
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){
 			IEditorPart editor = activePage.getActiveEditor();	
 			if (editor instanceof IDiagramContainerUI){
 				if (viewer!= null){
 					Diagram diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();
-					if (ModelUtils.existsPackage(diagram))
-						ecoreDiagram = ModelUtils.getBusinessModel(diagram);
-					viewer.setInput(getViewSite());
-					
-					viewer.getControl().setFocus();
+					if (ModelUtils.existsPackage(diagram)){
+						EPackage currentEcoreDiagram = ModelUtils.getBusinessModel(diagram);					
+						if (ecoreDiagram!=currentEcoreDiagram) {
+							ecoreDiagram = currentEcoreDiagram;
+							viewer.setInput(getViewSite());
+							viewer.getControl().setFocus();
+						}
+					} else {
+						viewer.setInput(getViewSite());
+						viewer.getControl().setFocus();
+					}
 				}
 			}		
-		} else viewer.setInput(null);
+		} else {
+			ecoreDiagram = null;
+			viewer.setInput(null);
+		}	
 	}
+	
+	
+	
+	
 
 }

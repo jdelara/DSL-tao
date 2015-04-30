@@ -3,7 +3,6 @@
 package dslPatterns;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link dslPatterns.Pattern#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getServices <em>Services</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getMaxInstances <em>Max Instances</em>}</li>
+ *   <li>{@link dslPatterns.Pattern#getRootAttachedVariant <em>Root Attached Variant</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,12 +36,12 @@ public interface Pattern extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Root Variant</em>' containment reference.
-	 * @see #setRootVariant(ComplexFeature)
+	 * @see #setRootVariant(ComplexFeatureMain)
 	 * @see dslPatterns.DslPatternsPackage#getPattern_RootVariant()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	ComplexFeature getRootVariant();
+	ComplexFeatureMain getRootVariant();
 
 	/**
 	 * Sets the value of the '{@link dslPatterns.Pattern#getRootVariant <em>Root Variant</em>}' containment reference.
@@ -51,7 +51,7 @@ public interface Pattern extends EObject {
 	 * @see #getRootVariant()
 	 * @generated
 	 */
-	void setRootVariant(ComplexFeature value);
+	void setRootVariant(ComplexFeatureMain value);
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
@@ -147,5 +147,31 @@ public interface Pattern extends EObject {
 	 * @generated
 	 */
 	void setMaxInstances(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Root Attached Variant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Root Attached Variant</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Root Attached Variant</em>' containment reference.
+	 * @see #setRootAttachedVariant(ComplexFeatureAttached)
+	 * @see dslPatterns.DslPatternsPackage#getPattern_RootAttachedVariant()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ComplexFeatureAttached getRootAttachedVariant();
+
+	/**
+	 * Sets the value of the '{@link dslPatterns.Pattern#getRootAttachedVariant <em>Root Attached Variant</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Root Attached Variant</em>' containment reference.
+	 * @see #getRootAttachedVariant()
+	 * @generated
+	 */
+	void setRootAttachedVariant(ComplexFeatureAttached value);
 
 } // Pattern

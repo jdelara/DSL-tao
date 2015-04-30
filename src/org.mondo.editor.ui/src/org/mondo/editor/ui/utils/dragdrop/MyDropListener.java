@@ -58,10 +58,8 @@ public class MyDropListener extends ViewerDropAdapter {
 			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, (ClassInterface)target.getMmInterface() , target.getOrder())){
 				 mmird.setElementDiagram("");
 			}
-		}
-		
+		}	
 		target.setElementDiagram(event.data.toString());
-	    
 	    super.drop(event);
 	  }
 
@@ -78,35 +76,36 @@ public class MyDropListener extends ViewerDropAdapter {
 		  EObject object = ModelsUtils.getEObject(modelPack,data.toString());
 		 
 		  if (target instanceof MMInterfaceRelDiagram){
-			  String parentName = ((MMInterfaceRelDiagram)target).getTextMMInterfaceRelDiagramParentName();
-			  MMInterfaceRelDiagram parent = PatternUtils.getMMInterfaceRelDiagram(content, parentName, ((MMInterfaceRelDiagram)target).getOrder());
+			if (!PatternUtils.isAbstract((MMInterfaceRelDiagram)target, content)) { 
 			  
-			  String[] datas = data.toString().split("/");
+				MMInterfaceRelDiagram parent = ((MMInterfaceRelDiagram)target).getParent();
+				String[] datas = data.toString().split("/");
 			  
-			  EClass eClassParent = (EClass)ModelsUtils.getEObject(modelPack, datas[0]);
-			  EList<EClass> eClassesParent =eClassParent.getEAllSuperTypes();
-			  EClass eClassParentRel = null;
-			  if (parent != null) 
-				  eClassParentRel = (EClass)ModelsUtils.getEObject(modelPack,parent.getElementDiagram());
-			 
-			  if (((((MMInterfaceRelDiagram)target).getMmInterface() instanceof ClassInterface)&&(object instanceof EClass))
-				    	|| ( ((((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType) &&(object instanceof EAttribute)) && (!parent.getElementDiagram().isEmpty())
-				    			&&((datas[0].compareTo(parent.getElementDiagram())==0)||(eClassesParent.contains(eClassParentRel)))) 
-				    	|| ( ((((MMInterfaceRelDiagram)target).getMmInterface() instanceof ReferenceInterface) &&(object instanceof EReference)) && (!parent.getElementDiagram().isEmpty()) && (!parent.getElementDiagram().isEmpty())
-				    			&&((datas[0].compareTo(parent.getElementDiagram())==0) || (eClassesParent.contains(eClassParentRel))))){		  	
-				  if ((((MMInterfaceRelDiagram)target).getMmInterface() instanceof ReferenceInterface) &&(object instanceof EReference)){
-					  return (PatternUtils.isETypeTarget(((ReferenceInterface)((MMInterfaceRelDiagram)target).getMmInterface()), (EClass)((EReference)object).getEType(), content, modelPack, ((MMInterfaceRelDiagram)target).getOrderPointer())
-							  &&(PatternUtils.areCompatibleReferences((ReferenceInterface)((MMInterfaceRelDiagram)target).getMmInterface(), (EReference)object)   
-								&& (PatternUtils.areCompatibleEOppositeReferences(content, (MMInterfaceRelDiagram)target, (EReference)object)) ));
-				  }
-				  if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType){
-					  if (PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == DataType.EJAVAOBJECT.getEDataType()) return true;
-					  else return PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == ((EAttribute)object).getEAttributeType();
+				EClass eClassParent = (EClass)ModelsUtils.getEObject(modelPack, datas[0]);
+				EList<EClass> eClassesParent =eClassParent.getEAllSuperTypes();
+				EClass eClassParentRel = null;
 				  
-				  } if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof ClassInterface)	
-					  return (PatternUtils.areCompatibleClasses(content, (MMInterfaceRelDiagram)target, (EClass) object));		  
-				  else return true;
-			  } else return false;
+				if (parent != null)
+				  eClassParentRel = (EClass)ModelsUtils.getEObject(modelPack,parent.getElementDiagram());
+				 
+				if (((((MMInterfaceRelDiagram)target).getMmInterface() instanceof ClassInterface)&&(object instanceof EClass))
+					    	|| ( ((((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType) &&(object instanceof EAttribute)) && (!parent.getElementDiagram().isEmpty())
+					    			&&((datas[0].compareTo(parent.getElementDiagram())==0)||(eClassesParent.contains(eClassParentRel)))) 
+					    	|| ( ((((MMInterfaceRelDiagram)target).getMmInterface() instanceof ReferenceInterface) &&(object instanceof EReference)) && (!parent.getElementDiagram().isEmpty()) && (!parent.getElementDiagram().isEmpty())
+					    			&&((datas[0].compareTo(parent.getElementDiagram())==0) || (eClassesParent.contains(eClassParentRel))))){		  	
+					if ((((MMInterfaceRelDiagram)target).getMmInterface() instanceof ReferenceInterface) &&(object instanceof EReference)){
+						return (PatternUtils.isETypeTarget((MMInterfaceRelDiagram)target, (EClass)((EReference)object).getEType(), content, modelPack, ((MMInterfaceRelDiagram)target).getOrderPointer())
+								  &&(PatternUtils.areCompatibleReferences((ReferenceInterface)((MMInterfaceRelDiagram)target).getMmInterface(), (EReference)object)   
+									&& (PatternUtils.areCompatibleEOppositeReferences(content, (MMInterfaceRelDiagram)target, (EReference)object)) ));
+					}
+					if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType){
+						if (PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == DataType.EJAVAOBJECT.getEDataType()) return true;
+						else return PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == ((EAttribute)object).getEAttributeType();				  
+					} if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof ClassInterface)	
+						  return (PatternUtils.areCompatibleClasses(content, (MMInterfaceRelDiagram)target, (EClass) object));		  
+					else return true;
+				} else return false; 
+			}
 		  }
 		  return false;
 	  }

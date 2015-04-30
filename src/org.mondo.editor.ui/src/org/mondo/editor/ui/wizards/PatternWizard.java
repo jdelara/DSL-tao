@@ -40,7 +40,7 @@ public class PatternWizard extends Wizard {
   @Override
   public void addPages() {
     one = new PatternWizardPageOne(pattern.getName(), pattern.getDescription());
-    two = new PatternWizardPageTwo(pattern.getRootVariant(), metamodels, project);
+    two = new PatternWizardPageTwo(pattern.getRootVariant(), metamodels, project, pattern.getRootAttachedVariant());
     three = new PatternWizardPageThree(ecoreDiagram, metamodels, patternRelDiagram, pattern.getName());
     addPage(one);
     addPage(two);

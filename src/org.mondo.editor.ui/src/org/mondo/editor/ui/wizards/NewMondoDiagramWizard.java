@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
+import org.mondo.editor.ui.utils.layers.RuntimeLayersModelUtils;
 
 /**
  * Wizard to create new mondo diagrams. 
@@ -93,6 +94,7 @@ public class NewMondoDiagramWizard extends Wizard implements INewWizard {
 				@Override
 				protected void doExecute() {
 					metaResource.getContents().add(diagram);
+					RuntimeLayersModelUtils.createLayerSet(metaResource);
 				}
 		   });
 		IResourceUtils.saveResource(metaResource);

@@ -26,6 +26,8 @@ import org.eclipse.swt.widgets.Group;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ComplexFeature;
+import dslPatterns.ComplexFeatureAttached;
+import dslPatterns.ComplexFeatureMain;
 import dslPatterns.FeatureKind;
 import dslPatterns.PatternMetaModel;
 import dslPatterns.SimpleFeature;
@@ -41,7 +43,8 @@ import dslPatterns.Variant;
 public class PatternWizardPageTwo extends WizardPage {
   private Composite container;
   private Group group;
-  private ComplexFeature cf;
+  private ComplexFeatureMain cf;
+  private ComplexFeatureAttached cfa;
   private HashMap<Button, Control> dependencies = new HashMap<Button, Control>();
   private String messageError;
   private List<Button> andButtons = new ArrayList<Button>();
@@ -50,19 +53,22 @@ public class PatternWizardPageTwo extends WizardPage {
   
   private List<PatternMetaModel> metamodels;
 
-  public PatternWizardPageTwo(ComplexFeature cf, List<PatternMetaModel> metamodels, IProject project) {
+  public PatternWizardPageTwo(ComplexFeatureMain cf, List<PatternMetaModel> metamodels, IProject project, ComplexFeatureAttached cfAttached) {
     super("Pattern Wizard");
     setTitle("Select Features");
     this.cf = cf;
+    this.cfa = cfAttached;
     this.metamodels = metamodels;
     this.project = project;
+    
   }
 
   @Override
   public void createControl(Composite parent) {
-    container = new Composite(parent, SWT.NONE);
+    	  
+	container = new Composite(parent, SWT.NONE);
     GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-    container.setLayout(new GridLayout(2,false)); 
+    container.setLayout(new GridLayout(2,false));//2 
     container.setLayoutData(gd);
     
     group = new Group(container, SWT.NONE); 
@@ -78,7 +84,19 @@ public class PatternWizardPageTwo extends WizardPage {
     if (cf.getAndChildren().size() > 0) createButtons(group,cf.getAndChildren(), SWT.CHECK, false, true);
     if (cf.getOrChildren().size() > 0) createButtons(group,cf.getOrChildren(), SWT.CHECK, true, false);
     if (cf.getXorChildren().size() > 0) createButtons(group,cf.getXorChildren(), SWT.RADIO, true, false);
+    
+    if (cfa != null){
+	    Group group3 = new Group(container, SWT.NONE);
+	    group3.setText("Attached Patterns");
+	    group3.setLayout(new GridLayout(2,false));
+	    GridData gd3 = new GridData(SWT.FILL, SWT.FILL, false, false); 
+	    group3.setLayoutData(gd3);
 
+	    if (cfa.getAndChildren().size() > 0) createButtons(group3,cfa.getAndChildren(), SWT.CHECK, false, true);
+	    if (cfa.getOrChildren().size() > 0) createButtons(group3,cfa.getOrChildren(), SWT.CHECK, true, false);
+	    if (cfa.getXorChildren().size() > 0) createButtons(group3,cfa.getXorChildren(), SWT.RADIO, true, false);
+    }
+    
     dialogChanged();
     setControl(container);
   }
@@ -140,10 +158,11 @@ public class PatternWizardPageTwo extends WizardPage {
     	}else {
     		//ComplexFeature
     	    //PaternMetamodel
-    	    if (((ComplexFeature)var).getMetaModel()!= null){
-    	    	button.setData(((ComplexFeature)var).getMetaModel());
+    	    if (var instanceof ComplexFeatureMain)
+    		if (((ComplexFeatureMain)var).getMetaModel()!= null){
+    	    	button.setData(((ComplexFeatureMain)var).getMetaModel());
     	    	if (button.getSelection()) {
-    	    		PatternMetaModel pmm = ((ComplexFeature)var).getMetaModel();
+    	    		PatternMetaModel pmm = ((ComplexFeatureMain)var).getMetaModel();
     	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
     	    	}
     	    }
