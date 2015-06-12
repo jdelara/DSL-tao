@@ -75,7 +75,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 	            				mmird.setElementDiagram("");
 	            			}
 	            			 
-	            			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, (ClassInterface)target.getMmInterface() , target.getOrder())){
+	            			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, target)){
 	            				 mmird.setElementDiagram("");
 	            			}
 	            			
@@ -110,13 +110,13 @@ public class PatternMenuAdapter extends MenuAdapter {
 
 		            @SuppressWarnings("unchecked")
 		            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
-		            MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(input, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
+		            MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(input, mmird);
 					
 					MenuItem itemAdd = new MenuItem(menu, SWT.NONE);		        
             		itemAdd.setText("Add new "+mmird.getTextMMInterfaceRelDiagramOnlyName(false));
 	
 					boolean  ok = ((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)) || (mmird.getMaxValue()==-1));
-					if ((mmirdRef != null)&&(!PatternUtils.isReflexiveReference((ReferenceInterface)mmird.getMmInterface()))) {
+					if ((mmirdRef != null)&&(!PatternUtils.isReflexiveReference(input,mmird))) {
 						int numMmird = PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef);		
 						ok = ok && ((mmirdRef.getMaxValue() > numMmird)|| (mmirdRef.getMaxValue()==-1));		            
 					}
@@ -154,7 +154,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						int order = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(input, mmird)+1;
-						PatternUtils.duplicateStructureClass(input, mmird, order);
+						PatternUtils.duplicateStructureClass(input, mmird, order, mmird.getOrderPointer());
 						Object[] expandedElements =viewer.getExpandedElements();
 						viewer.setInput(input);
 						viewer.setExpandedElements(expandedElements);
@@ -195,19 +195,26 @@ public class PatternMenuAdapter extends MenuAdapter {
         		//All references same behavior
     				final MMInterfaceRelDiagram mmird = (MMInterfaceRelDiagram)item.getData();
 
-		            
 	            	@SuppressWarnings("unchecked")
 		            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
-	    			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(input, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
+	    			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(input, mmird);
 					
         			MenuItem itemDelete = new MenuItem(menu, SWT.NONE);
 	            	itemDelete.setText("Delete "+mmird.getTextMMInterfaceRelDiagramOnlyName(false));
-    			
-	    			boolean ok = ((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)));
-	    			if ((mmirdRef != null)&&(!PatternUtils.isReflexiveReference((ReferenceInterface)mmird.getMmInterface())))
-	    				ok = ok	&& ((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef)));
-					itemDelete.setEnabled(ok);	
-
+	            	
+	            	if (PatternUtils.isAbstract(mmird, input))
+	            		itemDelete.setEnabled(true);	
+	            	else{
+		    			boolean ok = ((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)));
+		    			if ((mmirdRef != null)&&(!PatternUtils.isReflexiveReference(input,mmird)))
+		    				ok = ok	&& (((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef)))
+		    					//11/5/2015
+		    						||
+		    					(PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(input,mmirdRef).size()>1));
+	
+		    			
+		    			itemDelete.setEnabled(ok);	
+	            	}
 	            	itemDelete.addSelectionListener(new SelectionListener() {
 						
 						@Override
@@ -232,7 +239,7 @@ public class PatternMenuAdapter extends MenuAdapter {
             	@SuppressWarnings("unchecked")
 	            final List<MMInterfaceRelDiagram> input = (List<MMInterfaceRelDiagram>) viewer.getInput();	
 				boolean ok = (((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagram(input,mmird))) 
-						&& (PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutReflexives(input, (ClassInterface)mmird.getMmInterface(), mmird.getOrder()).size()==0));
+						&& (PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(input, mmird).size()==0));
 
 				itemDelete.setEnabled(ok);	
 
@@ -402,7 +409,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 				MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(input, ((EReference)eRefObject).getEType().getName(), info.getOrderPointer());
 				boolean ok = info.getElementDiagram().isEmpty()
 				 && (PatternUtils.isAbstract(infoETypeEClass, input))
-				 && (!PatternUtils.isReflexiveReference((ReferenceInterface)info.getMmInterface()))
+				// && (!PatternUtils.isReflexiveReference(input, info))
 				 && (!PatternUtils.isAbstract(info, input))
 				 && (info.getToConcreteSubtype()==null);
     			
@@ -434,7 +441,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 				MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(input, ((EReference)eRefObject).getEType().getName(), info.getOrderPointer());
 				boolean ok = /*info.getElementDiagram().isEmpty()
 				 &&*/ (PatternUtils.isAbstract(infoETypeEClass, input))
-				 && (!PatternUtils.isReflexiveReference((ReferenceInterface)info.getMmInterface()))
+				 && (!PatternUtils.isReflexiveReference(input, info))
 				 && (!PatternUtils.isAbstract(info, input))
 				 && (info.getToConcreteSubtype()!=null);
     			

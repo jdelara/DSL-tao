@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -39,12 +40,19 @@ import org.mondo.editor.ui.utils.services.RuntimeServicesModelUtils;
 import runtimePatterns.ClassRoleInstance;
 import runtimePatterns.PatternInstance;
 import runtimePatterns.PatternInstances;
+import runtimePatterns.ReferenceRoleInstance;
 import dslPatterns.ClassInterface;
+import dslPatterns.ClassInterfaceAttached;
 import dslPatterns.FeatureInstance;
 import dslPatterns.FeatureInterface;
+import dslPatterns.FeatureInterfaceAttached;
 import dslPatterns.FeatureType;
+import dslPatterns.MMInterface;
+import dslPatterns.MMInterfaceAttached;
 import dslPatterns.Pattern;
+import dslPatterns.PatternMetaModelAttached;
 import dslPatterns.ReferenceInterface;
+import dslPatterns.ReferenceInterfaceAttached;
 
 public final class PatternApplicationUtils {
 
@@ -71,7 +79,7 @@ public final class PatternApplicationUtils {
 				String patternInstanceName = RuntimePatternsModelUtils.getPatternNameValid(pis, patternName);
 				PatternInstance pi = RuntimePatternsModelUtils.createPatternInstance(pis, patternInstanceName, pattern);
 				RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, pack, patternInstanceName);
-								
+
 				List<MMInterfaceRelDiagram> newspatternRelDiagram = new LinkedList<MMInterfaceRelDiagram>();
 				
 				//1. CLASSES
@@ -81,6 +89,7 @@ public final class PatternApplicationUtils {
 					}
 				}
 				
+				//Abstract inheritance
 				//2. ADD NEW ELEMENTS
 				patternRelDiagram.addAll(newspatternRelDiagram);
 
@@ -123,7 +132,6 @@ public final class PatternApplicationUtils {
 		});
 	}
 	
-	
 	/**
 	 * Static method that applies a pattern to a class element (if it doesn't exist, it's created)
 	 * @param patternRelDiagram - list of current MMInterfaceRelDiagram objects.
@@ -148,7 +156,7 @@ public final class PatternApplicationUtils {
 			  }
 			
 			cri = RuntimePatternsModelUtils.createClassRoleInstance(pi, (EClass) selObj, (ClassInterface)info.getMmInterface());
-			RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, (EClass) selObj, info.getTextMMInterfaceRelDiagram());
+			RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, (EClass) selObj, /*info.getTextMMInterfaceRelDiagram()*/RuntimePatternsModelUtils.getPatternRoleName(cri));
 
 			//featureInstances
 			for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, info)){
@@ -161,6 +169,7 @@ public final class PatternApplicationUtils {
 				//not neccesary..
 				if (PatternUtils.isAbstract(parent, patternRelDiagram)){
 					newspatternRelDiagram.addAll(createAttRefAbstractClass(pi, parent,info, diagramBehavior, patternRelDiagram));
+					//copyAttRefParentAbstractClasses(patternRelDiagram, info);
 					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, parent)){
 						 if (child.getMmInterface() instanceof FeatureInstance){
 							RuntimePatternsModelUtils.createInstanceFeatureRoleInstance(cri, (FeatureInstance)child.getMmInterface(), child.getElementDiagram());
@@ -189,8 +198,8 @@ public final class PatternApplicationUtils {
 			EObject mmirdEClass = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), mmirdClass.getElementDiagram());
 			ClassRoleInstance cri =  RuntimePatternsModelUtils.getClassRoleInstance(pi,(ClassInterface)mmirdClass.getMmInterface(), (EClass)mmirdEClass);
 			if (info.getMmInterface() instanceof ReferenceInterface){
-				RuntimePatternsModelUtils.createReferenceRoleInstance(cri,(EReference)selObj,(ReferenceInterface)info.getMmInterface());
-				RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, (EReference) selObj, info.getTextMMInterfaceRelDiagram());
+				ReferenceRoleInstance ri = RuntimePatternsModelUtils.createReferenceRoleInstance(cri,(EReference)selObj,(ReferenceInterface)info.getMmInterface());
+				RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, (EReference) selObj, /*info.getTextMMInterfaceRelDiagram()*/RuntimePatternsModelUtils.getPatternRoleName(cri)+"/"+RuntimePatternsModelUtils.getPatternRoleName(ri));
 			}else RuntimePatternsModelUtils.createTypeFeatureRoleInstance(cri, (EAttribute)selObj, (FeatureType)info.getMmInterface());
 
 		 }else if ((selObj == null)&&(info.getMmInterface() instanceof ReferenceInterface))
@@ -211,21 +220,16 @@ public final class PatternApplicationUtils {
 		String refName = info.getTextMMInterfaceRelDiagram();
 		String[] cads = refName.split("/");
 		if (cads.length == 2) {
-		  
 			//Get MMInterfaceRelDiagram parent.
-			MMInterfaceRelDiagram infoContentEClass =  info.getParent();
-			
+			MMInterfaceRelDiagram infoContentEClass =  info.getParent();	
 			if (infoContentEClass!=null){
 				EObject contentEClass = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), infoContentEClass.getElementDiagram());
-				
 				EAttribute eAttObject = PatternUtils.getEAttribute((FeatureInterface)info.getMmInterface());
-
-				if ((eAttObject != null)&& (eAttObject instanceof EAttribute)){
-					
+				if ((eAttObject != null)&& (eAttObject instanceof EAttribute)){			
 					EAttribute newEatt = createEAttribute(diagramBehavior, fp,contentEClass, eAttObject);
-					
 					ClassRoleInstance cri =  RuntimePatternsModelUtils.getClassRoleInstance(pi,(ClassInterface)infoContentEClass.getMmInterface(), (EClass)contentEClass);
-					RuntimePatternsModelUtils.createTypeFeatureRoleInstance(cri, newEatt, (FeatureType)info.getMmInterface());									
+					RuntimePatternsModelUtils.createTypeFeatureRoleInstance(cri, newEatt, (FeatureType)info.getMmInterface());				
+					info.setElementDiagram(infoContentEClass.getElementDiagram()+"/"+newEatt.getName());
 				}
 			}
 		}
@@ -267,7 +271,7 @@ public final class PatternApplicationUtils {
 							refOps.add(refOp);
 						} else {
 							//new children refs
-							for (MMInterfaceRelDiagram subType: PatternUtils.getSubTypesConcrete(patternRelDiagram,PatternUtils.getFirstMMInterfaceRelDiagram(patternRelDiagram, patternOpposite.getEContainingClass().getName()))){
+							for (MMInterfaceRelDiagram subType: PatternUtils.getSubTypesConcrete(patternRelDiagram,PatternUtils.getFirstMMInterfaceRelDiagram(patternRelDiagram, patternOpposite.getEContainingClass().getName(), mmirdOpposite.getOrder()))){
 								EClass subtypeC = (EClass) ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), subType.getElementDiagram());
 								String nameOppositeS = subtypeC.getName()+"/"+patternOpposite.getName();
 								MMInterfaceRelDiagram mmirdref = PatternApplicationUtils.getMMmInterfaceRelDiagramPrefixElement(patternRelDiagram, nameOppositeS, subType.getOrder());
@@ -280,9 +284,10 @@ public final class PatternApplicationUtils {
 							EReference newRef= DiagramUtils.createEOppositeReference(refOp,(EReference)eRefObject,diagramBehavior.getDiagramTypeProvider().getDiagram());
 							MMInterfaceRelDiagram mmirdClass = PatternUtils.getMMInterfaceRelDiagram(patternRelDiagram, classAnnot, info.getOrder());
 							ClassRoleInstance cri =  RuntimePatternsModelUtils.getClassRoleInstance(pi,(ClassInterface)mmirdClass.getMmInterface(), (EClass)contentEClass);
-							RuntimePatternsModelUtils.createReferenceRoleInstance(cri,newRef,(ReferenceInterface)info.getMmInterface());
-							RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, newRef, info.getTextMMInterfaceRelDiagram());
+							ReferenceRoleInstance ri = RuntimePatternsModelUtils.createReferenceRoleInstance(cri,newRef,(ReferenceInterface)info.getMmInterface());
+							RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, newRef, /*info.getTextMMInterfaceRelDiagram()*/RuntimePatternsModelUtils.getPatternRoleName(cri)+"/"+RuntimePatternsModelUtils.getPatternRoleName(ri));
 							created = true;
+							info.setElementDiagram(newRef.getEContainingClass().getName()+"/"+newRef.getName());
 						}
 					}
 				}
@@ -290,16 +295,19 @@ public final class PatternApplicationUtils {
 				if ((!created)&&(eRefObject != null)&& (eRefObject instanceof EReference)){										
 			
 					MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(patternRelDiagram, ((EReference)eRefObject).getEType().getName(), info.getOrderPointer());
-			
+					
+					//abstract class
+					if (infoETypeEClass==null) 
+						infoETypeEClass = info.getToConcreteSubtype();
+
 					if (infoETypeEClass != null){//Reference pointed to nothing it isn't painted
 						List<MMInterfaceRelDiagram> eTypeMmirds = new LinkedList<MMInterfaceRelDiagram>();
 						if (!PatternUtils.isAbstract(infoETypeEClass, patternRelDiagram))
 							eTypeMmirds.add(infoETypeEClass);
 						else 
-							
 							if (info.getToConcreteSubtype()==null){
-								//eTypeEClass has to be the children.
-								if (PatternUtils.isReflexiveReference((ReferenceInterface)info.getMmInterface()))
+								//eTypeEClass has to be the children. //14/05-direct????
+								if (PatternUtils.isDirectReflexiveReference(patternRelDiagram, info))
 									eTypeMmirds.add(info.getParent());
 								else 
 									for (MMInterfaceRelDiagram subType: PatternUtils.getSubTypesConcrete(patternRelDiagram, infoETypeEClass))
@@ -315,8 +323,8 @@ public final class PatternApplicationUtils {
 							MMInterfaceRelDiagram mmirdClass = PatternUtils.getMMInterfaceRelDiagram(patternRelDiagram, classAnnot, info.getOrder());
 							
 							ClassRoleInstance cri =  RuntimePatternsModelUtils.getClassRoleInstance(pi,(ClassInterface)mmirdClass.getMmInterface(),(EClass)contentEClass);
-							RuntimePatternsModelUtils.createReferenceRoleInstance(cri,eReference,(ReferenceInterface)info.getMmInterface());
-							RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, eReference, info.getTextMMInterfaceRelDiagram());
+							ReferenceRoleInstance ri = RuntimePatternsModelUtils.createReferenceRoleInstance(cri,eReference,(ReferenceInterface)info.getMmInterface());
+							RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, eReference, /*info.getTextMMInterfaceRelDiagram()*/RuntimePatternsModelUtils.getPatternRoleName(cri)+"/"+RuntimePatternsModelUtils.getPatternRoleName(ri));
 							
 							info.setElementDiagram(eReference.getEContainingClass().getName()+"/"+eReference.getName());
 						}
@@ -327,6 +335,107 @@ public final class PatternApplicationUtils {
 	}
 	
 	/**
+	 * Static method that creates a structure with the information of the patternMetamodelAttached and the related elements (patternRelDiagram)
+	 * @param pma
+	 * @param patternRelDiagram
+	 * @param iproject
+	 * @return a list of MMInterfaceRelDiagram
+	 */
+	public static List<MMInterfaceRelDiagram> createPatternAttachedStructure (PatternMetaModelAttached pma, List<MMInterfaceRelDiagram> patternRelDiagram){
+		List<MMInterfaceRelDiagram> patternStructure = new LinkedList<MMInterfaceRelDiagram>();
+		
+		if (pma!=null)
+		  for (ClassInterfaceAttached cia: pma.getClassIntAtt()){ 
+			  ClassInterface ci = (ClassInterface)cia.getType();
+			  if (PatternUtils.existsEClass(ci)){
+				  MMInterfaceRelDiagram atElement = getMmInterfaceRelDiagramAttached(patternRelDiagram, cia);
+				  String elementDiagram = "";
+				  if (atElement != null)elementDiagram = atElement.getElementDiagram();
+				  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, elementDiagram, patternStructure);
+				  patternStructure.add(relElement);
+
+				  //References
+				  for (ReferenceInterfaceAttached ria: cia.getRefIntAtt()){  
+					  ReferenceInterface ri = (ReferenceInterface) ria.getType();
+					  if (PatternUtils.existsEReference(ri)){
+						  MMInterfaceRelDiagram atElementR = getMmInterfaceRelDiagramAttached(patternRelDiagram, ria);
+						  String elementDiagramR = "";
+						  if (atElementR != null)elementDiagramR = atElementR.getElementDiagram();
+						  MMInterfaceRelDiagram relElementR = new MMInterfaceRelDiagram(ri, elementDiagramR, patternStructure);
+						  patternStructure.add(relElementR);
+					  }
+				  }
+				  
+				  for (FeatureInterfaceAttached fia: cia.getFeatIntAtt()){  
+					  FeatureInterface fi = (FeatureInterface) fia.getType();
+					  if (PatternUtils.existsEAttribute(fi))
+						  if (fi instanceof FeatureType){
+							  MMInterfaceRelDiagram atElementF = getMmInterfaceRelDiagramAttached(patternRelDiagram, fia);
+							  String elementDiagramF = "";
+							  if (atElementF!=null) elementDiagramF = atElementF.getElementDiagram();
+							  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi,elementDiagramF, patternStructure, relElement);
+							  patternStructure.add(relElementF);
+						  }else {//FeatureInstance
+							  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi, getFeatureInstanceValue(cia, (FeatureInstance)fi), patternStructure, relElement);
+							  patternStructure.add(relElementF);
+						  }
+				  }
+			  }
+		  }
+		return patternStructure;
+	}
+	
+	/**
+	 * Static method that returns the value of the classInterfaceAttached instance for the given featureinstance
+	 * @param cia ClassInterfaceAttached
+	 * @param fi featureIntance
+	 * @return an string with the value
+	 */
+	private static String getFeatureInstanceValue (ClassInterfaceAttached cia, FeatureInstance fi){
+		//Features
+		EObjectImpl objImp = (EObjectImpl)cia.getValue();
+		if (objImp != null){
+			EClass classXMI = (EClass)objImp.eClass();
+	  		EAttribute attFI = fi.getRef().get(0);
+	  		/*if (classXMI.getEAllAttributes().size()==0){
+	  			System.out.println("No attributes");
+	  		}*/
+	  		for (EAttribute att:classXMI.getEAllAttributes() ){
+	  			if (att.getName().compareTo(attFI.getName())==0)
+	  				return objImp.eGet(att).toString();
+	  		}
+		}
+		return null;
+	}
+	
+	/**
+	 * Static method that returns the MMInterfaceRelDiagram object pointed by the given MMInterfaceAttached of the list "patternRelDiagram"
+	 * @param patternRelDiagram
+	 * @param mmia MMInterfaceAttached
+	 * @return MMInterfaceRelDiagram object
+	 */
+	private static MMInterfaceRelDiagram getMmInterfaceRelDiagramAttached (List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceAttached mmia){
+		for (MMInterface mmi : mmia.getAttached()){
+			MMInterfaceRelDiagram mmird = getMmInterfaceRelDiagram (patternRelDiagram, mmi);
+			if (mmird!=null) return mmird;
+		}
+		return null;
+	}
+	
+	/**
+	 * Static method that returns the MMInterfaceRelDiagram object related to the mminterface of the list "patternRelDiagram"
+	 * @param patternRelDiagram
+	 * @param mmi MMInterface
+	 * @return MMInterfaceRelDiagram object
+	 */
+	public static MMInterfaceRelDiagram getMmInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, MMInterface mmi){
+		for (MMInterfaceRelDiagram mmird : patternRelDiagram){
+			if (mmird.getMmInterface().equals(mmi)) return mmird;
+		}
+		return null;
+	}
+	
+	/**
 	 * Static method that returns if the mmird object has the object "child" as a child.
 	 * @param mmird
 	 * @param child
@@ -334,11 +443,12 @@ public final class PatternApplicationUtils {
 	 */
 	private static boolean hasSimilarChild (MMInterfaceRelDiagram mmird, MMInterfaceRelDiagram child){
 		for (MMInterfaceRelDiagram auxChild: mmird.getChildren()){
-			if (auxChild.getMmInterface().equals(child.getMmInterface())) return true;
+			if ((auxChild.getMmInterface().equals(child.getMmInterface())) 
+				&&(auxChild.getOrderPointer() == child.getOrderPointer()))
+					return true;
 		}
 		return false;
 	}
-	
 	
 	/**
 	 * Static method that copy and create attributes and references of an abstract class to their children.
@@ -351,36 +461,31 @@ public final class PatternApplicationUtils {
 	 * @return list of MMInterfaceRelDiagram objects
 	 */
 	private static List<MMInterfaceRelDiagram> createAttRefAbstractClass(PatternInstance pi, MMInterfaceRelDiagram abstractParent,MMInterfaceRelDiagram info, DiagramBehavior diagramBehavior, List<MMInterfaceRelDiagram> patternRelDiagram ){
-		
-		EClass eclass = (EClass) ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), info.getElementDiagram());
- 
-		final IFeatureProvider fp = diagramBehavior.getDiagramTypeProvider().getFeatureProvider();
 		List<MMInterfaceRelDiagram> newspatternRelDiagram = new LinkedList<MMInterfaceRelDiagram>();
-		List<MMInterfaceRelDiagram> source = PatternUtils.getChildren(patternRelDiagram, abstractParent);
-		
-		for (MMInterfaceRelDiagram mmird : source){
+
+		for (MMInterfaceRelDiagram parent: getSuperTypesAbstract(patternRelDiagram, info)){					
+			List<MMInterfaceRelDiagram> source = PatternUtils.getChildren(patternRelDiagram, parent);
 			
-			if (!hasSimilarChild(info, mmird)){
-				if (mmird.getMmInterface() instanceof FeatureType){
-					EAttribute attSource = PatternUtils.getEAttribute((FeatureType) mmird.getMmInterface());			
-					EAttribute newEAtt = createEAttribute(diagramBehavior, fp, eclass, attSource);
-					newspatternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), newEAtt.getEContainingClass().getName()+"/"+newEAtt.getName(), patternRelDiagram, info));					
-					
-				} else if (mmird.getMmInterface() instanceof ReferenceInterface){
-		
-					EReference refSource = PatternUtils.getEReference((ReferenceInterface) mmird.getMmInterface());
-					MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(patternRelDiagram, refSource.getEType().getName(), mmird.getOrderPointer());
-					
-					EObject eTypeEClass = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), infoETypeEClass.getElementDiagram());
-					
-					EReference eReference = null;
-					if (PatternUtils.isReflexiveReference((ReferenceInterface)mmird.getMmInterface()))
-						eReference = createEReference(diagramBehavior, fp, eclass, refSource, eclass);
-					else
-						eReference = createEReference(diagramBehavior, fp, eclass, refSource, eTypeEClass);
-					
-					newspatternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), eReference.getEContainingClass().getName()+"/"+eReference.getName(), patternRelDiagram, info));
+			for (MMInterfaceRelDiagram mmird : source){
 				
+				if (!hasSimilarChild(info, mmird)){
+					if (mmird.getMmInterface() instanceof FeatureType){
+						newspatternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), "",mmird.getOrder(), patternRelDiagram, info));					
+					} else if (mmird.getMmInterface() instanceof FeatureInstance){
+						newspatternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), mmird.getElementDiagram(), mmird.getOrder(),patternRelDiagram, info));
+					}
+					else if (mmird.getMmInterface() instanceof ReferenceInterface){					
+						//modificar en el caso de que sea reflexiva5/5/2015
+						MMInterfaceRelDiagram mmirdRef = new MMInterfaceRelDiagram(mmird.getMmInterface(), "", mmird.getOrder(), mmird.getOrderPointer(),patternRelDiagram, info);
+						
+						if ((PatternUtils.isDirectReflexiveReference(patternRelDiagram,mmird))
+								|| (mmird.getToConcreteSubtype()==parent)) 
+							mmirdRef.setToConcreteSubtype(info);
+						
+						newspatternRelDiagram.add(mmirdRef);
+					
+					
+					}
 				}
 			}
 		}
@@ -401,12 +506,49 @@ public final class PatternApplicationUtils {
 				
 				if (!hasSimilarChild(info, mmird)){
 					if (mmird.getMmInterface() instanceof FeatureType){
-						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), "", patternRelDiagram, info));					
+						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), "",mmird.getOrder(), patternRelDiagram, info));					
 					} else if (mmird.getMmInterface() instanceof FeatureInstance){
-						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), mmird.getElementDiagram(), patternRelDiagram, info));
+						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), mmird.getElementDiagram(), mmird.getOrder(),patternRelDiagram, info));
 					}
 					else if (mmird.getMmInterface() instanceof ReferenceInterface){
-						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), "", patternRelDiagram, info));
+						//5/5/2015
+						MMInterfaceRelDiagram mmirdRef = new MMInterfaceRelDiagram(mmird.getMmInterface(), "", mmird.getOrder(), mmird.getOrderPointer(),patternRelDiagram, info);
+						
+						if ((PatternUtils.isDirectReflexiveReference(patternRelDiagram, mmird))
+								|| (mmird.getToConcreteSubtype()==parent)) 
+							mmirdRef.setToConcreteSubtype(info);
+						
+						patternRelDiagram.add(mmirdRef);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Static method that copy into info the children info its atts and refs.
+	 * @param patternRelDiagram
+	 * @param info
+	 */
+	public static void copyAttRefClassChildren(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram info){
+		
+		List<MMInterfaceRelDiagram> source = PatternUtils.getChildren(patternRelDiagram, info);
+		for (MMInterfaceRelDiagram child: PatternUtils.getSubTypes(patternRelDiagram, info)){
+			for (MMInterfaceRelDiagram mmird : source){	
+				if (!hasSimilarChild(child, mmird)){
+					if (mmird.getMmInterface() instanceof FeatureType){
+						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), "",mmird.getOrder(), patternRelDiagram, child));					
+					} else if (mmird.getMmInterface() instanceof FeatureInstance){
+						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), mmird.getElementDiagram(), mmird.getOrder(),patternRelDiagram, child));
+					}
+					else if (mmird.getMmInterface() instanceof ReferenceInterface){
+						MMInterfaceRelDiagram mmirdRef = new MMInterfaceRelDiagram(mmird.getMmInterface(), "", mmird.getOrder(), mmird.getOrderPointer(),patternRelDiagram, child);
+						
+						if ((PatternUtils.isDirectReflexiveReference(patternRelDiagram,mmird)
+								|| (mmird.getToConcreteSubtype()==info))) 
+								mmirdRef.setToConcreteSubtype(child);
+						
+						patternRelDiagram.add(mmirdRef);
 					}
 				}
 			}
@@ -519,12 +661,16 @@ public final class PatternApplicationUtils {
 		if (classMMI.getMmInterface() instanceof ClassInterface){
 			EClass eclass = PatternUtils.getEClass((ClassInterface)classMMI.getMmInterface());
 			for (EClass parent: eclass.getESuperTypes()){
-				MMInterfaceRelDiagram superType = PatternUtils.getFirstMMInterfaceRelDiagram(content, parent.getName());
-				if (superType!= null)
+				MMInterfaceRelDiagram superType = PatternUtils.getFirstMMInterfaceRelDiagram(content, parent.getName(), classMMI.getOrderPointer());
+				
+				if (superType==null) superType =  PatternUtils.getFirstMMInterfaceRelDiagram(content, parent.getName(), 0);
+				
+				if (superType!= null){
 					if (PatternUtils.isAbstract(superType, content)) {
 						superTypes.addAll(getSuperTypesAbstract(content, superType));
 						superTypes.add(superType);
 					}
+				}
 			}
 		}return superTypes;
 	}
@@ -540,7 +686,7 @@ public final class PatternApplicationUtils {
 		if (classMMI.getMmInterface() instanceof ClassInterface){
 			EClass eclass = PatternUtils.getEClass((ClassInterface)classMMI.getMmInterface());
 			for (EClass parent: eclass.getESuperTypes()){
-				MMInterfaceRelDiagram superType = PatternUtils.getFirstMMInterfaceRelDiagram(content, parent.getName());
+				MMInterfaceRelDiagram superType = PatternUtils.getFirstMMInterfaceRelDiagram(content, parent.getName(), classMMI.getOrderPointer());
 				if (superType!= null)
 					//Multilevel???
 					if (PatternUtils.isAbstract(superType, content)) {
@@ -572,8 +718,7 @@ public final class PatternApplicationUtils {
 		cc.putProperty("EREFERENCE", (EReference)eRefObject);
 
 		Connection con = crf.create(cc);
-		
-		
+
 		EReference eReference = (EReference)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(con);
 		return eReference;
 	}

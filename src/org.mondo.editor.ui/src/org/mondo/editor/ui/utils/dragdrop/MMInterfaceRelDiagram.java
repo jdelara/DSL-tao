@@ -27,6 +27,7 @@ public class MMInterfaceRelDiagram {
 	private String elementDiagram;
 	private int order;
 	private int orderPointer = 0;
+	//For att and refs
 	private MMInterfaceRelDiagram parent = null;
 	private List<MMInterfaceRelDiagram> children = new LinkedList<MMInterfaceRelDiagram>();
 	private MMInterfaceRelDiagram toConcreteSubtype = null;
@@ -135,7 +136,7 @@ public class MMInterfaceRelDiagram {
 	    this.elementDiagram = elementDiagram;
 	    this.order = 0;
 	    
-	    this.parent = getParent(mmirds, this);
+	    setParent(getParent(mmirds, this));
 	    if (getParent() != null) this.parent.children.add(this);
 	}
 	
@@ -160,7 +161,7 @@ public class MMInterfaceRelDiagram {
 	 * @param order
 	 * @param orderPoint
 	 */
-	public MMInterfaceRelDiagram( ReferenceInterface mmInterface, String elementDiagram, int order, int orderPoint, List<MMInterfaceRelDiagram> mmirds) {
+	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram, int order, int orderPoint, List<MMInterfaceRelDiagram> mmirds) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
 	    this.order = order;
@@ -187,7 +188,6 @@ public class MMInterfaceRelDiagram {
 							return info;
 					}
 				}
-				
 			}catch(Exception e){
 				System.out.println("Error "+e.getMessage());
 			}
@@ -240,7 +240,7 @@ public class MMInterfaceRelDiagram {
 	 * @param mmirds
 	 * @param parent
 	 */
-	public MMInterfaceRelDiagram( ReferenceInterface mmInterface, String elementDiagram, int order, int orderPoint, List<MMInterfaceRelDiagram> mmirds, MMInterfaceRelDiagram parent) {
+	public MMInterfaceRelDiagram( MMInterface mmInterface, String elementDiagram, int order, int orderPoint, List<MMInterfaceRelDiagram> mmirds, MMInterfaceRelDiagram parent) {
 	    this.mmInterface = mmInterface;
 	    this.elementDiagram = elementDiagram;
 	    this.order = order;

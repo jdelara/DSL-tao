@@ -30,6 +30,7 @@ import dslPatterns.ComplexFeatureAttached;
 import dslPatterns.ComplexFeatureMain;
 import dslPatterns.FeatureKind;
 import dslPatterns.PatternMetaModel;
+import dslPatterns.PatternMetaModelAttached;
 import dslPatterns.SimpleFeature;
 import dslPatterns.Variant;
 
@@ -43,6 +44,7 @@ import dslPatterns.Variant;
 public class PatternWizardPageTwo extends WizardPage {
   private Composite container;
   private Group group;
+  private Group groupcfa;
   private ComplexFeatureMain cf;
   private ComplexFeatureAttached cfa;
   private HashMap<Button, Control> dependencies = new HashMap<Button, Control>();
@@ -52,15 +54,15 @@ public class PatternWizardPageTwo extends WizardPage {
   private IProject project = null;
   
   private List<PatternMetaModel> metamodels;
+  private List<PatternMetaModelAttached> metamodelsAttached;
 
-  public PatternWizardPageTwo(ComplexFeatureMain cf, List<PatternMetaModel> metamodels, IProject project, ComplexFeatureAttached cfAttached) {
+  public PatternWizardPageTwo(ComplexFeatureMain cf, List<PatternMetaModel> metamodels, IProject project, List<PatternMetaModelAttached> attachs) {
     super("Pattern Wizard");
     setTitle("Select Features");
     this.cf = cf;
-    this.cfa = cfAttached;
     this.metamodels = metamodels;
     this.project = project;
-    
+    this.metamodelsAttached = attachs;
   }
 
   @Override
@@ -84,17 +86,17 @@ public class PatternWizardPageTwo extends WizardPage {
     if (cf.getAndChildren().size() > 0) createButtons(group,cf.getAndChildren(), SWT.CHECK, false, true);
     if (cf.getOrChildren().size() > 0) createButtons(group,cf.getOrChildren(), SWT.CHECK, true, false);
     if (cf.getXorChildren().size() > 0) createButtons(group,cf.getXorChildren(), SWT.RADIO, true, false);
-    
-    if (cfa != null){
-	    Group group3 = new Group(container, SWT.NONE);
-	    group3.setText("Attached Patterns");
-	    group3.setLayout(new GridLayout(2,false));
-	    GridData gd3 = new GridData(SWT.FILL, SWT.FILL, false, false); 
-	    group3.setLayoutData(gd3);
 
-	    if (cfa.getAndChildren().size() > 0) createButtons(group3,cfa.getAndChildren(), SWT.CHECK, false, true);
-	    if (cfa.getOrChildren().size() > 0) createButtons(group3,cfa.getOrChildren(), SWT.CHECK, true, false);
-	    if (cfa.getXorChildren().size() > 0) createButtons(group3,cfa.getXorChildren(), SWT.RADIO, true, false);
+	groupcfa = new Group(container, SWT.NONE);
+	groupcfa.setText("Attached Patterns");
+	groupcfa.setLayout(new GridLayout(2,false));
+	GridData gd3 = new GridData(SWT.FILL, SWT.FILL, false, false); 
+	groupcfa.setLayoutData(gd3);
+	
+	if (cfa != null){
+	    if (cfa.getAndChildren().size() > 0) createButtons(groupcfa,cfa.getAndChildren(), SWT.CHECK, false, true);
+	    if (cfa.getOrChildren().size() > 0) createButtons(groupcfa,cfa.getOrChildren(), SWT.CHECK, true, false);
+	    if (cfa.getXorChildren().size() > 0) createButtons(groupcfa,cfa.getXorChildren(), SWT.RADIO, true, false);
     }
     
     dialogChanged();
@@ -158,13 +160,20 @@ public class PatternWizardPageTwo extends WizardPage {
     	}else {
     		//ComplexFeature
     	    //PaternMetamodel
-    	    if (var instanceof ComplexFeatureMain)
-    		if (((ComplexFeatureMain)var).getMetaModel()!= null){
-    	    	button.setData(((ComplexFeatureMain)var).getMetaModel());
-    	    	if (button.getSelection()) {
-    	    		PatternMetaModel pmm = ((ComplexFeatureMain)var).getMetaModel();
-    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
-    	    	}
+    	    if (var instanceof ComplexFeatureMain){
+	    		if (((ComplexFeatureMain)var).getMetaModel()!= null){
+	    	    	button.setData(((ComplexFeatureMain)var).getMetaModel());
+	    	    	if (button.getSelection()) {
+	    	    		PatternMetaModel pmm = ((ComplexFeatureMain)var).getMetaModel();
+	    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
+	    	    		this.cfa = pmm.getRootAttachedVariant();
+	    	    	}
+	    	    }
+    	    }else if (var instanceof ComplexFeatureAttached){
+        	    //PaternMetamodelAttached    	    	
+	    		if (((ComplexFeatureAttached)var).getMetaModelAttached()!= null){
+	    	    	button.setData(((ComplexFeatureAttached)var).getMetaModelAttached());
+	    	    }
     	    }
     	    
     	    Group groupCf = new Group(group, SWT.NONE); 
@@ -187,6 +196,21 @@ public class PatternWizardPageTwo extends WizardPage {
 					if (((Button)e.getSource()).getData() instanceof PatternMetaModel) {
 	    	    		PatternMetaModel pmm = (PatternMetaModel)((Button)e.getSource()).getData();
 	    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
+	    	    		cfa = pmm.getRootAttachedVariant();
+	    	    		
+	    	    		//////////////////////////////////////////////////////////////////////////////
+	    	    		for (Control control : groupcfa.getChildren()) {
+	    	    	        control.dispose();
+	    	    	    }
+	    	    		if (cfa != null){
+	
+		    	    		if (cfa.getAndChildren().size() > 0) createButtons(groupcfa,cfa.getAndChildren(), SWT.CHECK, false, true);
+		    	    		if (cfa.getOrChildren().size() > 0) createButtons(groupcfa,cfa.getOrChildren(), SWT.CHECK, true, false);
+		    	    		if (cfa.getXorChildren().size() > 0) createButtons(groupcfa,cfa.getXorChildren(), SWT.RADIO, true, false);
+		    	    		
+		    	    		groupcfa.layout();
+	    	    		}
+	    	    		//////////////////////////////////////////////////////////////////////////////
 	    	    	}
 					
 					
@@ -232,8 +256,6 @@ public class PatternWizardPageTwo extends WizardPage {
 	   }
 	}
 
-  
-  
   /**
    * Method that returns the data provided by the user.
    * @return string list with the values.
@@ -284,18 +306,22 @@ public class PatternWizardPageTwo extends WizardPage {
 		   } else if (ctrl instanceof Button){
 			   if (((Button)ctrl).getSelection()){
 				   if (((Button)ctrl).getData()!=null) {
-					   this.metamodels.add((PatternMetaModel)((Button)ctrl).getData());
+					   if (((Button)ctrl).getData() instanceof PatternMetaModel)
+						   this.metamodels.add((PatternMetaModel)((Button)ctrl).getData());
+					   else if (((Button)ctrl).getData() instanceof PatternMetaModelAttached)
+						   this.metamodelsAttached.add((PatternMetaModelAttached)((Button)ctrl).getData());
 				   }
 			   }
 		   }
 	   } else if (ctrl instanceof Button){
 		   if (this.andButtons.contains(ctrl)){
-			   this.metamodels.add((PatternMetaModel)((Button)ctrl).getData());
+			   if (((Button)ctrl).getData() instanceof PatternMetaModel)
+				   this.metamodels.add((PatternMetaModel)((Button)ctrl).getData());
+			   else if (((Button)ctrl).getData() instanceof PatternMetaModelAttached)
+				   this.metamodelsAttached.add((PatternMetaModelAttached)((Button)ctrl).getData());
 		   }  
 	   }
 	}
-  
-  
   
   /**
    * Method that checks the page content and update its status depending on the result.
@@ -348,7 +374,7 @@ public class PatternWizardPageTwo extends WizardPage {
 	setPageComplete(message == null);
   }
   
-  	private boolean areEquals(List<PatternMetaModel> metamodels, List<PatternMetaModel> metamodelsCopy){
+  private boolean areEquals(List<PatternMetaModel> metamodels, List<PatternMetaModel> metamodelsCopy){
 	  boolean ok = metamodels.size()== metamodelsCopy.size();
 	  for (PatternMetaModel pmm : metamodels){
 		  if (!existsElement(metamodelsCopy, pmm)) return false;
@@ -356,22 +382,22 @@ public class PatternWizardPageTwo extends WizardPage {
 	  return ok;
   	}
   
-  	private boolean existsElement(List<PatternMetaModel> metamodels,PatternMetaModel element){
+  private boolean existsElement(List<PatternMetaModel> metamodels,PatternMetaModel element){
   		for (PatternMetaModel pmm : metamodels){
   		  if (pmm!=null)
   			  if (pmm.equals(element)) return true;
   		}
   		return false;
   	}
-
-  
-	@Override
-	public IWizardPage getNextPage() {
+ 
+  @Override
+  public IWizardPage getNextPage() {
 		List<PatternMetaModel> metamodelsCopy = new LinkedList<PatternMetaModel>();
 		for (PatternMetaModel pmm : metamodels){
 			metamodelsCopy.add(pmm);
 		}
 		metamodels.clear();
+		metamodelsAttached.clear();
 		fillMetamodels(container);
 		PatternWizardPageThree page = ((PatternWizard)getWizard()).three;
 		if (!areEquals(metamodels, metamodelsCopy))page.onEnterPage();

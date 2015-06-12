@@ -1423,11 +1423,9 @@ public  class DiagramUtils {
 	 * @param fp
 	 */
 	public static void hidePatternInfoEClass (ContainerShape shape, IFeatureProvider fp){        
-        List<Shape> shapes = shape.getChildren();    		
-		
+        List<Shape> shapes = shape.getChildren();    			
         Shape eAnnotationText = shapes.get(2);
-        eAnnotationText.setVisible(false);
-        
+        eAnnotationText.setVisible(false);  
 	}
 
 	/**

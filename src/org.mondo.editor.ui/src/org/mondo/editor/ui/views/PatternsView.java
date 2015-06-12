@@ -1,6 +1,7 @@
 package org.mondo.editor.ui.views;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
@@ -35,6 +36,7 @@ import runtimePatterns.PatternInstances;
 import dslPatterns.Category;
 import dslPatterns.ComplexFeature;
 import dslPatterns.Pattern;
+import dslPatterns.PatternMetaModelAttached;
 import dslPatterns.PatternSet;
 
 /**
@@ -65,6 +67,11 @@ public class PatternsView extends ViewPart {
 
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
+			IWorkbenchPart part = partRef.getPart(false);   
+			if (part instanceof IEditorPart) {
+	        	   part.setFocus();
+	        	   refresh();
+	           }
 		}
 
 		@Override
@@ -316,8 +323,9 @@ public class PatternsView extends ViewPart {
 							if (!EvaluateExtensionPoint.evaluateApplyPattern(Platform.getExtensionRegistry(), pattern, ecoreDiagram, pis))
 							{		
 								IProject project= IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource());
+								List<PatternMetaModelAttached> attachPatterns = new LinkedList<PatternMetaModelAttached>();
 								
-								WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, project))
+								WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, attachPatterns, project))
 								{
 									@Override
 							        protected void configureShell(Shell newShell) {
@@ -331,6 +339,19 @@ public class PatternsView extends ViewPart {
 								int result = dialog.open();
 								if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
 									PatternApplicationUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern, pis);	
+									
+									//Check patternRelDiagram
+									/*for (MMInterfaceRelDiagram mmird : patternRelDiagram){
+										System.out.println(mmird.getTextMMInterfaceRelDiagram() + " ->"+mmird.getElementDiagram());
+									}*/
+									//Attached Patterns
+									PatternUtils.registerEpackages(project);
+
+									for (PatternMetaModelAttached pmma : attachPatterns){
+										List<MMInterfaceRelDiagram> attachedStructure = PatternApplicationUtils.createPatternAttachedStructure(pmma, patternRelDiagram);
+										PatternApplicationUtils.applyPattern(attachedStructure, editor.getDiagramBehavior(), pmma.getContent(), pis);
+									}
+																		
 								}	
 							}
 						} else showMessage("Max. number of pattern instances");
@@ -378,6 +399,7 @@ public class PatternsView extends ViewPart {
 							viewer.getControl().setFocus();
 						}
 					} else {
+						ecoreDiagram = null;
 						viewer.setInput(getViewSite());
 						viewer.getControl().setFocus();
 					}

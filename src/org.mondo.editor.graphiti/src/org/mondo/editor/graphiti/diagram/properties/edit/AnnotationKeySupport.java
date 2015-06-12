@@ -21,13 +21,13 @@ public class AnnotationKeySupport extends EditingSupport {
 
 	  private final TableViewer viewer;
 	  private final CellEditor editor;
-	  private Diagram diagram;
+	  //private Diagram diagram;
 
-	  public AnnotationKeySupport(TableViewer viewer, Diagram diagram) {
+	  public AnnotationKeySupport(TableViewer viewer) {
 	    super(viewer);
 	    this.viewer = viewer;
 	    this.editor = new TextCellEditor(viewer.getTable());
-	    this.diagram = diagram;
+	    //this.diagram = diagram;
 	  }
 
 	  @Override
@@ -37,7 +37,7 @@ public class AnnotationKeySupport extends EditingSupport {
 
 	  @Override
 	  protected boolean canEdit(Object element) {
-		  return ! (Graphiti.getLinkService().getPictogramElements(diagram, (EStringToStringMapEntryImpl)element).size()>0)	;  
+		  return element instanceof EStringToStringMapEntryImpl;  
 	  }
 
 	  @Override

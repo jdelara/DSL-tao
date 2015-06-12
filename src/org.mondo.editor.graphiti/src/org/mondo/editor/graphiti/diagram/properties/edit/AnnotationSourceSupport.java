@@ -20,14 +20,14 @@ import org.eclipse.jface.viewers.TextCellEditor;
 public class AnnotationSourceSupport extends EditingSupport {
 
 	 private final TableViewer viewer;
-	  private final CellEditor editor;
-	  private Diagram diagram;
+	 private final CellEditor editor;
+	 //private Diagram diagram;
 
-	  public AnnotationSourceSupport(TableViewer viewer, Diagram diagram) {
+	  public AnnotationSourceSupport(TableViewer viewer) {
 	    super(viewer);
 	    this.viewer = viewer;
 	    this.editor = new TextCellEditor(viewer.getTable());
-	    this.diagram = diagram;
+	    //this.diagram = diagram;
 	  }
 
 	  @Override
@@ -37,7 +37,7 @@ public class AnnotationSourceSupport extends EditingSupport {
 
 	  @Override
 	  protected boolean canEdit(Object element) {
-		  return ! (Graphiti.getLinkService().getPictogramElements(diagram, (EAnnotation)element).size()>0)	;  
+		  return element instanceof EAnnotation;  
 	  }
 
 	  @Override

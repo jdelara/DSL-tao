@@ -149,6 +149,49 @@
             <refInterfaces minCard="0" maxCard="1">
               <ref href="StateMachine.ecore#//Transition/trigger"/>
             </refInterfaces>
+            <rootAttachedVariant name="StateMachineAttachedOptions">
+              <orChildren xsi:type="dslpat:ComplexFeatureAttached" name="Representation">
+                <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Graph-based">
+                  <metaModelAttached content="//@categories.2/@patterns.0">
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.0" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.0">
+                      <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.3" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@refInterfaces.0"/>
+                      <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.3" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@refInterfaces.1"/>
+                    </classIntAtt>
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.1"/>
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.3" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.2">
+                      <featIntAtt xsi:type="dslpat:FeatureTypeAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.9" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@attrInterfaces.0"/>
+                      <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.1" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@refInterfaces.3"/>
+                      <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.2" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@refInterfaces.5"/>
+                    </classIntAtt>
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.2" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.1">
+                      <featIntAtt xsi:type="dslpat:FeatureTypeAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.9" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@attrInterfaces.1"/>
+                    </classIntAtt>
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.4" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.3">
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.0"/>
+                      <value href="DiagramStateMachine.xmi#//@elements.0"/>
+                    </classIntAtt>
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.4" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.4">
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.0"/>
+                      <value href="DiagramStateMachine.xmi#//@elements.1"/>
+                    </classIntAtt>
+                    <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.5" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.5">
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.1"/>
+                      <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.2"/>
+                      <value href="DiagramStateMachine.xmi#//@elements.2"/>
+                    </classIntAtt>
+                  </metaModelAttached>
+                </xorChildren>
+                <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Table-based">
+                  <metaModelAttached content="//@categories.2/@patterns.1"/>
+                </xorChildren>
+                <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Form-based">
+                  <metaModelAttached content="//@categories.2/@patterns.2"/>
+                </xorChildren>
+              </orChildren>
+            </rootAttachedVariant>
           </metaModel>
         </xorChildren>
         <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="State Machine Hyperedges">
@@ -232,13 +275,6 @@
           </metaModel>
         </xorChildren>
       </rootVariant>
-      <rootAttachedVariant name="StateMachineAttachedOptions">
-        <orChildren xsi:type="dslpat:ComplexFeatureAttached" name="Representation">
-          <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Graph-based"/>
-          <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Table-based"/>
-          <xorChildren xsi:type="dslpat:ComplexFeatureAttached" name="Form-based"/>
-        </orChildren>
-      </rootAttachedVariant>
     </patterns>
     <patterns name="Workflow" description="Pattern for workflow languages">
       <rootVariant name="Workflow Language" description="samples/icons/WorkflowLanguage.gif">
@@ -542,12 +578,12 @@
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Graph-based Representation (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/RepresentationGraph.gif">
             <classInterfaces icon="" minCard="1" maxCard="1">
-              <ref href="RepresentationGraph.ecore#//Root"/>
+              <ref href="RepresentationGraph.ecore#//Diagram"/>
             </classInterfaces>
             <classInterfaces icon="" minCard="1" maxCard="1" abstract="true">
               <ref href="RepresentationGraph.ecore#//GraphicElement"/>
             </classInterfaces>
-            <classInterfaces minCard="1" maxCard="1">
+            <classInterfaces minCard="0" maxCard="-1">
               <ref href="RepresentationGraph.ecore#//NodeElement"/>
             </classInterfaces>
             <classInterfaces minCard="0" maxCard="-1">
@@ -608,7 +644,7 @@
               <ref href="RepresentationGraph.ecore#//EdgeElement/target"/>
             </refInterfaces>
             <refInterfaces minCard="1" maxCard="1">
-              <ref href="RepresentationGraph.ecore#//Root/elements"/>
+              <ref href="RepresentationGraph.ecore#//Diagram/elements"/>
             </refInterfaces>
             <refInterfaces minCard="0" maxCard="-1">
               <ref href="RepresentationGraph.ecore#//ContainerElement/contains"/>
@@ -617,6 +653,11 @@
           </metaModel>
         </andChildren>
       </rootVariant>
+      <services name="Graph-based Editing" description="">
+        <ports xsi:type="dslpat:Acceptor" name="ModelDescriptor">
+          <uses xsi:type="servInt_modelingenv:InjectorAcceptorInterfaceL0" href="interfaces.serviceInterfaces#//@contents.0/@contents.1"/>
+        </ports>
+      </services>
     </patterns>
     <patterns name="Table-based Representation" description="Pattern to custom the appearance of table objects">
       <rootVariant name="Table Representation">
@@ -689,44 +730,35 @@
       <rootVariant name="Modularity">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Modularity (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Modularity.gif">
+            <classInterfaces minCard="1" maxCard="1" abstract="true">
+              <ref href="Modularity.ecore#//Container"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1" abstract="true">
+              <ref href="Modularity.ecore#//Containee"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1" abstract="true">
+              <ref href="Modularity.ecore#//IdentificableElement"/>
+            </classInterfaces>
             <classInterfaces minCard="1" maxCard="1" constraint="">
               <ref href="Modularity.ecore#//Project"/>
             </classInterfaces>
-            <classInterfaces minCard="1" maxCard="-1">
+            <classInterfaces minCard="0" maxCard="-1">
               <ref href="Modularity.ecore#//Package"/>
             </classInterfaces>
             <classInterfaces minCard="1" maxCard="-1">
               <ref href="Modularity.ecore#//Unit"/>
             </classInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Project/name"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Package/name"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Unit/name"/>
+              <ref href="Modularity.ecore#//IdentificableElement/name"/>
             </attrInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
               <ref href="Modularity.ecore#//Unit/extension"/>
             </attrInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Unit/icon"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Project/icon"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Package/icon"/>
+              <ref href="Modularity.ecore#//IdentificableElement/icon"/>
             </attrInterfaces>
             <refInterfaces minCard="1" maxCard="-1">
-              <ref href="Modularity.ecore#//Project/packageTypes"/>
-            </refInterfaces>
-            <refInterfaces minCard="0" maxCard="-1">
-              <ref href="Modularity.ecore#//Package/subPackages"/>
-            </refInterfaces>
-            <refInterfaces minCard="1" maxCard="-1">
-              <ref href="Modularity.ecore#//Package/unitTypes"/>
+              <ref href="Modularity.ecore#//Container/containees"/>
             </refInterfaces>
             <mmreference href="Modularity.ecore#/"/>
           </metaModel>

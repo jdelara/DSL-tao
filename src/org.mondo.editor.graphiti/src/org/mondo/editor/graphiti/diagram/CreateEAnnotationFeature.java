@@ -19,20 +19,26 @@ import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 public class CreateEAnnotationFeature extends AbstractCreateFeature {
 	
 	public CreateEAnnotationFeature(IFeatureProvider fp) {
-		super(fp, "Annotation", "Create a new Annotation");
+		super(fp, "Annotation", "Create a new Annotations");
 	}
 
 	@Override
 	public boolean canCreate(ICreateContext context) {
 		
-		return getBusinessObjectForPictogramElement(context.getTargetContainer())
-				instanceof EModelElement;
+		return (getBusinessObjectForPictogramElement(context.getTargetContainer())
+				instanceof EModelElement)
+				|| (getBusinessObjectForPictogramElement(context.getTargetConnection())
+						instanceof EModelElement);
 	}
 
 	@Override
 	public Object[] create(ICreateContext context) {
 		EAnnotation newEAnnotation =	EcoreFactory.eINSTANCE.createEAnnotation();			
-		EModelElement modelElement = (EModelElement) getBusinessObjectForPictogramElement(context.getTargetContainer());
+		EModelElement modelElement = null;
+		if (context.getTargetConnection()!=null)
+		 modelElement = (EModelElement) getBusinessObjectForPictogramElement(context.getTargetConnection());
+		else 
+		 modelElement = (EModelElement) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
 		newEAnnotation.setSource(ModelUtils.getAnnotationSourceValid(modelElement));
 

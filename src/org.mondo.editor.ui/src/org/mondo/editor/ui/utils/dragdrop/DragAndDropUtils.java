@@ -201,7 +201,7 @@ public class DragAndDropUtils {
 			    			if (relElement.getOrderPointer()==0) return relElement.getCardText();
 			        	}return null;
 		          case 4:
-		        	  return relElement.getAdditionalInformation();
+		        	 return relElement.getAdditionalInformation();
 		        }
 		       return null;
 		    }

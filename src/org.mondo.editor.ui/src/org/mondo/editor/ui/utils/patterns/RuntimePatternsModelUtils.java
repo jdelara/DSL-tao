@@ -36,6 +36,7 @@ import dslPatterns.FeatureType;
 import dslPatterns.Pattern;
 import dslPatterns.ReferenceInterface;
 import runtimePatterns.ClassRoleInstance;
+import runtimePatterns.FeatureRoleInstance;
 import runtimePatterns.InstanceFeatureRoleInstance;
 import runtimePatterns.PatternInstance;
 import runtimePatterns.PatternInstances;
@@ -273,7 +274,7 @@ public final class RuntimePatternsModelUtils {
 	 */
 	private static void deletePaintedPatternInformationText(DiagramBehavior diagramB, EModelElement element, String patternText){
 		Diagram diagram = diagramB.getDiagramTypeProvider().getDiagram();
-		if (Graphiti.getLinkService().getPictogramElements(diagram, element).size()>0){
+		if ((Graphiti.getLinkService().getPictogramElements(diagram, element).size()>0) || (element instanceof EReference)){
 			String text = DiagramUtils.getPatternPictogramText(diagram, element);
 			if (text.contains("@"+patternText+"\n"))
 			text = text.replaceFirst("@"+patternText+"\n", "");
@@ -345,6 +346,10 @@ public final class RuntimePatternsModelUtils {
 			EAttribute eatt = PatternUtils.getEAttribute(((TypeFeatureRoleInstance)ri).getRole());
 			if(eatt!=null)return eatt.getName();
 		}
+		else if (ri instanceof InstanceFeatureRoleInstance){
+			EAttribute eatt = PatternUtils.getEAttribute(((InstanceFeatureRoleInstance)ri).getRole());
+			if(eatt!=null)return eatt.getName();
+		}
 		return "";
 	}
 	
@@ -402,6 +407,18 @@ public final class RuntimePatternsModelUtils {
 	}
 	
 	/**
+	 * Static method to remove InstanceFeatureRoleInstance
+	 * @param iri InstanceFeatureRoleInstance
+	 * @return operation success
+	 */
+	public static boolean deleteInstanceFeatureRoleInstance (InstanceFeatureRoleInstance iri ){
+		if (iri.eContainer()instanceof ClassRoleInstance){
+			return ((ClassRoleInstance)iri.eContainer()).getFeatureInstances().remove(iri);
+		}
+		return false;
+	}
+	
+	/**
 	 * Static method that returns if the pattern name has been used
 	 * @param pis patternInstances
 	 * @param name - pattern name root
@@ -440,6 +457,15 @@ public final class RuntimePatternsModelUtils {
         		cont++;
 		}		
 		return cont;
+	}
+	
+	public static List<InstanceFeatureRoleInstance> getInstanceFeatureRolesInstances (ClassRoleInstance cri){
+		List<InstanceFeatureRoleInstance> ifril = new LinkedList<InstanceFeatureRoleInstance>();
+		for (FeatureRoleInstance fi : cri.getFeatureInstances()){
+			if (fi instanceof InstanceFeatureRoleInstance)
+				ifril.add((InstanceFeatureRoleInstance)fi);
+		}
+		return ifril;
 	}
 	
 }

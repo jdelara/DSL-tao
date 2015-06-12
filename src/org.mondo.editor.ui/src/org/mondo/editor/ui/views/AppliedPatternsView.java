@@ -8,12 +8,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.util.Policy;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.ui.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.emf.ecore.EClass;
@@ -25,11 +27,15 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.utils.ImagesUtils;
+import org.mondo.editor.ui.utils.patterns.AppliedPatternUtils;
 import org.mondo.editor.ui.utils.patterns.AppliedPatternsMenuAdapter;
+import org.mondo.editor.ui.utils.patterns.InstanceFeatureMenuAdapter;
+import org.mondo.editor.ui.utils.patterns.InstanceFeatureSupport;
 import org.mondo.editor.ui.utils.patterns.RuntimePatternsModelUtils;
 
 import runtimePatterns.ClassRoleInstance;
@@ -47,8 +53,10 @@ import runtimePatterns.TypeFeatureRoleInstance;
 public class AppliedPatternsView extends ViewPart {
 
 	public static final String ID = "org.mondo.editor.ui.views.AppliedPatternsView";
+	
 
 	private TreeViewer viewer;
+	private TableViewer fiViewer;
 	private Diagram diagram = null;
 	final List<ENamedElement> layerElements = new ArrayList<ENamedElement>();
 	
@@ -64,6 +72,11 @@ public class AppliedPatternsView extends ViewPart {
 
 		@Override
 		public void partClosed(IWorkbenchPartReference partRef) {
+			IWorkbenchPart part = partRef.getPart(false);   
+			if (part instanceof IEditorPart) {
+	        	   part.setFocus();
+	        	   refresh();
+	           }
 		}
 
 		@Override
@@ -99,6 +112,8 @@ public class AppliedPatternsView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		
+		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
+				
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
 		        | SWT.V_SCROLL);				    
 		viewer.setContentProvider(treeContentProvider);
@@ -107,6 +122,12 @@ public class AppliedPatternsView extends ViewPart {
 		viewer.getTree().addFocusListener(focusListener);
 		IWorkbenchPage page = this.getSite().getPage();
 		page.addPartListener(pl);	
+		
+		fiViewer = AppliedPatternUtils.createViewerFeatureInstanceRoles(parent);
+		final Menu menu = new Menu(fiViewer.getTable());
+		fiViewer.getTable().setMenu(menu);			
+		menu.addMenuListener(new InstanceFeatureMenuAdapter(menu, fiViewer));
+
 	}	
 	
 	private ITreeContentProvider treeContentProvider = new ITreeContentProvider() {
@@ -198,11 +219,13 @@ public class AppliedPatternsView extends ViewPart {
 					
 					for (ClassRoleInstance cri : ((PatternInstance)obj).getClassInstances()){							
 						pes.add(DiagramUtils.getPictogramToSelect(diagram, RuntimePatternsModelUtils.getElement(cri)));
-						layerElements.add(RuntimePatternsModelUtils.getElement(cri));
+						ENamedElement element = RuntimePatternsModelUtils.getElement(cri);
+						if (element!=null)layerElements.add(element);
 
 						for (ReferenceRoleInstance rri :cri.getReferenceInstances()){
 							pes.add(DiagramUtils.getPictogramToSelect(diagram,RuntimePatternsModelUtils.getElement(rri)));
-							layerElements.add(RuntimePatternsModelUtils.getElement(rri));
+							ENamedElement elementR = RuntimePatternsModelUtils.getElement(rri);
+							if (elementR!=null)layerElements.add(elementR);
 						}
 					}
 					DiagramUtils.selectPictograms(pes);
@@ -210,6 +233,17 @@ public class AppliedPatternsView extends ViewPart {
 				} 
 				
 				else {
+					if (obj instanceof ClassRoleInstance){
+						fiViewer.setInput(RuntimePatternsModelUtils.getInstanceFeatureRolesInstances((ClassRoleInstance)obj));
+						fiViewer.refresh();
+					}
+					else {
+						if (fiViewer.getInput() != null){
+							fiViewer.setInput(null);
+							fiViewer.refresh();
+						}
+					}
+
 					PictogramElement pe = DiagramUtils.getPictogramToSelect(diagram, RuntimePatternsModelUtils.getElement((RoleInstance)obj));
 					DiagramUtils.selectPictogram(pe);
 					showHiddenElements();
@@ -251,9 +285,16 @@ public class AppliedPatternsView extends ViewPart {
 					viewer.getTree().setMenu(menu);			
 					menu.addMenuListener(new AppliedPatternsMenuAdapter(menu, viewer));	
 					if (((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider()!= null){
-						diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();	
+						
+						DiagramBehavior diagramB = ((IDiagramContainerUI)editor).getDiagramBehavior();
+						TableViewerColumn tvc = (TableViewerColumn)fiViewer.getTable().getColumn(1).getData(Policy.JFACE + ".columnViewer"); //No hay otra manera de obtenerlo.
+						tvc.setEditingSupport(new InstanceFeatureSupport(fiViewer, diagramB));
+					    
+					    diagram = diagramB.getDiagramTypeProvider().getDiagram();	
+						
 						if (ModelUtils.existsPackage(diagram)){
 							viewer.setInput(RuntimePatternsModelUtils.getAllAppliedPatterns(((IDiagramContainerUI)editor).getDiagramBehavior()));
+							fiViewer.setInput(null);
 							return;
 						} 
 					}
@@ -261,6 +302,7 @@ public class AppliedPatternsView extends ViewPart {
 			}
 		}
 		viewer.setInput(null);
+		fiViewer.setInput(null);
 	}
 	
 	private void showHiddenElements(){
@@ -299,7 +341,8 @@ public class AppliedPatternsView extends ViewPart {
 			if (!allLayerElementsNull()){
 				final EPackage pack = ModelUtils.getBusinessModel(diagram);
 				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(pack);
-		        domain.getCommandStack().execute(new RecordingCommand(domain) {
+		        if (domain!=null)
+				domain.getCommandStack().execute(new RecordingCommand(domain) {
 					
 					@Override
 					protected void doExecute() {

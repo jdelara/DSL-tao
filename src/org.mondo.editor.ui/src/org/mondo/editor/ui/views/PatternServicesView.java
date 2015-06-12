@@ -19,7 +19,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
@@ -39,9 +42,55 @@ public class PatternServicesView extends ViewPart {
 	private TableViewer viewer;
 	public PatternServicesView() {
 	}
+	
+	IPartListener2 pl = new IPartListener2() {
+
+       public void partActivated(IWorkbenchPartReference ref) {   
+       }
+
+		@Override
+		public void partBroughtToTop(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partClosed(IWorkbenchPartReference partRef) {
+			IWorkbenchPart part = partRef.getPart(false);   
+			if (part instanceof IEditorPart) {
+	        	   part.setFocus();
+	        	   refresh();
+	           }
+		}
+
+		@Override
+		public void partDeactivated(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partOpened(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partHidden(IWorkbenchPartReference partRef) {
+		}
+
+		@Override
+		public void partVisible(IWorkbenchPartReference partRef) {
+			IWorkbenchPart part = partRef.getPart(false);   
+			if (part instanceof IEditorPart) {
+	        	   part.setFocus();
+	        	   refresh();
+	           }
+		}
+
+		@Override
+		public void partInputChanged(IWorkbenchPartReference partRef) {	
+		}
+  };
 
 	@Override
 	public void createPartControl(Composite parent) {
+		IWorkbenchPage page = this.getSite().getPage();
+		page.addPartListener(pl);
 		viewer = new TableViewer(parent,SWT.BORDER);
 		
 	    viewer.setContentProvider(new IStructuredContentProvider() {
@@ -110,6 +159,10 @@ public class PatternServicesView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+		refresh();
+	}
+	
+	public void refresh(){
 		List<PatternServiceInfo> services = null;
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		Resource intModel= null;
@@ -131,8 +184,10 @@ public class PatternServicesView extends ViewPart {
 				}				
 			}
 		}
-		TableViewerColumn tvc = (TableViewerColumn)viewer.getTable().getColumn(0).getData(Policy.JFACE + ".columnViewer"); 
-		tvc.setEditingSupport(new ActivateSupport(viewer, intModel, allPatterns));		
-		viewer.setInput(services);
+		if (!viewer.getTable().isDisposed()){
+			TableViewerColumn tvc = (TableViewerColumn)viewer.getTable().getColumn(0).getData(Policy.JFACE + ".columnViewer"); 
+			tvc.setEditingSupport(new ActivateSupport(viewer, intModel, allPatterns));		
+			viewer.setInput(services);
+		}
 	}
 }

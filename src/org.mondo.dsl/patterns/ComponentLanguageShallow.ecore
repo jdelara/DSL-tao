@@ -6,7 +6,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
         eType="#//Port" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Connector">
     <eStructuralFeatures xsi:type="ecore:EReference" name="in" upperBound="-1" eType="#//Port"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="out" upperBound="-1" eType="#//Port"/>

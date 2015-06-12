@@ -197,22 +197,13 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN__MAX_INSTANCES = 4;
 
 	/**
-	 * The feature id for the '<em><b>Root Attached Variant</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATTERN__ROOT_ATTACHED_VARIANT = 5;
-
-	/**
 	 * The number of structural features of the '<em>Pattern</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_FEATURE_COUNT = 6;
+	int PATTERN_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
@@ -738,13 +729,22 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN_META_MODEL__IMG = 3;
 
 	/**
+	 * The feature id for the '<em><b>Root Attached Variant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Pattern Meta Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_META_MODEL_FEATURE_COUNT = 4;
+	int PATTERN_META_MODEL_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.PatternMetaModelReferenceImpl <em>Pattern Meta Model Reference</em>}' class.
@@ -791,6 +791,15 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int PATTERN_META_MODEL_REFERENCE__IMG = PATTERN_META_MODEL__IMG;
+
+	/**
+	 * The feature id for the '<em><b>Root Attached Variant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_META_MODEL_REFERENCE__ROOT_ATTACHED_VARIANT = PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT;
 
 	/**
 	 * The feature id for the '<em><b>Mmreference</b></em>' reference list.
@@ -857,6 +866,15 @@ public interface DslPatternsPackage extends EPackage {
 	int META_MODEL__IMG = PATTERN_META_MODEL__IMG;
 
 	/**
+	 * The feature id for the '<em><b>Root Attached Variant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_MODEL__ROOT_ATTACHED_VARIANT = PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT;
+
+	/**
 	 * The feature id for the '<em><b>Mmreference</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -921,22 +939,13 @@ public interface DslPatternsPackage extends EPackage {
 	int MM_INTERFACE__CONSTRAINT = 3;
 
 	/**
-	 * The feature id for the '<em><b>Attached</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MM_INTERFACE__ATTACHED = 4;
-
-	/**
 	 * The number of structural features of the '<em>MM Interface</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MM_INTERFACE_FEATURE_COUNT = 5;
+	int MM_INTERFACE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ClassInterfaceImpl <em>Class Interface</em>}' class.
@@ -983,15 +992,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_INTERFACE__CONSTRAINT = MM_INTERFACE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Attached</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLASS_INTERFACE__ATTACHED = MM_INTERFACE__ATTACHED;
 
 	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference list.
@@ -1067,15 +1067,6 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_INTERFACE__CONSTRAINT = MM_INTERFACE__CONSTRAINT;
 
 	/**
-	 * The feature id for the '<em><b>Attached</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_INTERFACE__ATTACHED = MM_INTERFACE__ATTACHED;
-
-	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1138,15 +1129,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_TYPE__CONSTRAINT = FEATURE_INTERFACE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Attached</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_TYPE__ATTACHED = FEATURE_INTERFACE__ATTACHED;
 
 	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference list.
@@ -1213,15 +1195,6 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_INSTANCE__CONSTRAINT = FEATURE_INTERFACE__CONSTRAINT;
 
 	/**
-	 * The feature id for the '<em><b>Attached</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_INSTANCE__ATTACHED = FEATURE_INTERFACE__ATTACHED;
-
-	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1284,15 +1257,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int REFERENCE_INTERFACE__CONSTRAINT = MM_INTERFACE__CONSTRAINT;
-
-	/**
-	 * The feature id for the '<em><b>Attached</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REFERENCE_INTERFACE__ATTACHED = MM_INTERFACE__ATTACHED;
 
 	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference.
@@ -1515,13 +1479,22 @@ public interface DslPatternsPackage extends EPackage {
 	int MM_INTERFACE_ATTACHED__TYPE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Attached</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MM_INTERFACE_ATTACHED__ATTACHED = 1;
+
+	/**
 	 * The number of structural features of the '<em>MM Interface Attached</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MM_INTERFACE_ATTACHED_FEATURE_COUNT = 1;
+	int MM_INTERFACE_ATTACHED_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ClassInterfaceAttachedImpl <em>Class Interface Attached</em>}' class.
@@ -1541,6 +1514,15 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_INTERFACE_ATTACHED__TYPE = MM_INTERFACE_ATTACHED__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Attached</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_INTERFACE_ATTACHED__ATTACHED = MM_INTERFACE_ATTACHED__ATTACHED;
 
 	/**
 	 * The feature id for the '<em><b>Ref Int Att</b></em>' containment reference list.
@@ -1598,6 +1580,15 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_INTERFACE_ATTACHED__TYPE = MM_INTERFACE_ATTACHED__TYPE;
 
 	/**
+	 * The feature id for the '<em><b>Attached</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_INTERFACE_ATTACHED__ATTACHED = MM_INTERFACE_ATTACHED__ATTACHED;
+
+	/**
 	 * The number of structural features of the '<em>Feature Interface Attached</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1624,6 +1615,15 @@ public interface DslPatternsPackage extends EPackage {
 	 * @ordered
 	 */
 	int REFERENCE_INTERFACE_ATTACHED__TYPE = MM_INTERFACE_ATTACHED__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Attached</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_INTERFACE_ATTACHED__ATTACHED = MM_INTERFACE_ATTACHED__ATTACHED;
 
 	/**
 	 * The number of structural features of the '<em>Reference Interface Attached</em>' class.
@@ -1654,13 +1654,13 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_TYPE_ATTACHED__TYPE = FEATURE_INTERFACE_ATTACHED__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Content</b></em>' reference.
+	 * The feature id for the '<em><b>Attached</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_TYPE_ATTACHED__CONTENT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 0;
+	int FEATURE_TYPE_ATTACHED__ATTACHED = FEATURE_INTERFACE_ATTACHED__ATTACHED;
 
 	/**
 	 * The number of structural features of the '<em>Feature Type Attached</em>' class.
@@ -1669,7 +1669,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_TYPE_ATTACHED_FEATURE_COUNT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 1;
+	int FEATURE_TYPE_ATTACHED_FEATURE_COUNT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.FeatureInstanceAttachedImpl <em>Feature Instance Attached</em>}' class.
@@ -1691,13 +1691,13 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_INSTANCE_ATTACHED__TYPE = FEATURE_INTERFACE_ATTACHED__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Content</b></em>' reference.
+	 * The feature id for the '<em><b>Attached</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_INSTANCE_ATTACHED__CONTENT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 0;
+	int FEATURE_INSTANCE_ATTACHED__ATTACHED = FEATURE_INTERFACE_ATTACHED__ATTACHED;
 
 	/**
 	 * The number of structural features of the '<em>Feature Instance Attached</em>' class.
@@ -1706,7 +1706,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_INSTANCE_ATTACHED_FEATURE_COUNT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 1;
+	int FEATURE_INSTANCE_ATTACHED_FEATURE_COUNT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}' enum.
@@ -1858,17 +1858,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPattern_MaxInstances();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link dslPatterns.Pattern#getRootAttachedVariant <em>Root Attached Variant</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Root Attached Variant</em>'.
-	 * @see dslPatterns.Pattern#getRootAttachedVariant()
-	 * @see #getPattern()
-	 * @generated
-	 */
-	EReference getPattern_RootAttachedVariant();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.Service <em>Service</em>}'.
@@ -2169,6 +2158,17 @@ public interface DslPatternsPackage extends EPackage {
 	EAttribute getPatternMetaModel_Img();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link dslPatterns.PatternMetaModel#getRootAttachedVariant <em>Root Attached Variant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Root Attached Variant</em>'.
+	 * @see dslPatterns.PatternMetaModel#getRootAttachedVariant()
+	 * @see #getPatternMetaModel()
+	 * @generated
+	 */
+	EReference getPatternMetaModel_RootAttachedVariant();
+
+	/**
 	 * Returns the meta object for class '{@link dslPatterns.PatternMetaModelReference <em>Pattern Meta Model Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2263,17 +2263,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMMInterface_Constraint();
-
-	/**
-	 * Returns the meta object for the reference list '{@link dslPatterns.MMInterface#getAttached <em>Attached</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Attached</em>'.
-	 * @see dslPatterns.MMInterface#getAttached()
-	 * @see #getMMInterface()
-	 * @generated
-	 */
-	EReference getMMInterface_Attached();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.ClassInterface <em>Class Interface</em>}'.
@@ -2517,17 +2506,6 @@ public interface DslPatternsPackage extends EPackage {
 	EClass getFeatureTypeAttached();
 
 	/**
-	 * Returns the meta object for the reference '{@link dslPatterns.FeatureTypeAttached#getContent <em>Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Content</em>'.
-	 * @see dslPatterns.FeatureTypeAttached#getContent()
-	 * @see #getFeatureTypeAttached()
-	 * @generated
-	 */
-	EReference getFeatureTypeAttached_Content();
-
-	/**
 	 * Returns the meta object for class '{@link dslPatterns.FeatureInstanceAttached <em>Feature Instance Attached</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2536,17 +2514,6 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getFeatureInstanceAttached();
-
-	/**
-	 * Returns the meta object for the reference '{@link dslPatterns.FeatureInstanceAttached#getContent <em>Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Content</em>'.
-	 * @see dslPatterns.FeatureInstanceAttached#getContent()
-	 * @see #getFeatureInstanceAttached()
-	 * @generated
-	 */
-	EReference getFeatureInstanceAttached_Content();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.MMInterfaceAttached <em>MM Interface Attached</em>}'.
@@ -2568,6 +2535,17 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMMInterfaceAttached_Type();
+
+	/**
+	 * Returns the meta object for the reference list '{@link dslPatterns.MMInterfaceAttached#getAttached <em>Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Attached</em>'.
+	 * @see dslPatterns.MMInterfaceAttached#getAttached()
+	 * @see #getMMInterfaceAttached()
+	 * @generated
+	 */
+	EReference getMMInterfaceAttached_Attached();
 
 	/**
 	 * Returns the meta object for enum '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}'.
@@ -2711,14 +2689,6 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PATTERN__MAX_INSTANCES = eINSTANCE.getPattern_MaxInstances();
-
-		/**
-		 * The meta object literal for the '<em><b>Root Attached Variant</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PATTERN__ROOT_ATTACHED_VARIANT = eINSTANCE.getPattern_RootAttachedVariant();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
@@ -2965,6 +2935,14 @@ public interface DslPatternsPackage extends EPackage {
 		EAttribute PATTERN_META_MODEL__IMG = eINSTANCE.getPatternMetaModel_Img();
 
 		/**
+		 * The meta object literal for the '<em><b>Root Attached Variant</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT = eINSTANCE.getPatternMetaModel_RootAttachedVariant();
+
+		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.PatternMetaModelReferenceImpl <em>Pattern Meta Model Reference</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3041,14 +3019,6 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MM_INTERFACE__CONSTRAINT = eINSTANCE.getMMInterface_Constraint();
-
-		/**
-		 * The meta object literal for the '<em><b>Attached</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MM_INTERFACE__ATTACHED = eINSTANCE.getMMInterface_Attached();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.ClassInterfaceImpl <em>Class Interface</em>}' class.
@@ -3259,14 +3229,6 @@ public interface DslPatternsPackage extends EPackage {
 		EClass FEATURE_TYPE_ATTACHED = eINSTANCE.getFeatureTypeAttached();
 
 		/**
-		 * The meta object literal for the '<em><b>Content</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference FEATURE_TYPE_ATTACHED__CONTENT = eINSTANCE.getFeatureTypeAttached_Content();
-
-		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.FeatureInstanceAttachedImpl <em>Feature Instance Attached</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3275,14 +3237,6 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass FEATURE_INSTANCE_ATTACHED = eINSTANCE.getFeatureInstanceAttached();
-
-		/**
-		 * The meta object literal for the '<em><b>Content</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference FEATURE_INSTANCE_ATTACHED__CONTENT = eINSTANCE.getFeatureInstanceAttached_Content();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.MMInterfaceAttachedImpl <em>MM Interface Attached</em>}' class.
@@ -3301,6 +3255,14 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MM_INTERFACE_ATTACHED__TYPE = eINSTANCE.getMMInterfaceAttached_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Attached</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MM_INTERFACE_ATTACHED__ATTACHED = eINSTANCE.getMMInterfaceAttached_Attached();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}' enum.

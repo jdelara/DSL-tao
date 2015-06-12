@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+
 /**
  * Class of utility functions to work with IResources. 
  * 
@@ -56,6 +57,9 @@ public class IResourceUtils {
 	    return null; 
 	 }
 
+
+	
+	
 	/**
 	 * Static method that returns the IProject contained on the specified resource.
 	 * @param resource

@@ -14,6 +14,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.mondo.editor.graphiti.diagram.properties.edit.AnnotationKeySupport;
+import org.mondo.editor.graphiti.diagram.properties.edit.AnnotationSourceSupport;
 import org.mondo.editor.graphiti.diagram.properties.edit.AnnotationValueSupport;
 
 /**
@@ -56,7 +58,7 @@ public class PropertiesUtils {
 	    return viewer;
 	}
 	
-	// 
+
 	/**
 	 * Static method that adds source columns in the specified tableviewer
 	 * @param parent
@@ -74,8 +76,10 @@ public class PropertiesUtils {
 	        return a.getSource();
 	      }
 	    });
+	    col.setEditingSupport(new AnnotationSourceSupport(viewer));
 	}
-	  
+	
+	
 	
 	/**
 	 * Static method that created a tableViewer for values
@@ -121,6 +125,7 @@ public class PropertiesUtils {
 	        return a.getKey();
 	      }
 	    });
+	    col.setEditingSupport(new AnnotationKeySupport(viewer));
 	    
 	    TableViewerColumn col2 = createTableViewerColumn(viewer, titles[1], bounds[1],1);
 	    col2.setLabelProvider(new ColumnLabelProvider() {
@@ -142,7 +147,7 @@ public class PropertiesUtils {
 	 * @param colNumber
 	 * @return TableViewerColumn
 	 */
-	private static TableViewerColumn createTableViewerColumn(final TableViewer viewer, String title, int bound, final int colNumber) {
+	public static TableViewerColumn createTableViewerColumn(final TableViewer viewer, String title, int bound, final int colNumber) {
 	    final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 	        SWT.NONE);
 	    final TableColumn column = viewerColumn.getColumn();

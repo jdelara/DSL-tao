@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link dslPatterns.impl.PatternImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getServices <em>Services</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getMaxInstances <em>Max Instances</em>}</li>
- *   <li>{@link dslPatterns.impl.PatternImpl#getRootAttachedVariant <em>Root Attached Variant</em>}</li>
  * </ul>
  * </p>
  *
@@ -120,16 +119,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 	 * @ordered
 	 */
 	protected int maxInstances = MAX_INSTANCES_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getRootAttachedVariant() <em>Root Attached Variant</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRootAttachedVariant()
-	 * @generated
-	 * @ordered
-	 */
-	protected ComplexFeatureAttached rootAttachedVariant;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -273,49 +262,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ComplexFeatureAttached getRootAttachedVariant() {
-		return rootAttachedVariant;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetRootAttachedVariant(ComplexFeatureAttached newRootAttachedVariant, NotificationChain msgs) {
-		ComplexFeatureAttached oldRootAttachedVariant = rootAttachedVariant;
-		rootAttachedVariant = newRootAttachedVariant;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT, oldRootAttachedVariant, newRootAttachedVariant);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRootAttachedVariant(ComplexFeatureAttached newRootAttachedVariant) {
-		if (newRootAttachedVariant != rootAttachedVariant) {
-			NotificationChain msgs = null;
-			if (rootAttachedVariant != null)
-				msgs = ((InternalEObject)rootAttachedVariant).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT, null, msgs);
-			if (newRootAttachedVariant != null)
-				msgs = ((InternalEObject)newRootAttachedVariant).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT, null, msgs);
-			msgs = basicSetRootAttachedVariant(newRootAttachedVariant, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT, newRootAttachedVariant, newRootAttachedVariant));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -323,8 +269,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 				return basicSetRootVariant(null, msgs);
 			case DslPatternsPackage.PATTERN__SERVICES:
 				return ((InternalEList<?>)getServices()).basicRemove(otherEnd, msgs);
-			case DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT:
-				return basicSetRootAttachedVariant(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -347,8 +291,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 				return getServices();
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				return getMaxInstances();
-			case DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT:
-				return getRootAttachedVariant();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -378,9 +320,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				setMaxInstances((Integer)newValue);
 				return;
-			case DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT:
-				setRootAttachedVariant((ComplexFeatureAttached)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -408,9 +347,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				setMaxInstances(MAX_INSTANCES_EDEFAULT);
 				return;
-			case DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT:
-				setRootAttachedVariant((ComplexFeatureAttached)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -433,8 +369,6 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 				return services != null && !services.isEmpty();
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				return maxInstances != MAX_INSTANCES_EDEFAULT;
-			case DslPatternsPackage.PATTERN__ROOT_ATTACHED_VARIANT:
-				return rootAttachedVariant != null;
 		}
 		return super.eIsSet(featureID);
 	}

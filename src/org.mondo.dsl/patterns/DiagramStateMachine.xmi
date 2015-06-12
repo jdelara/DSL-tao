@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<repGraph:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:repGraph="http://mondo.dsl.org/mmPatterns/representationGraph">
+  <elements xsi:type="repGraph:Circle" color="red" radius="10.0"/>
+  <elements xsi:type="repGraph:Circle" color="green" radius="50.0"/>
+  <elements xsi:type="repGraph:Rectangle" width="50.0" height="50.0"/>
+</repGraph:Diagram>

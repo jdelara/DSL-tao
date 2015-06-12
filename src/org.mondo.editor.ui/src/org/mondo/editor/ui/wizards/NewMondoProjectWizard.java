@@ -87,9 +87,11 @@ public class NewMondoProjectWizard extends Wizard implements INewWizard {
 			project.setDescription(description, monitor);
 			
 			PatternUtils.copyPatternsFolder(project);
-			
 			// refresh project so new files are present in workspace
 			project.refreshLocal(IProject.DEPTH_INFINITE, monitor);
+			
+			PatternUtils.registerEpackages(project);
+
 
 			getShell().getDisplay().asyncExec(new Runnable() {			
 				public void run() {

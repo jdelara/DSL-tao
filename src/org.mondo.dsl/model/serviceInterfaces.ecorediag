@@ -50,7 +50,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_1sC6JYQ3EeSgrPi2NJkJrQ" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="serviceInterfaces.ecore#//Package"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1sC6JoQ3EeSgrPi2NJkJrQ" x="251" y="162"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1sC6JoQ3EeSgrPi2NJkJrQ" x="196" y="245"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_1sEvUIQ3EeSgrPi2NJkJrQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_1sFWYIQ3EeSgrPi2NJkJrQ" type="4001"/>

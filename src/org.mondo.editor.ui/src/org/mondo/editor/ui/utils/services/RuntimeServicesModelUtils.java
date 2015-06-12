@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
-import org.mondo.editor.ui.utils.patterns.PatternUtils;
 import org.mondo.editor.ui.utils.patterns.RuntimePatternsModelUtils;
 
 import dslPatterns.Pattern;
@@ -64,11 +63,6 @@ public final class RuntimeServicesModelUtils {
 	 */
 	public static void addDisconnectedElement(ServiceInstance si, Interface interf, List<Pattern> patterns){	
 		DisconnectedElement de = RuntimeServicesFactory.eINSTANCE.createDisconnectedElement();
-		
-		//Change the uri to relative
-		if (!interf.eResource().getURI().isRelative())
-		PatternUtils.setInterfacesRelativeURI(interf.eResource());
-		
 		de.setInterface(interf);
 		de.getPatterns().addAll(patterns);
 		si.getDisconnectedElements().add(de);

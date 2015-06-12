@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getMinCard <em>Min Card</em>}</li>
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getMaxCard <em>Max Card</em>}</li>
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getConstraint <em>Constraint</em>}</li>
- *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getAttached <em>Attached</em>}</li>
  * </ul>
  * </p>
  *
@@ -115,16 +114,6 @@ public abstract class MMInterfaceImpl extends EObjectImpl implements MMInterface
 	 * @ordered
 	 */
 	protected String constraint = CONSTRAINT_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getAttached() <em>Attached</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAttached()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<MMInterfaceAttached> attached;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -234,18 +223,6 @@ public abstract class MMInterfaceImpl extends EObjectImpl implements MMInterface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<MMInterfaceAttached> getAttached() {
-		if (attached == null) {
-			attached = new EObjectResolvingEList<MMInterfaceAttached>(MMInterfaceAttached.class, this, DslPatternsPackage.MM_INTERFACE__ATTACHED);
-		}
-		return attached;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -257,8 +234,6 @@ public abstract class MMInterfaceImpl extends EObjectImpl implements MMInterface
 				return getMaxCard();
 			case DslPatternsPackage.MM_INTERFACE__CONSTRAINT:
 				return getConstraint();
-			case DslPatternsPackage.MM_INTERFACE__ATTACHED:
-				return getAttached();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -284,10 +259,6 @@ public abstract class MMInterfaceImpl extends EObjectImpl implements MMInterface
 			case DslPatternsPackage.MM_INTERFACE__CONSTRAINT:
 				setConstraint((String)newValue);
 				return;
-			case DslPatternsPackage.MM_INTERFACE__ATTACHED:
-				getAttached().clear();
-				getAttached().addAll((Collection<? extends MMInterfaceAttached>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -312,9 +283,6 @@ public abstract class MMInterfaceImpl extends EObjectImpl implements MMInterface
 			case DslPatternsPackage.MM_INTERFACE__CONSTRAINT:
 				setConstraint(CONSTRAINT_EDEFAULT);
 				return;
-			case DslPatternsPackage.MM_INTERFACE__ATTACHED:
-				getAttached().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -335,8 +303,6 @@ public abstract class MMInterfaceImpl extends EObjectImpl implements MMInterface
 				return MAX_CARD_EDEFAULT == null ? maxCard != null : !MAX_CARD_EDEFAULT.equals(maxCard);
 			case DslPatternsPackage.MM_INTERFACE__CONSTRAINT:
 				return CONSTRAINT_EDEFAULT == null ? constraint != null : !CONSTRAINT_EDEFAULT.equals(constraint);
-			case DslPatternsPackage.MM_INTERFACE__ATTACHED:
-				return attached != null && !attached.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

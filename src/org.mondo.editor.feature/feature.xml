@@ -2,7 +2,7 @@
 <feature
       id="org.mondo.editor.feature"
       label="DSL-tao"
-      version="0.2.0">
+      version="0.2.1">
 
    <description url="http://jdelara.github.io/DSL-tao/">
       Meta-model editor to support the creation of large meta-models

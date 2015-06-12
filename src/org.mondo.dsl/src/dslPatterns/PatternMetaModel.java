@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link dslPatterns.PatternMetaModel#getAttrInterfaces <em>Attr Interfaces</em>}</li>
  *   <li>{@link dslPatterns.PatternMetaModel#getRefInterfaces <em>Ref Interfaces</em>}</li>
  *   <li>{@link dslPatterns.PatternMetaModel#getImg <em>Img</em>}</li>
+ *   <li>{@link dslPatterns.PatternMetaModel#getRootAttachedVariant <em>Root Attached Variant</em>}</li>
  * </ul>
  * </p>
  *
@@ -98,5 +99,31 @@ public interface PatternMetaModel extends EObject {
 	 * @generated
 	 */
 	void setImg(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Root Attached Variant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Root Attached Variant</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Root Attached Variant</em>' containment reference.
+	 * @see #setRootAttachedVariant(ComplexFeatureAttached)
+	 * @see dslPatterns.DslPatternsPackage#getPatternMetaModel_RootAttachedVariant()
+	 * @model containment="true"
+	 * @generated
+	 */
+	ComplexFeatureAttached getRootAttachedVariant();
+
+	/**
+	 * Sets the value of the '{@link dslPatterns.PatternMetaModel#getRootAttachedVariant <em>Root Attached Variant</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Root Attached Variant</em>' containment reference.
+	 * @see #getRootAttachedVariant()
+	 * @generated
+	 */
+	void setRootAttachedVariant(ComplexFeatureAttached value);
 
 } // PatternMetaModel

@@ -2,6 +2,7 @@
  */
 package dslPatterns.impl;
 
+import dslPatterns.ComplexFeatureAttached;
 import dslPatterns.ComplexFeatureMain;
 import dslPatterns.DslPatternsPackage;
 import dslPatterns.PatternMetaModel;

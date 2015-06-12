@@ -11,6 +11,8 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -20,12 +22,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
@@ -40,6 +47,9 @@ import runtimePatterns.PatternInstance;
 import runtimeServices.DisconnectedElement;
 import runtimeServices.ServiceInstance;
 import serviceInterfaces.Interface;
+import serviceInterfaces.InterfaceRepository;
+import serviceInterfaces.Package;
+import serviceInterfaces.Packageable;
 import serviceInterfaces.impl.InterfaceImpl;
 
 import dslPatterns.Acceptor;
@@ -91,7 +101,6 @@ public final class PatternUtils {
 					PatternSet patternSet = (PatternSet) resource.getContents().get(0);	
 					//set relative uri
 					setPatternsRelativeURI(patternSet.eResource());
-					
 					return patternSet;
 				}
 			}catch (RuntimeException e){
@@ -219,6 +228,52 @@ public final class PatternUtils {
 	}
 	
 	/**
+	 * Static method that register the epackage of the given file.
+	 * @param file
+	 */
+	private static void registerEpackage(IFile file){	
+		String pathName= file.getLocation().toOSString();
+		URI uriMetamodel = URI.createFileURI(pathName);
+		// register globally the Ecore Resource Factory to the ".ecore" extension
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+		    "ecore", new EcoreResourceFactoryImpl());
+
+		ResourceSet rs = new ResourceSetImpl();
+		// enable extended metadata
+		final ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry());
+		rs.getLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA,
+		    extendedMetaData);
+
+		Resource r = rs.getResource(uriMetamodel, true);
+		EObject eObject = r.getContents().get(0);
+		if (eObject instanceof EPackage) {
+		    EPackage p = (EPackage)eObject;
+		    EPackage.Registry.INSTANCE.put(p.getNsURI(), p);		    
+		}
+	}
+	
+	/**
+	 * Static method that register the epackages of the project.
+	 * @param project
+	 */
+	public static void registerEpackages(IProject project){	
+		IFolder folder = project.getFolder(new Path(PATTERNS_FOLDER));
+		try {
+			IResource[] resources = folder.members(true);
+			for (IResource resource: resources){
+				if (resource instanceof IFile){
+					if (((IFile)resource).getName().endsWith(".ecore")){
+						registerEpackage((IFile)resource);
+					}
+				}
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	
+	/**
 	 * Static method that returns the MMInterfaceRelDiagram object (mmird) children (references and attributes)
 	 * @param list
 	 * @param mmird
@@ -228,8 +283,6 @@ public final class PatternUtils {
 		
 		return mmird.getChildren();
 	}
-	
-	
 
 	/**
 	 * Static method that returns the MMInterfaceRelDiagram object from the specified text and order.
@@ -253,33 +306,41 @@ public final class PatternUtils {
 	 * @param text
 	 * @return the list of MMInterfaceRelDiagram objects, if there isn't any one an empty list.
 	 */
-	public static List<MMInterfaceRelDiagram> getAllMMInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, String text){
+	public static List<MMInterfaceRelDiagram> getAllMMInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, EClass text, int orderPointer){
 		List<MMInterfaceRelDiagram> allmmird = new LinkedList<MMInterfaceRelDiagram>();
 		for (MMInterfaceRelDiagram mmird: patternRelDiagram){
-			  if ((mmird.getTextMMInterfaceRelDiagram().compareTo(text)==0)){
+			  if (((mmird.getTextMMInterfaceRelDiagram().compareTo(text.getName())==0)) 
+			  && (mmird.getOrderPointer()== orderPointer)){
 				  allmmird.add(mmird);
 			  }
 		}
+		//NUEVO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!5/5/2015
+		//Si no existe devolvemos sus hijos.
+		if (allmmird.isEmpty()) {
+			for (EClass child : ModelUtils.getChildren(text.getEPackage(), text)){
+				allmmird.addAll(getAllMMInterfaceRelDiagram (patternRelDiagram, child,orderPointer));
+			}
+		}
+		///////////////////////////////////////////////
 		return allmmird;
 	}
-	
-	
+		
 	/**
-	 * Static method that returns the first MMInterfaceRelDiagram object from the specified text. (order is not important)
+	 * Static method that returns the first MMInterfaceRelDiagram object from the specified text. (ORDER IS IMPORTANT)
 	 * @param patternRelDiagram
 	 * @param text
+	 * @param order
 	 * @return the MMInterfaceRelDiagram object, if doesn't exist returns null
 	 */
-	public static MMInterfaceRelDiagram getFirstMMInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, String text){
+	public static MMInterfaceRelDiagram getFirstMMInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, String text, int order){
 		for (MMInterfaceRelDiagram mmird: patternRelDiagram){
-			  if ((mmird.getTextMMInterfaceRelDiagram().compareTo(text)==0)){
+			  if (((mmird.getTextMMInterfaceRelDiagram().compareTo(text)==0)) && (mmird.getOrder()==order)){
 				  return mmird;
 			  }
 		}
 		return null;
 	}
-	
-	
+		
 	/**
 	 * Static method that returns the MMInterfaceRelDiagram that is related to the specified diagram element.
 	 * @param patternRelDiagram
@@ -375,6 +436,8 @@ public final class PatternUtils {
 					  EClass eTypeClassDiagram = (EClass)ModelsUtils.getEObject(modelPack,elementDiagram);
 					  if (eTypeClassDiagram.getEAllSuperTypes() != null)  
 						  if ((eTypeClassDiagram == eClass)||(eTypeClassDiagram.getEAllSuperTypes().contains(eClass))) return true;
+					  if (eClass.getEAllSuperTypes() != null)  
+						  if ((eClass == eTypeClassDiagram)||(eClass.getEAllSuperTypes().contains(eTypeClassDiagram))) return true;
 					  else if (eTypeClassDiagram == eClass) return true;
 				}
 			}else {
@@ -407,19 +470,22 @@ public final class PatternUtils {
 	 * @param order
 	 * @return a list that contains MMInterfaceRelDiagram objects 
 	 */
-	public static List<MMInterfaceRelDiagram> getMMInterfaceRelDiagramRefsEClass(List<MMInterfaceRelDiagram> patternRelDiagram, ClassInterface classInterface, int order){
-
-		EClass classObject = getEClass(classInterface);
-		
+	public static List<MMInterfaceRelDiagram> getMMInterfaceRelDiagramRefsEClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram classInterface){
 		List<MMInterfaceRelDiagram> refs = new ArrayList<MMInterfaceRelDiagram>();
-		for (MMInterfaceRelDiagram mmird : patternRelDiagram){
-			if ((mmird.getMmInterface() instanceof ReferenceInterface)&&(mmird.getOrderPointer()==order)){
-				EReference ref = getEReference((ReferenceInterface)mmird.getMmInterface());
-				if (ref.getEType().getName().compareTo(classObject.getName()) ==0)				
-					refs.add(mmird);
+
+		if (classInterface.getMmInterface() instanceof ClassInterface){			
+			EClass classObject = getEClass((ClassInterface)classInterface.getMmInterface());	
+			for (MMInterfaceRelDiagram mmird : patternRelDiagram){
+				if ((mmird.getMmInterface() instanceof ReferenceInterface)&&(mmird.getOrderPointer()==classInterface.getOrder())){
+					EReference ref = getEReference((ReferenceInterface)mmird.getMmInterface());
+					if ((ref.getEType().getName().compareTo(classObject.getName()) ==0)
+							|| (mmird.getToConcreteSubtype() == classInterface)	)				
+						refs.add(mmird);
+				}
 			}
 		}
 		return refs;
+		
 	}
 		
 	/**
@@ -430,20 +496,25 @@ public final class PatternUtils {
 	 * @param order
 	 * @return a list that contains MMInterfaceRelDiagram objects 
 	 */
-	public static List<MMInterfaceRelDiagram> getMMInterfaceRelDiagramRefsEClassWithoutReflexives(List<MMInterfaceRelDiagram> patternRelDiagram, ClassInterface classInterface, int order){
-
-		EClass classObject = getEClass(classInterface);
+	public static List<MMInterfaceRelDiagram> getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram classInterface){
+		
+		if (classInterface.getMmInterface() instanceof ClassInterface){
+		EClass classObject = getEClass((ClassInterface)classInterface.getMmInterface());
 		
 		List<MMInterfaceRelDiagram> refs = new ArrayList<MMInterfaceRelDiagram>();
 		for (MMInterfaceRelDiagram mmird : patternRelDiagram){
-			if ((mmird.getMmInterface() instanceof ReferenceInterface)&&(mmird.getOrderPointer()==order)){
+			if ((mmird.getMmInterface() instanceof ReferenceInterface)&&(mmird.getOrderPointer()==classInterface.getOrder())){
 				EReference ref = getEReference((ReferenceInterface)mmird.getMmInterface());
-				if ((ref.getEType().getName().compareTo(classObject.getName()) ==0) 
-						&& !(isReflexiveReference((ReferenceInterface)mmird.getMmInterface()) && (order==mmird.getOrder())))				
+				if (((ref.getEType().getName().compareTo(classObject.getName()) ==0) 
+						|| (mmird.getToConcreteSubtype() == classInterface))
+						&& !(isDirectReflexiveReference(patternRelDiagram, mmird)) && (classInterface.getOrder()==mmird.getOrder()))				
 					refs.add(mmird);
 			}
 		}
 		return refs;
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -453,15 +524,21 @@ public final class PatternUtils {
 	 * @param order of the MMInterfaceRelDiagram searched.
 	 * @return the  MMInterfaceRelDiagram object, if doesn't exist return null.
 	 */
-	public static MMInterfaceRelDiagram getMMInterfaceRelDiagramRef(List<MMInterfaceRelDiagram> patternRelDiagram, ReferenceInterface refInterface, int order){
-
-		EReference refObject = getEReference(refInterface);
+	public static MMInterfaceRelDiagram getMMInterfaceRelDiagramRef(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram refInterface){
 		
-		for (MMInterfaceRelDiagram mmird : patternRelDiagram){
-			if ((mmird.getMmInterface() instanceof ClassInterface)&&(mmird.getOrder()==order)){
-				EClass eClassObject = getEClass((ClassInterface)mmird.getMmInterface());
-				if (refObject.getEType().getName().compareTo(eClassObject.getName()) ==0)				
-					return mmird;
+		if (refInterface.getMmInterface() instanceof ReferenceInterface){
+		
+			EReference refObject = getEReference((ReferenceInterface)refInterface.getMmInterface());
+			
+			for (MMInterfaceRelDiagram mmird : patternRelDiagram){
+				if ((mmird.getMmInterface() instanceof ClassInterface)&&(mmird.getOrder()== refInterface.getOrderPointer())){
+					EClass eClassObject = getEClass((ClassInterface)mmird.getMmInterface());
+					if (refInterface.getToConcreteSubtype() != null) {
+						if (refInterface.getToConcreteSubtype() == mmird) return mmird;
+					}
+					else if (refObject.getEType().getName().compareTo(eClassObject.getName()) ==0)
+						return mmird;
+				}
 			}
 		}
 		return null;
@@ -477,35 +554,47 @@ public final class PatternUtils {
 		
 		if (mmird.getMmInterface() instanceof ReferenceInterface){
 			
-			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
+			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, mmird);
 			
 			if (mmirdRef != null){
 				int orderPointer = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(patternRelDiagram, mmirdRef)+1;
 				if (((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)) || (mmird.getMaxValue()==-1)  )
 						&& ((mmirdRef.getMaxValue() > PatternUtils.getNumMMInterfaceRelDiagram(patternRelDiagram,mmirdRef))|| (mmirdRef.getMaxValue()==-1))){
-					patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", orderPointer, patternRelDiagram));
 					
-					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
-						if (child.getMmInterface() instanceof ReferenceInterface){
-							if (((isReflexiveReference((ReferenceInterface)child.getMmInterface())) && (child.getOrder()== child.getOrderPointer()))
-									/*All references same behavior || (!isContainmentReference((ReferenceInterface)child.getMmInterface()))*/)
-								patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", orderPointer, orderPointer, patternRelDiagram));
-							else duplicateStructureReference(patternRelDiagram,child,orderPointer);			
-						}else {
-							if (child.getMmInterface() instanceof FeatureInstance)							
-								patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), orderPointer, patternRelDiagram));
-							else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", orderPointer, patternRelDiagram));
-						}
+					patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", orderPointer, -1,patternRelDiagram));
+					duplicateChildren(patternRelDiagram, mmirdRef, orderPointer);
+					
+					for (MMInterfaceRelDiagram subtype: PatternUtils.getSubTypes(patternRelDiagram, mmirdRef)){
+						int orderSubtype = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(patternRelDiagram, subtype)+1;
+						duplicateStructureClass(patternRelDiagram,subtype,orderSubtype, orderPointer);
+						//patternRelDiagram.add(new MMInterfaceRelDiagram(subtype.getMmInterface(), "", orderPointer, patternRelDiagram));
+						//duplicateChildren(patternRelDiagram, subtype, orderPointer);
 					}
-					patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,orderPointer, patternRelDiagram));
+					patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,orderPointer, patternRelDiagram, mmird.getParent()));
 				}
 			}else {
 				//Reference to nothing
 				if ((mmird.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagramSameOrder(patternRelDiagram,mmird)) || (mmird.getMaxValue()==-1))
-				patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,0, patternRelDiagram));
+				patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,0, patternRelDiagram, mmird.getParent()));
 			}
 			
 		}
+	}
+
+	private static void duplicateChildren(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef, int orderPointer) {
+		for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
+			if (child.getMmInterface() instanceof ReferenceInterface){
+				if (((isReflexiveReference(patternRelDiagram, child)) && (child.getOrder()== child.getOrderPointer()))
+					/*All references same behavior || (!isContainmentReference((ReferenceInterface)child.getMmInterface()))*/)
+					patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", orderPointer, orderPointer, patternRelDiagram));
+				else duplicateStructureReference(patternRelDiagram,child,orderPointer);			
+			}else {
+				if (child.getMmInterface() instanceof FeatureInstance)							
+					patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), orderPointer, patternRelDiagram));
+				else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", orderPointer, patternRelDiagram));
+			}
+		}
+		
 	}
 	
 	/**
@@ -514,23 +603,29 @@ public final class PatternUtils {
 	 * @param mmirdRef MMInterfaceRelDiagram which's going to be copy
 	 * @param order of the MMInterfaceRelDiagram which's going to be created
 	 */
-	public static void duplicateStructureClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef, int order){
+	public static void duplicateStructureClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef, int order, int orderPointer){
 		
 		if (mmirdRef.getMmInterface() instanceof ClassInterface){
-				patternRelDiagram.add(new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", order, patternRelDiagram));
+			MMInterfaceRelDiagram newClass = 	new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", order,orderPointer, patternRelDiagram);
+			patternRelDiagram.add(newClass);
 				
 				for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 					if (child.getMmInterface() instanceof ReferenceInterface){
-						if (((isReflexiveReference((ReferenceInterface)child.getMmInterface())) && (child.getOrder()== child.getOrderPointer()))
+						if (((isReflexiveReference(patternRelDiagram, child)) && (child.getOrder()== child.getOrderPointer()))
 								|| (!isContainmentReference((ReferenceInterface)child.getMmInterface())))
-							patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", order, order, patternRelDiagram));
+							patternRelDiagram.add(new MMInterfaceRelDiagram((ReferenceInterface)child.getMmInterface(), "", order, order, patternRelDiagram, newClass));
 						else duplicateStructureReference(patternRelDiagram,child,order);			
 					}else {
 						if (child.getMmInterface() instanceof FeatureInstance)							
-							patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), order, patternRelDiagram));
-						else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", order, patternRelDiagram));
+							patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), PatternUtils.getDefaultValue((FeatureInstance)child.getMmInterface()), order, patternRelDiagram, newClass));
+						else patternRelDiagram.add(new MMInterfaceRelDiagram(child.getMmInterface(), "", order, patternRelDiagram, newClass));
 					}
 				}
+				for (MMInterfaceRelDiagram subtype: PatternUtils.getSubTypes(patternRelDiagram, mmirdRef)){
+					int orderSubtype = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(patternRelDiagram, subtype)+1;
+					duplicateStructureClass(patternRelDiagram, subtype, orderSubtype, order);
+				}
+				
 		}
 	}
 	
@@ -557,24 +652,25 @@ public final class PatternUtils {
 		
 		if (mmird.getMmInterface() instanceof ReferenceInterface){
 			
-			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, (ReferenceInterface)mmird.getMmInterface(),mmird.getOrderPointer());
+			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, mmird);
 			
-				if ((mmirdRef != null)&&(!((isReflexiveReference((ReferenceInterface)mmird.getMmInterface())) && (mmird.getOrder()== mmird.getOrderPointer())))){
-					
-					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
-						if (child.getMmInterface() instanceof ReferenceInterface){
-							deleteStructureReference(patternRelDiagram,child);			
-						}else 
-							patternRelDiagram.remove(child);
-					}
-					patternRelDiagram.remove(mmirdRef);
-					mmird.getParent().getChildren().remove(mmird);
-					patternRelDiagram.remove(mmird);		
-				}else{
-					
-					mmird.getParent().getChildren().remove(mmird);
-					patternRelDiagram.remove(mmird);
+			if ((mmirdRef != null)&&(!((isReflexiveReference(patternRelDiagram,mmird)) && (mmird.getOrder()== mmird.getOrderPointer())))
+					//11/5/2015
+					//Si solo le apunta el .... se borra la clase.
+					&& (PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(patternRelDiagram, mmirdRef).size()==1)){
+				PatternApplicationUtils.copyAttRefClassChildren(patternRelDiagram, mmirdRef);
+
+				for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
+					if (child.getMmInterface() instanceof ReferenceInterface){
+						deleteStructureReference(patternRelDiagram,child);			
+					}else 
+						patternRelDiagram.remove(child);
 				}
+				patternRelDiagram.remove(mmirdRef);
+
+			}
+			mmird.getParent().getChildren().remove(mmird);
+			patternRelDiagram.remove(mmird);
 		}
 	}
 	
@@ -586,6 +682,8 @@ public final class PatternUtils {
 	public static void deleteStructureClass(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmirdRef){						
 		if (mmirdRef.getMmInterface() instanceof ClassInterface)
 		if ((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(patternRelDiagram,mmirdRef))){
+			PatternApplicationUtils.copyAttRefClassChildren(patternRelDiagram, mmirdRef);
+			
 			for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, mmirdRef)){		
 				if (child.getMmInterface() instanceof ReferenceInterface){
 					if  (!isContainmentReference((ReferenceInterface)child.getMmInterface()))
@@ -612,14 +710,40 @@ public final class PatternUtils {
 	}
 	
 	/**
-	 * Static method that returns whether the specified referenceInterface is reflexive
+	 * Static method that returns whether the specified reference is reflexive
 	 * @param reference
 	 * @return true if it´s reflexive, false whether not.
 	 */
-	public static boolean isReflexiveReference (ReferenceInterface reference){
-		EReference ref = getEReference(reference);
-		
-		return ref.getEType()== ref.getEContainingClass();
+	public static boolean isReflexiveReference (List<MMInterfaceRelDiagram> content, MMInterfaceRelDiagram reference){
+		if (reference.getMmInterface() instanceof ReferenceInterface){
+			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(content, reference);
+			if (mmirdRef == null){
+				//Si hemos borrado a quien apunta..
+				EReference ref = getEReference((ReferenceInterface)reference.getMmInterface());
+				return ref.getEType()== ref.getEContainingClass() || (ref.getEContainingClass().getEAllSuperTypes().contains(ref.getEType()));
+			}else {	
+				List<MMInterfaceRelDiagram> subtypes = getSubTypesAllLevels(content, mmirdRef);
+				if (subtypes!=null) return subtypes.contains(reference.getParent()) || mmirdRef.equals(reference.getParent());
+				else return mmirdRef.equals(reference.getParent());
+			}
+		}else return false;
+	}
+	
+	/**
+	 * Static method that returns whether the specified referenceInterface is direct reflexive
+	 * @param reference
+	 * @return true if it´s reflexive, false whether not.
+	 */
+	public static boolean isDirectReflexiveReference (List<MMInterfaceRelDiagram> content, MMInterfaceRelDiagram reference){
+		if (reference.getMmInterface() instanceof ReferenceInterface){
+			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(content, reference);
+			if (mmirdRef == null){
+				//Si hemos borrado a quien apunta..
+				EReference ref = getEReference((ReferenceInterface)reference.getMmInterface());
+				return ref.getEType()== ref.getEContainingClass();
+			}else 
+				return mmirdRef.equals(reference.getParent());
+		}else return false;
 	}
 	
 	/**
@@ -807,6 +931,7 @@ public final class PatternUtils {
 			((InterfaceImpl)proxyI).eSetProxyURI(uri2);
 		}
 		return (Interface)EcoreUtil.resolve(proxyI, intModel);
+
 	}
 	
 	/**
@@ -902,14 +1027,19 @@ public final class PatternUtils {
 		List<Interface> ri = getPlugInterfaces(psi.getService(), intModel);
 		for (Interface i: ri){
 			if (!slotProvidedByAnotherService(patternServiceInfoList, i, intModel)) {
-				psi.addMissing(i, getSlotOfferedBy(i, intModel, allPatterns));
+				//Get the relative interface without modifying the repository
+				//Relative interface!! 03/06/2015
+				Interface irelative = PatternUtils.getInterface(intModel, i);
+				psi.addMissing((irelative!=null?irelative:i), getSlotOfferedBy(i, intModel, allPatterns));
 			}
 		}
 		//ACCEPTOR-INJECTOR
 		ri = getAcceptorInterfaces(psi.getService(), intModel);
 		for (Interface i: ri){
 			if (!injectorProvidedByAnotherService(patternServiceInfoList, i, intModel)) {
-				psi.addMissing(i,  getInjectorOfferedBy(i, intModel, allPatterns));
+				//Relative interface!! 03/06/2015
+				Interface irelative = PatternUtils.getInterface(intModel, i);
+				psi.addMissing((irelative!=null?irelative:i),  getInjectorOfferedBy(i, intModel, allPatterns));
 			}
 		}
 	}
@@ -972,6 +1102,7 @@ public final class PatternUtils {
 				patternServiceInfoList.remove(psi);
 		}
 		deleteCheckActivableServiceForUpdates(patternServiceInfoList, intModel, allPatterns);
+		
 		return true;
 	}
 	
@@ -1023,6 +1154,28 @@ public final class PatternUtils {
 			}
 		}
 		return patterns;
+	}
+	
+	public static Interface getInterface(Resource intModel, Interface interf){
+		InterfaceRepository ir =(InterfaceRepository) intModel.getContents().get(0);
+		for (Packageable pack : ir.getContents()){
+			Interface inter = getInterface(pack, interf);
+			if (inter != null) return inter;	
+		}
+		return null;
+	}
+	
+	private static Interface getInterface(Packageable pack, Interface interf){
+		if (pack instanceof Interface){
+			if (((Interface)pack).getQName().compareTo(interf.getQName())==0)
+			return (Interface)pack;	
+		} else if (pack instanceof Package) {
+			for (Packageable subPack: ((Package)pack).getContents()){
+				Interface inter = getInterface(subPack, interf);
+				if (inter != null) return inter;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -1104,7 +1257,9 @@ public final class PatternUtils {
 		if (classMMI.getMmInterface() instanceof ClassInterface){
 			EClass eclass = getEClass((ClassInterface)classMMI.getMmInterface());
 			for (EClass child:ModelUtils.getChildren(eclass.getEPackage(), eclass)){		
-				for (MMInterfaceRelDiagram subType :getAllMMInterfaceRelDiagram(content, child.getName())){
+				
+				List<MMInterfaceRelDiagram> subTypesAux = getAllMMInterfaceRelDiagram(content, child,classMMI.getOrder());
+				for (MMInterfaceRelDiagram subType :subTypesAux){
 					if (isAbstract(subType, content)) 
 						subTypes.addAll(getSubTypesConcrete(content, subType));
 					else subTypes.add(subType);	
@@ -1113,5 +1268,38 @@ public final class PatternUtils {
 		}return subTypes;
 	}
 	
-
+	/**
+	 * Static method that returns the children of a classinterface. (first level)
+	 * @param content
+	 * @param classMMI
+	 * @return list of MMInterfaceRelDiagram objects
+	 */
+	public static List<MMInterfaceRelDiagram> getSubTypes(List<MMInterfaceRelDiagram> content, MMInterfaceRelDiagram classMMI){
+		List<MMInterfaceRelDiagram> subTypes = new LinkedList<MMInterfaceRelDiagram>();
+		if (classMMI.getMmInterface() instanceof ClassInterface){
+			EClass eclass = getEClass((ClassInterface)classMMI.getMmInterface());
+			for (EClass child:ModelUtils.getChildren(eclass.getEPackage(), eclass)){		
+				for (MMInterfaceRelDiagram subType :getAllMMInterfaceRelDiagram(content, child,classMMI.getOrder())){
+					subTypes.add(subType);	
+				}
+			}
+		}return subTypes;
+	}
+		
+	/**
+	 * Static method that returns the children of a classinterface. (all levels)
+	 * @param content
+	 * @param classMMI
+	 * @return list of MMInterfaceRelDiagram objects
+	 */
+	public static List<MMInterfaceRelDiagram> getSubTypesAllLevels(List<MMInterfaceRelDiagram> content, MMInterfaceRelDiagram classMMI){
+		List<MMInterfaceRelDiagram> subTypes = new LinkedList<MMInterfaceRelDiagram>();
+		
+		for (MMInterfaceRelDiagram subtype: getSubTypes(content, classMMI)){
+			subTypes.add (subtype);
+			subTypes.addAll (getSubTypesAllLevels(content, subtype));
+		}
+		return subTypes;
+	}
+	
 }

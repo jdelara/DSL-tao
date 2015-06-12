@@ -55,7 +55,7 @@ public class MyDropListener extends ViewerDropAdapter {
 				if (!(mmird.getMmInterface() instanceof FeatureInstance)) mmird.setElementDiagram("");
 			}
 			 
-			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, (ClassInterface)target.getMmInterface() , target.getOrder())){
+			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, target)){
 				 mmird.setElementDiagram("");
 			}
 		}	

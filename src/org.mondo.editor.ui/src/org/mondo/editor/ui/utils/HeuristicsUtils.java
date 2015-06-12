@@ -66,10 +66,10 @@ public final class HeuristicsUtils {
 		for (MMInterfaceRelDiagram child: children){
 			if (child.getMmInterface() instanceof ReferenceInterface){
 				if (PatternUtils.isContainmentReference((ReferenceInterface)child.getMmInterface()))
-					if (PatternUtils.isReflexiveReference((ReferenceInterface)child.getMmInterface()))
+					if (PatternUtils.isReflexiveReference(status,child))
 						contRefContRefl++;
 					else contRefCont++;
-				else if (PatternUtils.isReflexiveReference((ReferenceInterface)child.getMmInterface()))
+				else if (PatternUtils.isReflexiveReference(status,child))
 						contRefRefl++;
 				else contRef++;
 			} else if (child.getMmInterface() instanceof FeatureType)

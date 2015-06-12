@@ -4,6 +4,7 @@ encoding//model/runtimeLayers.ecorediag=UTF-8
 encoding//model/runtimeServices.ecorediag=UTF-8
 encoding//model/serviceInterfaces.ecorediag=UTF-8
 encoding//patterns/ComponentLanguageShallow.ecore=UTF-8
+encoding//patterns/Modularity.ecorediag=UTF-8
 encoding//patterns/StateMachine.ecore=UTF-8
 encoding//patterns/StateMachineHyperedges.ecore=UTF-8
 encoding//patterns/StateMachineUnnamed.ecore=UTF-8

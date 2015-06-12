@@ -2,27 +2,28 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Modularity" nsURI="http://mondo.dsl.org/mmPatterns/modularity"
     nsPrefix="modularity">
-  <eClassifiers xsi:type="ecore:EClass" name="Project">
+  <eClassifiers xsi:type="ecore:EClass" name="Project" eSuperTypes="#//Container #//IdentificableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="packageTypes" ordered="false"
         upperBound="-1" eType="#//Package" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="/root"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Package">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//Container #//Containee #//IdentificableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subPackages" ordered="false"
         upperBound="-1" eType="#//Package" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unitTypes" ordered="false"
         upperBound="-1" eType="#//Unit" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="/root"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Unit">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Unit" eSuperTypes="#//Containee #//IdentificableElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="extension" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="figure"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containees" lowerBound="1"
+        upperBound="-1" eType="#//Containee" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Containee" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IdentificableElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="/root"/>
   </eClassifiers>
 </ecore:EPackage>

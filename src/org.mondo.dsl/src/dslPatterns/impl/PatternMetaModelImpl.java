@@ -3,6 +3,7 @@
 package dslPatterns.impl;
 
 import dslPatterns.ClassInterface;
+import dslPatterns.ComplexFeatureAttached;
 import dslPatterns.DslPatternsPackage;
 import dslPatterns.FeatureInterface;
 import dslPatterns.PatternMetaModel;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getAttrInterfaces <em>Attr Interfaces</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getRefInterfaces <em>Ref Interfaces</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getImg <em>Img</em>}</li>
+ *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getRootAttachedVariant <em>Root Attached Variant</em>}</li>
  * </ul>
  * </p>
  *
@@ -84,6 +86,16 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 	 * @ordered
 	 */
 	protected String img = IMG_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRootAttachedVariant() <em>Root Attached Variant</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRootAttachedVariant()
+	 * @generated
+	 * @ordered
+	 */
+	protected ComplexFeatureAttached rootAttachedVariant;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -166,6 +178,49 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ComplexFeatureAttached getRootAttachedVariant() {
+		return rootAttachedVariant;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRootAttachedVariant(ComplexFeatureAttached newRootAttachedVariant, NotificationChain msgs) {
+		ComplexFeatureAttached oldRootAttachedVariant = rootAttachedVariant;
+		rootAttachedVariant = newRootAttachedVariant;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT, oldRootAttachedVariant, newRootAttachedVariant);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRootAttachedVariant(ComplexFeatureAttached newRootAttachedVariant) {
+		if (newRootAttachedVariant != rootAttachedVariant) {
+			NotificationChain msgs = null;
+			if (rootAttachedVariant != null)
+				msgs = ((InternalEObject)rootAttachedVariant).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT, null, msgs);
+			if (newRootAttachedVariant != null)
+				msgs = ((InternalEObject)newRootAttachedVariant).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT, null, msgs);
+			msgs = basicSetRootAttachedVariant(newRootAttachedVariant, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT, newRootAttachedVariant, newRootAttachedVariant));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -175,6 +230,8 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 				return ((InternalEList<?>)getAttrInterfaces()).basicRemove(otherEnd, msgs);
 			case DslPatternsPackage.PATTERN_META_MODEL__REF_INTERFACES:
 				return ((InternalEList<?>)getRefInterfaces()).basicRemove(otherEnd, msgs);
+			case DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT:
+				return basicSetRootAttachedVariant(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -195,6 +252,8 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 				return getRefInterfaces();
 			case DslPatternsPackage.PATTERN_META_MODEL__IMG:
 				return getImg();
+			case DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT:
+				return getRootAttachedVariant();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -223,6 +282,9 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 			case DslPatternsPackage.PATTERN_META_MODEL__IMG:
 				setImg((String)newValue);
 				return;
+			case DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT:
+				setRootAttachedVariant((ComplexFeatureAttached)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -247,6 +309,9 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 			case DslPatternsPackage.PATTERN_META_MODEL__IMG:
 				setImg(IMG_EDEFAULT);
 				return;
+			case DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT:
+				setRootAttachedVariant((ComplexFeatureAttached)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -267,6 +332,8 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 				return refInterfaces != null && !refInterfaces.isEmpty();
 			case DslPatternsPackage.PATTERN_META_MODEL__IMG:
 				return IMG_EDEFAULT == null ? img != null : !IMG_EDEFAULT.equals(img);
+			case DslPatternsPackage.PATTERN_META_MODEL__ROOT_ATTACHED_VARIANT:
+				return rootAttachedVariant != null;
 		}
 		return super.eIsSet(featureID);
 	}
