@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.mondo.editor.feature_0.2.0.jar" id="org.mondo.editor.feature" version="0.2.0">
-      <category name="mondo"/>
-   </feature>
-   <category-def name="mondo" label="Mondo"/>
+   <feature url="features/org.mondo.editor.feature_0.2.1.jar" id="org.mondo.editor.feature" version="0.2.1"/>
 </site>
