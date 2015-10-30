@@ -22,6 +22,7 @@ import runtimeServices.ServiceInstance;
  *   <li>{@link runtimePatterns.PatternInstance#getPattern <em>Pattern</em>}</li>
  *   <li>{@link runtimePatterns.PatternInstance#getClassInstances <em>Class Instances</em>}</li>
  *   <li>{@link runtimePatterns.PatternInstance#getServiceInstances <em>Service Instances</em>}</li>
+ *   <li>{@link runtimePatterns.PatternInstance#isAttached <em>Attached</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,5 +114,31 @@ public interface PatternInstance extends EObject {
 	 * @generated
 	 */
 	EList<ServiceInstance> getServiceInstances();
+
+	/**
+	 * Returns the value of the '<em><b>Attached</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Attached</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Attached</em>' attribute.
+	 * @see #setAttached(boolean)
+	 * @see runtimePatterns.RuntimePatternsPackage#getPatternInstance_Attached()
+	 * @model
+	 * @generated
+	 */
+	boolean isAttached();
+
+	/**
+	 * Sets the value of the '{@link runtimePatterns.PatternInstance#isAttached <em>Attached</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Attached</em>' attribute.
+	 * @see #isAttached()
+	 * @generated
+	 */
+	void setAttached(boolean value);
 
 } // PatternInstance

@@ -37,6 +37,7 @@ import runtimeServices.ServiceInstance;
  *   <li>{@link runtimePatterns.impl.PatternInstanceImpl#getPattern <em>Pattern</em>}</li>
  *   <li>{@link runtimePatterns.impl.PatternInstanceImpl#getClassInstances <em>Class Instances</em>}</li>
  *   <li>{@link runtimePatterns.impl.PatternInstanceImpl#getServiceInstances <em>Service Instances</em>}</li>
+ *   <li>{@link runtimePatterns.impl.PatternInstanceImpl#isAttached <em>Attached</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,6 +93,26 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 	 * @ordered
 	 */
 	protected EList<ServiceInstance> serviceInstances;
+
+	/**
+	 * The default value of the '{@link #isAttached() <em>Attached</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAttached()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ATTACHED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isAttached() <em>Attached</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAttached()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean attached = ATTACHED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -200,6 +221,27 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAttached() {
+		return attached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAttached(boolean newAttached) {
+		boolean oldAttached = attached;
+		attached = newAttached;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.PATTERN_INSTANCE__ATTACHED, oldAttached, attached));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -228,6 +270,8 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 				return getClassInstances();
 			case RuntimePatternsPackage.PATTERN_INSTANCE__SERVICE_INSTANCES:
 				return getServiceInstances();
+			case RuntimePatternsPackage.PATTERN_INSTANCE__ATTACHED:
+				return isAttached();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -255,6 +299,9 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 				getServiceInstances().clear();
 				getServiceInstances().addAll((Collection<? extends ServiceInstance>)newValue);
 				return;
+			case RuntimePatternsPackage.PATTERN_INSTANCE__ATTACHED:
+				setAttached((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -279,6 +326,9 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 			case RuntimePatternsPackage.PATTERN_INSTANCE__SERVICE_INSTANCES:
 				getServiceInstances().clear();
 				return;
+			case RuntimePatternsPackage.PATTERN_INSTANCE__ATTACHED:
+				setAttached(ATTACHED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -299,6 +349,8 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 				return classInstances != null && !classInstances.isEmpty();
 			case RuntimePatternsPackage.PATTERN_INSTANCE__SERVICE_INSTANCES:
 				return serviceInstances != null && !serviceInstances.isEmpty();
+			case RuntimePatternsPackage.PATTERN_INSTANCE__ATTACHED:
+				return attached != ATTACHED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -315,6 +367,8 @@ public class PatternInstanceImpl extends EObjectImpl implements PatternInstance 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (ident: ");
 		result.append(ident);
+		result.append(", attached: ");
+		result.append(attached);
 		result.append(')');
 		return result.toString();
 	}

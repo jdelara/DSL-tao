@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.MMInterfaceAttached#getType <em>Type</em>}</li>
  *   <li>{@link dslPatterns.MMInterfaceAttached#getAttached <em>Attached</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getMMInterfaceAttached()
  * @model

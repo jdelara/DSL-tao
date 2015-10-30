@@ -10,11 +10,11 @@ package serviceInterfaces;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.Interface#getQName <em>QName</em>}</li>
  *   <li>{@link serviceInterfaces.Interface#getDescription <em>Description</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.ServiceInterfacesPackage#getInterface()
  * @model abstract="true"

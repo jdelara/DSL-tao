@@ -59,18 +59,16 @@ public class CollapseAllFeature extends AbstractCustomFeature {
         	for (EClassifier eClassif: ((EPackage)bo).getEClassifiers()){
         		for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements((Diagram) pes[0], eClassif)){
         			if (pe instanceof ContainerShape){
-        					if (eClassif instanceof EClass){
-        						DiagramUtils.collapseEClass((ContainerShape)pe, getFeatureProvider());
-        					}
-        					else if (eClassif instanceof EEnum) DiagramUtils.collapseEEnum((ContainerShape)pe, getFeatureProvider());
-        					hasDoneChanges = true;
-        					
-        					break;
+    					if (eClassif instanceof EClass){
+    						DiagramUtils.collapseEClass((ContainerShape)pe, getFeatureProvider());
+    					}
+    					else if (eClassif instanceof EEnum) DiagramUtils.collapseEEnum((ContainerShape)pe, getFeatureProvider());
+    					hasDoneChanges = true;
+    					break;
         			}
         		}
         	}
-        }
-    	
+        }    	
     }
  
     @Override

@@ -14,13 +14,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.MMInterface#getIcon <em>Icon</em>}</li>
  *   <li>{@link dslPatterns.MMInterface#getMinCard <em>Min Card</em>}</li>
  *   <li>{@link dslPatterns.MMInterface#getMaxCard <em>Max Card</em>}</li>
  *   <li>{@link dslPatterns.MMInterface#getConstraint <em>Constraint</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getMMInterface()
  * @model abstract="true"

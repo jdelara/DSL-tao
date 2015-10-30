@@ -26,11 +26,11 @@ import serviceInterfaces.ServiceInterfacesPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.impl.PackageImpl#getName <em>Name</em>}</li>
  *   <li>{@link serviceInterfaces.impl.PackageImpl#getContents <em>Contents</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

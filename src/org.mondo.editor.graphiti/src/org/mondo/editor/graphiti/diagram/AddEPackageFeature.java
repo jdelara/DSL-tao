@@ -50,6 +50,16 @@ public class AddEPackageFeature extends AbstractAddFeature {
 	public boolean canAdd(IAddContext context) {
 		return context.getNewObject() instanceof EPackage && context.getTargetContainer() instanceof Diagram;
 	}
+	
+	private Diagram newDiagram = null;
+
+	public Diagram getNewDiagram() {
+		return newDiagram;
+	}
+
+	public void setNewDiagram(Diagram newDiagram) {
+		this.newDiagram = newDiagram;
+	}
 
 	@Override
 	public PictogramElement add(IAddContext context) {
@@ -105,7 +115,7 @@ public class AddEPackageFeature extends AbstractAddFeature {
 		//Related diagram
 		String diagramName = "."+getDiagram().getName().replaceAll(".diagram", "") +newEPackage.getName();
 		final Diagram diagram = Graphiti.getPeCreateService().createDiagram("mondo", diagramName, true);
-		
+		setNewDiagram(diagram);
 		Resource resource = getDiagram().eResource();
 		URI uriTrimmed = resource.getURI().trimFragment();
 		

@@ -8,6 +8,7 @@ import dslPatterns.DslPatternsPackage;
 import dslPatterns.FeatureInterface;
 import dslPatterns.PatternMetaModel;
 import dslPatterns.ReferenceInterface;
+import dslPatterns.Tag;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -25,6 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getClassInterfaces <em>Class Interfaces</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getAttrInterfaces <em>Attr Interfaces</em>}</li>
@@ -32,7 +35,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getImg <em>Img</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternMetaModelImpl#getRootAttachedVariant <em>Root Attached Variant</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -78,13 +78,22 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN_SET__CATEGORIES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Tag Set</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_SET__TAG_SET = 1;
+
+	/**
 	 * The number of structural features of the '<em>Pattern Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_SET_FEATURE_COUNT = 1;
+	int PATTERN_SET_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.CategoryImpl <em>Category</em>}' class.
@@ -197,13 +206,22 @@ public interface DslPatternsPackage extends EPackage {
 	int PATTERN__MAX_INSTANCES = 4;
 
 	/**
+	 * The feature id for the '<em><b>Tags</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN__TAGS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Pattern</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_FEATURE_COUNT = 5;
+	int PATTERN_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
@@ -1012,13 +1030,22 @@ public interface DslPatternsPackage extends EPackage {
 	int CLASS_INTERFACE__ABSTRACT = MM_INTERFACE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Abstract Matters</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_INTERFACE__ABSTRACT_MATTERS = MM_INTERFACE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Class Interface</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 2;
+	int CLASS_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.FeatureInterfaceImpl <em>Feature Interface</em>}' class.
@@ -1140,13 +1167,58 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_TYPE__REF = FEATURE_INTERFACE__REF;
 
 	/**
+	 * The feature id for the '<em><b>Any Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TYPE__ANY_MIN = FEATURE_INTERFACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Any Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TYPE__ANY_MAX = FEATURE_INTERFACE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Any Ordering</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TYPE__ANY_ORDERING = FEATURE_INTERFACE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Unique Matters</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TYPE__UNIQUE_MATTERS = FEATURE_INTERFACE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>ID Matters</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TYPE__ID_MATTERS = FEATURE_INTERFACE_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Feature Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_TYPE_FEATURE_COUNT = FEATURE_INTERFACE_FEATURE_COUNT + 0;
+	int FEATURE_TYPE_FEATURE_COUNT = FEATURE_INTERFACE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.FeatureInstanceImpl <em>Feature Instance</em>}' class.
@@ -1259,13 +1331,58 @@ public interface DslPatternsPackage extends EPackage {
 	int REFERENCE_INTERFACE__CONSTRAINT = MM_INTERFACE__CONSTRAINT;
 
 	/**
+	 * The feature id for the '<em><b>Any Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_INTERFACE__ANY_MIN = MM_INTERFACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Any Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_INTERFACE__ANY_MAX = MM_INTERFACE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Any Ordering</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_INTERFACE__ANY_ORDERING = MM_INTERFACE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Unique Matters</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_INTERFACE__UNIQUE_MATTERS = MM_INTERFACE_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_INTERFACE__REF = MM_INTERFACE_FEATURE_COUNT + 0;
+	int REFERENCE_INTERFACE__REF = MM_INTERFACE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Flexible Composite</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_INTERFACE__FLEXIBLE_COMPOSITE = MM_INTERFACE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Reference Interface</em>' class.
@@ -1274,7 +1391,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 1;
+	int REFERENCE_INTERFACE_FEATURE_COUNT = MM_INTERFACE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link dslPatterns.impl.ComplexFeatureMainImpl <em>Complex Feature Main</em>}' class.
@@ -1709,6 +1826,126 @@ public interface DslPatternsPackage extends EPackage {
 	int FEATURE_INSTANCE_ATTACHED_FEATURE_COUNT = FEATURE_INTERFACE_ATTACHED_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link dslPatterns.impl.TagSetImpl <em>Tag Set</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.TagSetImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getTagSet()
+	 * @generated
+	 */
+	int TAG_SET = 30;
+
+	/**
+	 * The feature id for the '<em><b>Tags</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TAG_SET__TAGS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Tag Set</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TAG_SET_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.TagImpl <em>Tag</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.TagImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getTag()
+	 * @generated
+	 */
+	int TAG = 31;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TAG__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Specifics</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TAG__SPECIFICS = 1;
+
+	/**
+	 * The number of structural features of the '<em>Tag</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TAG_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link dslPatterns.impl.CardinalityInterfaceImpl <em>Cardinality Interface</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see dslPatterns.impl.CardinalityInterfaceImpl
+	 * @see dslPatterns.impl.DslPatternsPackageImpl#getCardinalityInterface()
+	 * @generated
+	 */
+	int CARDINALITY_INTERFACE = 32;
+
+	/**
+	 * The feature id for the '<em><b>Any Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARDINALITY_INTERFACE__ANY_MIN = 0;
+
+	/**
+	 * The feature id for the '<em><b>Any Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARDINALITY_INTERFACE__ANY_MAX = 1;
+
+	/**
+	 * The feature id for the '<em><b>Any Ordering</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARDINALITY_INTERFACE__ANY_ORDERING = 2;
+
+	/**
+	 * The feature id for the '<em><b>Unique Matters</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARDINALITY_INTERFACE__UNIQUE_MATTERS = 3;
+
+	/**
+	 * The number of structural features of the '<em>Cardinality Interface</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CARDINALITY_INTERFACE_FEATURE_COUNT = 4;
+
+	/**
 	 * The meta object id for the '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1716,7 +1953,7 @@ public interface DslPatternsPackage extends EPackage {
 	 * @see dslPatterns.impl.DslPatternsPackageImpl#getFeatureKind()
 	 * @generated
 	 */
-	int FEATURE_KIND = 30;
+	int FEATURE_KIND = 33;
 
 
 	/**
@@ -1739,6 +1976,17 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPatternSet_Categories();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link dslPatterns.PatternSet#getTagSet <em>Tag Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Tag Set</em>'.
+	 * @see dslPatterns.PatternSet#getTagSet()
+	 * @see #getPatternSet()
+	 * @generated
+	 */
+	EReference getPatternSet_TagSet();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.Category <em>Category</em>}'.
@@ -1858,6 +2106,17 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPattern_MaxInstances();
+
+	/**
+	 * Returns the meta object for the reference list '{@link dslPatterns.Pattern#getTags <em>Tags</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Tags</em>'.
+	 * @see dslPatterns.Pattern#getTags()
+	 * @see #getPattern()
+	 * @generated
+	 */
+	EReference getPattern_Tags();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.Service <em>Service</em>}'.
@@ -2297,6 +2556,17 @@ public interface DslPatternsPackage extends EPackage {
 	EAttribute getClassInterface_Abstract();
 
 	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.ClassInterface#isAbstractMatters <em>Abstract Matters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Abstract Matters</em>'.
+	 * @see dslPatterns.ClassInterface#isAbstractMatters()
+	 * @see #getClassInterface()
+	 * @generated
+	 */
+	EAttribute getClassInterface_AbstractMatters();
+
+	/**
 	 * Returns the meta object for class '{@link dslPatterns.FeatureInterface <em>Feature Interface</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2328,6 +2598,17 @@ public interface DslPatternsPackage extends EPackage {
 	EClass getFeatureType();
 
 	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.FeatureType#isIDMatters <em>ID Matters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>ID Matters</em>'.
+	 * @see dslPatterns.FeatureType#isIDMatters()
+	 * @see #getFeatureType()
+	 * @generated
+	 */
+	EAttribute getFeatureType_IDMatters();
+
+	/**
 	 * Returns the meta object for class '{@link dslPatterns.FeatureInstance <em>Feature Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2357,6 +2638,17 @@ public interface DslPatternsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getReferenceInterface_Ref();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.ReferenceInterface#isFlexibleComposite <em>Flexible Composite</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Flexible Composite</em>'.
+	 * @see dslPatterns.ReferenceInterface#isFlexibleComposite()
+	 * @see #getReferenceInterface()
+	 * @generated
+	 */
+	EAttribute getReferenceInterface_FlexibleComposite();
 
 	/**
 	 * Returns the meta object for class '{@link dslPatterns.ComplexFeatureMain <em>Complex Feature Main</em>}'.
@@ -2548,6 +2840,113 @@ public interface DslPatternsPackage extends EPackage {
 	EReference getMMInterfaceAttached_Attached();
 
 	/**
+	 * Returns the meta object for class '{@link dslPatterns.TagSet <em>Tag Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Tag Set</em>'.
+	 * @see dslPatterns.TagSet
+	 * @generated
+	 */
+	EClass getTagSet();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link dslPatterns.TagSet#getTags <em>Tags</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Tags</em>'.
+	 * @see dslPatterns.TagSet#getTags()
+	 * @see #getTagSet()
+	 * @generated
+	 */
+	EReference getTagSet_Tags();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.Tag <em>Tag</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Tag</em>'.
+	 * @see dslPatterns.Tag
+	 * @generated
+	 */
+	EClass getTag();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.Tag#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see dslPatterns.Tag#getName()
+	 * @see #getTag()
+	 * @generated
+	 */
+	EAttribute getTag_Name();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link dslPatterns.Tag#getSpecifics <em>Specifics</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Specifics</em>'.
+	 * @see dslPatterns.Tag#getSpecifics()
+	 * @see #getTag()
+	 * @generated
+	 */
+	EReference getTag_Specifics();
+
+	/**
+	 * Returns the meta object for class '{@link dslPatterns.CardinalityInterface <em>Cardinality Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cardinality Interface</em>'.
+	 * @see dslPatterns.CardinalityInterface
+	 * @generated
+	 */
+	EClass getCardinalityInterface();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.CardinalityInterface#isAnyMin <em>Any Min</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Any Min</em>'.
+	 * @see dslPatterns.CardinalityInterface#isAnyMin()
+	 * @see #getCardinalityInterface()
+	 * @generated
+	 */
+	EAttribute getCardinalityInterface_AnyMin();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.CardinalityInterface#isAnyMax <em>Any Max</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Any Max</em>'.
+	 * @see dslPatterns.CardinalityInterface#isAnyMax()
+	 * @see #getCardinalityInterface()
+	 * @generated
+	 */
+	EAttribute getCardinalityInterface_AnyMax();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.CardinalityInterface#isAnyOrdering <em>Any Ordering</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Any Ordering</em>'.
+	 * @see dslPatterns.CardinalityInterface#isAnyOrdering()
+	 * @see #getCardinalityInterface()
+	 * @generated
+	 */
+	EAttribute getCardinalityInterface_AnyOrdering();
+
+	/**
+	 * Returns the meta object for the attribute '{@link dslPatterns.CardinalityInterface#isUniqueMatters <em>Unique Matters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Unique Matters</em>'.
+	 * @see dslPatterns.CardinalityInterface#isUniqueMatters()
+	 * @see #getCardinalityInterface()
+	 * @generated
+	 */
+	EAttribute getCardinalityInterface_UniqueMatters();
+
+	/**
 	 * Returns the meta object for enum '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2597,6 +2996,14 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PATTERN_SET__CATEGORIES = eINSTANCE.getPatternSet_Categories();
+
+		/**
+		 * The meta object literal for the '<em><b>Tag Set</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PATTERN_SET__TAG_SET = eINSTANCE.getPatternSet_TagSet();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.CategoryImpl <em>Category</em>}' class.
@@ -2689,6 +3096,14 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PATTERN__MAX_INSTANCES = eINSTANCE.getPattern_MaxInstances();
+
+		/**
+		 * The meta object literal for the '<em><b>Tags</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PATTERN__TAGS = eINSTANCE.getPattern_Tags();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.ServiceImpl <em>Service</em>}' class.
@@ -3047,6 +3462,14 @@ public interface DslPatternsPackage extends EPackage {
 		EAttribute CLASS_INTERFACE__ABSTRACT = eINSTANCE.getClassInterface_Abstract();
 
 		/**
+		 * The meta object literal for the '<em><b>Abstract Matters</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASS_INTERFACE__ABSTRACT_MATTERS = eINSTANCE.getClassInterface_AbstractMatters();
+
+		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.FeatureInterfaceImpl <em>Feature Interface</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3075,6 +3498,14 @@ public interface DslPatternsPackage extends EPackage {
 		EClass FEATURE_TYPE = eINSTANCE.getFeatureType();
 
 		/**
+		 * The meta object literal for the '<em><b>ID Matters</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FEATURE_TYPE__ID_MATTERS = eINSTANCE.getFeatureType_IDMatters();
+
+		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.FeatureInstanceImpl <em>Feature Instance</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3101,6 +3532,14 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REFERENCE_INTERFACE__REF = eINSTANCE.getReferenceInterface_Ref();
+
+		/**
+		 * The meta object literal for the '<em><b>Flexible Composite</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_INTERFACE__FLEXIBLE_COMPOSITE = eINSTANCE.getReferenceInterface_FlexibleComposite();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.impl.ComplexFeatureMainImpl <em>Complex Feature Main</em>}' class.
@@ -3263,6 +3702,92 @@ public interface DslPatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MM_INTERFACE_ATTACHED__ATTACHED = eINSTANCE.getMMInterfaceAttached_Attached();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.TagSetImpl <em>Tag Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.TagSetImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getTagSet()
+		 * @generated
+		 */
+		EClass TAG_SET = eINSTANCE.getTagSet();
+
+		/**
+		 * The meta object literal for the '<em><b>Tags</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TAG_SET__TAGS = eINSTANCE.getTagSet_Tags();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.TagImpl <em>Tag</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.TagImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getTag()
+		 * @generated
+		 */
+		EClass TAG = eINSTANCE.getTag();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TAG__NAME = eINSTANCE.getTag_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Specifics</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TAG__SPECIFICS = eINSTANCE.getTag_Specifics();
+
+		/**
+		 * The meta object literal for the '{@link dslPatterns.impl.CardinalityInterfaceImpl <em>Cardinality Interface</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see dslPatterns.impl.CardinalityInterfaceImpl
+		 * @see dslPatterns.impl.DslPatternsPackageImpl#getCardinalityInterface()
+		 * @generated
+		 */
+		EClass CARDINALITY_INTERFACE = eINSTANCE.getCardinalityInterface();
+
+		/**
+		 * The meta object literal for the '<em><b>Any Min</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CARDINALITY_INTERFACE__ANY_MIN = eINSTANCE.getCardinalityInterface_AnyMin();
+
+		/**
+		 * The meta object literal for the '<em><b>Any Max</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CARDINALITY_INTERFACE__ANY_MAX = eINSTANCE.getCardinalityInterface_AnyMax();
+
+		/**
+		 * The meta object literal for the '<em><b>Any Ordering</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CARDINALITY_INTERFACE__ANY_ORDERING = eINSTANCE.getCardinalityInterface_AnyOrdering();
+
+		/**
+		 * The meta object literal for the '<em><b>Unique Matters</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CARDINALITY_INTERFACE__UNIQUE_MATTERS = eINSTANCE.getCardinalityInterface_UniqueMatters();
 
 		/**
 		 * The meta object literal for the '{@link dslPatterns.FeatureKind <em>Feature Kind</em>}' enum.

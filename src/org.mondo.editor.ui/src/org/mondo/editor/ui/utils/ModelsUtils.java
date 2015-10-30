@@ -1,6 +1,5 @@
 package org.mondo.editor.ui.utils;
 
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;

@@ -11,10 +11,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.JavaInterface#getOperations <em>Operations</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.modelingenv.ModelingenvPackage#getJavaInterface()
  * @model

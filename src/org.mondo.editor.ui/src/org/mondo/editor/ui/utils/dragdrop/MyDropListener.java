@@ -13,10 +13,13 @@ import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.widgets.Button;
 import org.mondo.editor.graphiti.diagram.utils.DataTypeUtils.DataType;
+import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.ui.utils.ModelsUtils;
+import org.mondo.editor.ui.utils.Utils;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
-
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInstance;
 import dslPatterns.FeatureType;
@@ -33,46 +36,67 @@ public class MyDropListener extends ViewerDropAdapter {
 	private final Viewer viewer;
 	private final EPackage modelPack;
 	private List<MMInterfaceRelDiagram> content;
+	private Button replace;
 
 
-	  public MyDropListener(Viewer viewer, EPackage pack, List<MMInterfaceRelDiagram> content) {
+	public MyDropListener(Viewer viewer, EPackage pack, List<MMInterfaceRelDiagram> content, Button replace) {
 	    super(viewer);
 	    this.viewer = viewer;
 	    this.modelPack = pack;
 	    this.content = content;
-	  }
+	    this.replace = replace;
+	 }
 	  
-	  public void setContent(List<MMInterfaceRelDiagram> content){
+	public void setContent(List<MMInterfaceRelDiagram> content){
 		  this.content = content;
-	  }
-
-	  @Override
-	  public void drop(DropTargetEvent event) {
+	}
+	
+	@Override
+	public void drop(DropTargetEvent event) {
 		MMInterfaceRelDiagram target = (MMInterfaceRelDiagram) determineTarget(event);
-	    
+		if(!Utils.isWindows())
+			if (!validateDrop(target, event.operations, event.currentDataType)) {
+			return;
+		}
+	  
 		if (target.getMmInterface() instanceof ClassInterface){
-			for (MMInterfaceRelDiagram mmird : PatternUtils.getChildren(content, target)){
-				if (!(mmird.getMmInterface() instanceof FeatureInstance)) mmird.setElementDiagram("");
-			}
-			 
-			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, target)){
-				 mmird.setElementDiagram("");
+			if ((target.getElementDiagram().isEmpty()) || (replace.getSelection())){
+				for (MMInterfaceRelDiagram mmird : PatternUtils.getChildren(content, target)){
+					if (!(mmird.getMmInterface() instanceof FeatureInstance)) mmird.setElementDiagram("");
+				}
+		 
+				for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, target)){
+					mmird.setElementDiagram("");
+				}
+			} else { //duplicamos.
+				if ((target.getMaxValue()> PatternUtils.getNumMMInterfaceRelDiagram(content,target)) || (target.getMaxValue()==-1))	{
+					int order = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(content, target)+1;
+					target = PatternUtils.duplicateStructureClass(content, target, order, target.getOrderPointer());
+				}	
+				else {
+					Messages.displayEditErrorMessage("Cardinality error");
+					return;
+				}
 			}
 		}	
 		target.setElementDiagram(event.data.toString());
 	    super.drop(event);
-	  }
-
-
-	  @Override
-	  public boolean performDrop(Object data) {
+	}
+	
+	
+	@Override
+	public boolean performDrop(Object data) {
 		  viewer.refresh();
 		  return false;
-	  }
-
-	  @Override
-	  public boolean validateDrop(Object target, int operation,TransferData transferType) {
+	}
+	
+	@Override
+	public boolean validateDrop(Object target, int operation, TransferData transferType) {
 		  Object data =  TextTransfer.getInstance().nativeToJava(transferType);
+		  if(data == null) {
+			    return true;
+		  }
+			  
 		  EObject object = ModelsUtils.getEObject(modelPack,data.toString());
 		 
 		  if (target instanceof MMInterfaceRelDiagram){
@@ -99,8 +123,9 @@ public class MyDropListener extends ViewerDropAdapter {
 									&& (PatternUtils.areCompatibleEOppositeReferences(content, (MMInterfaceRelDiagram)target, (EReference)object)) ));
 					}
 					if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof FeatureType){
-						if (PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == DataType.EJAVAOBJECT.getEDataType()) return true;
-						else return PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == ((EAttribute)object).getEAttributeType();				  
+						if ((PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == DataType.EJAVAOBJECT.getEDataType())
+							|| PatternUtils.getEType((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface()) == ((EAttribute)object).getEAttributeType())
+							return (PatternUtils.areCompatibleFeatureTypes((FeatureType)((MMInterfaceRelDiagram)target).getMmInterface(), (EAttribute)object));
 					} if (((MMInterfaceRelDiagram)target).getMmInterface() instanceof ClassInterface)	
 						  return (PatternUtils.areCompatibleClasses(content, (MMInterfaceRelDiagram)target, (EClass) object));		  
 					else return true;

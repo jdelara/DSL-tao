@@ -109,7 +109,10 @@ public class EPackageNsPrefixSection extends GFPropertySection implements ITabbe
 	        final EPackage bo = (EPackage)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 	        
 	        if  (bo.getNsPrefix().compareTo(control.getText())!=0){
-	        	if ((!control.getText().isEmpty())&&(!ModelUtils.isIDValid(control.getText()))){
+	        	if (control.getText().isEmpty()){
+            		control.setText(((EPackage)bo).getNsPrefix());
+	        		Messages.displayEditErrorMessage("Empty prefix");
+				}else if (!ModelUtils.isIDValid(control.getText())){
             		control.setText(((EPackage)bo).getNsPrefix());
 	        		Messages.displayEditErrorMessage("Ns Prefix is not valid");
 				}else {

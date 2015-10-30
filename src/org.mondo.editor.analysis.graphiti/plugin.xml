@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.graphiti.ui.diagramTypes">
+		<diagramType
+			description="Analysis diagram type"
+			id="org.mondo.editor.analysis.graphiti.diagram.AnalysisDiagramType"
+			name="Mind Map DSML Diagram Type"
+			type="mmDSML">
+		</diagramType>
+	</extension>
+	<extension point="org.eclipse.graphiti.ui.diagramTypeProviders">
+		<diagramTypeProvider
+			class="org.mondo.editor.analysis.graphiti.diagram.AnalysisDiagramTypeProvider"
+			description="This is an editor for mind map dsml diagrams"
+			id="org.mondo.editor.analysis.graphiti.graphiti.AnalysisDiagramTypeProvider"
+			name="Analysis Editor">
+			<diagramType id="org.mondo.editor.analysis.graphiti.diagram.AnalysisDiagramType" />
+		</diagramTypeProvider>
+	</extension>
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+	    <propertyContributor contributorId="mmDSML.PropertyContributor"> 
+	        <propertyCategory category="MindMap"> 
+	        </propertyCategory> 
+	    </propertyContributor> 
+	</extension>
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+	    <propertyTabs
+	       contributorId="mmDSML.PropertyContributor">
+	    <propertyTab
+	       category="MindMap"
+	       id="mindMap.main.tab"
+	       label="Properties">
+	    </propertyTab>
+	    <propertyTab
+	         afterTab="mindMap.main.tab"
+	         category="MindMap"
+	         id="mindMap.main.tab2"
+	         label="Features">
+	    </propertyTab>
+	   </propertyTabs>
+	</extension>
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertySections">
+	    <propertySections
+	          contributorId="mmDSML.PropertyContributor">
+	       <propertySection
+	         	class="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaNameSection"
+	         	filter="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaFilter"
+	        	id="mindMap.main.tab.ideaName"
+	        	tab="mindMap.main.tab">
+	       </propertySection>
+	       <propertySection
+	        	afterSection="mindMap.main.tab.ideaName"
+	         	class="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaSubTextSection"
+	         	filter="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaFilter"
+	        	id="mindMap.main.tab.IdeaSubTextSection"
+	        	tab="mindMap.main.tab">
+	       </propertySection>
+	        <propertySection
+	        	afterSection="mindMap.main.tab.IdeaSubTextSection"
+	         	class="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaDescriptionSection"
+	         	filter="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaFilter"
+	        	id="mindMap.main.tab.ideaDescription"
+	        	tab="mindMap.main.tab">
+	       </propertySection>
+	       <propertySection
+	        	afterSection="mindMap.main.tab.IdeaFeaturesSection"
+	         	class="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaFeaturesSection"
+	         	filter="org.mondo.editor.analysis.graphiti.diagram.properties.IdeaFilter"
+	        	id="mindMap.main.tab.ideaFeatures"
+	        	tab="mindMap.main.tab2">
+	       </propertySection>
+	       <propertySection
+	         	class="org.mondo.editor.analysis.graphiti.diagram.properties.MindMapNameSection"
+	         	filter="org.mondo.editor.analysis.graphiti.diagram.properties.MindMapFilter"
+	        	id="mindMap.main.tab.mmName"
+	        	tab="mindMap.main.tab">
+	        </propertySection>
+	        <propertySection
+	         	class="org.mondo.editor.analysis.graphiti.diagram.properties.LinkNameSection"
+	         	filter="org.mondo.editor.analysis.graphiti.diagram.properties.LinkFilter"
+	        	id="mindMap.main.tab.linkName"
+	        	tab="mindMap.main.tab">
+	        </propertySection>
+	    </propertySections>
+	</extension>
+</plugin>

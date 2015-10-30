@@ -39,6 +39,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.mondo.editor.extensionpoints.ValidationInfo;
 import org.mondo.editor.graphiti.diagram.properties.EClassAdditionalInformationSection;
 import org.mondo.editor.graphiti.diagram.properties.EPackageAdditionalInformationSection;
+import org.mondo.editor.graphiti.diagram.properties.SearchSection;
 import org.mondo.editor.graphiti.diagram.utils.DiagramStyles;
 
 /**
@@ -157,7 +158,7 @@ public class EcoreToolBehaviorProvider extends DefaultToolBehaviorProvider{
 			IDecorator backgroundColor =  null;
 			IDecorator imageRenderingDecorator = null;
 			
-			if ((activePart.getTitle().compareTo("Applied Patterns View")==0) || (isEClassAdditionalInformationSection(activePart))
+			if ((activePart.getTitle().compareTo("Applied Patterns View")==0) || (iSearchSection(activePart)) || (isEClassAdditionalInformationSection(activePart))
 					|| (isEPackageAdditionalInformationSection(activePart))){
 				PictogramElement[] pes = getDiagramTypeProvider().getDiagramBehavior().getDiagramContainer().getSelectedPictogramElements();		
 				List<PictogramElement> list = new ArrayList<>(Arrays.asList(pes));
@@ -238,6 +239,21 @@ public class EcoreToolBehaviorProvider extends DefaultToolBehaviorProvider{
 		}
 		return false;
 	}
+	
+	/**
+	 * Returns if  the view belongs to the view "AdditionalInformation" of an EClass
+	 * @param activeView
+	 * @return true if is the view, false if not.
+	 */
+	private boolean iSearchSection(IWorkbenchPart activeView){
+		if (activeView instanceof PropertySheet){
+			IPage cp = ((PropertySheet)activeView).getCurrentPage();
+			if (cp instanceof TabbedPropertySheetPage)
+				return ((TabbedPropertySheetPage)cp).getCurrentTab().getSectionAtIndex(0) instanceof SearchSection;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Returns if  the view belongs to the view "AdditionalInformation" of an EPackage

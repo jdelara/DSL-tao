@@ -21,10 +21,10 @@ import serviceInterfaces.impl.InterfaceImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.codegen.impl.SlotPlugInterfaceL1Impl#getPointcuts <em>Pointcuts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

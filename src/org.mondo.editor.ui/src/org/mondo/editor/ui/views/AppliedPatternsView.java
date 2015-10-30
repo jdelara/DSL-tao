@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.dialogs.FilteredTree;
+import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Policy;
@@ -25,10 +27,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
+import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.utils.ImagesUtils;
@@ -116,6 +120,7 @@ public class AppliedPatternsView extends ViewPart {
 				
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
 		        | SWT.V_SCROLL);				    
+		
 		viewer.setContentProvider(treeContentProvider);
 		viewer.setLabelProvider(treeLabelProvider);
 		viewer.getTree().addSelectionListener(listenerSelectionElement);
@@ -190,7 +195,9 @@ public class AppliedPatternsView extends ViewPart {
 		public Image getImage(Object element) {
 			ImageDescriptor desc = null;
 			if (element instanceof PatternInstance){
-				desc = ImagesUtils.getImageDescriptor("icons/appliedPatternsView.gif");
+				if (((PatternInstance)element).isAttached()) desc = ImagesUtils.getImageDescriptor("icons/attached.gif");
+				else desc = ImagesUtils.getImageDescriptor("icons/appliedPatternsView.gif");
+			
 			}else if (element instanceof ClassRoleInstance){
 				desc = ImagesUtils.getImageDescriptor("icons/eClass.gif");
 			} else if (element instanceof ReferenceRoleInstance){
@@ -277,29 +284,29 @@ public class AppliedPatternsView extends ViewPart {
 	
 	public void refresh(){
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){	
-			IEditorPart editor = activePage.getActiveEditor();				
-			if (editor instanceof IDiagramContainerUI){	
-				if (!viewer.getTree().isDisposed()){
-					final Menu menu = new Menu(viewer.getTree());
-					viewer.getTree().setMenu(menu);			
-					menu.addMenuListener(new AppliedPatternsMenuAdapter(menu, viewer));	
-					if (((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider()!= null){
-						
-						DiagramBehavior diagramB = ((IDiagramContainerUI)editor).getDiagramBehavior();
-						TableViewerColumn tvc = (TableViewerColumn)fiViewer.getTable().getColumn(1).getData(Policy.JFACE + ".columnViewer"); //No hay otra manera de obtenerlo.
-						tvc.setEditingSupport(new InstanceFeatureSupport(fiViewer, diagramB));
-					    
-					    diagram = diagramB.getDiagramTypeProvider().getDiagram();	
-						
-						if (ModelUtils.existsPackage(diagram)){
-							viewer.setInput(RuntimePatternsModelUtils.getAllAppliedPatterns(((IDiagramContainerUI)editor).getDiagramBehavior()));
-							fiViewer.setInput(null);
-							return;
-						} 
-					}
-				}else return;
-			}
+		IEditorPart editor = activePage.getActiveEditor();				
+		if (editor instanceof IDiagramContainerUI){	
+			if (!viewer.getTree().isDisposed()){
+				final Menu menu = new Menu(viewer.getTree());
+				viewer.getTree().setMenu(menu);			
+				menu.addMenuListener(new AppliedPatternsMenuAdapter(menu, viewer));	
+				
+				IDiagramTypeProvider dtp = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider();
+				if (dtp instanceof EcoreDiagramTypeProvider){
+					
+					DiagramBehavior diagramB = ((IDiagramContainerUI)editor).getDiagramBehavior();
+					TableViewerColumn tvc = (TableViewerColumn)fiViewer.getTable().getColumn(1).getData(Policy.JFACE + ".columnViewer"); //No hay otra manera de obtenerlo.
+					tvc.setEditingSupport(new InstanceFeatureSupport(fiViewer, diagramB));
+				    
+				    diagram = dtp.getDiagram();	
+				    
+					if (ModelUtils.existsPackage(diagram)){
+						viewer.setInput(RuntimePatternsModelUtils.getAllAppliedPatterns(((IDiagramContainerUI)editor).getDiagramBehavior()));
+						fiViewer.setInput(null);
+						return;
+					} 
+				}
+			}else return;
 		}
 		viewer.setInput(null);
 		fiViewer.setInput(null);

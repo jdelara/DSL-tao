@@ -31,11 +31,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.PatternMetaModelAttachedImpl#getClassIntAtt <em>Class Int Att</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternMetaModelAttachedImpl#getContent <em>Content</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

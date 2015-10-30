@@ -25,7 +25,10 @@ public class ReconnectionEReferenceFeature extends DefaultReconnectionFeature{
 
 	@Override
 	public boolean canReconnect(IReconnectionContext context) {
-		return super.canReconnect(context);
+		Anchor newA = context.getNewAnchor();
+		if (newA != null)
+			return (Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(newA.getParent()) instanceof EClass);
+		else return false;
 	}
 
 	@Override

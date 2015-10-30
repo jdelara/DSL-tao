@@ -17,10 +17,13 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.mondo.editor.ui.utils.dragdrop.DragAndDropUtils;
-import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.dragdrop.MyDropListener;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ClassInterface;
@@ -46,6 +49,7 @@ public class PatternWizardPageThree extends WizardPage {
   private List<MMInterfaceRelDiagram> patternRelDiagram;
   private MyDropListener mdl ;
   private String patternName;
+  
 
   public PatternWizardPageThree(EPackage ecoreDiagram, List<PatternMetaModel> metamodels, List<MMInterfaceRelDiagram> patternRelDiagram, String patternName) {
     super("Pattern Wizard");
@@ -55,51 +59,78 @@ public class PatternWizardPageThree extends WizardPage {
     this.metamodels = metamodels;
     this.patternRelDiagram = patternRelDiagram;
     this.patternName = patternName;
+    
   }
 
   @Override
   public void createControl(Composite parent) {
 	  
-	  container = new Composite(parent, SWT.NONE);
-    
-	  FillLayout fillLayout = new FillLayout();
-	  fillLayout.marginHeight = 5;
-	  fillLayout.marginWidth = 5;
-	  container.setLayout( fillLayout );
+	  FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
+	  fillLayout.marginHeight = 0;
+	  fillLayout.marginWidth = 0;
 	  
-	  Composite outer = new Composite( container, SWT.BORDER );
+	  container = new Composite(parent, SWT.NONE);
+	  container.setLayout( fillLayout  );
+	  
+	  Composite outer = new Composite( container, SWT.NONE);
 
 	  FormLayout formLayout = new FormLayout();
-	  formLayout.marginHeight = 5;
-	  formLayout.marginWidth = 5;
-	  formLayout.spacing = 5;
+	  formLayout.marginHeight = 0;
+	  formLayout.marginWidth = 0;
+	  formLayout.spacing = 0;
 	  outer.setLayout( formLayout );
-	  
-	  Composite innerLeft = new Composite( outer, SWT.BORDER );
+
+	  Composite innerLeft = new Composite( outer, SWT.NONE );
 	  innerLeft.setLayout( fillLayout);
 
 	  FormData fData = new FormData();
 	  fData.top = new FormAttachment( 0 );
 	  fData.left = new FormAttachment( 0 );
 	  fData.right = new FormAttachment( 30 );
-	  fData.bottom = new FormAttachment( 100 );
+	  fData.bottom = new FormAttachment( 90 );
 	  innerLeft.setLayoutData( fData );
     
-	  Composite innerRight = new Composite( outer, SWT.BORDER );
+	  Composite innerRight = new Composite( outer, SWT.NONE );
 	  innerRight.setLayout( fillLayout );
 
 	  fData = new FormData();
 	  fData.top = new FormAttachment( 0 );
 	  fData.left = new FormAttachment( innerLeft );
 	  fData.right = new FormAttachment( 100 );
-	  fData.bottom = new FormAttachment( 100 );
+	  fData.bottom = new FormAttachment( 90 );
 	  innerRight.setLayoutData( fData );
+	  
+	  Composite innerBottom = new Composite( outer, SWT.NONE );
+	  innerBottom.setLayout( fillLayout );
+
+	  fData = new FormData();
+	  fData.top = new FormAttachment( innerRight );
+	  fData.left = new FormAttachment( 0 );
+	  fData.right = new FormAttachment( 100 );
+	  fData.bottom = new FormAttachment( 100 );
+	  innerBottom.setLayoutData( fData );
+	 
+	  Composite dragMode = new Composite(innerBottom, SWT.NONE);
+	  GridLayout gridLayout = new GridLayout();
+	  gridLayout.numColumns = 3;
+	  dragMode.setLayout(gridLayout);
+
+	  Label labelDragMode = new Label(dragMode, SWT.NONE);
+	  labelDragMode.setText("Drag Mode:  ");
+	  
+	  Button buttonReplace = new Button(dragMode, SWT.LEFT | SWT.RADIO); 
+	  buttonReplace.setText("Replace element");
+	  buttonReplace.setSelection(true);
+  	  
+  	  Button buttonDuplicate = new Button(dragMode, SWT.LEFT | SWT.RADIO); 
+  	  buttonDuplicate.setText("Duplicate element");
+	  
 
 	  diagramModel = DragAndDropUtils.createTreeViewerDrag(innerLeft);
    
 	  patternTable = DragAndDropUtils.createTableViewerDrop(innerRight, ecoreDiagram, diagramModel, patternName);
     
-	  mdl = new MyDropListener(patternTable, ecoreDiagram, null);
+	  mdl = new MyDropListener(patternTable, ecoreDiagram, null, buttonReplace);
 	  int operations = DND.DROP_COPY| DND.DROP_MOVE;
 	  Transfer[] transferTypes = new Transfer[]{TextTransfer.getInstance()};
 	  patternTable.addDropSupport(operations, transferTypes, mdl);

@@ -73,7 +73,11 @@ public class ImportMetamodelFeature extends AbstractCustomFeature {
   		  		EPackage pack= ModelUtils.openModel(path);
 				getDiagram().eResource().getContents().add(pack);
 				link(getDiagram(), pack);
-		    	DiagramUtils.drawDiagram(getFeatureProvider(), getDiagram());
+				
+				DiagramUtils.initPatternInfo(getDiagram());
+		        DiagramUtils.initCollapseInheritance(getDiagram());
+		    	
+		        DiagramUtils.drawDiagram(getFeatureProvider(), getDiagram());
 		    	
 		    	hasDoneChanges = true;
 				Messages.displayGeneralMessage("Import Meta-model", "Your meta-model was imported successfully");

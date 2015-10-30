@@ -10,10 +10,10 @@ package dslPatterns;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.ComplexFeatureAttached#getMetaModelAttached <em>Meta Model Attached</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getComplexFeatureAttached()
  * @model

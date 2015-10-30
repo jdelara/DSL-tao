@@ -71,6 +71,8 @@ public class AddESuperTypeFeature extends AbstractAddFeature {
               .createConnectionDecorator(connection, false, 1.0, true);
         createArrowClosed(cd);
 		
+        connection.setVisible(!DiagramUtils.isCollapseInheritance(getDiagram()));
+        
 		return connection;
 	}
 }

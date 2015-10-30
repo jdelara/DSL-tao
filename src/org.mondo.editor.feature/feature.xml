@@ -2,10 +2,10 @@
 <feature
       id="org.mondo.editor.feature"
       label="DSL-tao"
-      version="0.2.1">
+      version="0.3">
 
    <description url="http://jdelara.github.io/DSL-tao/">
-      Meta-model editor to support the creation of large meta-models
+      Editor to support the creation of large meta-models
 based on patterns. Deliverable of the MONDO EU project (http://www.mondo-project.org).
    </description>
 
@@ -17,6 +17,10 @@ based on patterns. Deliverable of the MONDO EU project (http://www.mondo-project
    <license url="https://www.eclipse.org/org/documents/epl-v10.html">
       https://www.eclipse.org/org/documents/epl-v10.html
    </license>
+
+   <url>
+      <update url="http://jdelara.github.io/DSL-tao/update-site/"/>
+   </url>
 
    <plugin
          id="org.mondo.editor.perspective"
@@ -48,6 +52,13 @@ based on patterns. Deliverable of the MONDO EU project (http://www.mondo-project
 
    <plugin
          id="org.mondo.editor.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.mondo.editor.analysis.graphiti"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -10,10 +10,10 @@ package dslPatterns;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.SimpleFeature#getFeatureKind <em>Feature Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getSimpleFeature()
  * @model

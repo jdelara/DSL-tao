@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.MMInterfaceAttachedImpl#getType <em>Type</em>}</li>
  *   <li>{@link dslPatterns.impl.MMInterfaceAttachedImpl#getAttached <em>Attached</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

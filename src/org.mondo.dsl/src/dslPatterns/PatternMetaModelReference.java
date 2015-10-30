@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.PatternMetaModelReference#getMmreference <em>Mmreference</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getPatternMetaModelReference()
  * @model

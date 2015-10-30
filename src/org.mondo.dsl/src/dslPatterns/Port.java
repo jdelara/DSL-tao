@@ -14,13 +14,13 @@ import serviceInterfaces.Interface;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.Port#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.Port#getMinCard <em>Min Card</em>}</li>
  *   <li>{@link dslPatterns.Port#getMaxCard <em>Max Card</em>}</li>
  *   <li>{@link dslPatterns.Port#getUses <em>Uses</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getPort()
  * @model abstract="true"

@@ -11,10 +11,10 @@ import serviceInterfaces.Interface;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.codegen.SlotPlugInterfaceL1#getPointcuts <em>Pointcuts</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.codegen.CodegenPackage#getSlotPlugInterfaceL1()
  * @model

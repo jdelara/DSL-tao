@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.Category#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.Category#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.Category#getSubcategories <em>Subcategories</em>}</li>
  *   <li>{@link dslPatterns.Category#getPatterns <em>Patterns</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getCategory()
  * @model

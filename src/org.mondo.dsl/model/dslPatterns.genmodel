@@ -14,6 +14,7 @@
     </genEnums>
     <genClasses ecoreClass="dslPatterns.ecore#//PatternSet">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternSet/categories"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternSet/tagSet"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//Category">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Category/name"/>
@@ -27,6 +28,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/services"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/maxInstances"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/tags"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//Service">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/name"/>
@@ -78,14 +80,18 @@
     <genClasses ecoreClass="dslPatterns.ecore#//ClassInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterface/ref"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ClassInterface/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ClassInterface/abstractMatters"/>
     </genClasses>
     <genClasses image="false" ecoreClass="dslPatterns.ecore#//FeatureInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//FeatureInterface/ref"/>
     </genClasses>
-    <genClasses ecoreClass="dslPatterns.ecore#//FeatureType"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//FeatureType/IDMatters"/>
+    </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//FeatureInstance"/>
     <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterface">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ReferenceInterface/ref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ReferenceInterface/flexibleComposite"/>
     </genClasses>
     <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeatureMain">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeatureMain/metaModel"/>
@@ -109,6 +115,19 @@
     <genClasses ecoreClass="dslPatterns.ecore#//MMInterfaceAttached">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MMInterfaceAttached/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MMInterfaceAttached/attached"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//TagSet">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//TagSet/tags"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Tag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Tag/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Tag/specifics"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//CardinalityInterface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/anyMin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/anyMax"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/anyOrdering"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/uniqueMatters"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="ServiceInterfaces" ecorePackage="serviceInterfaces.ecore#/">

@@ -28,7 +28,7 @@ public class CodegenFactoryImpl extends EFactoryImpl implements CodegenFactory {
 	 */
 	public static CodegenFactory init() {
 		try {
-			CodegenFactory theCodegenFactory = (CodegenFactory)EPackage.Registry.INSTANCE.getEFactory("http://mondo.org/serviceInterfaces/codegen"); 
+			CodegenFactory theCodegenFactory = (CodegenFactory)EPackage.Registry.INSTANCE.getEFactory(CodegenPackage.eNS_URI);
 			if (theCodegenFactory != null) {
 				return theCodegenFactory;
 			}

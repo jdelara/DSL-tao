@@ -20,13 +20,13 @@ import serviceInterfaces.Interface;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.PortImpl#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.impl.PortImpl#getMinCard <em>Min Card</em>}</li>
  *   <li>{@link dslPatterns.impl.PortImpl#getMaxCard <em>Max Card</em>}</li>
  *   <li>{@link dslPatterns.impl.PortImpl#getUses <em>Uses</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

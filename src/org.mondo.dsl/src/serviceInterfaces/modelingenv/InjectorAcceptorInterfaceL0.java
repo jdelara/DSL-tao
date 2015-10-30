@@ -13,11 +13,11 @@ import serviceInterfaces.Interface;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.InjectorAcceptorInterfaceL0#getInjectorImplements <em>Injector Implements</em>}</li>
  *   <li>{@link serviceInterfaces.modelingenv.InjectorAcceptorInterfaceL0#getMode <em>Mode</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.modelingenv.ModelingenvPackage#getInjectorAcceptorInterfaceL0()
  * @model

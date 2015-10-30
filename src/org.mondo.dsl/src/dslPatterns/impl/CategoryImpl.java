@@ -28,13 +28,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.CategoryImpl#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.impl.CategoryImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.impl.CategoryImpl#getSubcategories <em>Subcategories</em>}</li>
  *   <li>{@link dslPatterns.impl.CategoryImpl#getPatterns <em>Patterns</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

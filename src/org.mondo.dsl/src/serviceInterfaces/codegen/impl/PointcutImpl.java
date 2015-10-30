@@ -19,10 +19,10 @@ import serviceInterfaces.codegen.PointcutType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.codegen.impl.PointcutImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

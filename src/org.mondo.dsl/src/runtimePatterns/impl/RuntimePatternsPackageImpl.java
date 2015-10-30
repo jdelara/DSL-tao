@@ -13,8 +13,6 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import runtimeLayers.RuntimeLayersPackage;
-import runtimeLayers.impl.RuntimeLayersPackageImpl;
 import runtimePatterns.ClassRoleInstance;
 import runtimePatterns.FeatureRoleInstance;
 import runtimePatterns.InstanceFeatureRoleInstance;
@@ -152,7 +150,6 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		RuntimeLayersPackageImpl theRuntimeLayersPackage = (RuntimeLayersPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RuntimeLayersPackage.eNS_URI) instanceof RuntimeLayersPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RuntimeLayersPackage.eNS_URI) : RuntimeLayersPackage.eINSTANCE);
 		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		RuntimeServicesPackageImpl theRuntimeServicesPackage = (RuntimeServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) instanceof RuntimeServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RuntimeServicesPackage.eNS_URI) : RuntimeServicesPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
@@ -161,7 +158,6 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 
 		// Create package meta-data objects
 		theRuntimePatternsPackage.createPackageContents();
-		theRuntimeLayersPackage.createPackageContents();
 		theDslPatternsPackage.createPackageContents();
 		theRuntimeServicesPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
@@ -170,7 +166,6 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 
 		// Initialize created meta-data
 		theRuntimePatternsPackage.initializePackageContents();
-		theRuntimeLayersPackage.initializePackageContents();
 		theDslPatternsPackage.initializePackageContents();
 		theRuntimeServicesPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
@@ -247,6 +242,15 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 	 */
 	public EReference getPatternInstance_ServiceInstances() {
 		return (EReference)patternInstanceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPatternInstance_Attached() {
+		return (EAttribute)patternInstanceEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -429,6 +433,7 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 		createEReference(patternInstanceEClass, PATTERN_INSTANCE__PATTERN);
 		createEReference(patternInstanceEClass, PATTERN_INSTANCE__CLASS_INSTANCES);
 		createEReference(patternInstanceEClass, PATTERN_INSTANCE__SERVICE_INSTANCES);
+		createEAttribute(patternInstanceEClass, PATTERN_INSTANCE__ATTACHED);
 
 		roleInstanceEClass = createEClass(ROLE_INSTANCE);
 
@@ -500,6 +505,7 @@ public class RuntimePatternsPackageImpl extends EPackageImpl implements RuntimeP
 		initEReference(getPatternInstance_Pattern(), theDslPatternsPackage.getPattern(), null, "pattern", null, 0, 1, PatternInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPatternInstance_ClassInstances(), this.getClassRoleInstance(), null, "classInstances", null, 0, -1, PatternInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getPatternInstance_ServiceInstances(), theRuntimeServicesPackage.getServiceInstance(), null, "serviceInstances", null, 0, -1, PatternInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getPatternInstance_Attached(), ecorePackage.getEBoolean(), "attached", null, 0, 1, PatternInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(roleInstanceEClass, RoleInstance.class, "RoleInstance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

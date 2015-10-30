@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.FeatureInterface#getRef <em>Ref</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getFeatureInterface()
  * @model abstract="true"

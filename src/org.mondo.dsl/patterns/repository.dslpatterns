@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dslpat:PatternSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dslpat="http://mondo.org/dslPatterns" xmlns:servInt_modelingenv="http://mondo.org/serviceInterfaces/modelingenv">
   <categories name="Domain" description="">
-    <patterns name="Component Language" description="Component Language">
+    <patterns name="Component Language" description="Component Language" tags="//@tagSet/@tags.1/@specifics.0">
       <rootVariant name="Component Language" description="Component Language">
         <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Component Language Shallow" description="Component Language Shallow">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/ComponentLanguageShallow.gif">
@@ -97,7 +97,7 @@
         </xorChildren>
       </rootVariant>
     </patterns>
-    <patterns name="State Machine">
+    <patterns name="State Machine" tags="//@tagSet/@tags.0/@specifics.0 //@tagSet/@tags.0/@specifics.1 //@tagSet/@tags.0/@specifics.2 //@tagSet/@tags.0/@specifics.3/@specifics.0 //@tagSet/@tags.0/@specifics.3/@specifics.1 //@tagSet/@tags.0/@specifics.3/@specifics.3 //@tagSet/@tags.0/@specifics.3/@specifics.2">
       <rootVariant name="State Machine">
         <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="State Machine (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/StateMachine.gif">
@@ -159,9 +159,9 @@
                     </classIntAtt>
                     <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.1"/>
                     <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.3" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.2">
-                      <featIntAtt xsi:type="dslpat:FeatureTypeAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.9" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@attrInterfaces.0"/>
                       <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.1" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@refInterfaces.3"/>
                       <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.2" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@refInterfaces.5"/>
+                      <featIntAtt xsi:type="dslpat:FeatureTypeAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.9" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@attrInterfaces.0"/>
                     </classIntAtt>
                     <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.2" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@classInterfaces.1">
                       <featIntAtt xsi:type="dslpat:FeatureTypeAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.9" attached="//@categories.0/@patterns.1/@rootVariant/@xorChildren.0/@metaModel/@attrInterfaces.1"/>
@@ -276,7 +276,7 @@
         </xorChildren>
       </rootVariant>
     </patterns>
-    <patterns name="Workflow" description="Pattern for workflow languages">
+    <patterns name="Workflow" description="Pattern for workflow languages" tags="//@tagSet/@tags.0/@specifics.0 //@tagSet/@tags.0/@specifics.1 //@tagSet/@tags.0/@specifics.3/@specifics.4 //@tagSet/@tags.0/@specifics.3/@specifics.5 //@tagSet/@tags.0/@specifics.3/@specifics.6 //@tagSet/@tags.0/@specifics.3/@specifics.7">
       <rootVariant name="Workflow Language" description="samples/icons/WorkflowLanguage.gif">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Workflow Language (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/WorkflowLanguage.gif">
@@ -289,7 +289,10 @@
             <classInterfaces minCard="1" maxCard="1">
               <ref href="WorkflowLanguage.ecore#//FlowEdge"/>
             </classInterfaces>
-            <classInterfaces minCard="1" maxCard="-1">
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="WorkflowLanguage.ecore#//InitialTask"/>
+            </classInterfaces>
+            <classInterfaces minCard="0" maxCard="-1">
               <ref href="WorkflowLanguage.ecore#//Task"/>
             </classInterfaces>
             <classInterfaces minCard="0" maxCard="1">
@@ -314,35 +317,78 @@
               <ref href="WorkflowLanguage.ecore#//Task/name"/>
             </attrInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="WorkflowLanguage.ecore#//Task/isInitial"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
               <ref href="WorkflowLanguage.ecore#//FinalTask/isTerminating"/>
             </attrInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
+            <refInterfaces minCard="1" maxCard="1" anyOrdering="true">
               <ref href="WorkflowLanguage.ecore#//FlowDiagram/nodes"/>
             </refInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
+            <refInterfaces minCard="1" maxCard="1" constraint="" anyOrdering="true">
               <ref href="WorkflowLanguage.ecore#//FlowDiagram/edges"/>
             </refInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
+            <refInterfaces minCard="1" maxCard="1" constraint="" anyOrdering="true">
               <ref href="WorkflowLanguage.ecore#//FlowEdge/in"/>
             </refInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
+            <refInterfaces minCard="1" maxCard="1" constraint="" anyOrdering="true">
               <ref href="WorkflowLanguage.ecore#//Node/outs"/>
             </refInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
+            <refInterfaces minCard="1" maxCard="1" constraint="" anyOrdering="true">
               <ref href="WorkflowLanguage.ecore#//FlowEdge/out"/>
             </refInterfaces>
-            <refInterfaces minCard="1" maxCard="1">
+            <refInterfaces minCard="1" maxCard="1" constraint="" anyOrdering="true">
               <ref href="WorkflowLanguage.ecore#//Node/ins"/>
             </refInterfaces>
+            <rootAttachedVariant name="WorkFlowAttachedOptions">
+              <orChildren xsi:type="dslpat:ComplexFeatureAttached" name="Graph-based Representation">
+                <metaModelAttached content="//@categories.2/@patterns.0">
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.0" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.0">
+                    <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.3" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.0"/>
+                    <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.3" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.1"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.1"/>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.3" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.2">
+                    <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.1" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.2"/>
+                    <refIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.2" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@refInterfaces.4"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.2" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.1">
+                    <featIntAtt xsi:type="dslpat:FeatureTypeAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.9"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.4" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.3">
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.0"/>
+                    <value href="DiagramWorkFlow.xmi#//@elements.0"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.5" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.4">
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.1"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.2"/>
+                    <value href="DiagramWorkFlow.xmi#//@elements.2"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.5" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.5 //@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.6">
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.1"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.2"/>
+                    <value href="DiagramWorkFlow.xmi#//@elements.3"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.6" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.10">
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.3"/>
+                    <value href="DiagramWorkFlow.xmi#//@elements.1"/>
+                  </classIntAtt>
+                  <classIntAtt type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.8" attached="//@categories.0/@patterns.2/@rootVariant/@andChildren.0/@metaModel/@classInterfaces.8">
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.6"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.1"/>
+                    <featIntAtt xsi:type="dslpat:FeatureInstanceAttached" type="//@categories.2/@patterns.0/@rootVariant/@andChildren.0/@metaModel/@attrInterfaces.2"/>
+                    <value href="DiagramWorkFlow.xmi#//@elements.4"/>
+                  </classIntAtt>
+                </metaModelAttached>
+              </orChildren>
+            </rootAttachedVariant>
             <mmreference href="WorkflowLanguage.ecore#/"/>
           </metaModel>
         </andChildren>
       </rootVariant>
     </patterns>
-    <patterns name="Expression Language">
+    <patterns name="Expression Language" tags="//@tagSet/@tags.0/@specifics.3/@specifics.8 //@tagSet/@tags.0/@specifics.3/@specifics.9/@specifics.0 //@tagSet/@tags.0/@specifics.3/@specifics.9/@specifics.1">
       <rootVariant name="Expressions Language">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Expressions Language (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/ExpressionsLanguage.gif">
@@ -377,7 +423,7 @@
         </andChildren>
       </rootVariant>
     </patterns>
-    <patterns name="Information Definition">
+    <patterns name="Information Definition" tags="//@tagSet/@tags.1 //@tagSet/@tags.2/@specifics.0 //@tagSet/@tags.2/@specifics.1 //@tagSet/@tags.2/@specifics.2 //@tagSet/@tags.2/@specifics.3 //@tagSet/@tags.2/@specifics.4">
       <rootVariant name="Information Definition">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Information Definition (shallow)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/InformationDefinition.gif">
@@ -435,7 +481,7 @@
     </patterns>
   </categories>
   <categories name="Design" description="Simple structural meta-modelling patterns">
-    <patterns name="Tree-like Structures" description="Pattern for recursive, tree-like structures">
+    <patterns name="Tree-like Structures" description="Pattern for recursive, tree-like structures" tags="//@tagSet/@tags.1/@specifics.1 //@tagSet/@tags.3">
       <rootVariant name="Tree">
         <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Hard-Coded Tree">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Hard-CodedTree.gif">
@@ -529,10 +575,10 @@
         <xorChildren xsi:type="dslpat:ComplexFeatureMain" name="Tree Changing over Time">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/TreeChangingOverTime.gif">
             <classInterfaces minCard="1" maxCard="1">
-              <ref href="TreeStampedOverTime.ecore#//TimeStampedElement"/>
+              <ref href="TreeStampedOverTime.ecore#//Tree"/>
             </classInterfaces>
             <classInterfaces minCard="1" maxCard="1">
-              <ref href="TreeStampedOverTime.ecore#//Tree"/>
+              <ref href="TreeStampedOverTime.ecore#//TimeStampedElement"/>
             </classInterfaces>
             <classInterfaces minCard="1" maxCard="1">
               <ref href="TreeStampedOverTime.ecore#//NodeKind"/>
@@ -542,6 +588,9 @@
             </classInterfaces>
             <classInterfaces minCard="1" maxCard="1">
               <ref href="TreeStampedOverTime.ecore#//Entity"/>
+            </classInterfaces>
+            <classInterfaces minCard="1" maxCard="1">
+              <ref href="TreeStampedOverTime.ecore#//LinkKind"/>
             </classInterfaces>
             <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
               <ref href="TreeStampedOverTime.ecore#//TimeStampedElement/effectiveDate"/>
@@ -573,7 +622,7 @@
     </patterns>
   </categories>
   <categories name="Concrete Syntax" description="">
-    <patterns name="Graph-based Representation" description="Pattern to custom the appearance of graph objects">
+    <patterns name="Graph-based Representation" description="Pattern to custom the appearance of graph objects" tags="//@tagSet/@tags.4/@specifics.1 //@tagSet/@tags.4/@specifics.0">
       <rootVariant name="Graph Representation">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Graph-based Representation (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/RepresentationGraph.gif">
@@ -726,7 +775,7 @@
   </categories>
   <categories name="Dynamic Semantics" description=""/>
   <categories name="Infrastructure Functionality" description="">
-    <patterns name="Modularity" description="Simple organizational meta-modelling pattern" maxInstances="1">
+    <patterns name="Modularity" description="Simple organizational meta-modelling pattern" maxInstances="1" tags="//@tagSet/@tags.1/@specifics.1 //@tagSet/@tags.1/@specifics.2 //@tagSet/@tags.1/@specifics.3 //@tagSet/@tags.1/@specifics.4">
       <rootVariant name="Modularity">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Modularity (default)">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Modularity.gif">
@@ -757,7 +806,7 @@
             <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
               <ref href="Modularity.ecore#//IdentificableElement/icon"/>
             </attrInterfaces>
-            <refInterfaces minCard="1" maxCard="-1">
+            <refInterfaces minCard="1" maxCard="-1" anyMin="true">
               <ref href="Modularity.ecore#//Container/containees"/>
             </refInterfaces>
             <mmreference href="Modularity.ecore#/"/>
@@ -773,7 +822,7 @@
         </ports>
       </services>
     </patterns>
-    <patterns name="Filter" description="A pattern to customize filters">
+    <patterns name="Filter" description="A pattern to customize filters" tags="//@tagSet/@tags.5 //@tagSet/@tags.6">
       <rootVariant name="Filter" description="Model Filter">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Filter (default)" description="Model Filter">
           <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Filter.gif">
@@ -786,6 +835,7 @@
             <refInterfaces icon="" minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable/rKey"/>
             </refInterfaces>
+            <mmreference href="Filter.ecore#/"/>
           </metaModel>
         </andChildren>
       </rootVariant>
@@ -798,5 +848,98 @@
         </ports>
       </services>
     </patterns>
+    <patterns name="Layer" description="A patttern to create layers" tags="//@tagSet/@tags.4/@specifics.2 //@tagSet/@tags.4/@specifics.3">
+      <rootVariant name="Layer" description="Model Layer">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Layer (default)" description="Model Layer">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Layer.gif">
+            <classInterfaces minCard="1" maxCard="-1" abstractMatters="false">
+              <ref href="Layer.ecore#//Layer"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="Layer.ecore#//Layer/name"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="Layer.ecore#//Layer/activable"/>
+            </attrInterfaces>
+            <mmreference href="Layer.ecore#/"/>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
+    <patterns name="MACL Configurator" tags="//@tagSet/@tags.7/@specifics.0 //@tagSet/@tags.7/@specifics.1">
+      <rootVariant name="MACLConfigurator">
+        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="MACLConfigurator (default)">
+          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/MACLConfigurator.gif">
+            <classInterfaces minCard="1" maxCard="-1">
+              <ref href="MACLConfigurator.ecore#//MACLConfig"/>
+            </classInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="MACLConfigurator.ecore#//MACLConfig/roleIdentifier"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="MACLConfigurator.ecore#//MACLConfig/access"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+              <ref href="MACLConfigurator.ecore#//MACLConfig/permission"/>
+            </attrInterfaces>
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="0" maxCard="1">
+              <ref href="MACLConfigurator.ecore#//MACLConfig/attribute"/>
+            </attrInterfaces>
+            <refInterfaces minCard="0" maxCard="1">
+              <ref href="MACLConfigurator.ecore#//MACLConfig/reference"/>
+            </refInterfaces>
+          </metaModel>
+        </andChildren>
+      </rootVariant>
+    </patterns>
   </categories>
+  <tagSet>
+    <tags name="Semantics">
+      <specifics name="Execution"/>
+      <specifics name="Dynamic"/>
+      <specifics name="Event"/>
+      <specifics name="Behaviour">
+        <specifics name="State-machine"/>
+        <specifics name="Statechart"/>
+        <specifics name="State"/>
+        <specifics name="Transition"/>
+        <specifics name="Activity"/>
+        <specifics name="Gateway"/>
+        <specifics name="Control-Flow"/>
+        <specifics name="Data-Flow"/>
+        <specifics name="Constraint"/>
+        <specifics name="Formula">
+          <specifics name="Arithmetical"/>
+          <specifics name="Logical"/>
+        </specifics>
+      </specifics>
+    </tags>
+    <tags name="Structure">
+      <specifics name="Architecture"/>
+      <specifics name="Organization"/>
+      <specifics name="Fragmentation"/>
+      <specifics name="Modularization"/>
+      <specifics name="Module"/>
+    </tags>
+    <tags name="Information">
+      <specifics name="Feature"/>
+      <specifics name="Slot"/>
+      <specifics name="Association"/>
+      <specifics name="Class"/>
+      <specifics name="Inheritance"/>
+    </tags>
+    <tags name="Design"/>
+    <tags name="Concrete Syntax">
+      <specifics name="Graphical"/>
+      <specifics name="Graph"/>
+      <specifics name="Layering"/>
+      <specifics name="Stack"/>
+    </tags>
+    <tags name="Filtering"/>
+    <tags name="Hiding"/>
+    <tags name="Access Control">
+      <specifics name="Permit"/>
+      <specifics name="Access"/>
+    </tags>
+  </tagSet>
 </dslpat:PatternSet>

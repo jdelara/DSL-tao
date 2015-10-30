@@ -33,9 +33,9 @@
       <wizard
             category="org.mondo.editor.ui.MondoCategory"
             class="org.mondo.editor.ui.wizards.NewMondoDiagramWizard"
-            icon="icons/mondo.gif"
+            icon="icons/designMondo.gif"
             id="org.mondo.editor.ui.wizards.MondoDiagramWizard"
-            name="Mondo Diagram">
+            name="Mondo Design Diagram">
       </wizard>
       <wizard
             category="org.mondo.editor.ui.MondoCategory"
@@ -43,6 +43,13 @@
             icon="icons/mondo.gif"
             id="org.mondo.editor.ui.wizards.MondoProjectWizard"
             name="Mondo Project">
+      </wizard>
+      <wizard
+            category="org.mondo.editor.ui.MondoCategory"
+            class="org.mondo.editor.ui.wizards.NewAnalysisMondoDiagramWizard"
+            icon="icons/analysisMondo.gif"
+            id="org.mondo.editor.ui.wizards.MondoAnalysisDiagramWizard"
+            name="Mondo Analysis Diagram">
       </wizard>
    </extension>
    <extension
@@ -71,14 +78,6 @@
             icon="icons/appliedPatternsView.gif"
             id="org.mondo.editor.ui.views.PatternServicesView"
             name="Pattern Services View">
-      </view>
-      <view
-            category="org.mondo.editor.ui.views.MondoVisualizationCategory"
-            class="org.mondo.editor.ui.views.LayersView"
-            icon="icons/layersView.gif"
-            id="org.mondo.editor.ui.views.LayersView"
-            name="Layers View"
-            restorable="true">
       </view>
       <category
             id="org.mondo.editor.ui.views.MondoVisualizationCategory"

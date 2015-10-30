@@ -13,10 +13,10 @@ import serviceInterfaces.Interface;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.SlotPlugInterfaceL0#getSlot <em>Slot</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.modelingenv.ModelingenvPackage#getSlotPlugInterfaceL0()
  * @model

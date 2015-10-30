@@ -17,11 +17,11 @@ import serviceInterfaces.ServiceInterfacesPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.impl.InterfaceImpl#getQName <em>QName</em>}</li>
  *   <li>{@link serviceInterfaces.impl.InterfaceImpl#getDescription <em>Description</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

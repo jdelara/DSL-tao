@@ -19,11 +19,11 @@ import serviceInterfaces.codegen.TransformationLibrary;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.codegen.impl.TransformationLibraryImpl#getName <em>Name</em>}</li>
  *   <li>{@link serviceInterfaces.codegen.impl.TransformationLibraryImpl#getLanguage <em>Language</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

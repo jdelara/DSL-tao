@@ -64,6 +64,12 @@
 	         id="graphiti.main.tab4"
 	         label="Additional Information">
 	    </propertyTab>
+	    <propertyTab
+	         afterTab="graphiti.main.tab4"
+	         category="Graphiti"
+	         id="graphiti.main.tab5"
+	         label="Search..">
+	    </propertyTab>
 	   </propertyTabs>
 	</extension>
      
@@ -89,6 +95,12 @@
 	              filter="org.mondo.editor.graphiti.diagram.properties.EClassFilter"
 	              id="graphiti.main.tab.emfclassadditionalinformation"
 	              tab="graphiti.main.tab4">
+	        </propertySection>
+	        <propertySection
+	              class="org.mondo.editor.graphiti.diagram.properties.SearchSection"
+	              filter="org.mondo.editor.graphiti.diagram.properties.EPackageFilter"
+	              id="graphiti.main.tab.emfsearch"
+	              tab="graphiti.main.tab5">
 	        </propertySection>
 	        <propertySection
 	              class="org.mondo.editor.graphiti.diagram.properties.EEnumNameSection"

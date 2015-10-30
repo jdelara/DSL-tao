@@ -43,9 +43,9 @@ public class CreateEPackageFeature extends AbstractCreateFeature {
 		name = Messages.askForEPackageName(getDiagram(), "EPackage Name");
 		
 		if (!name.isEmpty()){
-			newEPackage.setName(name);
-			newEPackage.setNsPrefix("");
-			newEPackage.setNsURI("");
+			newEPackage.setName(name.replace(" ",""));
+			newEPackage.setNsPrefix(name.replace(" ","").toLowerCase());
+			newEPackage.setNsURI("http://mondo.org/"+name.replace(" ",""));
 			
 			pack.getESubpackages().add(newEPackage);
 			

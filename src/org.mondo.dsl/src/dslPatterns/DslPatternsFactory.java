@@ -229,6 +229,24 @@ public interface DslPatternsFactory extends EFactory {
 	MMInterfaceAttached createMMInterfaceAttached();
 
 	/**
+	 * Returns a new object of class '<em>Tag Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Tag Set</em>'.
+	 * @generated
+	 */
+	TagSet createTagSet();
+
+	/**
+	 * Returns a new object of class '<em>Tag</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Tag</em>'.
+	 * @generated
+	 */
+	Tag createTag();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

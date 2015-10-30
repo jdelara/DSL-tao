@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -45,6 +46,7 @@ import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
+import org.eclipse.graphiti.internal.command.AddFeatureCommandWithContext;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.MmFactory;
 import org.eclipse.graphiti.mm.Property;
@@ -65,9 +67,11 @@ import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 import org.eclipse.graphiti.util.ColorConstant;
+import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.mondo.editor.graphiti.diagram.AddEPackageFeature;
 import org.mondo.editor.graphiti.diagram.DeleteEPackageFeature;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
 import org.mondo.editor.graphiti.diagram.ResizeEClassFeature;
@@ -92,6 +96,7 @@ public  class DiagramUtils {
 	public static final String COLLAPSE = "collapse";
 	public static final String EXPAND = "expand";
 	public static final String SHOW_PATTERN_INFO = "showPatternInfo";
+	public static final String COLLAPSE_INHERITANCE = "collapseInheritance";
 	public static final String NOT_DELETE = "notDelete";
 	public static final String NOT_REMOVE = "notRemove";
 	
@@ -293,16 +298,23 @@ public  class DiagramUtils {
 					AddContext ac = new AddContext();
 					ac.setLocation(x, y);
 					ac.setTargetContainer(diagram);
-					paint(fp, ac, subPack);
+					ac.setNewObject(subPack);
+					/*paint(fp, ac, subPack);
 				
 					final EcoreDiagramTypeProvider dp = new EcoreDiagramTypeProvider();
 					Collection<Diagram> linkedDiagrams = getLinkedDiagrams(fp, subPack, ecoreDiagram);
-					for (Diagram diagram: linkedDiagrams){
-						dp.init(diagram, dp.getDiagramBehavior());
-						drawDiagram(dp.getFeatureProvider(), ecoreDiagram);
-						IResourceUtils.saveResource(diagram.eResource());
+					*/
+					AddEPackageFeature packf = new AddEPackageFeature(fp);
+					packf.add(ac);
+					
+					final EcoreDiagramTypeProvider dp = new EcoreDiagramTypeProvider();
+					//for (Diagram diagram: linkedDiagrams){
+					Diagram newDiagram = packf.getNewDiagram();	
+					dp.init(newDiagram, dp.getDiagramBehavior());
+						drawDiagram(dp.getFeatureProvider(), newDiagram); //ecoreDiagram
+						IResourceUtils.saveResource(newDiagram.eResource());
 						
-					}
+					//}
 					
 					if (x<lim_x)x += 500;
 					else {
@@ -845,7 +857,6 @@ public  class DiagramUtils {
 	 * @param fp
 	 */
 	public static void collapseEClass (ContainerShape shape, IFeatureProvider fp){
-		
         List<Shape> shapes = shape.getChildren();    		
 		
         //Annotations
@@ -855,7 +866,6 @@ public  class DiagramUtils {
         Shape collapseReferenceText = shapes.get(4);
         int heightReferences = collapseReferenceText.getGraphicsAlgorithm().getHeight();
         collapseReferenceText.setVisible(true);
-        
         
         //Attributes
 		for (int i=DiagramUtils.POS_ATTRIBUTES;i<shapes.size();i++){
@@ -876,7 +886,113 @@ public  class DiagramUtils {
 		}
         
 		setIsCollapseMode(shape);
+		
+		//Collapse children 19/06/2015
+		/*for (EClass eClassif: ModelUtils.getAllChildren((EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(shape))){
+			setElementVisibility(fp.getDiagramTypeProvider().getDiagram(), eClassif,false,new LinkedList<ENamedElement>());
+    	}*/
 	}
+	
+	/**
+	 * Static method that collapses the inheritance information of a shape.
+	 * @param shape
+	 * @param fp
+	 */
+	public static void collapseEClassInheritance (EClass eclass, Diagram diagram, IFeatureProvider fp){
+		Boolean heritage = false;
+		for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eclass)){
+			if (pe instanceof ContainerShape){
+		        //Escondemos la conexión
+				for (Anchor anchor: ((ContainerShape)pe).getAnchors()){
+					for (Connection con : anchor.getOutgoingConnections()){
+						for (Property p: con.getProperties()) {
+							if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_INHERITANCE)){
+								//Estoy en la conexión de herencia.
+								heritage = true;
+								con.setVisible(false);
+								//Modificar el texto de la clase.
+								//Calculamos la nueva cadena de texto.
+							}
+						}
+					}
+				}
+				if (heritage) {
+		            for (Shape shape : ((ContainerShape)pe).getChildren()) {
+		                if (shape.getGraphicsAlgorithm() instanceof org.eclipse.graphiti.mm.algorithms.Text) {
+		                    org.eclipse.graphiti.mm.algorithms.Text text = (org.eclipse.graphiti.mm.algorithms.Text) shape.getGraphicsAlgorithm();
+		                    for (Property p: text.getProperties()) 
+								if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_TEXT)){
+									text.setValue(getHeritageEDN(eclass, 0));
+									text.setFont(Graphiti.getGaService().manageFont(diagram, "Verdana",DiagramStyles.MEDIUM_SIZE_FONT, false, true));
+								}
+		                }
+		            }
+				}
+			}
+			
+		}
+	}
+	
+	public static String getHeritageEDN(EClass eclass, int level){
+		String text = "";
+		int numSuperTypes=eclass.getESuperTypes().size();
+		if (numSuperTypes>0){
+			if (numSuperTypes>1)text += "[";
+			for (int i=0; i<numSuperTypes; i++){
+				EClass superType = eclass.getESuperTypes().get(i);
+				text += (i==0?"":",")+getHeritageEDN(superType, ((numSuperTypes>1)?1:level+1));
+			}
+			if (numSuperTypes>1) 
+				text += "]";
+			if (!text.startsWith("<<"))text="<"+text;
+
+		}
+		return (level<2?eclass.getName()+text:(numSuperTypes==0)?eclass.getName()+text:text);
+	}
+	
+	/**
+	 * Static method that expands the inheritance information of a shape.
+	 * @param shape
+	 * @param fp
+	 */
+	public static void expandEClassInheritance (EClass eclass, Diagram diagram, IFeatureProvider fp){
+		Boolean heritage = false;
+		for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eclass)){
+			if (pe instanceof ContainerShape){
+		        //Escondemos la conexión
+				for (Anchor anchor: ((ContainerShape)pe).getAnchors()){
+					for (Connection con : anchor.getOutgoingConnections()){
+						for (Property p: con.getProperties()) {
+							if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_INHERITANCE)){
+								//Estoy en la conexión de herencia.
+								heritage = true;
+								con.setVisible(true);
+								//Modificar el texto de la clase.
+								//Calculamos la nueva cadena de texto.
+							}
+						}
+					}
+				}
+				if (heritage) {
+		            for (Shape shape : ((ContainerShape)pe).getChildren()) {
+		                if (shape.getGraphicsAlgorithm() instanceof org.eclipse.graphiti.mm.algorithms.Text) {
+		                    org.eclipse.graphiti.mm.algorithms.Text text = (org.eclipse.graphiti.mm.algorithms.Text) shape.getGraphicsAlgorithm();
+		                    for (Property p: text.getProperties()) 
+								if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_TEXT)){
+									text.setValue(eclass.getName());
+									text.setFont(Graphiti.getGaService().manageFont(diagram, "Verdana",DiagramStyles.EXTRA_BIG_SIZE_FONT, false, true));
+								}
+		                }
+		            }
+				}
+			}
+			
+		}
+       
+	}
+	
+	
+	
 	
 	/**
 	 * Static method that expands the specified shape.
@@ -912,6 +1028,11 @@ public  class DiagramUtils {
 		}
 		
 		setIsExpandMode(shape);
+		
+		//Expand children 19/06/2015
+		/*for (EClass eClassif: ModelUtils.getAllChildren((EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(shape))){
+			setElementVisibility(fp.getDiagramTypeProvider().getDiagram(), eClassif,true,new LinkedList<ENamedElement>());
+    	}*/
 	}
 	
 	/**
@@ -944,6 +1065,26 @@ public  class DiagramUtils {
 		if (element instanceof EReference) return getConnection(diagram, (EReference) element);
 		else return getContainerShape(diagram, element);
 	}
+	
+	/**
+	 * Static method that returns the pictogram element related to the package that contains the ENamedElement.
+	 * @param diagram
+	 * @param element
+	 * @return pictogram element
+	 */
+	public static PictogramElement getPictogramEPackageToSelect(Diagram diagram, ENamedElement element){
+		if (element instanceof EClassifier){ 
+			if (((EClassifier)element).eContainer() instanceof EPackage){
+				PictogramElement pePack = DiagramUtils.getPictogramToSelect(diagram, (EPackage)((EClassifier)element).eContainer());
+				return pePack;
+			}
+		}else if (element instanceof EStructuralFeature)
+			return getPictogramEPackageToSelect(diagram, ((EStructuralFeature)element).getEContainingClass());
+		return null;
+	}
+	
+	
+	
 	
 	/**
 	 * Static method that returns the pictogram to select in a validation by ENamedElement.
@@ -1025,6 +1166,14 @@ public  class DiagramUtils {
 		EClass targetOpC = (EClass)reference.getEContainingClass();
 		eOpposite.setName(ModelUtils.getRefOpNameValid(sourceOpC));
 		eOpposite.setEType(targetOpC);
+		
+		/////TEMPORAL 
+		//Default values
+		//eOpposite.setOrdered(false);
+		//eOpposite.setUnique(false);
+        ////
+		
+		
 		sourceOpC.getEStructuralFeatures().add(eOpposite);
 		reference.setEOpposite(eOpposite);
 		eOpposite.setEOpposite(reference);
@@ -1039,7 +1188,7 @@ public  class DiagramUtils {
 			DiagramUtils.setDecoratorText(con, eOpposite.getName(), DecoratorText.EREF_DECORATOR_NAME_OP);
 			DiagramUtils.setDecoratorText(con, eOpposite.getLowerBound()+".."+((eOpposite.getUpperBound() == -1 ? "*" : eOpposite.getUpperBound())), DecoratorText.EREF_DECORATOR_BOUNDS_OP);
 			DiagramUtils.setDecoratorText(con, DiagramUtils.getOrderedUniqueText(eOpposite), DecoratorText.EREF_DECORATOR_ORUNI_OP);
-			DiagramUtils.createDirDecorator(diagram, con, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR);	
+			DiagramUtils.createDirDecorator(diagram, con, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR, ColorConstant.BLACK);	
 		}
 		DiagramUtils.addCollapseReferenceText(diagram, eOpposite);
 		return eOpposite;
@@ -1061,6 +1210,13 @@ public  class DiagramUtils {
 		eOpposite.setLowerBound(opposite.getLowerBound());
 		eOpposite.setUpperBound(opposite.getUpperBound());
 		eOpposite.setContainment(opposite.isContainment());
+		
+		/////TEMPORAL->Cambiado
+		eOpposite.setOrdered(opposite.isOrdered());
+		eOpposite.setUnique(opposite.isOrdered());
+        ////
+		
+		
 		sourceOpC.getEStructuralFeatures().add(eOpposite);
 		reference.setEOpposite(eOpposite);
 		eOpposite.setEOpposite(reference);
@@ -1075,7 +1231,7 @@ public  class DiagramUtils {
 			DiagramUtils.setDecoratorText(con, eOpposite.getName(), DecoratorText.EREF_DECORATOR_NAME_OP);
 			DiagramUtils.setDecoratorText(con, eOpposite.getLowerBound()+".."+((eOpposite.getUpperBound() == -1 ? "*" : eOpposite.getUpperBound())), DecoratorText.EREF_DECORATOR_BOUNDS_OP);
 			DiagramUtils.setDecoratorText(con, DiagramUtils.getOrderedUniqueText(eOpposite), DecoratorText.EREF_DECORATOR_ORUNI_OP);
-			DiagramUtils.createDirDecorator(diagram, con, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR);	
+			DiagramUtils.createDirDecorator(diagram, con, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR, ColorConstant.BLACK);	
 			if (eOpposite.isContainment()) DiagramUtils.createContainmentDecorator(diagram, con, 1);	
 		}
 		DiagramUtils.addCollapseReferenceText(diagram, eOpposite);
@@ -1122,10 +1278,10 @@ public  class DiagramUtils {
 	 * @param gaContainer
 	 * @return the polyline (arrow)
 	 */
-	private static Polyline createArrowFigure(Diagram diagram, GraphicsAlgorithmContainer gaContainer) {
+	private static Polyline createArrowFigure(Diagram diagram, GraphicsAlgorithmContainer gaContainer, IColorConstant color) {
 		IGaService gaService = Graphiti.getGaService();
         Polyline polyline = gaService.createPolyline(gaContainer, new int[] { -15, 10, 0, 0, -15,-10 });
-        polyline.setForeground(gaService.manageColor(diagram,ColorConstant.BLACK));
+        polyline.setForeground(gaService.manageColor(diagram,color));
         polyline.setLineWidth(2);
         return polyline;
     }
@@ -1154,7 +1310,7 @@ public  class DiagramUtils {
 	 * @param location 
 	 * @param df - DecoratorFigure.
 	 */
-	public static void createDirDecorator(Diagram diagram, Connection pe, double location, DecoratorFigure df){
+	public static void createDirDecorator(Diagram diagram, Connection pe, double location, DecoratorFigure df, IColorConstant color){
 		ConnectionDecorator cd;
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		cd = peCreateService.createConnectionDecorator(pe, false, location, true);
@@ -1164,7 +1320,7 @@ public  class DiagramUtils {
 		marker.setValue(df.toString());		
 		cd.getProperties().add(marker);
 		
-		createArrowFigure(diagram, cd);
+		createArrowFigure(diagram, cd, color);
 	}
 	
 	/**
@@ -1416,6 +1572,47 @@ public  class DiagramUtils {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Static method that initialises the mode COLLAPSE_INHERITANCE in the specified shape.
+	 * @param shape
+	 */
+	public static void initCollapseInheritance (Shape shape){
+		Property marker  = MmFactory.eINSTANCE.createProperty();
+		marker.setKey(COLLAPSE_INHERITANCE);
+		marker.setValue(String.valueOf(false));		
+		shape.getProperties().add(marker);
+	}
+	/**
+	 * Static method that returns if the specified shape is inheritance collapsed.
+	 * @param shape
+	 * @return true if the inheritance is collapsed, false it not.
+	 */
+	public static boolean isCollapseInheritance (Shape shape){
+		for (Property property: shape.getProperties()){
+			if ((property.getKey().equals(COLLAPSE_INHERITANCE)) && (property.getValue().equals(String.valueOf(true))))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that inserts the mode collapse_inheritance_info (true/false)into the specified shape
+	 * @param shape
+	 * @param show
+	 */
+	public static void setCollapseInheritance (Shape shape, boolean collapse){
+		for (Property p : shape.getProperties()){
+			if (p.getKey().compareTo(COLLAPSE_INHERITANCE)==0){
+				p.setValue(String.valueOf(collapse));
+				break;
+			}
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * Static method that hides the pattern information of the specified shape of an Eclass

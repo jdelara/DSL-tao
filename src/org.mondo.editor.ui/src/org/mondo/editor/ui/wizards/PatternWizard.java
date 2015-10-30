@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.wizard.Wizard;
-import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 
 import dslPatterns.Pattern;
 import dslPatterns.PatternMetaModel;
@@ -29,20 +29,23 @@ public class PatternWizard extends Wizard {
   private List<PatternMetaModelAttached> metamodelsAt;
   private List<MMInterfaceRelDiagram> patternRelDiagram;
   private IProject project = null;
+  private String patternNameInstance = "";
 
-  public PatternWizard(Pattern pattern, EPackage ecoreDiagram, List<MMInterfaceRelDiagram> patternRelDiagram, List<PatternMetaModelAttached> attachs, IProject project) {
+  public PatternWizard(Pattern pattern, EPackage ecoreDiagram, List<MMInterfaceRelDiagram> patternRelDiagram, List<PatternMetaModelAttached> attachs, IProject project, String patternNameInstanceDefault) {
     super();
-    setNeedsProgressMonitor(true);
+    //setNeedsProgressMonitor(true);
     this.pattern = pattern;
     this.ecoreDiagram = ecoreDiagram;
     this.patternRelDiagram = patternRelDiagram;
     this.project = project;
     this.metamodelsAt = attachs;
+    this.patternNameInstance = patternNameInstanceDefault;
+    setWindowTitle("Pattern Application");
   }
 
   @Override
   public void addPages() {
-    one = new PatternWizardPageOne(pattern.getName(), pattern.getDescription());
+    one = new PatternWizardPageOne(pattern.getName(), pattern.getDescription(), patternNameInstance);
     two = new PatternWizardPageTwo(pattern.getRootVariant(), metamodels, project,metamodelsAt);
     three = new PatternWizardPageThree(ecoreDiagram, metamodels, patternRelDiagram, pattern.getName());
     addPage(one);
@@ -50,10 +53,16 @@ public class PatternWizard extends Wizard {
     addPage(three);
   }
 
-	@Override
-	public boolean performFinish() {
-		return true;
-	}
+  @Override
+  public boolean performFinish() {
+	  patternNameInstance = one.getNameText();
+	  return true;
+  }
+
+	  
+  public String getPatternInstaceName(){
+	  return patternNameInstance;
+  }
 
 }
  

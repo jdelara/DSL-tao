@@ -48,12 +48,13 @@ public  class ModelUtils {
             // if EPackage does not exist, create new one
             if (pack == null) {
                 pack = EcoreFactory.eINSTANCE.createEPackage();
-        		pack.setName(diagram.getName());
-	            pack.setNsPrefix("");
-	            pack.setNsURI("http://mondo.org/"+diagram.getName());
+        		pack.setName(diagram.getName().replace(" ",""));
+	            pack.setNsPrefix(diagram.getName().replace(" ","").toLowerCase());
+	            pack.setNsURI("http://mondo.org/"+diagram.getName().replace(" ",""));
 	            diagram.eResource().getContents().add(pack);
 	            
 	            DiagramUtils.initPatternInfo(diagram);
+	            DiagramUtils.initCollapseInheritance(diagram);
             }
         }
         return pack;
@@ -171,6 +172,38 @@ public  class ModelUtils {
 	}
 	
 	/**
+	 * Static method that returns if the specified eClass exists on the package argument.
+	 * @param epackage
+	 * @param name
+	 * @return boolean - true exists, false not exists
+	 */
+	public static boolean existsClassName(EPackage pack, String name){
+		for (EClassifier classif : pack.getEClassifiers()){
+			if (classif instanceof EClass)
+				if (((EClass)classif).getName().compareTo(name)==0)
+            		return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that returns a valid eClass name.
+	 * @param epackage
+	 * @param name rootName
+	 * @return String - name.
+	 */
+	public static String getClassNameValid(EPackage pack, String name){
+		boolean enc = true;
+		int cont = -1;
+		while (enc){
+			cont++;
+			enc = existsClassName(pack, name+(cont==0?"":cont));
+		}
+		return name+(cont==0?"":cont);
+	}
+	
+	
+	/**
 	 * Static method that returns if the specified eClass is valid.
 	 * @param eClass
 	 * @return String - message.
@@ -226,9 +259,9 @@ public  class ModelUtils {
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsClassName(diagram, name+cont);
+			enc = existsClassName(diagram, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**
@@ -258,9 +291,9 @@ public  class ModelUtils {
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsEnumName(diagram, name+cont);
+			enc = existsEnumName(diagram, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	
@@ -290,9 +323,9 @@ public  class ModelUtils {
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsEPackageName(diagram, name+cont);
+			enc = existsEPackageName(diagram, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**
@@ -356,9 +389,9 @@ public  class ModelUtils {
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsAttName(eClass, name+cont);
+			enc = existsAttName(eClass, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**
@@ -388,9 +421,9 @@ public  class ModelUtils {
 		int cont = 0;
 		while (enc){
 			cont++;
-			enc = existsSourceName(element, name+cont);	
+			enc = existsSourceName(element, name+(cont==0?"":cont));	
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**
@@ -414,7 +447,7 @@ public  class ModelUtils {
 	 * @return String - name beginning.
 	 */
 	public static String getRefNameValid(EClass eClass){
-		String name = "ERef";
+		String name = "eRef";
 		return getRefNameValid(eClass, name);
 	}
 	
@@ -429,9 +462,9 @@ public  class ModelUtils {
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsRefName(eClass, name+cont);
+			enc = existsRefName(eClass, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	
@@ -441,7 +474,7 @@ public  class ModelUtils {
 	 * @return String - name beginning.
 	 */
 	public static String getRefOpNameValid(EClass eClass){
-		String name = "EOpp";
+		String name = "eOpp";
 		return getRefNameValid(eClass, name);
 	}
 	
@@ -481,14 +514,14 @@ public  class ModelUtils {
 	 * @return String - name
 	 */
 	public static String getEnumLitLitNameValid(EEnum eEnum){
-		String name = "EEnumLiteral";
+		String name = "eEnumLiteral";
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsEnumLitLitName(eEnum, name+cont);
+			enc = existsEnumLitLitName(eEnum, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**
@@ -497,14 +530,14 @@ public  class ModelUtils {
 	 * @return String - name
 	 */
 	public static String getEnumLitNameValid(EEnum eEnum){
-		String name = "EEnumLiteral";
+		String name = "eEnumLiteral";
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsEnumLitName(eEnum, name+cont);
+			enc = existsEnumLitName(eEnum, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**
@@ -518,6 +551,23 @@ public  class ModelUtils {
         	if (classif instanceof EClass) 
         		classifL.add((EClass)classif);
         } 
+        return classifL;
+	}
+	
+	/**
+	 * Static method that returns all the eClasses contained within the specified package and its subpackages
+	 * @param pack package
+	 * @return List<EClass>
+	 */
+	public static List<EClass> getAllEClasses (EPackage pack){
+		List<EClass> classifL = new ArrayList<EClass>();
+        for (EClassifier classif: pack.getEClassifiers()){
+        	if (classif instanceof EClass) 
+        		classifL.add((EClass)classif);
+        } 
+        for (EPackage subPack: pack.getESubpackages()){
+        	classifL.addAll(getAllEClasses(subPack));
+        }
         return classifL;
 	}
 	
@@ -568,17 +618,16 @@ public  class ModelUtils {
 	 * @return String - name
 	 */
 	public static String getAnnotationKeyValid(EAnnotation annot){
-		String name = "Key";
+		String name = "key";
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsAnnotationKey(annot, name+cont);
+			enc = existsAnnotationKey(annot, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 
-	
 	/**
 	 * Static method that returns if the specified eAnnotation source (name) exists in the element argument.
 	 * @param element - eModelElement
@@ -599,14 +648,14 @@ public  class ModelUtils {
 	 * @return String source.
 	 */
 	public static String getAnnotationSourceValid(EModelElement element){
-		String name = "Annotation";
+		String name = "annotation";
 		boolean enc = true;
 		int cont = -1;
 		while (enc){
 			cont++;
-			enc = existsAnnotationSource(element, name+cont);
+			enc = existsAnnotationSource(element, name+(cont==0?"":cont));
 		}
-		return name+cont;
+		return name+(cont==0?"":cont);
 	}
 	
 	/**

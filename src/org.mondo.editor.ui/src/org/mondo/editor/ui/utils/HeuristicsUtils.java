@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.mondo.editor.graphiti.diagram.utils.DataTypeUtils.DataType;
-import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
 import dslPatterns.ClassInterface;
@@ -117,7 +117,7 @@ public final class HeuristicsUtils {
 		if (parentClass instanceof EClass){
     		for (EAttribute attrib : ((EClass) parentClass).getEAllAttributes()){
     			if ((PatternUtils.getEType((FeatureType)mmird.getMmInterface())== DataType.EJAVAOBJECT.getEDataType()) || (PatternUtils.getEType((FeatureType)mmird.getMmInterface())== attrib.getEAttributeType()))
-					bestAttrib.add(attrib);
+					if (PatternUtils.areCompatibleFeatureTypes((FeatureType)mmird.getMmInterface(), attrib))bestAttrib.add(attrib);
     		}
 		}
 		return bestAttrib;

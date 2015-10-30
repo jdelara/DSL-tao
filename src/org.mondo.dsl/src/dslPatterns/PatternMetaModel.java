@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.PatternMetaModel#getClassInterfaces <em>Class Interfaces</em>}</li>
  *   <li>{@link dslPatterns.PatternMetaModel#getAttrInterfaces <em>Attr Interfaces</em>}</li>
@@ -19,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link dslPatterns.PatternMetaModel#getImg <em>Img</em>}</li>
  *   <li>{@link dslPatterns.PatternMetaModel#getRootAttachedVariant <em>Root Attached Variant</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getPatternMetaModel()
  * @model abstract="true"

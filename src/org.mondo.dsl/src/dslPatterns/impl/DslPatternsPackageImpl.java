@@ -3,6 +3,7 @@
 package dslPatterns.impl;
 
 import dslPatterns.Acceptor;
+import dslPatterns.CardinalityInterface;
 import dslPatterns.Category;
 import dslPatterns.ClassInterface;
 import dslPatterns.ClassInterfaceAttached;
@@ -34,13 +35,21 @@ import dslPatterns.ReferenceInterfaceAttached;
 import dslPatterns.Service;
 import dslPatterns.SimpleFeature;
 import dslPatterns.Slot;
+import dslPatterns.Tag;
+import dslPatterns.TagSet;
 import dslPatterns.Variant;
+import mindMapDSML.MindMapDSMLPackage;
+import mindMapDSML.impl.MindMapDSMLPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import runtimePatterns.RuntimePatternsPackage;
+import runtimePatterns.impl.RuntimePatternsPackageImpl;
+import runtimeServices.RuntimeServicesPackage;
+import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.ServiceInterfacesPackage;
 import serviceInterfaces.codegen.CodegenPackage;
 import serviceInterfaces.codegen.impl.CodegenPackageImpl;
@@ -270,6 +279,27 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass tagSetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass tagEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cardinalityInterfaceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum featureKindEEnum = null;
 
 	/**
@@ -360,6 +390,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EReference getPatternSet_Categories() {
 		return (EReference)patternSetEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPatternSet_TagSet() {
+		return (EReference)patternSetEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -459,6 +498,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EAttribute getPattern_MaxInstances() {
 		return (EAttribute)patternEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPattern_Tags() {
+		return (EReference)patternEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -835,6 +883,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getClassInterface_AbstractMatters() {
+		return (EAttribute)classInterfaceEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFeatureInterface() {
 		return featureInterfaceEClass;
 	}
@@ -862,6 +919,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getFeatureType_IDMatters() {
+		return (EAttribute)featureTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFeatureInstance() {
 		return featureInstanceEClass;
 	}
@@ -882,6 +948,15 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 */
 	public EReference getReferenceInterface_Ref() {
 		return (EReference)referenceInterfaceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferenceInterface_FlexibleComposite() {
+		return (EAttribute)referenceInterfaceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1051,6 +1126,96 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getTagSet() {
+		return tagSetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTagSet_Tags() {
+		return (EReference)tagSetEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTag() {
+		return tagEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTag_Name() {
+		return (EAttribute)tagEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTag_Specifics() {
+		return (EReference)tagEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCardinalityInterface() {
+		return cardinalityInterfaceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCardinalityInterface_AnyMin() {
+		return (EAttribute)cardinalityInterfaceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCardinalityInterface_AnyMax() {
+		return (EAttribute)cardinalityInterfaceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCardinalityInterface_AnyOrdering() {
+		return (EAttribute)cardinalityInterfaceEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCardinalityInterface_UniqueMatters() {
+		return (EAttribute)cardinalityInterfaceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getFeatureKind() {
 		return featureKindEEnum;
 	}
@@ -1085,6 +1250,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		// Create classes and their features
 		patternSetEClass = createEClass(PATTERN_SET);
 		createEReference(patternSetEClass, PATTERN_SET__CATEGORIES);
+		createEReference(patternSetEClass, PATTERN_SET__TAG_SET);
 
 		categoryEClass = createEClass(CATEGORY);
 		createEAttribute(categoryEClass, CATEGORY__NAME);
@@ -1098,6 +1264,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		createEAttribute(patternEClass, PATTERN__DESCRIPTION);
 		createEReference(patternEClass, PATTERN__SERVICES);
 		createEAttribute(patternEClass, PATTERN__MAX_INSTANCES);
+		createEReference(patternEClass, PATTERN__TAGS);
 
 		serviceEClass = createEClass(SERVICE);
 		createEAttribute(serviceEClass, SERVICE__NAME);
@@ -1153,16 +1320,19 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		classInterfaceEClass = createEClass(CLASS_INTERFACE);
 		createEReference(classInterfaceEClass, CLASS_INTERFACE__REF);
 		createEAttribute(classInterfaceEClass, CLASS_INTERFACE__ABSTRACT);
+		createEAttribute(classInterfaceEClass, CLASS_INTERFACE__ABSTRACT_MATTERS);
 
 		featureInterfaceEClass = createEClass(FEATURE_INTERFACE);
 		createEReference(featureInterfaceEClass, FEATURE_INTERFACE__REF);
 
 		featureTypeEClass = createEClass(FEATURE_TYPE);
+		createEAttribute(featureTypeEClass, FEATURE_TYPE__ID_MATTERS);
 
 		featureInstanceEClass = createEClass(FEATURE_INSTANCE);
 
 		referenceInterfaceEClass = createEClass(REFERENCE_INTERFACE);
 		createEReference(referenceInterfaceEClass, REFERENCE_INTERFACE__REF);
+		createEAttribute(referenceInterfaceEClass, REFERENCE_INTERFACE__FLEXIBLE_COMPOSITE);
 
 		complexFeatureMainEClass = createEClass(COMPLEX_FEATURE_MAIN);
 		createEReference(complexFeatureMainEClass, COMPLEX_FEATURE_MAIN__META_MODEL);
@@ -1190,6 +1360,19 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		mmInterfaceAttachedEClass = createEClass(MM_INTERFACE_ATTACHED);
 		createEReference(mmInterfaceAttachedEClass, MM_INTERFACE_ATTACHED__TYPE);
 		createEReference(mmInterfaceAttachedEClass, MM_INTERFACE_ATTACHED__ATTACHED);
+
+		tagSetEClass = createEClass(TAG_SET);
+		createEReference(tagSetEClass, TAG_SET__TAGS);
+
+		tagEClass = createEClass(TAG);
+		createEAttribute(tagEClass, TAG__NAME);
+		createEReference(tagEClass, TAG__SPECIFICS);
+
+		cardinalityInterfaceEClass = createEClass(CARDINALITY_INTERFACE);
+		createEAttribute(cardinalityInterfaceEClass, CARDINALITY_INTERFACE__ANY_MIN);
+		createEAttribute(cardinalityInterfaceEClass, CARDINALITY_INTERFACE__ANY_MAX);
+		createEAttribute(cardinalityInterfaceEClass, CARDINALITY_INTERFACE__ANY_ORDERING);
+		createEAttribute(cardinalityInterfaceEClass, CARDINALITY_INTERFACE__UNIQUE_MATTERS);
 
 		// Create enums
 		featureKindEEnum = createEEnum(FEATURE_KIND);
@@ -1237,8 +1420,10 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		classInterfaceEClass.getESuperTypes().add(this.getMMInterface());
 		featureInterfaceEClass.getESuperTypes().add(this.getMMInterface());
 		featureTypeEClass.getESuperTypes().add(this.getFeatureInterface());
+		featureTypeEClass.getESuperTypes().add(this.getCardinalityInterface());
 		featureInstanceEClass.getESuperTypes().add(this.getFeatureInterface());
 		referenceInterfaceEClass.getESuperTypes().add(this.getMMInterface());
+		referenceInterfaceEClass.getESuperTypes().add(this.getCardinalityInterface());
 		complexFeatureMainEClass.getESuperTypes().add(this.getComplexFeature());
 		complexFeatureAttachedEClass.getESuperTypes().add(this.getComplexFeature());
 		classInterfaceAttachedEClass.getESuperTypes().add(this.getMMInterfaceAttached());
@@ -1250,6 +1435,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		// Initialize classes and features; add operations and parameters
 		initEClass(patternSetEClass, PatternSet.class, "PatternSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPatternSet_Categories(), this.getCategory(), null, "categories", null, 0, -1, PatternSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getPatternSet_TagSet(), this.getTagSet(), null, "tagSet", null, 0, 1, PatternSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(categoryEClass, Category.class, "Category", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCategory_Name(), ecorePackage.getEString(), "name", null, 1, 1, Category.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1263,6 +1449,7 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEAttribute(getPattern_Description(), ecorePackage.getEString(), "description", null, 0, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPattern_Services(), this.getService(), null, "services", null, 0, -1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPattern_MaxInstances(), ecorePackage.getEInt(), "maxInstances", "-1", 1, 1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPattern_Tags(), this.getTag(), null, "tags", null, 0, -1, Pattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getService_Name(), ecorePackage.getEString(), "name", null, 1, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1318,16 +1505,19 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEClass(classInterfaceEClass, ClassInterface.class, "ClassInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassInterface_Ref(), ecorePackage.getEClass(), null, "ref", null, 0, -1, ClassInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getClassInterface_Abstract(), ecorePackage.getEBoolean(), "abstract", "false", 0, 1, ClassInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClassInterface_AbstractMatters(), ecorePackage.getEBoolean(), "abstractMatters", "true", 0, 1, ClassInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(featureInterfaceEClass, FeatureInterface.class, "FeatureInterface", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFeatureInterface_Ref(), ecorePackage.getEAttribute(), null, "ref", null, 0, -1, FeatureInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(featureTypeEClass, FeatureType.class, "FeatureType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFeatureType_IDMatters(), ecorePackage.getEBoolean(), "IDMatters", "true", 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(featureInstanceEClass, FeatureInstance.class, "FeatureInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(referenceInterfaceEClass, ReferenceInterface.class, "ReferenceInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getReferenceInterface_Ref(), ecorePackage.getEReference(), null, "ref", null, 1, 1, ReferenceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferenceInterface_FlexibleComposite(), ecorePackage.getEBoolean(), "flexibleComposite", "false", 0, 1, ReferenceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(complexFeatureMainEClass, ComplexFeatureMain.class, "ComplexFeatureMain", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComplexFeatureMain_MetaModel(), this.getPatternMetaModel(), null, "metaModel", null, 0, 1, ComplexFeatureMain.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1356,6 +1546,19 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 		initEReference(getMMInterfaceAttached_Type(), this.getMMInterface(), null, "type", null, 1, 1, MMInterfaceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMMInterfaceAttached_Attached(), this.getMMInterface(), null, "attached", null, 0, -1, MMInterfaceAttached.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(tagSetEClass, TagSet.class, "TagSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTagSet_Tags(), this.getTag(), null, "tags", null, 0, -1, TagSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(tagEClass, Tag.class, "Tag", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTag_Name(), ecorePackage.getEString(), "name", null, 0, 1, Tag.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTag_Specifics(), this.getTag(), null, "specifics", null, 0, -1, Tag.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(cardinalityInterfaceEClass, CardinalityInterface.class, "CardinalityInterface", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCardinalityInterface_AnyMin(), ecorePackage.getEBoolean(), "anyMin", "false", 0, 1, CardinalityInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCardinalityInterface_AnyMax(), ecorePackage.getEBoolean(), "anyMax", "false", 0, 1, CardinalityInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCardinalityInterface_AnyOrdering(), ecorePackage.getEBoolean(), "anyOrdering", "false", 0, 1, CardinalityInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCardinalityInterface_UniqueMatters(), ecorePackage.getEBoolean(), "uniqueMatters", "true", 0, 1, CardinalityInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(featureKindEEnum, FeatureKind.class, "FeatureKind");
 		addEEnumLiteral(featureKindEEnum, FeatureKind.BOOLEAN_FEATURE);
@@ -1379,13 +1582,13 @@ public class DslPatternsPackageImpl extends EPackageImpl implements DslPatternsP
 	 * @generated
 	 */
 	protected void createImportAnnotations() {
-		String source = "http://www.eclipse.org/OCL/Import";		
+		String source = "http://www.eclipse.org/OCL/Import";	
 		addAnnotation
 		  (this, 
 		   source, 
 		   new String[] {
 			 "ecore", "http://www.eclipse.org/emf/2002/Ecore#/"
-		   });		
+		   });
 	}
 
 } //DslPatternsPackageImpl

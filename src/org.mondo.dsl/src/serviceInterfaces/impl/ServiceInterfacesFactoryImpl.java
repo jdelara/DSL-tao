@@ -29,7 +29,7 @@ public class ServiceInterfacesFactoryImpl extends EFactoryImpl implements Servic
 	 */
 	public static ServiceInterfacesFactory init() {
 		try {
-			ServiceInterfacesFactory theServiceInterfacesFactory = (ServiceInterfacesFactory)EPackage.Registry.INSTANCE.getEFactory("http://mondo.org/serviceInterfaces"); 
+			ServiceInterfacesFactory theServiceInterfacesFactory = (ServiceInterfacesFactory)EPackage.Registry.INSTANCE.getEFactory(ServiceInterfacesPackage.eNS_URI);
 			if (theServiceInterfacesFactory != null) {
 				return theServiceInterfacesFactory;
 			}

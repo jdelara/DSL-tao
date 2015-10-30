@@ -47,7 +47,7 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -188,6 +188,7 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 				FeatureType featureType = (FeatureType)theEObject;
 				T result = caseFeatureType(featureType);
 				if (result == null) result = caseFeatureInterface(featureType);
+				if (result == null) result = caseCardinalityInterface(featureType);
 				if (result == null) result = caseMMInterface(featureType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -204,6 +205,7 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 				ReferenceInterface referenceInterface = (ReferenceInterface)theEObject;
 				T result = caseReferenceInterface(referenceInterface);
 				if (result == null) result = caseMMInterface(referenceInterface);
+				if (result == null) result = caseCardinalityInterface(referenceInterface);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -269,6 +271,24 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 			case DslPatternsPackage.MM_INTERFACE_ATTACHED: {
 				MMInterfaceAttached mmInterfaceAttached = (MMInterfaceAttached)theEObject;
 				T result = caseMMInterfaceAttached(mmInterfaceAttached);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.TAG_SET: {
+				TagSet tagSet = (TagSet)theEObject;
+				T result = caseTagSet(tagSet);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.TAG: {
+				Tag tag = (Tag)theEObject;
+				T result = caseTag(tag);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case DslPatternsPackage.CARDINALITY_INTERFACE: {
+				CardinalityInterface cardinalityInterface = (CardinalityInterface)theEObject;
+				T result = caseCardinalityInterface(cardinalityInterface);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -723,6 +743,51 @@ public class DslPatternsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMMInterfaceAttached(MMInterfaceAttached object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Tag Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Tag Set</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTagSet(TagSet object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Tag</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Tag</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTag(Tag object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cardinality Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cardinality Interface</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCardinalityInterface(CardinalityInterface object) {
 		return null;
 	}
 

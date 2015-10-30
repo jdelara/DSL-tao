@@ -111,7 +111,7 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	    }  if (bo instanceof EReference) {
 	        return new DeleteEReferenceFeature(this);
 	    } if (bo instanceof EClass){
-	    	//return new DeleteEClassFeature(this);
+	    	return new DeleteEClassFeature(this);
 	    } else if (bo == null && pictogramElement.getProperties().size()>0) {
 			for (Property p: pictogramElement.getProperties()) {
 				if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_INHERITANCE))
@@ -175,6 +175,8 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	       } else if (bo instanceof EPackage){
 	    	   if (!(pictogramElement instanceof Diagram))
 	    		   return new UpdateEPackageFeature(this);
+	       } else if (bo instanceof EClass){
+	    	   return new UpdateEClassFeature(this); 
 	       }
 	   }
 	   return super.getUpdateFeature(context);
@@ -185,7 +187,9 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 		
 		if (context.getPictogramElements()[0] instanceof Diagram){
 			ICustomFeature[] basicCf =  new ICustomFeature[] { new ValidateAllFeature(this), new ImportMetamodelFeature(this), new ExportMetamodelFeature(this), new ExportMetamodelPatternsFeature(this),
-	    		new CollapseAllFeature(this), new ExpandAllFeature(this), 
+		    	new ProcessMetaModelFeature(this),
+		    	new CollapseAllFeature(this), new ExpandAllFeature(this), 
+	    		new CollapseInheritanceFeature(this), new ExpandInheritanceFeature(this),
 	    		new ShowPatternInfoFeature(this),new HidePatternInfoFeature(this),
 	    		new DrillDownEPackageFeature(this),
 	    		new ExecuteAllPatternsFeature(this)};

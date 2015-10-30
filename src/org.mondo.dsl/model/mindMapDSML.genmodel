@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.mondo.dsl/src" modelPluginID="org.mondo.dsl"
+    modelName="MindMapDSML" importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0"
+    copyrightFields="false">
+  <foreignModel>mindMapDSML.ecore</foreignModel>
+  <genPackages prefix="MindMapDSML" disposableProviderFactory="true" ecorePackage="mindMapDSML.ecore#/">
+    <genClasses ecoreClass="mindMapDSML.ecore#//MindMap">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//MindMap/ideas"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//MindMap/name"/>
+    </genClasses>
+    <genClasses ecoreClass="mindMapDSML.ecore#//Idea">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Idea/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Idea/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Idea/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//Idea/contains"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//Idea/links"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//Idea/pattern"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//Idea/notes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Idea/subText"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//Idea/features"/>
+    </genClasses>
+    <genClasses ecoreClass="mindMapDSML.ecore#//Link">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Link/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mindMapDSML.ecore#//Link/target"/>
+    </genClasses>
+    <genClasses ecoreClass="mindMapDSML.ecore#//Note">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Note/text"/>
+    </genClasses>
+    <genClasses ecoreClass="mindMapDSML.ecore#//Feature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Feature/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mindMapDSML.ecore#//Feature/value"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="DslPatterns" disposableProviderFactory="true" ecorePackage="dslPatterns.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="dslPatterns.ecore#//FeatureKind">
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/BooleanFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/IntegerFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/DoubleFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/StringFeature"/>
+      <genEnumLiterals ecoreEnumLiteral="dslPatterns.ecore#//FeatureKind/MetaModelClassFeature"/>
+    </genEnums>
+    <genClasses ecoreClass="dslPatterns.ecore#//PatternSet">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternSet/categories"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Category">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Category/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Category/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Category/subcategories"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Category/patterns"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Pattern">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/rootVariant"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Pattern/services"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Pattern/maxInstances"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Service">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Service/mandatory"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Service/ports"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//Port">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Port/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Port/minCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Port/maxCard"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//Port/uses"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Plug"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//Slot"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//Injector"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//Acceptor"/>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//Variant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Variant/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Variant/description"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//SimpleFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//SimpleFeature/featureKind"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//ComplexFeature">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/andChildren"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/orChildren"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeature/xorChildren"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//PatternMetaModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/classInterfaces"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/attrInterfaces"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/refInterfaces"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//PatternMetaModel/img"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/rootAttachedVariant"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModel/tags"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//PatternMetaModelReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelReference/mmreference"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//MetaModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MetaModel/mmreference"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//MMInterface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/icon"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/minCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/maxCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//MMInterface/constraint"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ClassInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterface/ref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ClassInterface/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ClassInterface/abstractMatters"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//FeatureInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//FeatureInterface/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//FeatureType/IDMatters"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureInstance"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ReferenceInterface/ref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//ReferenceInterface/flexibleComposite"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeatureMain">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeatureMain/metaModel"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ComplexFeatureAttached">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ComplexFeatureAttached/metaModelAttached"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//PatternMetaModelAttached">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelAttached/classIntAtt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//PatternMetaModelAttached/content"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//ClassInterfaceAttached">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterfaceAttached/refIntAtt"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterfaceAttached/featIntAtt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//ClassInterfaceAttached/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//FeatureInterfaceAttached"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//ReferenceInterfaceAttached"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureTypeAttached"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//FeatureInstanceAttached"/>
+    <genClasses ecoreClass="dslPatterns.ecore#//MMInterfaceAttached">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MMInterfaceAttached/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference dslPatterns.ecore#//MMInterfaceAttached/attached"/>
+    </genClasses>
+    <genClasses ecoreClass="dslPatterns.ecore#//Tag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//Tag/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="dslPatterns.ecore#//CardinalityInterface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/anyMin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/anyMax"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/anyOrdering"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dslPatterns.ecore#//CardinalityInterface/uniqueMatters"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="ServiceInterfaces" disposableProviderFactory="true" ecorePackage="serviceInterfaces.ecore#/">
+    <genClasses ecoreClass="serviceInterfaces.ecore#//InterfaceRepository">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//InterfaceRepository/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//Packageable"/>
+    <genClasses ecoreClass="serviceInterfaces.ecore#//Package">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//Package/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//Package/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//Interface">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//Interface/qName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//Interface/description"/>
+    </genClasses>
+    <nestedGenPackages prefix="Codegen" basePackage="serviceInterfaces" disposableProviderFactory="true"
+        ecorePackage="serviceInterfaces.ecore#//codegen">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="serviceInterfaces.ecore#//codegen/CodeGenLanguage">
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/CodeGenLanguage/ACCELEO"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="serviceInterfaces.ecore#//codegen/PointcutType">
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/BEFORE"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/AFTER"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/BEFORE_BODY"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//codegen/PointcutType/AFTER_BODY"/>
+      </genEnums>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/InjectorAcceptorInterfaceL1">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference serviceInterfaces.ecore#//codegen/InjectorAcceptorInterfaceL1/injectorProvides"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/TransformationLibrary">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//codegen/TransformationLibrary/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//codegen/TransformationLibrary/language"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/SlotPlugInterfaceL1">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference serviceInterfaces.ecore#//codegen/SlotPlugInterfaceL1/pointcuts"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//codegen/Pointcut">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//codegen/Pointcut/type"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/ClassPointcut"/>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/MethodPoincut"/>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/ImportElementPointcut"/>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//codegen/StatementPoincut"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Modelingenv" basePackage="serviceInterfaces" disposableProviderFactory="true"
+        ecorePackage="serviceInterfaces.ecore#//modelingenv">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="serviceInterfaces.ecore#//modelingenv/InjectionMode">
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//modelingenv/InjectionMode/GOOGLE_JUICE"/>
+        <genEnumLiterals ecoreEnumLiteral="serviceInterfaces.ecore#//modelingenv/InjectionMode/PLAIN_JAVA"/>
+      </genEnums>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/InjectorAcceptorInterfaceL0">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/InjectorAcceptorInterfaceL0/injectorImplements"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/InjectorAcceptorInterfaceL0/mode"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="serviceInterfaces.ecore#//modelingenv/JavaTypeDeclaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/JavaTypeDeclaration/qualifiedName"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/JavaInterface">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/JavaInterface/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/JavaClass">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/JavaClass/operations"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/Operation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/Operation/name"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/SlotPlugInterfaceL0">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference serviceInterfaces.ecore#//modelingenv/SlotPlugInterfaceL0/slot"/>
+      </genClasses>
+      <genClasses ecoreClass="serviceInterfaces.ecore#//modelingenv/ExtensionPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute serviceInterfaces.ecore#//modelingenv/ExtensionPoint/id"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

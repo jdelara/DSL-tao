@@ -61,15 +61,15 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 	private Button btnDeleteAnnotationOP = null;
 	private Button btnDeleteValueOP = null;
 	 
-	private final static int MARGEN_TOP = 10;
+	private final int MARGEN_TOP = 10;
 	private final int ALTO_GRUPO = 220;
 	private final int ANCHO_GRUPO = 550;
 	private final int ALTO_BTN = 30;
 	private final int ANCHO_BTN = 60;
-	private final static int SEPARACION_VERTICAL = 30;
-	private final static int MARGEN_IZQ = 15;
-	private final static int ALTO_LST = 180;
-	private final static int ANCHO_LST = 300;
+	private final int SEPARACION_VERTICAL = 30;
+	private final int MARGEN_IZQ = 15;
+	private final int ALTO_LST = 180;
+	private final int ANCHO_LST = 300;
 
 
 	@Override
@@ -95,12 +95,10 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 		
 		Button btnAddValue = factory.createButton(grpValues, "Add", SWT.PUSH);
 		btnAddValue.setBounds(MARGEN_IZQ*2+ANCHO_LST*2,SEPARACION_VERTICAL+ALTO_LST/4, ANCHO_BTN, ALTO_BTN);
-		
-		
+			
 		btnDeleteValue = factory.createButton(grpValues, "Delete", SWT.PUSH);
 		btnDeleteValue.setBounds(MARGEN_IZQ*2+ANCHO_LST*2,SEPARACION_VERTICAL+ALTO_LST/4+ALTO_BTN*3/2, ANCHO_BTN, ALTO_BTN);
-		
-		
+
         Group grpAnnotations = factory.createGroup(composite, "Annotations: ");
 		FormData data2 = new FormData();
 		data2.left = new FormAttachment(0, 0);
@@ -185,13 +183,17 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 	            return;
 	       
 	        viewerSources.setInput(((EModelElement)bo).getEAnnotations());
+	        if (!((EModelElement)bo).getEAnnotations().isEmpty())viewerSources.setSelection(new StructuredSelection(viewerSources.getElementAt(0)),true);
+	        
 	        viewerSources.refresh();
+
 	        //Crear aqui las anotaciones de eopposite porque solo queremos que aparezca cuando sea una referencia y tiene eopposite.	        
 	        if (bo instanceof EReference){
 	        	if (compositeOP == null)
 	        		createControlsOpposite();
 	        	if (((EReference)bo).getEOpposite()!= null) {
 	        		viewerSourcesOP.setInput(((EReference)bo).getEOpposite().getEAnnotations());
+	    	        if (!((EReference)bo).getEOpposite().getEAnnotations().isEmpty())viewerSourcesOP.setSelection(new StructuredSelection(viewerSourcesOP.getElementAt(0)),true);
 	        	}
 	        	compositeOP.setEnabled(((EReference)bo).getEOpposite() != null);
 	        } else if (compositeOP != null){
@@ -386,7 +388,6 @@ public class EAnnotationSection extends GFPropertySection implements ITabbedProp
 				        viewerSources.refresh();
 					}
 		        });
-		       
 			}
 		}
 		

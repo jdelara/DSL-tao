@@ -24,13 +24,13 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getIcon <em>Icon</em>}</li>
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getMinCard <em>Min Card</em>}</li>
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getMaxCard <em>Max Card</em>}</li>
  *   <li>{@link dslPatterns.impl.MMInterfaceImpl#getConstraint <em>Constraint</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

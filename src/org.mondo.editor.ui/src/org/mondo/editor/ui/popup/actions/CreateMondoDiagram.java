@@ -31,7 +31,6 @@ import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
-import org.mondo.editor.ui.utils.layers.RuntimeLayersModelUtils;
 import org.mondo.editor.ui.wizards.EcoreMondoDiagramWizard;
 
 /**
@@ -47,6 +46,8 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 	public CreateMondoDiagram() {
 		super();
 	}
+	
+	
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 	}
@@ -98,11 +99,13 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 								protected void doExecute() {
 									metaResource.getContents().add(diagram);
 									metaResource.getContents().add(pack);
-									
-									RuntimeLayersModelUtils.createLayerSet(metaResource);
-									
+																	
 									dp.init(diagram, dp.getDiagramBehavior());
 									dp.getFeatureProvider().link(diagram, pack);
+									
+									DiagramUtils.initPatternInfo(diagram);
+							        DiagramUtils.initCollapseInheritance(diagram);
+									
 								}
 						   });
 						IResourceUtils.saveResource(metaResource);						

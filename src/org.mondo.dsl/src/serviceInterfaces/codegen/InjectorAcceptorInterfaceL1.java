@@ -11,10 +11,10 @@ import serviceInterfaces.Interface;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.codegen.InjectorAcceptorInterfaceL1#getInjectorProvides <em>Injector Provides</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.codegen.CodegenPackage#getInjectorAcceptorInterfaceL1()
  * @model

@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.JavaTypeDeclaration#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.modelingenv.ModelingenvPackage#getJavaTypeDeclaration()
  * @model abstract="true"

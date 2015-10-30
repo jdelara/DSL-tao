@@ -22,11 +22,12 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.ClassInterfaceImpl#getRef <em>Ref</em>}</li>
  *   <li>{@link dslPatterns.impl.ClassInterfaceImpl#isAbstract <em>Abstract</em>}</li>
+ *   <li>{@link dslPatterns.impl.ClassInterfaceImpl#isAbstractMatters <em>Abstract Matters</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -59,6 +60,26 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 	 * @ordered
 	 */
 	protected boolean abstract_ = ABSTRACT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isAbstractMatters() <em>Abstract Matters</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAbstractMatters()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ABSTRACT_MATTERS_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isAbstractMatters() <em>Abstract Matters</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isAbstractMatters()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean abstractMatters = ABSTRACT_MATTERS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -117,6 +138,27 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAbstractMatters() {
+		return abstractMatters;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAbstractMatters(boolean newAbstractMatters) {
+		boolean oldAbstractMatters = abstractMatters;
+		abstractMatters = newAbstractMatters;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DslPatternsPackage.CLASS_INTERFACE__ABSTRACT_MATTERS, oldAbstractMatters, abstractMatters));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -124,6 +166,8 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 				return getRef();
 			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT:
 				return isAbstract();
+			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT_MATTERS:
+				return isAbstractMatters();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -144,6 +188,9 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT:
 				setAbstract((Boolean)newValue);
 				return;
+			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT_MATTERS:
+				setAbstractMatters((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -162,6 +209,9 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT:
 				setAbstract(ABSTRACT_EDEFAULT);
 				return;
+			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT_MATTERS:
+				setAbstractMatters(ABSTRACT_MATTERS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -178,6 +228,8 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 				return ref != null && !ref.isEmpty();
 			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT:
 				return abstract_ != ABSTRACT_EDEFAULT;
+			case DslPatternsPackage.CLASS_INTERFACE__ABSTRACT_MATTERS:
+				return abstractMatters != ABSTRACT_MATTERS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -194,6 +246,8 @@ public class ClassInterfaceImpl extends MMInterfaceImpl implements ClassInterfac
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (abstract: ");
 		result.append(abstract_);
+		result.append(", abstractMatters: ");
+		result.append(abstractMatters);
 		result.append(')');
 		return result.toString();
 	}

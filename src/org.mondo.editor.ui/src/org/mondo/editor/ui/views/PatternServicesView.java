@@ -167,22 +167,20 @@ public class PatternServicesView extends ViewPart {
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		Resource intModel= null;
 		List<Pattern> allPatterns = new LinkedList<>();
-		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){	
-			IEditorPart editor = activePage.getActiveEditor();				
-			if (editor instanceof IDiagramContainerUI){	
-				
-				IDiagramTypeProvider dtp = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider();
-				if (dtp instanceof EcoreDiagramTypeProvider){
-					services = RuntimeServicesModelUtils.getPatternServicesInfo(((IDiagramContainerUI)editor).getDiagramBehavior());
-					IProject project = IResourceUtils.getProject(dtp.getDiagram().eResource());
-					intModel = (Resource)((EcoreDiagramTypeProvider)dtp).getInterfaceModel();
-					if(intModel== null) {
-						intModel = PatternUtils.getInterfaceModel(project);
-						((EcoreDiagramTypeProvider)dtp).setInterfaceModel(intModel);
-					}
-					allPatterns = PatternUtils.getAllPatterns(project);
-				}				
-			}
+		IEditorPart editor = activePage.getActiveEditor();				
+		if (editor instanceof IDiagramContainerUI){	
+			
+			IDiagramTypeProvider dtp = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider();
+			if (dtp instanceof EcoreDiagramTypeProvider){
+				services = RuntimeServicesModelUtils.getPatternServicesInfo(((IDiagramContainerUI)editor).getDiagramBehavior());
+				IProject project = IResourceUtils.getProject(dtp.getDiagram().eResource());
+				intModel = (Resource)((EcoreDiagramTypeProvider)dtp).getInterfaceModel();
+				if(intModel== null) {
+					intModel = PatternUtils.getInterfaceModel(project);
+					((EcoreDiagramTypeProvider)dtp).setInterfaceModel(intModel);
+				}
+				allPatterns = PatternUtils.getAllPatterns(project);
+			}				
 		}
 		if (!viewer.getTable().isDisposed()){
 			TableViewerColumn tvc = (TableViewerColumn)viewer.getTable().getColumn(0).getData(Policy.JFACE + ".columnViewer"); 

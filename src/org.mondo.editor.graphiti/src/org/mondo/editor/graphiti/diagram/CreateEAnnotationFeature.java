@@ -1,6 +1,5 @@
 package org.mondo.editor.graphiti.diagram;
 
-
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -41,7 +40,6 @@ public class CreateEAnnotationFeature extends AbstractCreateFeature {
 		 modelElement = (EModelElement) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
 		newEAnnotation.setSource(ModelUtils.getAnnotationSourceValid(modelElement));
-
 		modelElement.getEAnnotations().add(newEAnnotation);
 		
 		return new Object[] { newEAnnotation};

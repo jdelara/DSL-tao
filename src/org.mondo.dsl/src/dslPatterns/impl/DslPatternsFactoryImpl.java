@@ -28,7 +28,7 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	 */
 	public static DslPatternsFactory init() {
 		try {
-			DslPatternsFactory theDslPatternsFactory = (DslPatternsFactory)EPackage.Registry.INSTANCE.getEFactory("http://mondo.org/dslPatterns"); 
+			DslPatternsFactory theDslPatternsFactory = (DslPatternsFactory)EPackage.Registry.INSTANCE.getEFactory(DslPatternsPackage.eNS_URI);
 			if (theDslPatternsFactory != null) {
 				return theDslPatternsFactory;
 			}
@@ -80,6 +80,8 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 			case DslPatternsPackage.FEATURE_TYPE_ATTACHED: return createFeatureTypeAttached();
 			case DslPatternsPackage.FEATURE_INSTANCE_ATTACHED: return createFeatureInstanceAttached();
 			case DslPatternsPackage.MM_INTERFACE_ATTACHED: return createMMInterfaceAttached();
+			case DslPatternsPackage.TAG_SET: return createTagSet();
+			case DslPatternsPackage.TAG: return createTag();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -343,6 +345,26 @@ public class DslPatternsFactoryImpl extends EFactoryImpl implements DslPatternsF
 	public MMInterfaceAttached createMMInterfaceAttached() {
 		MMInterfaceAttachedImpl mmInterfaceAttached = new MMInterfaceAttachedImpl();
 		return mmInterfaceAttached;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TagSet createTagSet() {
+		TagSetImpl tagSet = new TagSetImpl();
+		return tagSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Tag createTag() {
+		TagImpl tag = new TagImpl();
+		return tag;
 	}
 
 	/**

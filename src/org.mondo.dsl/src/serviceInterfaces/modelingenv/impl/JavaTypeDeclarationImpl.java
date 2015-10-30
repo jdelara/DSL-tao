@@ -21,10 +21,10 @@ import serviceInterfaces.modelingenv.ModelingenvPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.impl.JavaTypeDeclarationImpl#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

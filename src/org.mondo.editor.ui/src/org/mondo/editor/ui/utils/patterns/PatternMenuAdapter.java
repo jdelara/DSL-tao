@@ -21,7 +21,6 @@ import org.mondo.editor.extensionpoints.EvaluateExtensionPoint;
 import org.mondo.editor.ui.utils.HeuristicsUtils;
 import org.mondo.editor.ui.utils.ModelsUtils;
 import org.mondo.editor.ui.utils.dragdrop.DragAndDropUtils;
-import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
 
 import dslPatterns.ClassInterface;
 import dslPatterns.FeatureInstance;
@@ -127,7 +126,7 @@ public class PatternMenuAdapter extends MenuAdapter {
 					
 						@Override
 						public void widgetSelected(SelectionEvent e) {
-							PatternUtils.duplicateStructureReference(input,mmird, mmird.getOrder());
+							PatternUtils.duplicateStructureReference(input,mmird, mmird.getOrder(), null);
 						
 							Object[] expandedElements =viewer.getExpandedElements();
 							viewer.setInput(input);

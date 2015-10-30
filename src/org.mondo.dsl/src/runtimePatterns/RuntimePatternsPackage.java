@@ -131,13 +131,22 @@ public interface RuntimePatternsPackage extends EPackage {
 	int PATTERN_INSTANCE__SERVICE_INSTANCES = 3;
 
 	/**
+	 * The feature id for the '<em><b>Attached</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_INSTANCE__ATTACHED = 4;
+
+	/**
 	 * The number of structural features of the '<em>Pattern Instance</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATTERN_INSTANCE_FEATURE_COUNT = 4;
+	int PATTERN_INSTANCE_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link runtimePatterns.impl.RoleInstanceImpl <em>Role Instance</em>}' class.
@@ -420,6 +429,17 @@ public interface RuntimePatternsPackage extends EPackage {
 	EReference getPatternInstance_ServiceInstances();
 
 	/**
+	 * Returns the meta object for the attribute '{@link runtimePatterns.PatternInstance#isAttached <em>Attached</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Attached</em>'.
+	 * @see runtimePatterns.PatternInstance#isAttached()
+	 * @see #getPatternInstance()
+	 * @generated
+	 */
+	EAttribute getPatternInstance_Attached();
+
+	/**
 	 * Returns the meta object for class '{@link runtimePatterns.RoleInstance <em>Role Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -670,6 +690,14 @@ public interface RuntimePatternsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PATTERN_INSTANCE__SERVICE_INSTANCES = eINSTANCE.getPatternInstance_ServiceInstances();
+
+		/**
+		 * The meta object literal for the '<em><b>Attached</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PATTERN_INSTANCE__ATTACHED = eINSTANCE.getPatternInstance_Attached();
 
 		/**
 		 * The meta object literal for the '{@link runtimePatterns.impl.RoleInstanceImpl <em>Role Instance</em>}' class.

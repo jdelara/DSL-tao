@@ -56,9 +56,9 @@
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            class="runtimeLayers.RuntimeLayersPackage"
-            genModel="model/runtimeLayers.genmodel"
-            uri="http://mondo.org/runtimeLayers">
+            class="mindMapDSML.MindMapDSMLPackage"
+            genModel="model/mindMapDSML.genmodel"
+            uri="http://mondo.org/mindMapDSML">
       </package>
    </extension>
 

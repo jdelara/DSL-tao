@@ -11,11 +11,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.Package#getName <em>Name</em>}</li>
  *   <li>{@link serviceInterfaces.Package#getContents <em>Contents</em>}</li>
  * </ul>
- * </p>
  *
  * @see serviceInterfaces.ServiceInterfacesPackage#getPackage()
  * @model

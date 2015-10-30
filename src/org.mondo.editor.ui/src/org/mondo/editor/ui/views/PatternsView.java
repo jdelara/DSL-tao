@@ -20,12 +20,14 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.mondo.editor.extensionpoints.EvaluateExtensionPoint;
+import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
-import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternApplicationUtils;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 import org.mondo.editor.ui.utils.patterns.RuntimePatternsModelUtils;
@@ -325,10 +327,12 @@ public class PatternsView extends ViewPart {
 								IProject project= IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource());
 								List<PatternMetaModelAttached> attachPatterns = new LinkedList<PatternMetaModelAttached>();
 								
-								WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, attachPatterns, project))
+								String patternInstanceName = RuntimePatternsModelUtils.getPatternNameValid(pis, pattern.getName());
+								PatternWizard pw= new PatternWizard(pattern, ecoreDiagram, patternRelDiagram, attachPatterns, project, patternInstanceName);
+								WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), pw)
 								{
-									@Override
-							        protected void configureShell(Shell newShell) {
+									@Override							        
+									protected void configureShell(Shell newShell) {
 									super.configureShell(newShell);
 									newShell.setSize(/*950*/925, /*675*/725);
 									}
@@ -338,7 +342,7 @@ public class PatternsView extends ViewPart {
 								dialog.getShell().setText("PATTERNS");
 								int result = dialog.open();
 								if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
-									PatternApplicationUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern, pis);	
+									PatternApplicationUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern, pis, pw.getPatternInstaceName(), false);	
 									
 									//Check patternRelDiagram
 									/*for (MMInterfaceRelDiagram mmird : patternRelDiagram){
@@ -349,7 +353,7 @@ public class PatternsView extends ViewPart {
 
 									for (PatternMetaModelAttached pmma : attachPatterns){
 										List<MMInterfaceRelDiagram> attachedStructure = PatternApplicationUtils.createPatternAttachedStructure(pmma, patternRelDiagram);
-										PatternApplicationUtils.applyPattern(attachedStructure, editor.getDiagramBehavior(), pmma.getContent(), pis);
+										PatternApplicationUtils.applyPattern(attachedStructure, editor.getDiagramBehavior(), pmma.getContent(), pis,pw.getPatternInstaceName()+"."+ pmma.getContent().getName(), true);
 									}
 																		
 								}	
@@ -386,33 +390,36 @@ public class PatternsView extends ViewPart {
 
 	public void refresh() {
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		if (activePage.getActiveEditor() instanceof IDiagramContainerUI){
-			IEditorPart editor = activePage.getActiveEditor();	
-			if (editor instanceof IDiagramContainerUI){
-				if (viewer!= null){
-					Diagram diagram = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider().getDiagram();
-					if (ModelUtils.existsPackage(diagram)){
-						EPackage currentEcoreDiagram = ModelUtils.getBusinessModel(diagram);					
-						if (ecoreDiagram!=currentEcoreDiagram) {
-							ecoreDiagram = currentEcoreDiagram;
+		IEditorPart editor = activePage.getActiveEditor();	
+		if (editor instanceof IDiagramContainerUI){
+			if (viewer!= null){
+				if (!viewer.getControl().isDisposed()){
+					
+					IDiagramTypeProvider dtp = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider();
+					if (dtp instanceof EcoreDiagramTypeProvider){
+						Diagram diagram = dtp.getDiagram();
+					
+						if (ModelUtils.existsPackage(diagram)){
+							EPackage currentEcoreDiagram = ModelUtils.getBusinessModel(diagram);					
+							if (ecoreDiagram!=currentEcoreDiagram) {
+								ecoreDiagram = currentEcoreDiagram;
+								viewer.setInput(getViewSite());
+								viewer.getControl().setFocus();
+							}
+						} else {
+							ecoreDiagram = null;
 							viewer.setInput(getViewSite());
 							viewer.getControl().setFocus();
 						}
 					} else {
 						ecoreDiagram = null;
-						viewer.setInput(getViewSite());
-						viewer.getControl().setFocus();
+						viewer.setInput(null);
 					}
 				}
-			}		
+			}
 		} else {
-			ecoreDiagram = null;
-			viewer.setInput(null);
+		ecoreDiagram = null;
+		viewer.setInput(null);
 		}	
 	}
-	
-	
-	
-	
-
 }

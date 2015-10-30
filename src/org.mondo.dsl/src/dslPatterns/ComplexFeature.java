@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.ComplexFeature#getAndChildren <em>And Children</em>}</li>
  *   <li>{@link dslPatterns.ComplexFeature#getOrChildren <em>Or Children</em>}</li>
  *   <li>{@link dslPatterns.ComplexFeature#getXorChildren <em>Xor Children</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getComplexFeature()
  * @model abstract="true"

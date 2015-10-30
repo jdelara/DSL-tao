@@ -3,10 +3,10 @@
 <schema targetNamespace="org.mondo.editor.extensionpoints" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.mondo.editor.extensionpoints" id="org.mondo.editor.extensionpoints.createModularProject" name="CreateModularProject"/>
+         <meta.schema plugin="org.mondo.editor.extensionpoints" id="org.mondo.editor.extensionpoints.patternImplementation" name="PatternImplementation"/>
       </appinfo>
       <documentation>
-         This CreateModularProject extension point allows third-party plug-ins to define the code to run for creating modular projects.
+         This PatternImplementation extension point allows third-party plug-ins to define the code to run for executing pattern implementations.
       </documentation>
    </annotation>
 

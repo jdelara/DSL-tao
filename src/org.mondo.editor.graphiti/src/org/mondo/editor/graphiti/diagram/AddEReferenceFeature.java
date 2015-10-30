@@ -17,6 +17,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
+import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.mondo.editor.graphiti.diagram.utils.DiagramStyles;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
@@ -80,7 +81,7 @@ public class AddEReferenceFeature extends AbstractAddFeature {
         link(connection, addedEReference);
  
         //ARROW POS 0
-        DiagramUtils.createDirDecorator(getDiagram(), connection, 1.0,DecoratorFigure.EREF_DECORATOR_DIR);
+        DiagramUtils.createDirDecorator(getDiagram(), connection, 1.0,DecoratorFigure.EREF_DECORATOR_DIR, ColorConstant.BLACK);
        
         
         //NAME POS 1
@@ -151,7 +152,7 @@ public class AddEReferenceFeature extends AbstractAddFeature {
 
 		if (addedEReference.isContainment()) DiagramUtils.createContainmentDecorator(getDiagram(), connection, 0);
         if (addedEReference.getEOpposite()!=null){
-        	DiagramUtils.createDirDecorator(getDiagram(), connection, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR);
+        	DiagramUtils.createDirDecorator(getDiagram(), connection, 0, DecoratorFigure.EREF_DECORATOR_OPPOSITE_DIR, ColorConstant.BLACK);
         	DiagramUtils.setDecoratorText(connection,addedEReference.getEOpposite().getName() , DecoratorText.EREF_DECORATOR_NAME_OP);
         	DiagramUtils.setDecoratorText(connection,addedEReference.getEOpposite().getLowerBound()+".."+((addedEReference.getEOpposite().getUpperBound() == -1 ? "*" : addedEReference.getEOpposite().getUpperBound())) , DecoratorText.EREF_DECORATOR_BOUNDS_OP);
         	DiagramUtils.setDecoratorText(connection,DiagramUtils.getOrderedUniqueText(addedEReference.getEOpposite()), DecoratorText.EREF_DECORATOR_ORUNI_OP);

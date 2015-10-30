@@ -26,7 +26,9 @@ import org.mondo.editor.ui.utils.ImagesUtils;
  */
 public class MondoDiagramDecorator implements ILightweightLabelDecorator {
 
-	private String iconPath = "icons/mondo.gif";
+	private String iconPathMondo = "icons/mondo.gif";
+	private String iconPathAnalysisMondo = "icons/analysisMondo.gif";
+	private String iconPathDesignMondo = "icons/designMondo.gif";
 	
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -65,12 +67,13 @@ public class MondoDiagramDecorator implements ILightweightLabelDecorator {
 							if (obj instanceof Diagram) 
 								type = (((Diagram)obj).getDiagramTypeId());
 						}
-						
-						if (type.compareToIgnoreCase("mondo")==0){
-							ImageDescriptor descriptor = ImagesUtils.getImageDescriptor(iconPath);
-							int quadrant = IDecoration.TOP_RIGHT;
-							decoration.addOverlay(descriptor,quadrant);
-						}	
+						ImageDescriptor descriptor=null;
+						if ((type.compareToIgnoreCase("mondo")==0)) 
+							descriptor = ImagesUtils.getImageDescriptor(iconPathDesignMondo);
+						else  if (type.compareToIgnoreCase("mmDSML")==0)
+							descriptor = ImagesUtils.getImageDescriptor(iconPathAnalysisMondo);	
+						int quadrant = IDecoration.TOP_RIGHT;
+						decoration.addOverlay(descriptor,quadrant);
 					}
 				}catch(Exception e){
 					
@@ -80,7 +83,7 @@ public class MondoDiagramDecorator implements ILightweightLabelDecorator {
 			IProject project= (IProject) resource;
 			try {
 				if (project.getNature(MondoNature.ID)!= null){
-					ImageDescriptor descriptor = ImagesUtils.getImageDescriptor(iconPath);
+					ImageDescriptor descriptor = ImagesUtils.getImageDescriptor(iconPathMondo);
 					int quadrant = IDecoration.TOP_RIGHT;
 					decoration.addOverlay(descriptor,quadrant);
 				}

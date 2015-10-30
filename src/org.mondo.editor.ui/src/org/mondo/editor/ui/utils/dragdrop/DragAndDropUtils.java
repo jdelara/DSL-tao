@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.Utils;
 import org.mondo.editor.ui.utils.ImagesUtils;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternMenuAdapter;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 
@@ -82,7 +83,7 @@ public class DragAndDropUtils {
 	    treeScopeLabel.setAlignment(SWT.CENTER);
 
 	    TreeViewer viewer = new TreeViewer(drop, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL
-	        | SWT.SINGLE);
+	        | SWT.SINGLE | SWT.FULL_SELECTION);
 	    final Tree addressTree = viewer.getTree();
 	    addressTree.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 	        | GridData.FILL_VERTICAL));

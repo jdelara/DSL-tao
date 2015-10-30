@@ -13,11 +13,12 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.ClassInterface#getRef <em>Ref</em>}</li>
  *   <li>{@link dslPatterns.ClassInterface#isAbstract <em>Abstract</em>}</li>
+ *   <li>{@link dslPatterns.ClassInterface#isAbstractMatters <em>Abstract Matters</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getClassInterface()
  * @model
@@ -66,5 +67,32 @@ public interface ClassInterface extends MMInterface {
 	 * @generated
 	 */
 	void setAbstract(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Abstract Matters</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Abstract Matters</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Abstract Matters</em>' attribute.
+	 * @see #setAbstractMatters(boolean)
+	 * @see dslPatterns.DslPatternsPackage#getClassInterface_AbstractMatters()
+	 * @model default="true"
+	 * @generated
+	 */
+	boolean isAbstractMatters();
+
+	/**
+	 * Sets the value of the '{@link dslPatterns.ClassInterface#isAbstractMatters <em>Abstract Matters</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstract Matters</em>' attribute.
+	 * @see #isAbstractMatters()
+	 * @generated
+	 */
+	void setAbstractMatters(boolean value);
 
 } // ClassInterface

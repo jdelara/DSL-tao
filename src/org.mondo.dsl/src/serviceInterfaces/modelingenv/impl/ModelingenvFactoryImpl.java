@@ -28,7 +28,7 @@ public class ModelingenvFactoryImpl extends EFactoryImpl implements ModelingenvF
 	 */
 	public static ModelingenvFactory init() {
 		try {
-			ModelingenvFactory theModelingenvFactory = (ModelingenvFactory)EPackage.Registry.INSTANCE.getEFactory("http://mondo.org/serviceInterfaces/modelingenv"); 
+			ModelingenvFactory theModelingenvFactory = (ModelingenvFactory)EPackage.Registry.INSTANCE.getEFactory(ModelingenvPackage.eNS_URI);
 			if (theModelingenvFactory != null) {
 				return theModelingenvFactory;
 			}

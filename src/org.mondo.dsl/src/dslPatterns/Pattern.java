@@ -12,14 +12,15 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.Pattern#getRootVariant <em>Root Variant</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getServices <em>Services</em>}</li>
  *   <li>{@link dslPatterns.Pattern#getMaxInstances <em>Max Instances</em>}</li>
+ *   <li>{@link dslPatterns.Pattern#getTags <em>Tags</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getPattern()
  * @model
@@ -146,5 +147,21 @@ public interface Pattern extends EObject {
 	 * @generated
 	 */
 	void setMaxInstances(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Tags</b></em>' reference list.
+	 * The list contents are of type {@link dslPatterns.Tag}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Tags</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tags</em>' reference list.
+	 * @see dslPatterns.DslPatternsPackage#getPattern_Tags()
+	 * @model
+	 * @generated
+	 */
+	EList<Tag> getTags();
 
 } // Pattern

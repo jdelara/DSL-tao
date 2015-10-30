@@ -18,6 +18,7 @@ public class MoveEAttributeFeature extends DefaultMoveShapeFeature {
 
 	@Override
 	public boolean canMoveShape(IMoveShapeContext context) {
+		
 		return false;
 	}
 }

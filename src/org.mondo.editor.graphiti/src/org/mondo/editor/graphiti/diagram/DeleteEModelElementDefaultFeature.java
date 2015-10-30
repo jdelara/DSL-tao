@@ -31,7 +31,5 @@ public class DeleteEModelElementDefaultFeature extends DefaultDeleteFeature {
 				}	
 		 }
 		 return !(pictogramElement instanceof Diagram);
-
-	}
-	
+	}	
 }

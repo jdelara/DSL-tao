@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.Service#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.Service#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.Service#isMandatory <em>Mandatory</em>}</li>
  *   <li>{@link dslPatterns.Service#getPorts <em>Ports</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getService()
  * @model

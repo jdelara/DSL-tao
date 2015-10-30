@@ -26,6 +26,7 @@ import dslPatterns.Pattern;
 public class EvaluateExtensionPoint {
 
 	private static final String IPATTERN_IMPLEMENTATION_ID ="org.mondo.editor.extensionpoints.patternImplementation";
+	private static final String IPROCESS_METAMODEL_IMPLEMENTATION_ID ="org.mondo.editor.extensionpoints.processMetaModelImplementation";
 	private static final String IPATTERN_IMPLEMENTATION_ATTRIBUTE = "pattern";
 	
 	/**
@@ -63,20 +64,6 @@ public class EvaluateExtensionPoint {
 	}
 	
 	/**
-	 * Static method that returns instance of pattern given by its name.
-	 * @param patterns - pattern instances
-	 * @param name - name of the pattern
-	 * @return pattern instance object
-	 */
-	private static PatternInstance getPatternInstance(PatternInstances patterns, String name){
-		for (PatternInstance pattern: patterns.getAppliedPatterns()){
-			if (pattern.getIdent().compareToIgnoreCase(name)==0) return pattern;
-		}
-		return null;
-	}
-	
-	
-	/**
 	 * Method that searches the plug-in that implement the functionality and execute "getOptimalElements"
 	 * @param registry - extension registry
 	 * @param pattern - pattern name
@@ -106,7 +93,30 @@ public class EvaluateExtensionPoint {
 		else return false;
 	}
 	
-	
+	/**
+	 * Method that executes the method "Process MetaModel"
+	 * @param pi - process meta-model implementation
+	 * @param ePack - meta-model initial package
+	 * @return information about the validation and success
+	 */
+	public static ExecuteInfo evaluateProcessMetaModel(IProcessMetaModelImplementation pi,EPackage ePack) {
+		if (pi!= null) return executeProcessMetaModelExtension(pi, ePack);
+		return null;
+		
+	}
+		
+	/**
+	 * Static method that returns instance of pattern given by its name.
+	 * @param patterns - pattern instances
+	 * @param name - name of the pattern
+	 * @return pattern instance object
+	 */
+	private static PatternInstance getPatternInstance(PatternInstances patterns, String name){
+		for (PatternInstance pattern: patterns.getAppliedPatterns()){
+			if (pattern.getIdent().compareToIgnoreCase(name)==0) return pattern;
+		}
+		return null;
+	}
 	
 	/**
 	 * Method that returns the instance that implements the interface "IPattern"
@@ -132,6 +142,30 @@ public class EvaluateExtensionPoint {
 		}
 		return null;
 	}
+	
+	
+	/**
+	 * Method that returns the instance that implements the interface "IPattern"
+	 * @param registry - extension registry
+	 * @param pattern - pattern name of the extension.
+	 * @return IPatternImplementation
+	 */
+	public static IProcessMetaModelImplementation getInstanceIProcessMetaModel(IExtensionRegistry registry){
+		IConfigurationElement[] config = registry.getConfigurationElementsFor(IPROCESS_METAMODEL_IMPLEMENTATION_ID);
+		try {
+			for (IConfigurationElement e : config) {				
+				final Object o = e.createExecutableExtension("class");
+				if (o instanceof IProcessMetaModelImplementation) {		
+					//one extension
+					return (IProcessMetaModelImplementation)o;
+				}
+			}
+		} catch (CoreException ex) {
+			System.out.println(ex.getMessage());
+		}
+		return null;
+	}
+	
 
 	/**
 	 * Method that executes the method validation and, if it isn't errors, execute the method "execute" of the extension and returns the information about the execution.
@@ -174,6 +208,24 @@ public class EvaluateExtensionPoint {
 		return runnable.getOptimalElements();
 		
 	}
+	
+	/**
+	 * Method that executes the method validation and, if it isn't errors, execute the method "execute" of the extension and returns the information about the execution.
+	 * @param o - instance that implements the interface "IPattern"
+	 * @param ePack - meta-model initial package.
+	 * @param pattern - pattern instance
+	 * @param iPath - IPath diagram
+	 * @return CreationInfo
+	 */
+	private static ExecuteInfo executeProcessMetaModelExtension(final Object o,final EPackage ePack) {
+		ProcessMetaModelRunnable runnable = new ProcessMetaModelRunnable((IProcessMetaModelImplementation)o, ePack);
+		SafeRunner.run(runnable);
+		return runnable.getCreationInfo();
+		
+	}
+	
+	
+	
 	
 	/**
 	 * Method that execute the method applyPattern.

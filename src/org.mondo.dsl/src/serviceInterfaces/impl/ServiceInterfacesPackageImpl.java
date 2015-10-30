@@ -6,6 +6,8 @@ import dslPatterns.DslPatternsPackage;
 
 import dslPatterns.impl.DslPatternsPackageImpl;
 
+import mindMapDSML.MindMapDSMLPackage;
+import mindMapDSML.impl.MindMapDSMLPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -13,6 +15,10 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import runtimePatterns.RuntimePatternsPackage;
+import runtimePatterns.impl.RuntimePatternsPackageImpl;
+import runtimeServices.RuntimeServicesPackage;
+import runtimeServices.impl.RuntimeServicesPackageImpl;
 import serviceInterfaces.Interface;
 import serviceInterfaces.InterfaceRepository;
 import serviceInterfaces.Packageable;

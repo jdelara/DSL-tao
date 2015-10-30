@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getAndChildren <em>And Children</em>}</li>
  *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getOrChildren <em>Or Children</em>}</li>
  *   <li>{@link dslPatterns.impl.ComplexFeatureImpl#getXorChildren <em>Xor Children</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

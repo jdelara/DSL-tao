@@ -9,6 +9,7 @@ import dslPatterns.DslPatternsPackage;
 import dslPatterns.Pattern;
 
 import dslPatterns.Service;
+import dslPatterns.Tag;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -20,6 +21,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -28,14 +30,15 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.impl.PatternImpl#getRootVariant <em>Root Variant</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getName <em>Name</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getServices <em>Services</em>}</li>
  *   <li>{@link dslPatterns.impl.PatternImpl#getMaxInstances <em>Max Instances</em>}</li>
+ *   <li>{@link dslPatterns.impl.PatternImpl#getTags <em>Tags</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -119,6 +122,16 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 	 * @ordered
 	 */
 	protected int maxInstances = MAX_INSTANCES_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getTags() <em>Tags</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTags()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Tag> tags;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -262,6 +275,18 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Tag> getTags() {
+		if (tags == null) {
+			tags = new EObjectResolvingEList<Tag>(Tag.class, this, DslPatternsPackage.PATTERN__TAGS);
+		}
+		return tags;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -291,6 +316,8 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 				return getServices();
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				return getMaxInstances();
+			case DslPatternsPackage.PATTERN__TAGS:
+				return getTags();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -320,6 +347,10 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				setMaxInstances((Integer)newValue);
 				return;
+			case DslPatternsPackage.PATTERN__TAGS:
+				getTags().clear();
+				getTags().addAll((Collection<? extends Tag>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -347,6 +378,9 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				setMaxInstances(MAX_INSTANCES_EDEFAULT);
 				return;
+			case DslPatternsPackage.PATTERN__TAGS:
+				getTags().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -369,6 +403,8 @@ public class PatternImpl extends EObjectImpl implements Pattern {
 				return services != null && !services.isEmpty();
 			case DslPatternsPackage.PATTERN__MAX_INSTANCES:
 				return maxInstances != MAX_INSTANCES_EDEFAULT;
+			case DslPatternsPackage.PATTERN__TAGS:
+				return tags != null && !tags.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

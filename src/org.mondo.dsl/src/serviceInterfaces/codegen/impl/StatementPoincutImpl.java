@@ -11,8 +11,6 @@ import serviceInterfaces.codegen.StatementPoincut;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Statement Poincut</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

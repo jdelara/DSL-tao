@@ -12,9 +12,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: dslPatterns,
  dslPatterns.impl,
  dslPatterns.util,
- runtimeLayers,
- runtimeLayers.impl,
- runtimeLayers.util,
+ mindMapDSML,
+ mindMapDSML.impl,
+ mindMapDSML.util,
  runtimePatterns,
  runtimePatterns.impl,
  runtimePatterns.util,
@@ -31,6 +31,6 @@ Export-Package: dslPatterns,
  serviceInterfaces.modelingenv.util,
  serviceInterfaces.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.common
 Bundle-ActivationPolicy: lazy

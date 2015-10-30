@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="WorkflowLanguage" nsURI="http://mondo.dsl.org/mmPatterns/workflowLanguage"
     nsPrefix="workflowLanguage">
-  <eClassifiers xsi:type="ecore:EClass" name="Node">
+  <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="outs" upperBound="-1" eType="#//FlowEdge"
         eOpposite="#//FlowEdge/in"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ins" upperBound="-1" eType="#//FlowEdge"
@@ -10,7 +10,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//Node">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParallelSplit" eSuperTypes="#//Node"/>
   <eClassifiers xsi:type="ecore:EClass" name="Synchronization" eSuperTypes="#//Node"/>
@@ -20,7 +19,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="FinalTask" eSuperTypes="#//Node">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTerminating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FlowEdge">
+  <eClassifiers xsi:type="ecore:EClass" name="FlowEdge" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="in" eType="#//Node" eOpposite="#//Node/outs"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="out" eType="#//Node" eOpposite="#//Node/ins"/>
   </eClassifiers>
@@ -29,5 +28,8 @@
         eType="#//Node" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
         eType="#//FlowEdge" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialTask" eSuperTypes="#//Node">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

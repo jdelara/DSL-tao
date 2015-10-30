@@ -30,11 +30,11 @@ import serviceInterfaces.modelingenv.ModelingenvPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.impl.InjectorAcceptorInterfaceL0Impl#getInjectorImplements <em>Injector Implements</em>}</li>
  *   <li>{@link serviceInterfaces.modelingenv.impl.InjectorAcceptorInterfaceL0Impl#getMode <em>Mode</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

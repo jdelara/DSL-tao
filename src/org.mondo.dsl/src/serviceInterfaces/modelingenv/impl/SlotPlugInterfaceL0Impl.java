@@ -26,10 +26,10 @@ import serviceInterfaces.modelingenv.SlotPlugInterfaceL0;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.impl.SlotPlugInterfaceL0Impl#getSlot <em>Slot</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

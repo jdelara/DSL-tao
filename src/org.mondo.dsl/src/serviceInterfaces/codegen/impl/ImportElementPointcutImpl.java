@@ -11,8 +11,6 @@ import serviceInterfaces.codegen.ImportElementPointcut;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Import Element Pointcut</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

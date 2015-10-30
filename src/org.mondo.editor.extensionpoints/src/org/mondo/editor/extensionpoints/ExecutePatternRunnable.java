@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.EPackage;
 import runtimePatterns.PatternInstance;
 
 /**
- * Class that implements the interface: ISafeRunnable, and allows to create a modular project 
- * according to the applied "Hierarchical Project" pattern.
+ * Class that implements the interface: ISafeRunnable, and allows to run the implementation 
+ * according to the applied pattern.
  * The validation is included.
  * 
  * @author miso partner AnaPescador

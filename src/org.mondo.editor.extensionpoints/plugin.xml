@@ -2,5 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.mondo.editor.extensionpoints.patternImplementation" name="PatternImplementation" schema="schema/org.mondo.editor.extensionpoints.patternImplementation.exsd"/>
+   <extension-point id="org.mondo.editor.extensionpoints.processMetaModelImplementation" name="ProcessMetaModelImplementation" schema="schema/org.mondo.editor.extensionpoints.processMetaModelImplementation.exsd"/>
 
 </plugin>

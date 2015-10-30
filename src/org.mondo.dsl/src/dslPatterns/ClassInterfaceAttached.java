@@ -12,12 +12,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link dslPatterns.ClassInterfaceAttached#getRefIntAtt <em>Ref Int Att</em>}</li>
  *   <li>{@link dslPatterns.ClassInterfaceAttached#getFeatIntAtt <em>Feat Int Att</em>}</li>
  *   <li>{@link dslPatterns.ClassInterfaceAttached#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see dslPatterns.DslPatternsPackage#getClassInterfaceAttached()
  * @model

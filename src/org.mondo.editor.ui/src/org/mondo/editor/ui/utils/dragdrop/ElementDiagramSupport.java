@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 
 import dslPatterns.FeatureInstance;
 

@@ -4,10 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -23,6 +26,13 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.ecore.Constraint;
+import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.ecore.OCL.Helper;
+import org.eclipse.ocl.ecore.OCL.Query;
+import org.eclipse.ocl.ecore.OCLExpression;
+import org.eclipse.ocl.utilities.ExpressionInOCL;
 import org.eclipse.ui.PlatformUI;
 import org.mondo.editor.graphiti.diagram.CreateEAttributeFeature;
 import org.mondo.editor.graphiti.diagram.CreateEClassFeature;
@@ -33,7 +43,6 @@ import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.utils.ModelsUtils;
-import org.mondo.editor.ui.utils.dragdrop.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.services.PatternServiceInfo;
 import org.mondo.editor.ui.utils.services.RuntimeServicesModelUtils;
 
@@ -62,10 +71,11 @@ public final class PatternApplicationUtils {
 	 * @param diagramBehavior
 	 * @param pattern 
 	 */
-	public static void applyPattern( final List<MMInterfaceRelDiagram> patternRelDiagram, final DiagramBehavior diagramBehavior, final Pattern pattern, final PatternInstances pis){
+	public static void applyPattern( final List<MMInterfaceRelDiagram> patternRelDiagram, final DiagramBehavior diagramBehavior, final Pattern pattern, final PatternInstances pis, final String patternInstanceName, final boolean attached){
 	
 		final IFeatureProvider fp = diagramBehavior.getDiagramTypeProvider().getFeatureProvider();
-		final String patternName = pattern.getName();
+		//final String patternName = pattern.getName();
+
 		diagramBehavior.getEditingDomain().getCommandStack().execute(new RecordingCommand(diagramBehavior.getEditingDomain()) {
 	
 			@Override
@@ -76,8 +86,9 @@ public final class PatternApplicationUtils {
 					diagramBehavior.getDiagramTypeProvider().getFeatureProvider().link(diagramBehavior.getDiagramTypeProvider().getDiagram(), pack);
 				} else 	pack = ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram());
 				
-				String patternInstanceName = RuntimePatternsModelUtils.getPatternNameValid(pis, patternName);
+				//String patternInstanceName = RuntimePatternsModelUtils.getPatternNameValid(pis, patternName);
 				PatternInstance pi = RuntimePatternsModelUtils.createPatternInstance(pis, patternInstanceName, pattern);
+				pi.setAttached(attached);
 				RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, pack, patternInstanceName);
 
 				List<MMInterfaceRelDiagram> newspatternRelDiagram = new LinkedList<MMInterfaceRelDiagram>();
@@ -99,7 +110,7 @@ public final class PatternApplicationUtils {
 						//SUPERTYPES
 						if (info.getMmInterface() instanceof ClassInterface){
 							createESuperTypes(patternRelDiagram,diagramBehavior, fp, info);
-						}//REFERENCES AND INTERFACES
+						}//REFERENCES AND FEATURETYPE
 						else if ((info.getMmInterface() instanceof ReferenceInterface) || (info.getMmInterface() instanceof FeatureType)){
 							applyEStructuralFeatureInterface(patternRelDiagram,diagramBehavior, fp, pi, info);  
 						}	
@@ -130,6 +141,7 @@ public final class PatternApplicationUtils {
 				}		
 			}
 		});
+		
 	}
 	
 	/**
@@ -149,7 +161,38 @@ public final class PatternApplicationUtils {
 				selObj = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), info.getElementDiagram());
 				if ((selObj == null) ){
 				EClass eclass = PatternUtils.getEClass((ClassInterface)info.getMmInterface());
+
+				/////////////PRUEBASSSSSSSSSSSSSSSSSSS/////////////////////////////////////////////////////////////////////
+				
+				EAnnotation annot = eclass.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot");
+				if (annot != null){
+					OCL ocl = OCL.newInstance();
+					Helper helper = ocl.createOCLHelper();
+				    helper.setContext(eclass);
+				    
+				      //EAnnotation ocl = eFeature.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				      String derive = (String) annot.getDetails().get("oneInitial");
+				      try {
+				        OCLExpression generalDeriveOCL = helper.createQuery(derive);
+				        
+				        Constraint cont = helper.createInvariant(derive);
+				        ExpressionInOCL<EClassifier, EParameter> prueba = cont.getSpecification();
+
+				        for (EObject obj: generalDeriveOCL.eContents()){
+				        	System.out.println(obj.toString());
+				        }
+				      } catch (ParserException e) {
+				        throw new UnsupportedOperationException(e.getLocalizedMessage());
+				      }
+				}
+			      
+			    //////////////////fin PRUEBASSSSSSSSSSSSSSSSSSS////////////////////////////////////////////////////////////
+				
 				EClass newEclass = createEClass(diagramBehavior, fp, eclass);
+				
+				/////////////PRUEBASSSSSSSSSSSSSSSSSSS/////////////////////////////////////////////////////////////////////
+				/*if (annot != null)*/ newEclass.getEAnnotations().addAll(eclass.getEAnnotations());
+				////////////////fin PRUEBASSSSSSSSSSSSSSSSSSS/////////////////////////////////////////////////////////////////
 				
 				info.setElementDiagram(newEclass.getName());
 				selObj = newEclass;
@@ -168,13 +211,15 @@ public final class PatternApplicationUtils {
 			for (MMInterfaceRelDiagram parent: getSuperTypesAbstract(patternRelDiagram, info)){
 				//not neccesary..
 				if (PatternUtils.isAbstract(parent, patternRelDiagram)){
-					newspatternRelDiagram.addAll(createAttRefAbstractClass(pi, parent,info, diagramBehavior, patternRelDiagram));
+					newspatternRelDiagram.addAll(createAttRefAbstractClass(pi, parent,info, diagramBehavior, patternRelDiagram, cri));
 					//copyAttRefParentAbstractClasses(patternRelDiagram, info);
-					for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, parent)){
+					
+					//20/07/2015
+					/*for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, parent)){
 						 if (child.getMmInterface() instanceof FeatureInstance){
-							RuntimePatternsModelUtils.createInstanceFeatureRoleInstance(cri, (FeatureInstance)child.getMmInterface(), child.getElementDiagram());
+							 RuntimePatternsModelUtils.createInstanceFeatureRoleInstance(cri, (FeatureInstance)child.getMmInterface(), child.getElementDiagram());
 						 }
-					 }
+					 }*/
 				}
 			}							
 		}
@@ -348,37 +393,58 @@ public final class PatternApplicationUtils {
 		  for (ClassInterfaceAttached cia: pma.getClassIntAtt()){ 
 			  ClassInterface ci = (ClassInterface)cia.getType();
 			  if (PatternUtils.existsEClass(ci)){
-				  MMInterfaceRelDiagram atElement = getMmInterfaceRelDiagramAttached(patternRelDiagram, cia);
-				  String elementDiagram = "";
-				  if (atElement != null)elementDiagram = atElement.getElementDiagram();
-				  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, elementDiagram, patternStructure);
-				  patternStructure.add(relElement);
-
-				  //References
-				  for (ReferenceInterfaceAttached ria: cia.getRefIntAtt()){  
-					  ReferenceInterface ri = (ReferenceInterface) ria.getType();
-					  if (PatternUtils.existsEReference(ri)){
-						  MMInterfaceRelDiagram atElementR = getMmInterfaceRelDiagramAttached(patternRelDiagram, ria);
-						  String elementDiagramR = "";
-						  if (atElementR != null)elementDiagramR = atElementR.getElementDiagram();
-						  MMInterfaceRelDiagram relElementR = new MMInterfaceRelDiagram(ri, elementDiagramR, patternStructure);
-						  patternStructure.add(relElementR);
-					  }
-				  }
-				  
-				  for (FeatureInterfaceAttached fia: cia.getFeatIntAtt()){  
-					  FeatureInterface fi = (FeatureInterface) fia.getType();
-					  if (PatternUtils.existsEAttribute(fi))
-						  if (fi instanceof FeatureType){
-							  MMInterfaceRelDiagram atElementF = getMmInterfaceRelDiagramAttached(patternRelDiagram, fia);
-							  String elementDiagramF = "";
-							  if (atElementF!=null) elementDiagramF = atElementF.getElementDiagram();
-							  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi,elementDiagramF, patternStructure, relElement);
-							  patternStructure.add(relElementF);
-						  }else {//FeatureInstance
-							  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi, getFeatureInstanceValue(cia, (FeatureInstance)fi), patternStructure, relElement);
-							  patternStructure.add(relElementF);
+				  for (MMInterfaceRelDiagram atElement: getMmInterfaceRelDiagramAttached(patternRelDiagram, cia)){
+					  String elementDiagram = "";
+					  if (atElement != null)elementDiagram = atElement.getElementDiagram();
+					  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, elementDiagram, patternStructure);
+					  patternStructure.add(relElement);
+					  
+					  //References
+					  for (ReferenceInterfaceAttached ria: cia.getRefIntAtt()){  
+						  ReferenceInterface ri = (ReferenceInterface) ria.getType();
+						  if (PatternUtils.existsEReference(ri)){
+							  
+							  for (MMInterfaceRelDiagram atElementR:getMmInterfaceRelDiagramAttached(patternRelDiagram, ria)){
+								  String elementDiagramR = "";
+								  if (atElementR != null){
+									  if (atElementR.getParent().equals(atElement)){
+										  elementDiagramR = atElementR.getElementDiagram();
+										  MMInterfaceRelDiagram relElementR = new MMInterfaceRelDiagram(ri, elementDiagramR, patternStructure, relElement);
+										  patternStructure.add(relElementR);
+									  }
+								  } else {
+									  MMInterfaceRelDiagram relElementR = new MMInterfaceRelDiagram(ri, elementDiagramR, patternStructure, relElement);
+									  patternStructure.add(relElementR);
+								  }
+							  }
+							  
 						  }
+					  }
+					  
+					  for (FeatureInterfaceAttached fia: cia.getFeatIntAtt()){  
+						  FeatureInterface fi = (FeatureInterface) fia.getType();
+						  if (PatternUtils.existsEAttribute(fi))
+							  if (fi instanceof FeatureType){
+								  
+								  for(MMInterfaceRelDiagram atElementF : getMmInterfaceRelDiagramAttached(patternRelDiagram, fia)){
+									  String elementDiagramF = "";
+									  if (atElementF!=null){
+										  if (atElementF.getParent().equals(atElement)){
+											  elementDiagramF = atElementF.getElementDiagram();
+										  	  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi,elementDiagramF, patternStructure, relElement);
+										  	  patternStructure.add(relElementF);
+										  }
+									  }else {
+										  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi,elementDiagramF, patternStructure, relElement);
+									  	  patternStructure.add(relElementF);
+									  }
+								  }
+							  
+							  }else {//FeatureInstance
+								  MMInterfaceRelDiagram relElementF = new MMInterfaceRelDiagram(fi, getFeatureInstanceValue(cia, (FeatureInstance)fi), patternStructure, relElement);
+								  patternStructure.add(relElementF);
+							  }
+					  }
 				  }
 			  }
 		  }
@@ -409,30 +475,34 @@ public final class PatternApplicationUtils {
 	}
 	
 	/**
-	 * Static method that returns the MMInterfaceRelDiagram object pointed by the given MMInterfaceAttached of the list "patternRelDiagram"
+	 * Static method that returns the MMInterfaceRelDiagram objects pointed by the given MMInterfaceAttached of the list "patternRelDiagram"
 	 * @param patternRelDiagram
 	 * @param mmia MMInterfaceAttached
-	 * @return MMInterfaceRelDiagram object
+	 * @return list of MMInterfaceRelDiagram objects
 	 */
-	private static MMInterfaceRelDiagram getMmInterfaceRelDiagramAttached (List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceAttached mmia){
-		for (MMInterface mmi : mmia.getAttached()){
-			MMInterfaceRelDiagram mmird = getMmInterfaceRelDiagram (patternRelDiagram, mmi);
-			if (mmird!=null) return mmird;
+	private static List<MMInterfaceRelDiagram> getMmInterfaceRelDiagramAttached (List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceAttached mmia){
+		
+		List<MMInterfaceRelDiagram> mmirdL = new LinkedList<MMInterfaceRelDiagram>();
+		if (mmia.getAttached().size()==0) mmirdL.add(null);
+		else for (MMInterface mmi : mmia.getAttached()){
+			List<MMInterfaceRelDiagram> mmirds = getMmInterfaceRelDiagram (patternRelDiagram, mmi);
+			if (mmirds.size()!=0) mmirdL.addAll(mmirds);
 		}
-		return null;
+		return mmirdL;
 	}
 	
 	/**
 	 * Static method that returns the MMInterfaceRelDiagram object related to the mminterface of the list "patternRelDiagram"
 	 * @param patternRelDiagram
 	 * @param mmi MMInterface
-	 * @return MMInterfaceRelDiagram object
+	 * @return List of MMInterfaceRelDiagram objects
 	 */
-	public static MMInterfaceRelDiagram getMmInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, MMInterface mmi){
+	public static List<MMInterfaceRelDiagram> getMmInterfaceRelDiagram (List<MMInterfaceRelDiagram> patternRelDiagram, MMInterface mmi){
+		List<MMInterfaceRelDiagram> mmirdL = new LinkedList<MMInterfaceRelDiagram>();
 		for (MMInterfaceRelDiagram mmird : patternRelDiagram){
-			if (mmird.getMmInterface().equals(mmi)) return mmird;
+			if (mmird.getMmInterface().equals(mmi)) mmirdL.add(mmird);
 		}
-		return null;
+		return mmirdL;
 	}
 	
 	/**
@@ -460,7 +530,7 @@ public final class PatternApplicationUtils {
 	 * @param patternRelDiagram
 	 * @return list of MMInterfaceRelDiagram objects
 	 */
-	private static List<MMInterfaceRelDiagram> createAttRefAbstractClass(PatternInstance pi, MMInterfaceRelDiagram abstractParent,MMInterfaceRelDiagram info, DiagramBehavior diagramBehavior, List<MMInterfaceRelDiagram> patternRelDiagram ){
+	private static List<MMInterfaceRelDiagram> createAttRefAbstractClass(PatternInstance pi, MMInterfaceRelDiagram abstractParent,MMInterfaceRelDiagram info, DiagramBehavior diagramBehavior, List<MMInterfaceRelDiagram> patternRelDiagram, ClassRoleInstance cri ){
 		List<MMInterfaceRelDiagram> newspatternRelDiagram = new LinkedList<MMInterfaceRelDiagram>();
 
 		for (MMInterfaceRelDiagram parent: getSuperTypesAbstract(patternRelDiagram, info)){					
@@ -473,6 +543,7 @@ public final class PatternApplicationUtils {
 						newspatternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), "",mmird.getOrder(), patternRelDiagram, info));					
 					} else if (mmird.getMmInterface() instanceof FeatureInstance){
 						newspatternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), mmird.getElementDiagram(), mmird.getOrder(),patternRelDiagram, info));
+						RuntimePatternsModelUtils.createInstanceFeatureRoleInstance(cri, (FeatureInstance)mmird.getMmInterface(), mmird.getElementDiagram());
 					}
 					else if (mmird.getMmInterface() instanceof ReferenceInterface){					
 						//modificar en el caso de que sea reflexiva5/5/2015
@@ -481,10 +552,7 @@ public final class PatternApplicationUtils {
 						if ((PatternUtils.isDirectReflexiveReference(patternRelDiagram,mmird))
 								|| (mmird.getToConcreteSubtype()==parent)) 
 							mmirdRef.setToConcreteSubtype(info);
-						
 						newspatternRelDiagram.add(mmirdRef);
-					
-					
 					}
 				}
 			}
@@ -720,6 +788,8 @@ public final class PatternApplicationUtils {
 		Connection con = crf.create(cc);
 
 		EReference eReference = (EReference)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(con);
+		
+		
 		return eReference;
 	}
 	
@@ -760,6 +830,13 @@ public final class PatternApplicationUtils {
 		Object[] atts = crf.create(cc);									
 		
 		((EAttribute)atts[0]).setEType(eAttObject.getEType());
+		((EAttribute)atts[0]).setLowerBound(eAttObject.getLowerBound());
+		((EAttribute)atts[0]).setUpperBound(eAttObject.getUpperBound());
+		((EAttribute)atts[0]).setUnique(eAttObject.isUnique());
+		((EAttribute)atts[0]).setID(eAttObject.isID());
+		((EAttribute)atts[0]).setOrdered(eAttObject.isOrdered());
+
+
 		return (EAttribute)atts[0];
 	}
 	
@@ -795,7 +872,7 @@ public final class PatternApplicationUtils {
 		for (MMInterfaceRelDiagram infoESuperEClass: getSuperTypesConcrete(patternRelDiagram, info)){
 			EObject eTypeEClass = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), infoESuperEClass.getElementDiagram());
 			//important!! create when it doesn't exist
-			if (!((EClass)contentEClass).getESuperTypes().contains(eTypeEClass)){
+			if (!((EClass)contentEClass).getEAllSuperTypes().contains(eTypeEClass)){
 				createESuperType(diagramBehavior, fp,contentEClass, eTypeEClass);
 			}			
 		}

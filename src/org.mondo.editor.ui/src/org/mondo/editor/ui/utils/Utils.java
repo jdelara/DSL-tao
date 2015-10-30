@@ -69,5 +69,22 @@ public final class Utils {
 	        return FileVisitResult.CONTINUE;
 	    }
 	}
+	
+	/**
+	 * Static method that returns the name of the operation system
+	 * @return the name of the OS
+	 */
+	public static String getOsName(){
+	      String OS = null;
+		  if(OS == null) { OS = System.getProperty("os.name"); }
+	      return OS;
+	}
+	/**
+	 * Static method that returns if the OS is windows.
+	 * @return true if is windows, false if not
+	 */
+	public static boolean isWindows(){
+	      return getOsName().startsWith("Windows");
+	}
 
 }

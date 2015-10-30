@@ -188,6 +188,18 @@ public class DslPatternsAdapterFactory extends AdapterFactoryImpl {
 				return createMMInterfaceAttachedAdapter();
 			}
 			@Override
+			public Adapter caseTagSet(TagSet object) {
+				return createTagSetAdapter();
+			}
+			@Override
+			public Adapter caseTag(Tag object) {
+				return createTagAdapter();
+			}
+			@Override
+			public Adapter caseCardinalityInterface(CardinalityInterface object) {
+				return createCardinalityInterfaceAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -624,6 +636,48 @@ public class DslPatternsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMMInterfaceAttachedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.TagSet <em>Tag Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.TagSet
+	 * @generated
+	 */
+	public Adapter createTagSetAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.Tag <em>Tag</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.Tag
+	 * @generated
+	 */
+	public Adapter createTagAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link dslPatterns.CardinalityInterface <em>Cardinality Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see dslPatterns.CardinalityInterface
+	 * @generated
+	 */
+	public Adapter createCardinalityInterfaceAdapter() {
 		return null;
 	}
 

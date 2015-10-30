@@ -18,10 +18,10 @@ import serviceInterfaces.modelingenv.ModelingenvPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.impl.ExtensionPointImpl#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

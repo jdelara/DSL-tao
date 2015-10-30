@@ -24,10 +24,10 @@ import serviceInterfaces.modelingenv.Operation;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link serviceInterfaces.modelingenv.impl.JavaInterfaceImpl#getOperations <em>Operations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
