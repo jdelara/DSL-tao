@@ -192,7 +192,8 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	    		new CollapseInheritanceFeature(this), new ExpandInheritanceFeature(this),
 	    		new ShowPatternInfoFeature(this),new HidePatternInfoFeature(this),
 	    		new DrillDownEPackageFeature(this),
-	    		new ExecuteAllPatternsFeature(this)};
+	    		new ExecuteAllPatternsFeature(this),
+	    		new LayoutDiagramFeature(this)};
 		
 		List<ICustomFeature> list = new ArrayList<ICustomFeature>(Arrays.asList(basicCf));
 		

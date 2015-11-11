@@ -7,20 +7,17 @@ import dslPatterns.ClassInterface;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import runtimePatterns.ClassRoleInstance;
 import runtimePatterns.FeatureRoleInstance;
+import runtimePatterns.PatternInstance;
 import runtimePatterns.ReferenceRoleInstance;
 import runtimePatterns.RuntimePatternsPackage;
 
@@ -170,10 +167,15 @@ public class ClassRoleInstanceImpl extends RoleInstanceImpl implements ClassRole
 	 * @generated
 	 */
 	public void setElement(EClass newElement) {
-		EClass oldElement = element;
-		element = newElement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.CLASS_ROLE_INSTANCE__ELEMENT, oldElement, element));
+		if (newElement!=null){
+			EClass oldElement = element;
+			element = newElement;
+			if (eNotificationRequired())
+				eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.CLASS_ROLE_INSTANCE__ELEMENT, oldElement, element));
+		} else {
+			PatternInstance pi = (PatternInstance)this.eContainer();
+			pi.getClassInstances().remove(this);
+		}
 	}
 
 	/**

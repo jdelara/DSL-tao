@@ -5,13 +5,12 @@ package runtimePatterns.impl;
 import dslPatterns.FeatureType;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import runtimePatterns.ClassRoleInstance;
 import runtimePatterns.RuntimePatternsPackage;
 import runtimePatterns.TypeFeatureRoleInstance;
 
@@ -139,10 +138,15 @@ public class TypeFeatureRoleInstanceImpl extends FeatureRoleInstanceImpl impleme
 	 * @generated
 	 */
 	public void setElement(EAttribute newElement) {
-		EAttribute oldElement = element;
-		element = newElement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.TYPE_FEATURE_ROLE_INSTANCE__ELEMENT, oldElement, element));
+		if (newElement != null){
+			EAttribute oldElement = element;
+			element = newElement;
+			if (eNotificationRequired())
+				eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.TYPE_FEATURE_ROLE_INSTANCE__ELEMENT, oldElement, element));
+		} else {
+			ClassRoleInstance pi = (ClassRoleInstance)this.eContainer();
+			pi.getReferenceInstances().remove(this);
+		}
 	}
 
 	/**

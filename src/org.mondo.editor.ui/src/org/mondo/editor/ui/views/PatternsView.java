@@ -198,17 +198,15 @@ public class PatternsView extends ViewPart {
 		private void loadTree (TreeParent parent, Category cat){
 			TreeParent catParent = new TreeParent(cat.getName());
 			TreeObject to = null;
-			if (cat.getSubcategories().size()==0){
-				for (Pattern pat : cat.getPatterns()){
-					to = new TreeObject(pat.getName());
-					to.setPattern(pat);
-					catParent.addChild(to);
-				}
-			} else {
-				for (Category subCat: cat.getSubcategories()){
-					loadTree (catParent, subCat);
-				}
+			for (Category subCat: cat.getSubcategories()){
+				loadTree (catParent, subCat);
 			}
+			for (Pattern pat : cat.getPatterns()){
+				to = new TreeObject(pat.getName());
+				to.setPattern(pat);
+				catParent.addChild(to);
+			}
+
 			parent.addChild(catParent);
 		}
 
@@ -334,7 +332,7 @@ public class PatternsView extends ViewPart {
 									@Override							        
 									protected void configureShell(Shell newShell) {
 									super.configureShell(newShell);
-									newShell.setSize(/*950*/925, /*675*/725);
+									newShell.setSize(925, 725);
 									}
 								};
 								dialog.create();
@@ -344,10 +342,6 @@ public class PatternsView extends ViewPart {
 								if ((result == Window.OK)&&(patternRelDiagram.size()!=0)){
 									PatternApplicationUtils.applyPattern(patternRelDiagram, editor.getDiagramBehavior(), pattern, pis, pw.getPatternInstaceName(), false);	
 									
-									//Check patternRelDiagram
-									/*for (MMInterfaceRelDiagram mmird : patternRelDiagram){
-										System.out.println(mmird.getTextMMInterfaceRelDiagram() + " ->"+mmird.getElementDiagram());
-									}*/
 									//Attached Patterns
 									PatternUtils.registerEpackages(project);
 

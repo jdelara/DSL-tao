@@ -5,13 +5,12 @@ package runtimePatterns.impl;
 import dslPatterns.ReferenceInterface;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import runtimePatterns.ClassRoleInstance;
 import runtimePatterns.ReferenceRoleInstance;
 import runtimePatterns.RuntimePatternsPackage;
 
@@ -139,10 +138,15 @@ public class ReferenceRoleInstanceImpl extends RoleInstanceImpl implements Refer
 	 * @generated
 	 */
 	public void setElement(EReference newElement) {
-		EReference oldElement = element;
-		element = newElement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.REFERENCE_ROLE_INSTANCE__ELEMENT, oldElement, element));
+		if (newElement != null){
+			EReference oldElement = element;
+			element = newElement;
+			if (eNotificationRequired())
+				eNotify(new ENotificationImpl(this, Notification.SET, RuntimePatternsPackage.REFERENCE_ROLE_INSTANCE__ELEMENT, oldElement, element));
+		}else {
+			ClassRoleInstance pi = (ClassRoleInstance)this.eContainer();
+			pi.getReferenceInstances().remove(this);
+		}
 	}
 
 	/**

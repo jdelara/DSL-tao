@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dslpat:PatternSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dslpat="http://mondo.org/dslPatterns" xmlns:servInt_modelingenv="http://mondo.org/serviceInterfaces/modelingenv">
+<dslpat:PatternSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dslpat="http://mondo.org/dslPatterns">
   <categories name="Domain" description="">
     <patterns name="Component Language" description="Component Language" tags="//@tagSet/@tags.1/@specifics.0">
       <rootVariant name="Component Language" description="Component Language">
@@ -703,9 +703,7 @@
         </andChildren>
       </rootVariant>
       <services name="Graph-based Editing" description="">
-        <ports xsi:type="dslpat:Acceptor" name="ModelDescriptor">
-          <uses xsi:type="servInt_modelingenv:InjectorAcceptorInterfaceL0" href="interfaces.serviceInterfaces#//@contents.0/@contents.1"/>
-        </ports>
+        <ports xsi:type="dslpat:Acceptor" name="ModelDescriptor"/>
       </services>
     </patterns>
     <patterns name="Table-based Representation" description="Pattern to custom the appearance of table objects">
@@ -775,53 +773,74 @@
   </categories>
   <categories name="Dynamic Semantics" description=""/>
   <categories name="Infrastructure Functionality" description="">
-    <patterns name="Modularity" description="Simple organizational meta-modelling pattern" maxInstances="1" tags="//@tagSet/@tags.1/@specifics.1 //@tagSet/@tags.1/@specifics.2 //@tagSet/@tags.1/@specifics.3 //@tagSet/@tags.1/@specifics.4">
-      <rootVariant name="Modularity">
-        <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Modularity (default)">
-          <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Modularity.gif">
-            <classInterfaces minCard="1" maxCard="1" abstract="true">
-              <ref href="Modularity.ecore#//Container"/>
-            </classInterfaces>
-            <classInterfaces minCard="1" maxCard="1" abstract="true">
-              <ref href="Modularity.ecore#//Containee"/>
-            </classInterfaces>
-            <classInterfaces minCard="1" maxCard="1" abstract="true">
-              <ref href="Modularity.ecore#//IdentificableElement"/>
-            </classInterfaces>
-            <classInterfaces minCard="1" maxCard="1" constraint="">
-              <ref href="Modularity.ecore#//Project"/>
-            </classInterfaces>
-            <classInterfaces minCard="0" maxCard="-1">
-              <ref href="Modularity.ecore#//Package"/>
-            </classInterfaces>
-            <classInterfaces minCard="1" maxCard="-1">
-              <ref href="Modularity.ecore#//Unit"/>
-            </classInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//IdentificableElement/name"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//Unit/extension"/>
-            </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
-              <ref href="Modularity.ecore#//IdentificableElement/icon"/>
-            </attrInterfaces>
-            <refInterfaces minCard="1" maxCard="-1" anyMin="true">
-              <ref href="Modularity.ecore#//Container/containees"/>
-            </refInterfaces>
-            <mmreference href="Modularity.ecore#/"/>
-          </metaModel>
-        </andChildren>
-      </rootVariant>
-      <services name="Hierarchical Organization" description="">
-        <ports xsi:type="dslpat:Injector" name="ModelDescriptor">
-          <uses xsi:type="servInt_modelingenv:InjectorAcceptorInterfaceL0" href="interfaces.serviceInterfaces#//@contents.0/@contents.1"/>
-        </ports>
-        <ports xsi:type="dslpat:Slot" name="EditorTab">
-          <uses xsi:type="servInt_modelingenv:SlotPlugInterfaceL0" href="interfaces.serviceInterfaces#//@contents.0/@contents.0"/>
-        </ports>
-      </services>
-    </patterns>
+    <subcategories name="Language Fragmentation" description="">
+      <patterns name="Modularity" description="Simple organizational meta-modelling pattern" maxInstances="1" tags="//@tagSet/@tags.1/@specifics.1 //@tagSet/@tags.1/@specifics.2 //@tagSet/@tags.1/@specifics.3 //@tagSet/@tags.1/@specifics.4">
+        <rootVariant name="Modularity">
+          <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Modularity (default)">
+            <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Modularity.gif">
+              <classInterfaces minCard="1" maxCard="1" abstract="true">
+                <ref href="Modularity.ecore#//Container"/>
+              </classInterfaces>
+              <classInterfaces minCard="1" maxCard="1" abstract="true">
+                <ref href="Modularity.ecore#//Containee"/>
+              </classInterfaces>
+              <classInterfaces minCard="1" maxCard="1" abstract="true">
+                <ref href="Modularity.ecore#//IdentificableElement"/>
+              </classInterfaces>
+              <classInterfaces minCard="1" maxCard="1" constraint="">
+                <ref href="Modularity.ecore#//Project"/>
+              </classInterfaces>
+              <classInterfaces minCard="0" maxCard="-1">
+                <ref href="Modularity.ecore#//Package"/>
+              </classInterfaces>
+              <classInterfaces minCard="1" maxCard="-1">
+                <ref href="Modularity.ecore#//Unit"/>
+              </classInterfaces>
+              <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="1" maxCard="1" anyMin="true" IDMatters="false">
+                <ref href="Modularity.ecore#//IdentificableElement/name"/>
+              </attrInterfaces>
+              <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+                <ref href="Modularity.ecore#//Unit/extension"/>
+              </attrInterfaces>
+              <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
+                <ref href="Modularity.ecore#//IdentificableElement/icon"/>
+              </attrInterfaces>
+              <refInterfaces minCard="1" maxCard="-1" anyMin="true" anyOrdering="true">
+                <ref href="Modularity.ecore#//Container/containees"/>
+              </refInterfaces>
+              <mmreference href="Modularity.ecore#/"/>
+            </metaModel>
+          </andChildren>
+        </rootVariant>
+        <services name="Hierarchical Organization" description="">
+          <ports xsi:type="dslpat:Injector" name="ModelDescriptor"/>
+          <ports xsi:type="dslpat:Slot" name="EditorTab"/>
+        </services>
+      </patterns>
+      <patterns name="Scope" description="">
+        <rootVariant name="Scope" description="">
+          <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Scope (default)">
+            <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Scope.gif">
+              <classInterfaces minCard="1" maxCard="-1">
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope"/>
+              </classInterfaces>
+              <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSameUnit"/>
+              </refInterfaces>
+              <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSamePackage"/>
+              </refInterfaces>
+              <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSameProject"/>
+              </refInterfaces>
+              <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSameWorkSpace"/>
+              </refInterfaces>
+            </metaModel>
+          </andChildren>
+        </rootVariant>
+      </patterns>
+    </subcategories>
     <patterns name="Filter" description="A pattern to customize filters" tags="//@tagSet/@tags.5 //@tagSet/@tags.6">
       <rootVariant name="Filter" description="Model Filter">
         <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Filter (default)" description="Model Filter">
@@ -829,7 +848,7 @@
             <classInterfaces minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable"/>
             </classInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1">
+            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1" anyMin="true">
               <ref href="Filter.ecore#//Filterable/aKey"/>
             </attrInterfaces>
             <refInterfaces icon="" minCard="0" maxCard="-1">
@@ -840,12 +859,8 @@
         </andChildren>
       </rootVariant>
       <services name="Filtering" description="Filtering Service" mandatory="false">
-        <ports xsi:type="dslpat:Acceptor" name="ModelDescriptor">
-          <uses xsi:type="servInt_modelingenv:InjectorAcceptorInterfaceL0" href="interfaces.serviceInterfaces#//@contents.0/@contents.1"/>
-        </ports>
-        <ports xsi:type="dslpat:Plug" name="EditorTab">
-          <uses xsi:type="servInt_modelingenv:SlotPlugInterfaceL0" href="interfaces.serviceInterfaces#//@contents.0/@contents.0"/>
-        </ports>
+        <ports xsi:type="dslpat:Acceptor" name="ModelDescriptor"/>
+        <ports xsi:type="dslpat:Plug" name="EditorTab"/>
       </services>
     </patterns>
     <patterns name="Layer" description="A patttern to create layers" tags="//@tagSet/@tags.4/@specifics.2 //@tagSet/@tags.4/@specifics.3">

@@ -24,8 +24,11 @@ public class DeleteEReferenceFeature extends DeleteEModelElementDefaultFeature {
 		
 		PictogramElement pe = context.getPictogramElement();
 		EReference ref = (EReference)getBusinessObjectForPictogramElement(pe);
-		DiagramUtils.deleteCollapseReferenceText(getDiagram(), ((EReference)ref));
-		if (ref.getEOpposite() != null) 
-			DiagramUtils.deleteCollapseReferenceText(getDiagram(), ((EReference)ref).getEOpposite());
+		if (ref != null){
+			DiagramUtils.deleteCollapseReferenceText(getDiagram(), ((EReference)ref));
+			if (ref.getEOpposite() != null) 
+				DiagramUtils.deleteCollapseReferenceText(getDiagram(), ((EReference)ref).getEOpposite());
+		}
+		
 	}
 }

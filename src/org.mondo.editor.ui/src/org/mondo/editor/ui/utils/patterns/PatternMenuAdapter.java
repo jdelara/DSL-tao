@@ -207,7 +207,6 @@ public class PatternMenuAdapter extends MenuAdapter {
 		    			boolean ok = ((mmird.getMinValue()< PatternUtils.getNumMMInterfaceRelDiagramSameOrder(input,mmird)));
 		    			if ((mmirdRef != null)&&(!PatternUtils.isReflexiveReference(input,mmird)))
 		    				ok = ok	&& (((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef)))
-		    					//11/5/2015
 		    						||
 		    					(PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(input,mmirdRef).size()>1));
 	
@@ -408,7 +407,6 @@ public class PatternMenuAdapter extends MenuAdapter {
 				MMInterfaceRelDiagram infoETypeEClass = PatternUtils.getMMInterfaceRelDiagram(input, ((EReference)eRefObject).getEType().getName(), info.getOrderPointer());
 				boolean ok = info.getElementDiagram().isEmpty()
 				 && (PatternUtils.isAbstract(infoETypeEClass, input))
-				// && (!PatternUtils.isReflexiveReference(input, info))
 				 && (!PatternUtils.isAbstract(info, input))
 				 && (info.getToConcreteSubtype()==null);
     			

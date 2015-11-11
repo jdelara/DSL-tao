@@ -4,13 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -26,13 +23,6 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.ecore.Constraint;
-import org.eclipse.ocl.ecore.OCL;
-import org.eclipse.ocl.ecore.OCL.Helper;
-import org.eclipse.ocl.ecore.OCL.Query;
-import org.eclipse.ocl.ecore.OCLExpression;
-import org.eclipse.ocl.utilities.ExpressionInOCL;
 import org.eclipse.ui.PlatformUI;
 import org.mondo.editor.graphiti.diagram.CreateEAttributeFeature;
 import org.mondo.editor.graphiti.diagram.CreateEClassFeature;
@@ -74,7 +64,6 @@ public final class PatternApplicationUtils {
 	public static void applyPattern( final List<MMInterfaceRelDiagram> patternRelDiagram, final DiagramBehavior diagramBehavior, final Pattern pattern, final PatternInstances pis, final String patternInstanceName, final boolean attached){
 	
 		final IFeatureProvider fp = diagramBehavior.getDiagramTypeProvider().getFeatureProvider();
-		//final String patternName = pattern.getName();
 
 		diagramBehavior.getEditingDomain().getCommandStack().execute(new RecordingCommand(diagramBehavior.getEditingDomain()) {
 	
@@ -86,7 +75,6 @@ public final class PatternApplicationUtils {
 					diagramBehavior.getDiagramTypeProvider().getFeatureProvider().link(diagramBehavior.getDiagramTypeProvider().getDiagram(), pack);
 				} else 	pack = ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram());
 				
-				//String patternInstanceName = RuntimePatternsModelUtils.getPatternNameValid(pis, patternName);
 				PatternInstance pi = RuntimePatternsModelUtils.createPatternInstance(pis, patternInstanceName, pattern);
 				pi.setAttached(attached);
 				RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, pack, patternInstanceName);
@@ -162,37 +150,7 @@ public final class PatternApplicationUtils {
 				if ((selObj == null) ){
 				EClass eclass = PatternUtils.getEClass((ClassInterface)info.getMmInterface());
 
-				/////////////PRUEBASSSSSSSSSSSSSSSSSSS/////////////////////////////////////////////////////////////////////
-				
-				EAnnotation annot = eclass.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot");
-				if (annot != null){
-					OCL ocl = OCL.newInstance();
-					Helper helper = ocl.createOCLHelper();
-				    helper.setContext(eclass);
-				    
-				      //EAnnotation ocl = eFeature.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				      String derive = (String) annot.getDetails().get("oneInitial");
-				      try {
-				        OCLExpression generalDeriveOCL = helper.createQuery(derive);
-				        
-				        Constraint cont = helper.createInvariant(derive);
-				        ExpressionInOCL<EClassifier, EParameter> prueba = cont.getSpecification();
-
-				        for (EObject obj: generalDeriveOCL.eContents()){
-				        	System.out.println(obj.toString());
-				        }
-				      } catch (ParserException e) {
-				        throw new UnsupportedOperationException(e.getLocalizedMessage());
-				      }
-				}
-			      
-			    //////////////////fin PRUEBASSSSSSSSSSSSSSSSSSS////////////////////////////////////////////////////////////
-				
 				EClass newEclass = createEClass(diagramBehavior, fp, eclass);
-				
-				/////////////PRUEBASSSSSSSSSSSSSSSSSSS/////////////////////////////////////////////////////////////////////
-				/*if (annot != null)*/ newEclass.getEAnnotations().addAll(eclass.getEAnnotations());
-				////////////////fin PRUEBASSSSSSSSSSSSSSSSSSS/////////////////////////////////////////////////////////////////
 				
 				info.setElementDiagram(newEclass.getName());
 				selObj = newEclass;
@@ -212,14 +170,6 @@ public final class PatternApplicationUtils {
 				//not neccesary..
 				if (PatternUtils.isAbstract(parent, patternRelDiagram)){
 					newspatternRelDiagram.addAll(createAttRefAbstractClass(pi, parent,info, diagramBehavior, patternRelDiagram, cri));
-					//copyAttRefParentAbstractClasses(patternRelDiagram, info);
-					
-					//20/07/2015
-					/*for (MMInterfaceRelDiagram child : PatternUtils.getChildren(patternRelDiagram, parent)){
-						 if (child.getMmInterface() instanceof FeatureInstance){
-							 RuntimePatternsModelUtils.createInstanceFeatureRoleInstance(cri, (FeatureInstance)child.getMmInterface(), child.getElementDiagram());
-						 }
-					 }*/
 				}
 			}							
 		}
@@ -463,9 +413,6 @@ public final class PatternApplicationUtils {
 		if (objImp != null){
 			EClass classXMI = (EClass)objImp.eClass();
 	  		EAttribute attFI = fi.getRef().get(0);
-	  		/*if (classXMI.getEAllAttributes().size()==0){
-	  			System.out.println("No attributes");
-	  		}*/
 	  		for (EAttribute att:classXMI.getEAllAttributes() ){
 	  			if (att.getName().compareTo(attFI.getName())==0)
 	  				return objImp.eGet(att).toString();
@@ -546,7 +493,6 @@ public final class PatternApplicationUtils {
 						RuntimePatternsModelUtils.createInstanceFeatureRoleInstance(cri, (FeatureInstance)mmird.getMmInterface(), mmird.getElementDiagram());
 					}
 					else if (mmird.getMmInterface() instanceof ReferenceInterface){					
-						//modificar en el caso de que sea reflexiva5/5/2015
 						MMInterfaceRelDiagram mmirdRef = new MMInterfaceRelDiagram(mmird.getMmInterface(), "", mmird.getOrder(), mmird.getOrderPointer(),patternRelDiagram, info);
 						
 						if ((PatternUtils.isDirectReflexiveReference(patternRelDiagram,mmird))
@@ -579,7 +525,6 @@ public final class PatternApplicationUtils {
 						patternRelDiagram.add(new MMInterfaceRelDiagram(mmird.getMmInterface(), mmird.getElementDiagram(), mmird.getOrder(),patternRelDiagram, info));
 					}
 					else if (mmird.getMmInterface() instanceof ReferenceInterface){
-						//5/5/2015
 						MMInterfaceRelDiagram mmirdRef = new MMInterfaceRelDiagram(mmird.getMmInterface(), "", mmird.getOrder(), mmird.getOrderPointer(),patternRelDiagram, info);
 						
 						if ((PatternUtils.isDirectReflexiveReference(patternRelDiagram, mmird))
@@ -759,7 +704,6 @@ public final class PatternApplicationUtils {
 					//Multilevel???
 					if (PatternUtils.isAbstract(superType, content)) {
 						superTypes.addAll(getSuperTypesConcrete(content, superType));
-						//superTypes.add(superType);
 					} else superTypes.add(superType);
 			}
 		}return superTypes;
@@ -836,7 +780,6 @@ public final class PatternApplicationUtils {
 		((EAttribute)atts[0]).setID(eAttObject.isID());
 		((EAttribute)atts[0]).setOrdered(eAttObject.isOrdered());
 
-
 		return (EAttribute)atts[0];
 	}
 	
@@ -877,5 +820,4 @@ public final class PatternApplicationUtils {
 			}			
 		}
 	}
-
 }
