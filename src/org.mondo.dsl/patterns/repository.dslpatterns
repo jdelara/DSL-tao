@@ -848,7 +848,7 @@
             <classInterfaces minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable"/>
             </classInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1" anyMin="true">
+            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable/aKey"/>
             </attrInterfaces>
             <refInterfaces icon="" minCard="0" maxCard="-1">
@@ -897,10 +897,10 @@
             <attrInterfaces xsi:type="dslpat:FeatureInstance" minCard="1" maxCard="1">
               <ref href="MACLConfigurator.ecore#//MACLConfig/permission"/>
             </attrInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="0" maxCard="1">
+            <attrInterfaces xsi:type="dslpat:FeatureType" minCard="0" maxCard="1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false" IDMatters="false">
               <ref href="MACLConfigurator.ecore#//MACLConfig/attribute"/>
             </attrInterfaces>
-            <refInterfaces minCard="0" maxCard="1">
+            <refInterfaces minCard="0" maxCard="1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false" flexibleComposite="true">
               <ref href="MACLConfigurator.ecore#//MACLConfig/reference"/>
             </refInterfaces>
           </metaModel>
