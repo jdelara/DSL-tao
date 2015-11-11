@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.mapping.ModelStatus;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
@@ -23,6 +24,10 @@ import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
+
+import dslPatterns.Pattern;
+import dslPatterns.impl.PatternImpl;
+import runtimePatterns.PatternInstance;
 
 
 /**
@@ -71,8 +76,11 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
             	if (ModelUtils.existsPackage((Diagram) pes[0])){
-            		this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), this.patternName);
-            		return this.pi != null;
+            		PatternInstance patternI = ModelUtils.getPatternInstance(getDiagram(), this.patternName);
+            		if (patternI != null){
+            			this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), patternI.getPattern().getName());	
+            			return this.pi != null;
+            		}
             	}
             }
         }

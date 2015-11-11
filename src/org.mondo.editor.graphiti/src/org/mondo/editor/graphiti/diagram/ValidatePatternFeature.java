@@ -20,6 +20,8 @@ import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
+import runtimePatterns.PatternInstance;
+
 /**
  * Class to create a Validate Pattern option in the editor.
  * 
@@ -62,8 +64,11 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
             	if (ModelUtils.existsPackage((Diagram) pes[0])){
-            		this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), this.patternName);
-            		return this.pi != null;
+            		PatternInstance patternI = ModelUtils.getPatternInstance(getDiagram(), this.patternName);
+            		if (patternI!=null){
+            			this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), patternI.getPattern().getName());
+            			return this.pi != null;
+            		}
             	}
             }
         }

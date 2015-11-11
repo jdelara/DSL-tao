@@ -16,6 +16,7 @@ import runtimePatterns.PatternInstances;
 
 import dslPatterns.MMInterface;
 import dslPatterns.Pattern;
+import dslPatterns.PatternSet;
 
 /**
  * Class of utility functions to evaluate extensions.
@@ -72,6 +73,7 @@ public class EvaluateExtensionPoint {
 	 * @return List of optimal elements.
 	 */
 	public static List<ENamedElement> evaluateGetOptimalElements(IExtensionRegistry registry, String pattern, EPackage ePack,MMInterface mmInterface) {
+		
 		IPatternImplementation o = getInstanceIPattern(registry, pattern);
 		if (o!= null) return executeGetOptimalElementsExtension(o, ePack,  mmInterface);
 		else return null;
@@ -121,15 +123,14 @@ public class EvaluateExtensionPoint {
 	/**
 	 * Method that returns the instance that implements the interface "IPattern"
 	 * @param registry - extension registry
-	 * @param pattern - pattern name of the extension.
+	 * @param patternName - pattern name of the extension.
 	 * @return IPatternImplementation
 	 */
-	public static IPatternImplementation getInstanceIPattern(IExtensionRegistry registry, String pattern){
+	public static IPatternImplementation getInstanceIPattern(IExtensionRegistry registry, String patternName){
 		IConfigurationElement[] config = registry.getConfigurationElementsFor(IPATTERN_IMPLEMENTATION_ID);
-		pattern = pattern.replaceAll("\\d","");
 		try {
 			for (IConfigurationElement e : config) {				
-				if (e.getAttribute(IPATTERN_IMPLEMENTATION_ATTRIBUTE).compareTo(pattern)==0){
+				if (e.getAttribute(IPATTERN_IMPLEMENTATION_ATTRIBUTE).compareTo(patternName)==0){
 					final Object o = e.createExecutableExtension("class");
 					if (o instanceof IPatternImplementation) {		
 						//one extension

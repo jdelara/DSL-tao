@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 
+import runtimePatterns.PatternInstance;
 import runtimePatterns.PatternInstances;
 
 /**
@@ -136,6 +137,15 @@ public  class ModelUtils {
 				}
 			}
 		}
+		return null;
+	}
+	
+	public static PatternInstance getPatternInstance (Diagram diagram, String name){
+		Object patternsI = getPatternsModel(diagram);
+		if (patternsI instanceof PatternInstances)
+			for (PatternInstance pi : ((PatternInstances) patternsI).getAppliedPatterns()){
+				if (pi.getIdent().compareTo(name) ==0 ) return pi;
+			}
 		return null;
 	}
 	
