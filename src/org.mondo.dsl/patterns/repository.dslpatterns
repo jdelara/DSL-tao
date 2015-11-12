@@ -822,19 +822,19 @@
           <andChildren xsi:type="dslpat:ComplexFeatureMain" name="Scope (default)">
             <metaModel xsi:type="dslpat:PatternMetaModelReference" img="patterns/icons/Scope.gif">
               <classInterfaces minCard="1" maxCard="-1">
-                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope"/>
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//ScopeClass"/>
               </classInterfaces>
               <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
-                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSameUnit"/>
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//ScopeClass/rSameUnit"/>
               </refInterfaces>
               <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
-                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSamePackage"/>
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//ScopeClass/rSamePackage"/>
               </refInterfaces>
               <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
-                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSameProject"/>
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//ScopeClass/rSameProject"/>
               </refInterfaces>
               <refInterfaces minCard="0" maxCard="-1" anyMin="true" anyMax="true" anyOrdering="true" uniqueMatters="false">
-                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//Scope/rSameWorkSpace"/>
+                <ref href="file:/C:/Users/ususario/Desktop/eclipse%20MDE%20luna/WS/org.mondo.dsl/patterns/Scope.ecore#//ScopeClass/rSameWorkSpace"/>
               </refInterfaces>
             </metaModel>
           </andChildren>
