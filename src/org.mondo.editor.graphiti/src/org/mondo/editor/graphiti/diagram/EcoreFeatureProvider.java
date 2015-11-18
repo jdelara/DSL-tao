@@ -39,7 +39,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
-import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
 /**
  * Class to provide the functionalities available in the diagram editor.
@@ -144,8 +143,7 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	    if (bo instanceof EAttribute) {
 	        return new MoveEAttributeFeature(this);
 	    }else if (bo instanceof EEnumLiteral)
-	    	return new MoveEEnumLiteralFeature(this);
-	    		
+	    	return new MoveEEnumLiteralFeature(this);	
 		return super.getMoveShapeFeature(context);
 	}
 	
@@ -186,23 +184,19 @@ public class EcoreFeatureProvider extends DefaultFeatureProvider {
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		
 		if (context.getPictogramElements()[0] instanceof Diagram){
-			ICustomFeature[] basicCf =  new ICustomFeature[] { new ValidateAllFeature(this), new ImportMetamodelFeature(this), new ExportMetamodelFeature(this), new ExportMetamodelPatternsFeature(this),
+			ICustomFeature[] basicCf =  new ICustomFeature[] { new ValidateAllFeature(this), 
+				new ImportMetamodelFeature(this), 
+				new ExportMetamodelFeature(this), 
+				new ExportMetamodelPatternsFeature(this),
 		    	new ProcessMetaModelFeature(this),
 		    	new CollapseAllFeature(this), new ExpandAllFeature(this), 
 	    		new CollapseInheritanceFeature(this), new ExpandInheritanceFeature(this),
 	    		new ShowPatternInfoFeature(this),new HidePatternInfoFeature(this),
 	    		new DrillDownEPackageFeature(this),
-	    		new ExecuteAllPatternsFeature(this),
 	    		new LayoutDiagramFeature(this)};
 		
 		List<ICustomFeature> list = new ArrayList<ICustomFeature>(Arrays.asList(basicCf));
 		
-		if (ModelUtils.existsPackage(this.getDiagramTypeProvider().getDiagram())){
-			for (String pattern : ModelUtils.getAppliedPatternNames(this.getDiagramTypeProvider().getDiagram())){			
-				list.add(new ValidatePatternFeature(this, pattern, true));
-				list.add(new ExecutePatternFeature(this, pattern, true));
-			}
-		}
 		
 		ICustomFeature[] cfs = new ICustomFeature[list.size()];
 		for (int i=0; i<list.size(); i++){

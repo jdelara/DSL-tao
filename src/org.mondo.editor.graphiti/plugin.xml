@@ -215,4 +215,18 @@
 	        </propertySection>
 	    </propertySections>
 	</extension>
+ <extension
+       id="PatternsMenu"
+       name="Patterns Menu"
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          allPopups="false"
+          class="org.mondo.editor.graphiti.diagram.utils.DSLtaoMenu"
+          locationURI="menu:org.eclipse.ui.main.menu?after=window">
+       <dynamic
+             class="org.mondo.editor.graphiti.diagram.utils.DSLtaoMenuOption"
+             id="org.mondo.editor.graphiti.menuOption">
+       </dynamic>
+    </menuContribution>
+ </extension>
 </plugin>

@@ -27,7 +27,7 @@ import org.mondo.editor.analysis.graphiti.diagram.utils.TransformationUtils;
 import org.osgi.framework.Bundle;
 
 /**
- * Page two of the wizard to create a mondo diagram. 
+ * Page two of the wizard to create a DSL-tao diagram. 
  * This asks for the diagram name.
  * 
  * @author miso partner AnaPescador

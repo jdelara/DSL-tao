@@ -20,6 +20,7 @@ import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
+import dslPatterns.Pattern;
 import runtimePatterns.PatternInstance;
 
 /**
@@ -36,6 +37,7 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
     private IPatternImplementation pi = null;
     private boolean validate = false;
     private boolean individualMode = true;
+    private Pattern pattern = null;
     
     /**
      * @param fp - feature provider
@@ -46,6 +48,8 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
         super(fp);
         this.patternName = patternName;
         this.individualMode = individualMode;
+        PatternInstance patternI = ModelUtils.getPatternInstance(getDiagram(), this.patternName);
+        if (patternI!=null) pattern = patternI.getPattern();
     }
  
     @Override
@@ -64,9 +68,8 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
             	if (ModelUtils.existsPackage((Diagram) pes[0])){
-            		PatternInstance patternI = ModelUtils.getPatternInstance(getDiagram(), this.patternName);
-            		if (patternI!=null){
-            			this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), patternI.getPattern().getName());
+            		if (pattern!=null){
+            			this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), pattern.getName());
             			return this.pi != null;
             		}
             	}
@@ -75,7 +78,11 @@ public class ValidatePatternFeature extends AbstractCustomFeature {
         return false;
     }
  
-    @Override
+    public Pattern getPattern() {
+		return pattern;
+	}
+
+	@Override
     public void execute(ICustomContext context) {   
 
 		EPackage mm = ModelUtils.getBusinessModel(getDiagram());

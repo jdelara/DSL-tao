@@ -28,7 +28,7 @@ import org.eclipse.ui.ide.IDE;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 
 /**
- * Wizard to create new mondo diagrams. 
+ * Wizard to create new DSL-tao diagrams. 
  * 
  * @author miso partner AnaPescador
  *

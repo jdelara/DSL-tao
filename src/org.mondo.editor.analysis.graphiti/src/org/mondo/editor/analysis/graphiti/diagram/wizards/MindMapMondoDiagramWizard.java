@@ -6,7 +6,7 @@ import java.util.Map;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
- * Wizard to create mondo diagrams from an ecore file.
+ * Wizard to create dsl-tao diagrams from an ecore file.
  * 
  * @author miso  partner AnaPescador
  *

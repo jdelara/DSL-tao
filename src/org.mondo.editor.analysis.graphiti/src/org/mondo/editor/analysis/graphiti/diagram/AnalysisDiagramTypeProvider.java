@@ -23,7 +23,7 @@ public class AnalysisDiagramTypeProvider extends AbstractDiagramTypeProvider {
 		String currentPerspective = window.getActivePage().getPerspective().getId();
 		// open perspective
 		if (currentPerspective.compareTo("org.mondo.editor.perspective.mondoAnalysis")!=0){
-			String message = "This kind of diagrams is associated with the Mondo Analysis Perspective. Do you want to open this perspective now?";
+			String message = "This kind of diagrams is associated with the DSL-tao Analysis Perspective. Do you want to open this perspective now?";
 			boolean answer = MessageDialog.openQuestion(Messages.getShell(), "Open Associated Perspective?", message);
 			
 			if (answer) try {

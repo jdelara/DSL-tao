@@ -6,7 +6,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.mondo.editor.ui.views.*;
 
 /**
- * Perspective to work with mondo design diagrams.
+ * Perspective to work with DSL-tao design diagrams.
  * 
  * @author miso partner AnaPescador
  *

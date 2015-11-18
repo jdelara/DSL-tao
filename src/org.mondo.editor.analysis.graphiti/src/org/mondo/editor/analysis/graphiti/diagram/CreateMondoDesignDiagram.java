@@ -121,7 +121,7 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 		};
 		dialog.create();
 		
-		dialog.getShell().setText("MONDO DIAGRAM");
+		dialog.getShell().setText("DSL-tao DIAGRAM");
 		
 		if (Window.OK == dialog.open()){
 			

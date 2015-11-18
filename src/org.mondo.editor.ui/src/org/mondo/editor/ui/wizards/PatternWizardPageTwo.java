@@ -81,6 +81,9 @@ public class PatternWizardPageTwo extends WizardPage {
 
     Group group2 = new Group(container, SWT.NONE); 
     group2.setLayout(new GridLayout());
+    GridData gd3 = new GridData(SWT.FILL, SWT.FILL, false, false); 
+    group2.setLayoutData(gd3);
+    gd3.verticalSpan = 2;
     patternImg = new Label(group2, SWT.CENTER);
     
     if (cf.getAndChildren().size() > 0) createButtons(group,cf.getAndChildren(), SWT.CHECK, false, true);
@@ -90,8 +93,8 @@ public class PatternWizardPageTwo extends WizardPage {
 	groupcfa = new Group(container, SWT.NONE);
 	groupcfa.setText("Attached Patterns");
 	groupcfa.setLayout(new GridLayout(2,false));
-	GridData gd3 = new GridData(SWT.FILL, SWT.FILL, false, false); 
-	groupcfa.setLayoutData(gd3);
+	GridData gd4 = new GridData(SWT.FILL, SWT.FILL, false, false); 
+	groupcfa.setLayoutData(gd4);
 	
 	if (cfa != null){
 	    if (cfa.getAndChildren().size() > 0) createButtons(groupcfa,cfa.getAndChildren(), SWT.CHECK, false, true);

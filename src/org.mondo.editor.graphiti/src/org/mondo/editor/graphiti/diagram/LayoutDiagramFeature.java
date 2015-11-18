@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.graph.CompoundDirectedGraph;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
@@ -20,14 +19,12 @@ import org.eclipse.graphiti.features.context.impl.RemoveBendpointContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 
 /**
  * Class to draw the diagram as a graph.
@@ -81,12 +78,10 @@ public class LayoutDiagramFeature extends AbstractCustomFeature {
 		for (Object object : myNodes) {
 			Node node = (Node) object;
 			Shape shape = (Shape) node.data;
-			//a la forma asociada le damos la posición y tamaño establecido para el nodo.
 			shape.getGraphicsAlgorithm().setX(node.x);
 			shape.getGraphicsAlgorithm().setY(node.y);
 			shape.getGraphicsAlgorithm().setWidth(node.width);
 			shape.getGraphicsAlgorithm().setHeight(node.height);	
-			
 		}
 		
 		Diagram d = getDiagram();
@@ -99,17 +94,17 @@ public class LayoutDiagramFeature extends AbstractCustomFeature {
 			Rectangle shape = (Rectangle)source.getGraphicsAlgorithm();
 			Rectangle shapeT = (Rectangle)target.getGraphicsAlgorithm();
 			
+			List<Point> points = ((FreeFormConnection)connection).getBendpoints();
+        	while (points.size()!=0){
+        		Point bp = points.get(0);
+				RemoveBendpointContext rdb = new RemoveBendpointContext((FreeFormConnection)connection,bp);
+				getFeatureProvider().getRemoveBendpointFeature(rdb).execute(rdb);
+			}
+			
 			if (shape.equals(shapeT)){
 				int x = shape.getX();
 	        	int y = shape.getY();
 	        	int desp = 50;
-				
-	        	List<Point> points = ((FreeFormConnection)connection).getBendpoints();
-	        	while (points.size()!=0){
-	        		Point bp = points.get(0);
-					RemoveBendpointContext rdb = new RemoveBendpointContext((FreeFormConnection)connection,bp);
-					getFeatureProvider().getRemoveBendpointFeature(rdb).execute(rdb);
-				}
 	        	
 				AddBendpointContext apc1 = new AddBendpointContext((FreeFormConnection)connection, x+shape.getWidth()/2, y-desp, 0);
 		    	AddBendpointContext apc2 = new AddBendpointContext((FreeFormConnection)connection,x+shape.getWidth()+desp, y-desp, 0);

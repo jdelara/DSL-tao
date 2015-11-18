@@ -76,7 +76,7 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 		String currentPerspective = window.getActivePage().getPerspective().getId();
 		// open perspective
 		if (currentPerspective.compareTo("org.mondo.editor.perspective.mondoDesign")!=0){
-			String message = "This kind of diagrams is associated with the Mondo Design Perspective. Do you want to open this perspective now?";
+			String message = "This kind of diagrams is associated with the DSL-tao Design Perspective. Do you want to open this perspective now?";
 			boolean answer = MessageDialog.openQuestion(Messages.getShell(), "Open Associated Perspective?", message);
 			
 			if (answer) try {

@@ -78,7 +78,7 @@ import org.mondo.editor.graphiti.diagram.ResizeEClassFeature;
 import org.mondo.editor.graphiti.diagram.ResizeEEnumFeature;
 
 /**
- * Class of utility functions to work with mondo diagrams.
+ * Class of utility functions to work with DSL-tao diagrams.
  * 
  * @author miso partner AnaPescador
  *
@@ -886,11 +886,6 @@ public  class DiagramUtils {
 		}
         
 		setIsCollapseMode(shape);
-		
-		//Collapse children 19/06/2015
-		/*for (EClass eClassif: ModelUtils.getAllChildren((EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(shape))){
-			setElementVisibility(fp.getDiagramTypeProvider().getDiagram(), eClassif,false,new LinkedList<ENamedElement>());
-    	}*/
 	}
 	
 	/**
@@ -902,16 +897,12 @@ public  class DiagramUtils {
 		Boolean heritage = false;
 		for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eclass)){
 			if (pe instanceof ContainerShape){
-		        //Escondemos la conexión
 				for (Anchor anchor: ((ContainerShape)pe).getAnchors()){
 					for (Connection con : anchor.getOutgoingConnections()){
 						for (Property p: con.getProperties()) {
 							if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_INHERITANCE)){
-								//Estoy en la conexión de herencia.
 								heritage = true;
 								con.setVisible(false);
-								//Modificar el texto de la clase.
-								//Calculamos la nueva cadena de texto.
 							}
 						}
 					}
@@ -1540,10 +1531,21 @@ public  class DiagramUtils {
 	 * @param shape
 	 */
 	public static void initPatternInfo (Shape shape){
-		Property marker  = MmFactory.eINSTANCE.createProperty();
-		marker.setKey(SHOW_PATTERN_INFO);
-		marker.setValue(String.valueOf(true));		
-		shape.getProperties().add(marker);
+		
+		if (!existsProperty(shape, SHOW_PATTERN_INFO)){
+			Property marker  = MmFactory.eINSTANCE.createProperty();
+			marker.setKey(SHOW_PATTERN_INFO);
+			marker.setValue(String.valueOf(true));		
+			shape.getProperties().add(marker);
+		}
+	}
+	
+	public static boolean existsProperty (Shape shape, String propertyName){
+		for (Property property: shape.getProperties()){
+			if (property.getKey().equals(propertyName))
+				return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -1579,10 +1581,12 @@ public  class DiagramUtils {
 	 * @param shape
 	 */
 	public static void initCollapseInheritance (Shape shape){
-		Property marker  = MmFactory.eINSTANCE.createProperty();
-		marker.setKey(COLLAPSE_INHERITANCE);
-		marker.setValue(String.valueOf(false));		
-		shape.getProperties().add(marker);
+		if (!existsProperty(shape, COLLAPSE_INHERITANCE)){
+			Property marker  = MmFactory.eINSTANCE.createProperty();
+			marker.setKey(COLLAPSE_INHERITANCE);
+			marker.setValue(String.valueOf(false));		
+			shape.getProperties().add(marker);
+		}
 	}
 	/**
 	 * Static method that returns if the specified shape is inheritance collapsed.

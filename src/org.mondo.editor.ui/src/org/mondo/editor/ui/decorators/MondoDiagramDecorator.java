@@ -19,7 +19,7 @@ import org.mondo.editor.ui.MondoNature;
 import org.mondo.editor.ui.utils.ImagesUtils;
 
 /**
- * Class to decorate mondo diagram icon.
+ * Class to decorate DSL-tao diagram icon.
  * 
  * @author miso partner AnaPescador
  *

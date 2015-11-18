@@ -23,7 +23,7 @@ public class NewMondoProjectWizardPage extends WizardPage {
 
 	public NewMondoProjectWizardPage() {
 		super("wizardPage");
-		setDescription("This wizard creates a new mondo project.");
+		setDescription("This wizard creates a new DSL-tao project.");
 	}
 
 

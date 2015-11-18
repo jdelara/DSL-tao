@@ -58,8 +58,7 @@ public class PatternWizard extends Wizard {
 	  patternNameInstance = one.getNameText();
 	  return true;
   }
-
-	  
+  
   public String getPatternInstaceName(){
 	  return patternNameInstance;
   }

@@ -34,7 +34,7 @@ import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 import org.mondo.editor.ui.wizards.EcoreMondoDiagramWizard;
 
 /**
- * Class to create a mondo diagram from a ecore file.
+ * Class to create a DSL-tao diagram from a ecore file.
  * 
  * @author miso partner AnaPescador
  *
@@ -74,7 +74,7 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 			};
 			dialog.create();
 			
-			dialog.getShell().setText("MONDO DIAGRAM");
+			dialog.getShell().setText("DSL-tao DIAGRAM");
 			
 			if (Window.OK == dialog.open()){
 

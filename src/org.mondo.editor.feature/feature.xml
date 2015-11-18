@@ -2,7 +2,8 @@
 <feature
       id="org.mondo.editor.feature"
       label="DSL-tao"
-      version="0.3.8">
+      version="0.3.10.qualifier"
+      provider-name="Universidad Autónoma de Madrid. Grupo MISO.">
 
    <description url="http://jdelara.github.io/DSL-tao/">
       Editor to support the creation of large meta-models

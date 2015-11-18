@@ -9,7 +9,7 @@
             objectClass="org.eclipse.core.resources.IFile">
          <menu
                id="org.mondo.ui.menu1"
-               label="Mondo"
+               label="DSL-tao"
                path="additions">
             <separator
                   name="group1">
@@ -19,7 +19,7 @@
                class="org.mondo.editor.ui.popup.actions.CreateMondoDiagram"
                enablesFor="1"
                id="org.mondo.ui.newAction"
-               label="Create new mondo diagram..."
+               label="Create new DSL-tao diagram..."
                menubarPath="org.mondo.ui.menu1/group1">
          </action>
       </objectContribution>
@@ -28,35 +28,35 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="org.mondo.editor.ui.MondoCategory"
-            name="Mondo">
+            name="DSL-tao">
       </category>
       <wizard
             category="org.mondo.editor.ui.MondoCategory"
             class="org.mondo.editor.ui.wizards.NewMondoDiagramWizard"
             icon="icons/designMondo.gif"
             id="org.mondo.editor.ui.wizards.MondoDiagramWizard"
-            name="Mondo Design Diagram">
+            name="DSL-tao Design Diagram">
       </wizard>
       <wizard
             category="org.mondo.editor.ui.MondoCategory"
             class="org.mondo.editor.ui.wizards.NewMondoProjectWizard"
             icon="icons/mondo.gif"
             id="org.mondo.editor.ui.wizards.MondoProjectWizard"
-            name="Mondo Project">
+            name="DSL-tao Project">
       </wizard>
       <wizard
             category="org.mondo.editor.ui.MondoCategory"
             class="org.mondo.editor.ui.wizards.NewAnalysisMondoDiagramWizard"
             icon="icons/analysisMondo.gif"
             id="org.mondo.editor.ui.wizards.MondoAnalysisDiagramWizard"
-            name="Mondo Analysis Diagram">
+            name="DSL-tao Analysis Diagram">
       </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <category
             id="org.mondo.editor.ui.views.mondoPatternsCategory"
-            name="Mondo Patterns">
+            name="DSL-tao Patterns">
       </category>
       <view
             category="org.mondo.editor.ui.views.mondoPatternsCategory"
@@ -81,7 +81,7 @@
       </view>
       <category
             id="org.mondo.editor.ui.views.MondoVisualizationCategory"
-            name="Mondo Visualization">
+            name="DSL-tao Visualization">
       </category>
    </extension>
    <extension
@@ -131,7 +131,7 @@
    </extension>
    <extension
          id="mondoNature"
-         name="Mondo Nature"
+         name="DSL-tao Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run

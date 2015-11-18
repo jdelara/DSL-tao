@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.mapping.ModelStatus;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
@@ -26,7 +25,6 @@ import org.mondo.editor.graphiti.diagram.utils.Messages;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
 import dslPatterns.Pattern;
-import dslPatterns.impl.PatternImpl;
 import runtimePatterns.PatternInstance;
 
 
@@ -47,8 +45,11 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
     private IPatternImplementation pi = null;
     private boolean execute = false;
     private boolean individualMode = true;
+    private Pattern pattern = null;
     
-    /**
+    
+
+	/**
      * @param fp
      * @param patternName - name of the pattern 
      * @param individualMode boolean that says if the execution is isolated or not.
@@ -57,8 +58,14 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
         super(fp);
         this.patternName = patternName;
         this.individualMode = individualMode;
+        PatternInstance patternI = ModelUtils.getPatternInstance(getDiagram(), this.patternName);
+        if (patternI!=null) this.pattern = patternI.getPattern();
 
     }
+    
+    public Pattern getPattern() {
+		return pattern;
+	}
  
     @Override
     public String getName() {
@@ -76,9 +83,8 @@ public class ExecutePatternFeature extends AbstractCustomFeature {
         if (pes != null && pes.length == 1) {
         	if (pes[0] instanceof Diagram){
             	if (ModelUtils.existsPackage((Diagram) pes[0])){
-            		PatternInstance patternI = ModelUtils.getPatternInstance(getDiagram(), this.patternName);
-            		if (patternI != null){
-            			this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), patternI.getPattern().getName());	
+            		if (pattern != null){
+            			this.pi = EvaluateExtensionPoint.getInstanceIPattern(Platform.getExtensionRegistry(), pattern.getName());	
             			return this.pi != null;
             		}
             	}

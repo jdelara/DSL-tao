@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * Page two of the wizard to create a mondo diagram. 
+ * Page two of the wizard to create a DSL-tao diagram. 
  * This asks for the diagram name.
  * 
  * @author miso partner AnaPescador

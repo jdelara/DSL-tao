@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * Page one of the wizard to create a mondo diagram from an ecore.
+ * Page one of the wizard to create a DSL-tao diagram from an ecore.
  * It's a simple wizard page.
  * 
  * @author miso  partner AnaPescador
@@ -17,8 +17,8 @@ public class EcoreMondoDiagramWizardPageOne extends WizardPage {
   private Composite container;
 
   public EcoreMondoDiagramWizardPageOne() {
-    super("Mondo Diagram Wizard");
-    setTitle("Mondo Diagram Wizard");
+    super("DSL-tao Diagram Wizard");
+    setTitle("DSL-tao Diagram Wizard");
   }
 
   @Override
@@ -28,7 +28,7 @@ public class EcoreMondoDiagramWizardPageOne extends WizardPage {
     container.setLayout(layout);
     layout.numColumns = 1;
     Label label1 = new Label(container, SWT.NONE);
-    label1.setText("Welcome to Mondo Diagram Wizard\n");
+    label1.setText("Welcome to DSL-tao Diagram Wizard\n");
    
     setControl(container);
     setPageComplete(true);

@@ -848,7 +848,7 @@
             <classInterfaces minCard="0" maxCard="-1">
               <ref href="Filter.ecore#//Filterable"/>
             </classInterfaces>
-            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1">
+            <attrInterfaces xsi:type="dslpat:FeatureType" icon="" minCard="0" maxCard="-1" anyMin="true">
               <ref href="Filter.ecore#//Filterable/aKey"/>
             </attrInterfaces>
             <refInterfaces icon="" minCard="0" maxCard="-1">

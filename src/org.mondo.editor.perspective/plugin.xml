@@ -7,13 +7,13 @@
             class="org.mondo.editor.perspective.MondoDesignPerspective"
             icon="icons/mondoDesignPerspective.gif"
             id="org.mondo.editor.perspective.mondoDesign"
-            name="Mondo Design">
+            name="DSL-tao Design">
       </perspective>
       <perspective
             class="org.mondo.editor.perspective.MondoAnalysisPerspective"
             icon="icons/mondoAnalysisPerspective.gif"
             id="org.mondo.editor.perspective.mondoAnalysis"
-            name="Mondo Analysis">
+            name="DSL-tao Analysis">
       </perspective>
    </extension>
 </plugin>
