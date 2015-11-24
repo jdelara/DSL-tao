@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.dsltao.editor_0.3.12.201511241057.jar" id="org.dsltao.editor" version="0.3.12.201511241057">
-      <category name="miso"/>
+   <feature url="features/org.mondo.editor.feature_0.3.12.201511241107.jar" id="org.mondo.editor.feature" version="0.3.12.201511241107">
+      <category name="mondo"/>
    </feature>
-   <category-def name="miso" label="miso"/>
+   <category-def name="mondo" label="mondo"/>
 </site>
