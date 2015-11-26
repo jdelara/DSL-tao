@@ -94,7 +94,7 @@ public class IdeaNameSection extends GFPropertySection implements ITabbedPropert
 		
 		@Override
 		public void focusGained(FocusEvent e) {
-			
+			refresh();
 		}
 	};
 	

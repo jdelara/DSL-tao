@@ -95,7 +95,7 @@ public class IdeaDescriptionSection extends GFPropertySection implements ITabbed
 		
 		@Override
 		public void focusGained(FocusEvent e) {
-			
+			refresh();
 		}
 	};
 	

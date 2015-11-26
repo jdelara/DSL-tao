@@ -75,7 +75,7 @@ public class EcoreToolBehaviorProvider extends DefaultToolBehaviorProvider{
 		IContextButtonPadData data = super.getContextButtonPad(context);		
 	    PictogramElement pe = context.getPictogramElement();
 
-	    setGenericContextButtons(data, pe, CONTEXT_BUTTON_DELETE /*| CONTEXT_BUTTON_REMOVE*/);
+	    setGenericContextButtons(data, pe, CONTEXT_BUTTON_DELETE );
 
 	    CustomContext cc = new CustomContext(new PictogramElement[] { pe });
 	    
@@ -93,7 +93,6 @@ public class EcoreToolBehaviorProvider extends DefaultToolBehaviorProvider{
 	    ExpandEEnumFeature ecfE = new ExpandEEnumFeature(getFeatureProvider());
 	    ContextButtonEntry buttonE = new ContextButtonEntry(ecfE, cc);
 	    
-
 	    //down attribute
 	    DownEAttributeFeature daf = new DownEAttributeFeature(getFeatureProvider());	    
 	    ContextButtonEntry button2 = new ContextButtonEntry(daf, cc);

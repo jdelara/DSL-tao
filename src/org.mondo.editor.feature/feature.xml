@@ -2,7 +2,7 @@
 <feature
       id="org.mondo.editor.feature"
       label="DSL-tao"
-      version="0.3.10.qualifier"
+      version="0.3.14.qualifier"
       provider-name="Universidad Autónoma de Madrid. Grupo MISO.">
 
    <description url="http://jdelara.github.io/DSL-tao/">

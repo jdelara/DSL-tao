@@ -16,7 +16,6 @@ import runtimePatterns.PatternInstances;
 
 import dslPatterns.MMInterface;
 import dslPatterns.Pattern;
-import dslPatterns.PatternSet;
 
 /**
  * Class of utility functions to evaluate extensions.
@@ -87,10 +86,10 @@ public class EvaluateExtensionPoint {
 	 * @param patternInstances - patternInstances object
 	 * @return boolean that specifies the success of the application.
 	 */
-	public static boolean evaluateApplyPattern(IExtensionRegistry registry, Pattern pattern, EPackage ePack,PatternInstances patternInstances) {
+	public static boolean evaluateApplyPattern(IExtensionRegistry registry, Pattern pattern, EPackage ePack,PatternInstances patternInstances, IPath iPath) {
 		IPatternImplementation o = getInstanceIPattern(registry, pattern.getName());
 		if (o!= null) {
-			return executeApplyPatternExtension(o, pattern, ePack, patternInstances);
+			return executeApplyPatternExtension(o, pattern, ePack, patternInstances, iPath);
 		}
 		else return false;
 	}
@@ -236,8 +235,8 @@ public class EvaluateExtensionPoint {
 	 * @param pis - patternInstances
 	 * @return boolean that specifies the success of the application
 	 */
-	private static boolean executeApplyPatternExtension(final Object o,Pattern pattern, final EPackage ePack, PatternInstances pis) {
-		ApplyPatternRunnable runnable = new ApplyPatternRunnable((IPatternImplementation)o, pattern, ePack, pis);
+	private static boolean executeApplyPatternExtension(final Object o,Pattern pattern, final EPackage ePack, PatternInstances pis, IPath iPath) {
+		ApplyPatternRunnable runnable = new ApplyPatternRunnable((IPatternImplementation)o, pattern, ePack, pis, iPath);
 		SafeRunner.run(runnable);	
 		return runnable.isSuccessful();
 	}

@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
@@ -72,14 +73,23 @@ public class ExportMetamodelPatternsFeature extends AbstractCustomFeature {
 	  		  	if (path != null) {
 	  		  		String pathPatterns = new File(path.replace(".ecore", ".rtpat")).toURI().toString();
 	  		  		path = new File(path).toURI().toString();
-
-					ModelUtils.saveModel(path, pack);
+	  		  		
+	  		  		Copier copier = new Copier();
+	  		  		EObject result = copier.copy(pack);
+	  		  		copier.copyReferences();
+  		  		
+					ModelUtils.saveModel(path, result);
 					
 					EObject obj = ModelUtils.getPatternsModel(getDiagram());
-					ModelUtils.saveModel(pathPatterns, obj);								
-					((Diagram)pes[0]).eResource().getContents().add(obj);
+					
+					Copier copier2 = new Copier();
+	  		  		EObject result2 = copier.copy(obj);
+	  		  		copier2.copyReferences();
+					
+					ModelUtils.saveModel(pathPatterns, result2);								
+					//((Diagram)pes[0]).eResource().getContents().add(obj);
 								
-					((Diagram)pes[0]).eResource().getContents().add(pack);
+					//((Diagram)pes[0]).eResource().getContents().add(pack);
 					Messages.displayGeneralMessage("Export Meta-model", "Your meta-model was exported successfully");
 				} 
 	    	}catch (Exception ex){ 

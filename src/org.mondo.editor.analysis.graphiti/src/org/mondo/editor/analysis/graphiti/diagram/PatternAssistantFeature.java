@@ -73,13 +73,13 @@ public class PatternAssistantFeature extends AbstractCustomFeature {
 
 		IProject project= IResourceUtils.getProject(getDiagram().eResource());
 			
-		Map<PatternMetaModel,Integer> metamodelsCount = PatternAssistantUtils.getPatternsMetamodelRelated(project, bo.getName());
+		Map<PatternMetaModel,Integer> metamodelsCount = PatternAssistantUtils.getPatternsMetamodelRelated(project, bo.getName()+" "+bo.getDescription());
 		List<PatternMetaModel> metamodels = new LinkedList<PatternMetaModel>();
 		for (PatternMetaModel pattern: PatternAssistantUtils.orderForValues(metamodelsCount).keySet()){
 			metamodels.add(pattern);
 		}
 		
-		if (!metamodels.isEmpty()){
+		if ((!metamodels.isEmpty()) || ((metamodels.isEmpty() && (bo.getPattern()!=null)))){
 			
 			PatternChoiceWizard pw= new PatternChoiceWizard(metamodels, project, bo.getPattern());
 			WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), pw)
@@ -101,7 +101,7 @@ public class PatternAssistantFeature extends AbstractCustomFeature {
 				writePattern(bo, pes[0]);
 			}
 		
-		}else Messages.displayGeneralMessage("Pattern Association", "No related patterns");
+		} else Messages.displayGeneralMessage("Pattern Association", "No related patterns");
 	}
 
 	private void writePattern(Idea idea, final PictogramElement pe){

@@ -50,7 +50,7 @@ public class AddNoteFeature extends AbstractAddFeature {
 		int height = 150;
 		int posX = csIdea.getGraphicsAlgorithm().getX()-(csIdea.getGraphicsAlgorithm().getWidth()+width);
 		int posY = csIdea.getGraphicsAlgorithm().getY();
-		int tamTex = 7; 	
+		int tamTex = 10; 	
 		
 		Note newNote = (Note)context.getNewObject();
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();

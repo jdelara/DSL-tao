@@ -50,15 +50,15 @@ public class ResizeEClassFeature extends DefaultResizeShapeFeature {
 		IGaService gaService = Graphiti.getGaService();
 		
 		Shape eClassText = shapes.get(0);
-		gaService.setLocationAndSize(eClassText.getGraphicsAlgorithm(), 0, 30, width, 20);
+		gaService.setLocationAndSize(eClassText.getGraphicsAlgorithm(), 0, 25, width, 20);
 		Shape nameText = shapes.get(1);
-		gaService.setLocationAndSize(nameText.getGraphicsAlgorithm(), 0, 10, width, 20);
+		gaService.setLocationAndSize(nameText.getGraphicsAlgorithm(), 0, 5, width, 20);
 		Shape annotText = shapes.get(2);
-		gaService.setLocationAndSize(annotText.getGraphicsAlgorithm(), width/*2/3*/*9/13, 10, width*9/13, 40);
+		gaService.setLocationAndSize(annotText.getGraphicsAlgorithm(), width/*2/3*/*9/13, 5, width*9/13, 40);
 	
 		//Collapse references
 		Shape collapseReferencesContainer = (Shape)shapes.get(4);
-		gaService.setLocationAndSize(collapseReferencesContainer.getGraphicsAlgorithm(), 5,60, width, collapseReferencesContainer.getGraphicsAlgorithm().getHeight());
+		gaService.setLocationAndSize(collapseReferencesContainer.getGraphicsAlgorithm(), 5,DiagramStyles.CLASS_DEF_HEIGHT, width, collapseReferencesContainer.getGraphicsAlgorithm().getHeight());
 
 		//Attributes
 		for (int i=DiagramUtils.POS_ATTRIBUTES;i<shapes.size();i++){
@@ -68,7 +68,6 @@ public class ResizeEClassFeature extends DefaultResizeShapeFeature {
 			for (Shape shapeEA: ((ContainerShape)eAttributeText).getChildren()){
 				gaService.setLocationAndSize(shapeEA.getGraphicsAlgorithm(), 5, 0, width-5, 20);
 			}
-			
 		}
 		
 		Shape lineText = shapes.get(3);

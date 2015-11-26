@@ -34,6 +34,8 @@ import mindMapDSML.Idea;
  */
 public class AddIdeaFeature extends AbstractAddFeature {
 	
+	private final int WIDTH = 180;
+	private final int HEIGHT = 80;
 	public AddIdeaFeature(IFeatureProvider fp) {
 		super(fp);
 	}
@@ -47,23 +49,21 @@ public class AddIdeaFeature extends AbstractAddFeature {
 	@Override
 	public PictogramElement add(IAddContext context) {
 
-		int width = 200, height = 100;
+		int width = WIDTH, height = HEIGHT;
 		int posX = context.getX(), posY = context.getY();
-		int tamTex = 12;
+		int tamTex = 16;
 		int tamLinea = 10;
-		//Diagram targetDiagram = null;
 		ContainerShape csIdea = null;
 		Idea superIdea = null;
 		
 		if(getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Idea){
 			csIdea = context.getTargetContainer();
-			//targetDiagram = (Diagram) csIdea.getContainer(); 
 			
 			width = csIdea.getGraphicsAlgorithm().getWidth()*3/4; 
 			height = csIdea.getGraphicsAlgorithm().getHeight()*3/4;
-			posX = csIdea.getGraphicsAlgorithm().getX()+(200-width)/2;
-			posY = csIdea.getGraphicsAlgorithm().getY()-100;
-			tamTex = height/10+2;
+			posX = csIdea.getGraphicsAlgorithm().getX()+(WIDTH-width)/2;
+			posY = csIdea.getGraphicsAlgorithm().getY()-HEIGHT;
+			tamTex = height/10+6;
 			tamLinea =  height/10;
 			superIdea = (Idea) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		} 
@@ -105,7 +105,7 @@ public class AddIdeaFeature extends AbstractAddFeature {
 		Text text = gaService.createText(shapeText,newIdea.getName());
 		text.setForeground(manageColor(color.getTextName())); 
 		text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		gaService.setLocationAndSize(text, 0, figure.getHeight()/3, figure.getWidth(), tamTex*3);
+		gaService.setLocationAndSize(text, 0, figure.getHeight()/4, figure.getWidth(), tamTex*3);
 		text.setFont(gaService.manageFont(getDiagram(), "Verdana", tamTex, false, true));
 		
 		Property marker = MmFactory.eINSTANCE.createProperty();
@@ -162,7 +162,7 @@ public class AddIdeaFeature extends AbstractAddFeature {
 	        ConnectionDecorator textDecoratorC = peCreateService.createConnectionDecorator(connection, true, 0.1,true);
 	        Text textDecorator = gaService.createDefaultText(getDiagram(), textDecoratorC);
 	        textDecorator.setForeground(manageColor(IColorConstant.BLACK));
-	        textDecorator.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.SMALL_SIZE_FONT, false, false));
+	        textDecorator.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.BIG_SIZE_FONT, false, false));
 	        gaService.setLocation(textDecorator, 5, -25);
 	        textDecorator.setValue(newIdea.getSubText());
 	        

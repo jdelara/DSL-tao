@@ -2,7 +2,9 @@ package org.mondo.editor.graphiti.diagram;
 
 import java.io.File;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
@@ -69,8 +71,13 @@ public class ExportMetamodelFeature extends AbstractCustomFeature {
 	    		String path=fileDialog.open();
 	  		  	if (path != null) {
 	  		  		path = new File(path).toURI().toString();
-					ModelUtils.saveModel(path, pack);				
-					((Diagram)pes[0]).eResource().getContents().add(pack);
+					
+	  		  		Copier copier = new Copier();
+	  		  		EObject result = copier.copy(pack);
+	  		  		copier.copyReferences();
+	  			
+	  		  		ModelUtils.saveModel(path, result);				
+					//((Diagram)pes[0]).eResource().getContents().add(pack);
 					Messages.displayGeneralMessage("Export Meta-model", "Your meta-model was exported successfully");
 				} 
 	    	}catch (Exception ex){ 

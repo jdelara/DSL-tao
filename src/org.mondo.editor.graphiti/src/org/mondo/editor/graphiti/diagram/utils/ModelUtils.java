@@ -116,6 +116,10 @@ public  class ModelUtils {
 	 * @throws IOException
 	 */
 	public static void saveModel(String path, EObject rootElement) throws IOException	{
+		/*Copier copier = new Copier();
+		EObject result = copier.copy(rootElement);
+		copier.copyReferences();*/
+		
 		ResourceSet metaResourceSet = new ResourceSetImpl();
 		Resource metaResource = metaResourceSet.createResource(URI.createURI(path));	
 		metaResource.getContents().add(rootElement);

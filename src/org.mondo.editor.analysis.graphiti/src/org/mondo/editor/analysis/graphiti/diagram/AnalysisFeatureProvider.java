@@ -32,6 +32,12 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.mondo.editor.graphiti.diagram.DeleteEModelElementDefaultFeature;
 
+/**
+ * Class to provide the functionalities available in the diagram editor.
+ * 
+ * @author miso partner AnaPescador
+ *
+ */
 public class AnalysisFeatureProvider extends DefaultFeatureProvider {
 
 	public AnalysisFeatureProvider(IDiagramTypeProvider dtp) {

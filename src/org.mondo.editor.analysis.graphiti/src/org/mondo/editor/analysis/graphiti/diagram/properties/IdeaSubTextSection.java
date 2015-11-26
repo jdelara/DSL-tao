@@ -99,7 +99,7 @@ public class IdeaSubTextSection extends GFPropertySection implements ITabbedProp
 		
 		@Override
 		public void focusGained(FocusEvent e) {
-			
+			refresh();
 		}
 	};
 	

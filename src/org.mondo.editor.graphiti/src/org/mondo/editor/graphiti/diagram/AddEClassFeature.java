@@ -42,7 +42,7 @@ public class AddEClassFeature extends AbstractAddFeature {
 	@Override
 	public PictogramElement add(IAddContext context) {
 
-		int width = DiagramStyles.CLASS_WIDTH, height = DiagramStyles.CLASS_HEIGHT, lineGap = 55;
+		int width = DiagramStyles.CLASS_WIDTH, height = DiagramStyles.CLASS_HEIGHT, lineGap = /*55*/45;
 		
 		EClass newEClass = (EClass)context.getNewObject();
 		
@@ -69,7 +69,7 @@ public class AddEClassFeature extends AbstractAddFeature {
 		Text text = gaService.createText(shapeText,newEClass.getName());
 		text.setForeground(manageColor(DiagramStyles.CLASS_TEXT_FOREGROUND)); 
 		text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-		gaService.setLocationAndSize(text, 0, 30, figure.getWidth(), 20);
+		gaService.setLocationAndSize(text, 0, 25, figure.getWidth(), 20);
 		text.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.EXTRA_BIG_SIZE_FONT, false, true));
 		
 		Property marker = MmFactory.eINSTANCE.createProperty();
@@ -83,7 +83,7 @@ public class AddEClassFeature extends AbstractAddFeature {
 		textTag.setForeground(manageColor(DiagramStyles.TAG_TEXT));		
 		textTag.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 		textTag.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.MEDIUM_SIZE_FONT, false, false));
-		gaService.setLocationAndSize(textTag, 0, 10, figure.getWidth(), 20);
+		gaService.setLocationAndSize(textTag, 0, 5, figure.getWidth(), 20);
 		
 		Property marker2 = MmFactory.eINSTANCE.createProperty();
 		marker2.setKey("type");
@@ -99,7 +99,7 @@ public class AddEClassFeature extends AbstractAddFeature {
 		textAnn.setVerticalAlignment(Orientation.ALIGNMENT_TOP);
 		textAnn.setForeground(manageColor(DiagramStyles.ANNOTATION_FOREGROUND));
 
-		gaService.setLocationAndSize(textAnn, figure.getWidth()*9/13, 10, figure.getWidth()*9/13, 40);
+		gaService.setLocationAndSize(textAnn, figure.getWidth()*9/13, 5, figure.getWidth()*9/13, 40);
 		
 		Property marker3 = MmFactory.eINSTANCE.createProperty();
 		marker3.setKey("type");

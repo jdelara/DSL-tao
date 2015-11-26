@@ -14,7 +14,7 @@ import mindMapDSML.Link;
 public final class TransformationUtils {
 
 	public static final TransformationOption IDEA_TO_SINGULAR  = new TransformationOption("IDEA_TO_SINGULAR", "Idea names to singular ", "img/pluralToSingular.jpg");
-	/**/public static final TransformationOption FEATURE_TO = new TransformationOption("FEATURE_TO", "Features to:  ", "img/toClasstoAttribute.jpg");
+	public static final TransformationOption FEATURE_TO = new TransformationOption("FEATURE_TO", "Features to:  ", "img/toClasstoAttribute.jpg");
 	public static final TransformationOption BIDIRECTIONAL_CONTAINMENT = new TransformationOption("BI_CONTAINMENT", "Bidirectional Containment", "img/biContainment.jpg");
 	public static final TransformationOption OPTIONAL_REFERENCE = new TransformationOption("OPTIONAL_REFERENCE", "Optional Reference", "img/optional.jpg");
 	public static final TransformationOption MULTIPLICITY = new TransformationOption("MULTIPLICITY", "Multiplicity Reference","img/multiplicity.jpg");
@@ -120,6 +120,12 @@ public final class TransformationUtils {
 			    }
 		    }
 		}
+		//literalmente establecemos el tipo
+		if ((text.compareToIgnoreCase("int")==0) || (text.compareToIgnoreCase("integer")==0)) 
+			return EcoreFactory.eINSTANCE.getEcorePackage().getEInt();
+		else if (text.compareToIgnoreCase("double")==0)  
+			return EcoreFactory.eINSTANCE.getEcorePackage().getEDouble();
+		
 		
 		return EcoreFactory.eINSTANCE.getEcorePackage().getEString();
 	}

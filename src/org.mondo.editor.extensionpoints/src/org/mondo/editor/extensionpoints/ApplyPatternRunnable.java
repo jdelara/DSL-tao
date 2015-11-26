@@ -1,6 +1,7 @@
 package org.mondo.editor.extensionpoints;
 
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -21,16 +22,18 @@ public class ApplyPatternRunnable implements ISafeRunnable {
 	private IPatternImplementation pi = null;
 	private PatternInstances patternInstances = null;
 	private boolean successful;
+	private IPath iPath= null;
 	
 	public boolean isSuccessful() {
 		return successful;
 	}
 
-	public ApplyPatternRunnable(IPatternImplementation o, Pattern pattern, EPackage pathMetamodel,  PatternInstances pis) {
+	public ApplyPatternRunnable(IPatternImplementation o, Pattern pattern, EPackage pathMetamodel,  PatternInstances pis, IPath iPath) {
 		this.pi = o;
 		this.pattern = pattern;
 		this.pathMetamodel = pathMetamodel;
 		this.patternInstances = pis;
+		this.iPath = iPath;
 	}
 
 	@Override
@@ -39,6 +42,6 @@ public class ApplyPatternRunnable implements ISafeRunnable {
 	}
 	@Override
 	public void run() throws Exception {
-		successful =((IPatternImplementation) pi).applyPattern(pathMetamodel, pattern, patternInstances);
+		successful =((IPatternImplementation) pi).applyPattern(pathMetamodel, pattern, patternInstances, iPath);
 	}
 }

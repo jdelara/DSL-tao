@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -46,7 +45,6 @@ import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.internal.command.AddFeatureCommandWithContext;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.MmFactory;
 import org.eclipse.graphiti.mm.Property;
@@ -216,13 +214,10 @@ public  class DiagramUtils {
 							dpf.execute(context);
 						}
 					}
-					
-					
 				}
 				
 			}
 		});
-        
 	}
 	
 	/**
@@ -250,7 +245,6 @@ public  class DiagramUtils {
 			protected void doExecute() {
 				
 	            DiagramUtils.initPatternInfo(diagram);
-				
 				int x = 100, y= 100, lim_x = 1100;
 				
 				for (EClassifier classif: pack.getEClassifiers()){
@@ -521,7 +515,7 @@ public  class DiagramUtils {
 				if (textcollapseInfo.getValue().isEmpty())  
 				textcollapseInfo.setValue(DiagramUtils.getCollapseReferenceText(ref));
 				else textcollapseInfo.setValue(textcollapseInfo.getValue()+"\n"+DiagramUtils.getCollapseReferenceText(ref));
-				Graphiti.getGaService().setLocationAndSize(textcollapseInfo, 5, 60, textcollapseInfo.getWidth(), DiagramUtils.getHeightCollapseReferencesText(textcollapseInfo));
+				Graphiti.getGaService().setLocationAndSize(textcollapseInfo, 5, DiagramStyles.CLASS_DEF_HEIGHT, textcollapseInfo.getWidth(), DiagramUtils.getHeightCollapseReferencesText(textcollapseInfo));
 			}
 		}
 	}
@@ -539,7 +533,7 @@ public  class DiagramUtils {
 				
 				String cadOpp = DiagramUtils.getCollapseReferenceTextFromText(textcollapseInfo.getValue(), ref);
 				textcollapseInfo.setValue(textcollapseInfo.getValue().replace(cadOpp, ""));
-				Graphiti.getGaService().setLocationAndSize(textcollapseInfo, 5, 60, textcollapseInfo.getWidth(), DiagramUtils.getHeightCollapseReferencesText(textcollapseInfo));
+				Graphiti.getGaService().setLocationAndSize(textcollapseInfo, 5, DiagramStyles.CLASS_DEF_HEIGHT, textcollapseInfo.getWidth(), DiagramUtils.getHeightCollapseReferencesText(textcollapseInfo));
 			}
 		}
 	}
@@ -875,8 +869,8 @@ public  class DiagramUtils {
 		
 		ResizeEClassFeature ref = new ResizeEClassFeature(fp);
         ResizeShapeContext rsContext = new ResizeShapeContext(shape);
-        rsContext.setWidth(DiagramStyles.CLASS_MIN_WIDTH+50);
-        rsContext.setHeight(DiagramStyles.CLASS_DEF_HEIGHT+heightReferences);
+        rsContext.setWidth(shape.getGraphicsAlgorithm().getWidth());
+        rsContext.setHeight(DiagramStyles.CLASS_DEF_HEIGHT+heightReferences+5);
         rsContext.setX((shape).getGraphicsAlgorithm().getX());
         rsContext.setY((shape).getGraphicsAlgorithm().getY());
         ref.resizeShape(rsContext);
@@ -955,11 +949,8 @@ public  class DiagramUtils {
 					for (Connection con : anchor.getOutgoingConnections()){
 						for (Property p: con.getProperties()) {
 							if (p.getKey().equals("type") && p.getValue().equals(DiagramUtils.TYPE_INHERITANCE)){
-								//Estoy en la conexión de herencia.
 								heritage = true;
 								con.setVisible(true);
-								//Modificar el texto de la clase.
-								//Calculamos la nueva cadena de texto.
 							}
 						}
 					}
@@ -979,7 +970,6 @@ public  class DiagramUtils {
 			}
 			
 		}
-       
 	}
 	
 	
@@ -993,7 +983,7 @@ public  class DiagramUtils {
 	public static void expandEClass (ContainerShape shape, IFeatureProvider fp){
 		ResizeEClassFeature ref = new ResizeEClassFeature(fp);
         ResizeShapeContext rsContext = new ResizeShapeContext(shape);
-        rsContext.setWidth(DiagramStyles.CLASS_WIDTH);
+        rsContext.setWidth(shape.getGraphicsAlgorithm().getWidth());
         rsContext.setHeight(DiagramStyles.CLASS_HEIGHT);
         rsContext.setX((shape).getGraphicsAlgorithm().getX());
         rsContext.setY((shape).getGraphicsAlgorithm().getY());
@@ -1020,10 +1010,6 @@ public  class DiagramUtils {
 		
 		setIsExpandMode(shape);
 		
-		//Expand children 19/06/2015
-		/*for (EClass eClassif: ModelUtils.getAllChildren((EClass)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(shape))){
-			setElementVisibility(fp.getDiagramTypeProvider().getDiagram(), eClassif,true,new LinkedList<ENamedElement>());
-    	}*/
 	}
 	
 	/**
@@ -1073,9 +1059,7 @@ public  class DiagramUtils {
 			return getPictogramEPackageToSelect(diagram, ((EStructuralFeature)element).getEContainingClass());
 		return null;
 	}
-	
-	
-	
+
 	
 	/**
 	 * Static method that returns the pictogram to select in a validation by ENamedElement.
@@ -1202,10 +1186,8 @@ public  class DiagramUtils {
 		eOpposite.setUpperBound(opposite.getUpperBound());
 		eOpposite.setContainment(opposite.isContainment());
 		
-		/////TEMPORAL->Cambiado
 		eOpposite.setOrdered(opposite.isOrdered());
 		eOpposite.setUnique(opposite.isOrdered());
-        ////
 		
 		
 		sourceOpC.getEStructuralFeatures().add(eOpposite);

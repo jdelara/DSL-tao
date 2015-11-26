@@ -308,8 +308,8 @@ public class AppliedPatternsView extends ViewPart {
 				}
 			}else return;
 		}
-		viewer.setInput(null);
-		fiViewer.setInput(null);
+		if (viewer!= null) if (!viewer.getTree().isDisposed())viewer.setInput(null);
+		if (fiViewer!=null) if (!fiViewer.getTable().isDisposed())fiViewer.setInput(null);
 	}
 	
 	private void showHiddenElements(){

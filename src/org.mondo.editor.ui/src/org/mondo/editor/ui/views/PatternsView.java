@@ -16,8 +16,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -319,8 +321,12 @@ public class PatternsView extends ViewPart {
 						
 						if ( (maxNumIns==-1) || (numIns<maxNumIns)){
 							PatternInstances pis = RuntimePatternsModelUtils.getPatternInstances(editor.getDiagramBehavior(), true);
-
-							if (!EvaluateExtensionPoint.evaluateApplyPattern(Platform.getExtensionRegistry(), pattern, ecoreDiagram, pis))
+							
+							
+							IFile file = IResourceUtils.getFile(editor.getDiagramTypeProvider().getDiagram().eResource());
+							IPath iPath = file.getLocation();
+							
+							if (!EvaluateExtensionPoint.evaluateApplyPattern(Platform.getExtensionRegistry(), pattern, ecoreDiagram, pis, iPath))
 							{		
 								IProject project= IResourceUtils.getProject(editor.getDiagramTypeProvider().getDiagram().eResource());
 								List<PatternMetaModelAttached> attachPatterns = new LinkedList<PatternMetaModelAttached>();
@@ -413,7 +419,7 @@ public class PatternsView extends ViewPart {
 			}
 		} else {
 		ecoreDiagram = null;
-		viewer.setInput(null);
+		if (viewer!= null) if (!viewer.getControl().isDisposed()) viewer.setInput(null);
 		}	
 	}
 }

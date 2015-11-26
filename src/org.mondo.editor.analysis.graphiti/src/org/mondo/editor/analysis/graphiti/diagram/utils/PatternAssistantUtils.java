@@ -68,17 +68,18 @@ public final class PatternAssistantUtils {
 	 */
 	public static  List<PatternMetaModel> getPatternsRelatedRoles(Pattern pattern, String tag){
 		List<PatternMetaModel> lpmm = new LinkedList<PatternMetaModel>();
+		String singular = WordUtils.toSingular(tag);
 		for (PatternMetaModel pmm : getPatternMetamodel(pattern)){
 			if (!((ComplexFeatureMain)pmm.eContainer()).getName().isEmpty()){
 				String name = ((ComplexFeatureMain)pmm.eContainer()).getName();
 				for (String nameU : name.split(" ")){
-					if (nameU.compareToIgnoreCase(tag)==0){
+					if ((nameU.compareToIgnoreCase(tag)==0) || (nameU.compareToIgnoreCase(singular)==0)){
 						lpmm.add(pmm);
 						break;
 					}
 				}
 				for (String role: getRoles(pmm)){
-					if (role.compareToIgnoreCase(tag)==0){
+					if ((role.compareToIgnoreCase(tag)==0) || (role.compareToIgnoreCase(singular)==0)){
 						lpmm.add(pmm);
 						break;
 					}
@@ -137,7 +138,8 @@ public final class PatternAssistantUtils {
 	}
 	
 	private static boolean containsTag(Tag tag, String tagText){
-		if (tag.getName().compareToIgnoreCase(tagText)==0){
+		String singular = WordUtils.toSingular(tagText);
+		if ((tag.getName().compareToIgnoreCase(tagText)==0) || (tag.getName().compareToIgnoreCase(singular)==0)){
 			return true;
 		} else {
 			if (tag.eContainer() instanceof Tag){

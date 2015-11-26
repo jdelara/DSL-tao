@@ -203,8 +203,10 @@ public class ColorIdeaManagement {
 	 * @return true if it's, false it not.
 	 */
 	private static boolean sameColor (ColorIdeaInfo color1, ColorIdeaInfo color2){
-		ColorConstant color1C = color1.getBackground();
-		ColorConstant color2C = color2.getBackground();
+		ColorConstant color1C = null;
+		ColorConstant color2C = null;
+		if (color1 != null) color1C = color1.getBackground(); else return false;
+		if (color2 != null) color2C = color2.getBackground(); else return false;
 		
 		return (color1C.getBlue()== color2C.getBlue()) && (color1C.getGreen() == color2C.getGreen()) && (color1C.getRed() == color2C.getRed());
 	}

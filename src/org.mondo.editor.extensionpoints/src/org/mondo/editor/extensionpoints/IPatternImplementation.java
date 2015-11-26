@@ -52,5 +52,5 @@ public interface IPatternImplementation {
 	 * @param patternInstances - object that contents the applied patterns, it is used to add the new one.
 	 * @return boolean that specifies the mapping success
 	 */
-	boolean applyPattern(EPackage ePack, Pattern pattern, PatternInstances patternInstances);
+	boolean applyPattern(EPackage ePack, Pattern pattern, PatternInstances patternInstances, IPath iPath);
 }

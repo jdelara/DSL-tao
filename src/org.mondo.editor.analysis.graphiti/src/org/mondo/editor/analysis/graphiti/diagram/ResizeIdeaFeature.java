@@ -38,10 +38,9 @@ public class ResizeIdeaFeature extends DefaultResizeShapeFeature {
 		gaService.setLocationAndSize(orderText.getGraphicsAlgorithm(),context.getWidth()/7, context.getHeight()/4-10, context.getWidth()-context.getWidth()/7,orderText.getGraphicsAlgorithm().getHeight());
 		
 		Shape nameText = shapes.get(1);
-		gaService.setLocationAndSize(nameText.getGraphicsAlgorithm(), 0, context.getHeight()/3, context.getWidth(),nameText.getGraphicsAlgorithm().getHeight());
+		gaService.setLocationAndSize(nameText.getGraphicsAlgorithm(), 0, context.getHeight()/4, context.getWidth(),nameText.getGraphicsAlgorithm().getHeight());
 	
 		Shape patternText = shapes.get(2);
 		gaService.setLocationAndSize(patternText.getGraphicsAlgorithm(), context.getWidth()/8, context.getHeight()/2+10, context.getWidth()-2*context.getWidth()/8, patternText.getGraphicsAlgorithm().getHeight());
 	}
-
 }

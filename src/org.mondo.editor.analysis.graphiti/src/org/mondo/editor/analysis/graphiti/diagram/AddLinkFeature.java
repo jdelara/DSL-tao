@@ -67,7 +67,7 @@ public class AddLinkFeature extends AbstractAddFeature {
         ConnectionDecorator textDecorator = peCreateService.createConnectionDecorator(connection, true, 0.7,true);
         Text text = gaService.createDefaultText(getDiagram(), textDecorator);
         text.setForeground(manageColor(ColorIdeaManagement.getDefaultColor().getForeground()));
-        text.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.MEDIUM_SIZE_FONT, false, true));
+        text.setFont(gaService.manageFont(getDiagram(), "Verdana", DiagramStyles.BIG_SIZE_FONT, false, true));
         gaService.setLocation(text, 5, -25);
         text.setValue(addedConnection.getName());
         

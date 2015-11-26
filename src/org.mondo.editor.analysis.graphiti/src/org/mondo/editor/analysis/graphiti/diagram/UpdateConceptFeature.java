@@ -102,8 +102,8 @@ public class UpdateConceptFeature extends AbstractUpdateFeature {
             businessName = ModelUtils.getIdeaID(getDiagram(), idea);
  
             ColorIdeaInfo newColor = ColorIdeaManagement.getDefaultColor();
-            int newWidth = 200;
-            int newHeight = 100;
+            int newWidth = 180;
+            int newHeight = 80;
             boolean changeColor =false;
             boolean changeSize = false;
             if (((Idea)bo).eContainer() instanceof Idea){
@@ -122,15 +122,15 @@ public class UpdateConceptFeature extends AbstractUpdateFeature {
         			changeSize = true;
         		}
         	} else {
-        		changeColor = true;
-        		changeSize = true;
+        		//changeColor = true;
+        		//changeSize = true;
         	}
 
             //Order
 	        if (pictogramElement instanceof ContainerShape) {
 	            ContainerShape cs = (ContainerShape) pictogramElement;
 	    		IGaService gaService = Graphiti.getGaService();
-	    		int tamTex = newHeight/10+2;
+	    		int tamTex = newHeight/10+6;
 	    		RoundedRectangle figure = null;
 	            if (cs.getGraphicsAlgorithm() instanceof RoundedRectangle){
 	            	figure = ((RoundedRectangle)cs.getGraphicsAlgorithm());
@@ -161,7 +161,7 @@ public class UpdateConceptFeature extends AbstractUpdateFeature {
 									if (changeColor)
 										text.setForeground(manageColor(newColor.getTextName())); 
 									if (changeSize) {
-										gaService.setLocationAndSize(text, 0, figure.getHeight()/3, figure.getWidth(), tamTex*3);
+										gaService.setLocationAndSize(text, 0, figure.getHeight()/4, figure.getWidth(), tamTex*3);
 										text.setFont(gaService.manageFont(getDiagram(), text.getFont().getName(), tamTex, text.getFont().isItalic(), text.getFont().isBold()));
 									}
 								} else if (p.getKey().equals("type") && p.getValue().equals(org.mondo.editor.graphiti.diagram.utils.DiagramUtils.TYPE_INFO_PATTERNS)){

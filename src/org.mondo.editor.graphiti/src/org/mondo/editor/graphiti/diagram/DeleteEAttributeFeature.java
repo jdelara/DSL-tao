@@ -8,6 +8,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
+import org.mondo.editor.graphiti.diagram.utils.DiagramStyles;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 
 
@@ -38,7 +39,7 @@ public class DeleteEAttributeFeature extends DeleteEModelElementDefaultFeature {
 		while (i<shapes.size()){
 			Shape eAttributeText = shapes.get(i);
 			if (attShape!=eAttributeText){
-				gaService.setLocationAndSize(eAttributeText.getGraphicsAlgorithm(), 0, 60+20*pos, eAttributeText.getGraphicsAlgorithm().getWidth(),20);
+				gaService.setLocationAndSize(eAttributeText.getGraphicsAlgorithm(), 0, DiagramStyles.CLASS_DEF_HEIGHT+20*pos, eAttributeText.getGraphicsAlgorithm().getWidth(),20);
 				pos++;
 			}
 			i++;
