@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.mondo.editor.feature_0.3.14.201511251513.jar" id="org.mondo.editor.feature" version="0.3.14.201511251513">
+   <feature url="features/org.mondo.editor.feature_0.3.16.201602251610.jar" id="org.mondo.editor.feature" version="0.3.16.201602251610">
       <category name="miso"/>
    </feature>
    <category-def name="miso" label="miso"/>
