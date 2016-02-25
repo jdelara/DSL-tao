@@ -122,8 +122,8 @@ public class UpdateConceptFeature extends AbstractUpdateFeature {
         			changeSize = true;
         		}
         	} else {
-        		//changeColor = true;
-        		//changeSize = true;
+        		changeColor = true;
+        		changeSize = true;
         	}
 
             //Order
@@ -142,7 +142,6 @@ public class UpdateConceptFeature extends AbstractUpdateFeature {
 	            		figure.setHeight(newHeight);
             			figure.setWidth(newWidth);
 	            	}
-
 	            	            
 		            for (Shape shape : cs.getChildren()) {
 		            	if (shape.getGraphicsAlgorithm() instanceof org.eclipse.graphiti.mm.algorithms.Text) {
@@ -182,8 +181,8 @@ public class UpdateConceptFeature extends AbstractUpdateFeature {
 		        		if (((Idea)bo).eContainer() instanceof MindMap){
 		        			Graphiti.getPeService().deletePictogramElement(pe);
 		        		} else {
-		        			if (changeColor) ((Connection)pe).getGraphicsAlgorithm().setForeground(manageColor(newColor.getLine()));
-		        			if (changeSize)  ((Connection)pe).getGraphicsAlgorithm().setLineWidth(newHeight/10);
+		        			if (changeColor)((Connection)pe).getGraphicsAlgorithm().setForeground(manageColor(newColor.getLine()));
+		        			if (changeSize) ((Connection)pe).getGraphicsAlgorithm().setLineWidth(newHeight/10);
 		        		}
 		        	}
 		        }

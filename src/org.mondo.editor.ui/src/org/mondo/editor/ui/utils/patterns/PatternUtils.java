@@ -54,6 +54,7 @@ import serviceInterfaces.impl.InterfaceImpl;
 import dslPatterns.Acceptor;
 import dslPatterns.Category;
 import dslPatterns.ClassInterface;
+import dslPatterns.ComplexFeatureMain;
 import dslPatterns.FeatureInstance;
 import dslPatterns.FeatureInterface;
 import dslPatterns.FeatureType;
@@ -66,6 +67,7 @@ import dslPatterns.Port;
 import dslPatterns.ReferenceInterface;
 import dslPatterns.Service;
 import dslPatterns.Slot;
+import dslPatterns.Variant;
 
 /**
  * Class of utility functions to work with patterns.
@@ -77,12 +79,10 @@ public final class PatternUtils {
 
 	static final String PATTERNS_FOLDER = "patterns";
 	static final String PATTERNS_FILE_NAME = "repository.dslpatterns";
-	static final String PATTERNS_INTERFACES_NAME = "interfaces.serviceInterfaces";
-	
+	static final String PATTERNS_INTERFACES_NAME = "interfaces.serviceInterfaces";	
 	static final String PLUGIN_DSL_ID = "org.mondo.dsl";
 	static final String PLUGIN_DSL_RELATIVE_DIR = PATTERNS_FOLDER+File.separator;
-	
-	/*provisional*/public /**/static final String PATH_IMAGE_DEFAULT = PATTERNS_FOLDER+File.separator+"icons"+File.separator+"NoImagePattern.gif";
+	public static final String PATH_IMAGE_DEFAULT = PATTERNS_FOLDER+File.separator+"icons"+File.separator+"NoImagePattern.gif";
 
 	/**
 	 * Static method that returns the PatternSet object stored on the given project
@@ -313,14 +313,12 @@ public final class PatternUtils {
 				  allmmird.add(mmird);
 			  }
 		}
-		//NUEVO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!5/5/2015
 		//Si no existe devolvemos sus hijos.
 		if (allmmird.isEmpty()) {
 			for (EClass child : ModelUtils.getChildren(text.getEPackage(), text)){
 				allmmird.addAll(getAllMMInterfaceRelDiagram (patternRelDiagram, child,orderPointer));
 			}
 		}
-		///////////////////////////////////////////////
 		return allmmird;
 	}
 		
@@ -451,13 +449,7 @@ public final class PatternUtils {
 								else if (eTypeClassDiagram == eClass) return true;
 						}	
 					}
-				}/* else {
-					String elementDiagram = target.getToConcreteSubtype().getElementDiagram();
-					if (!elementDiagram.isEmpty()){
-						  EClass eTypeClassDiagram = (EClass)ModelsUtils.getEObject(modelPack,elementDiagram);
-						  return (eTypeClassDiagram == eClass);
-					}
-				}*/
+				}
 			}
 		}
 		return false;
@@ -550,7 +542,7 @@ public final class PatternUtils {
 	 * @param mmird MMInterfaceRelDiagram which's going to be copy
 	 * @param order of the MMInterfaceRelDiagram which's going to be created
 	 */
-	public static void duplicateStructureReference(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmird, int order, /*22/09/2015*/MMInterfaceRelDiagram parent){
+	public static void duplicateStructureReference(List<MMInterfaceRelDiagram> patternRelDiagram, MMInterfaceRelDiagram mmird, int order, MMInterfaceRelDiagram parent){
 		
 		if (mmird.getMmInterface() instanceof ReferenceInterface){
 			
@@ -563,13 +555,12 @@ public final class PatternUtils {
 					
 					MMInterfaceRelDiagram mmirdRef2 = new MMInterfaceRelDiagram(mmirdRef.getMmInterface(), "", orderPointer, -1,patternRelDiagram);
 					patternRelDiagram.add(mmirdRef2);
-					duplicateChildren(patternRelDiagram, mmirdRef, orderPointer,/*22/09/2015*/ mmirdRef2);
+					duplicateChildren(patternRelDiagram, mmirdRef, orderPointer, mmirdRef2);
 					
 					for (MMInterfaceRelDiagram subtype: PatternUtils.getSubTypes(patternRelDiagram, mmirdRef)){
 						int orderSubtype = PatternUtils.getNumMaxOrderMMInterfaceRelDiagram(patternRelDiagram, subtype)+1;
 						duplicateStructureClass(patternRelDiagram,subtype,orderSubtype, orderPointer);
-						//patternRelDiagram.add(new MMInterfaceRelDiagram(subtype.getMmInterface(), "", orderPointer, patternRelDiagram));
-						//duplicateChildren(patternRelDiagram, subtype, orderPointer);
+
 					}
 					MMInterfaceRelDiagram mmirdD = new MMInterfaceRelDiagram((ReferenceInterface)mmird.getMmInterface(), "",order ,orderPointer, patternRelDiagram, (parent==null?mmird.getParent():parent));
 					mmirdD.setToConcreteSubtype(mmirdRef2);
@@ -663,8 +654,6 @@ public final class PatternUtils {
 			MMInterfaceRelDiagram  mmirdRef = PatternUtils.getMMInterfaceRelDiagramRef(patternRelDiagram, mmird);
 			
 			if ((mmirdRef != null)&&(!((isReflexiveReference(patternRelDiagram,mmird)) && (mmird.getOrder()== mmird.getOrderPointer())))
-					//11/5/2015
-					//Si solo le apunta el .... se borra la clase.
 					&& (PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(patternRelDiagram, mmirdRef).size()==1)){
 				PatternApplicationUtils.copyAttRefClassChildren(patternRelDiagram, mmirdRef);
 
@@ -1055,7 +1044,6 @@ public final class PatternUtils {
 		for (Interface i: ri){
 			if (!slotProvidedByAnotherService(patternServiceInfoList, i, intModel)) {
 				//Get the relative interface without modifying the repository
-				//Relative interface!! 03/06/2015
 				Interface irelative = PatternUtils.getInterface(intModel, i);
 				psi.addMissing((irelative!=null?irelative:i), getSlotOfferedBy(i, intModel, allPatterns));
 			}
@@ -1064,7 +1052,6 @@ public final class PatternUtils {
 		ri = getAcceptorInterfaces(psi.getService(), intModel);
 		for (Interface i: ri){
 			if (!injectorProvidedByAnotherService(patternServiceInfoList, i, intModel)) {
-				//Relative interface!! 03/06/2015
 				Interface irelative = PatternUtils.getInterface(intModel, i);
 				psi.addMissing((irelative!=null?irelative:i),  getInjectorOfferedBy(i, intModel, allPatterns));
 			}
@@ -1233,9 +1220,22 @@ public final class PatternUtils {
 		PatternSet patternset = getPatternSetModel(project);
 		if (patternset != null)
 		for (Category cat: patternset.getCategories()){
-			patterns.addAll(cat.getPatterns());
+			setPatterns(patterns, cat);
 		}
 		return patterns;
+	}
+	
+	/**
+	 * Static method that adds all the pattern of this category (can exists subcategories)
+	 * @param patterns
+	 * @param cat
+	 */
+	private static void setPatterns(List<Pattern> patterns, Category cat){
+		if (cat!=null){
+			patterns.addAll(cat.getPatterns());
+			cat.getSubcategories().forEach(subcat->setPatterns(patterns, subcat));
+		}
+		
 	}
 	
 	/**
@@ -1327,6 +1327,62 @@ public final class PatternUtils {
 			subTypes.addAll (getSubTypesAllLevels(content, subtype));
 		}
 		return subTypes;
+	}
+
+	/**
+	 * Static method that returns the list of pattern metaModel objects that contains the pattern.
+	 * @param pattern
+	 * @return list of pattern meta-models.
+	 */
+	public static List<PatternMetaModel> getPatternMetamodel (Pattern pattern){
+		List<PatternMetaModel> pm = new ArrayList<>();
+		ComplexFeatureMain cf = pattern.getRootVariant();
+		if (cf != null){
+			for (Variant var : cf.getAndChildren()){
+				if (var instanceof ComplexFeatureMain){
+					pm.add(((ComplexFeatureMain)var).getMetaModel());
+				}
+			}
+			for (Variant var : cf.getOrChildren()){
+				if (var instanceof ComplexFeatureMain){
+					pm.add(((ComplexFeatureMain)var).getMetaModel());
+				}
+			}
+			for (Variant var : cf.getXorChildren()){
+				if (var instanceof ComplexFeatureMain){
+					pm.add(((ComplexFeatureMain)var).getMetaModel());
+				}
+			}
+		}
+		return pm;
+	}
+	
+	/**
+	 * Static method that returns if the pattern meta-models are equals.
+	 * @param pmm1
+	 * @param pmm2
+	 * @return boolean
+	 */
+	public static boolean areEqualsPatternMetamodels (PatternMetaModel pmm1, PatternMetaModel pmm2){
+	  if ((pmm1 != null) && (pmm2 != null)){
+		  String name1= ((Variant)pmm1.eContainer()).getName();
+		  String name2 = ((Variant)pmm2.eContainer()).getName();
+		  return name1.equals(name2);
+		  
+	  } else return pmm1 == pmm2;
+	}
+	
+	/**
+	 * Static method that returns if the list contains the pattern meta-model
+	 * @param patternMetamodels
+	 * @param pmm
+	 * @return boolean
+	 */
+	public static boolean containsPatternMetamodel (List<PatternMetaModel> patternMetamodels, PatternMetaModel pmm){
+		for (PatternMetaModel pmmAux: patternMetamodels){
+			if (areEqualsPatternMetamodels(pmmAux, pmm)) return true;
+		}
+		return false;
 	}
 	
 }

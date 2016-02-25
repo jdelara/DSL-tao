@@ -82,6 +82,7 @@ public class MondoDiagramDecorator implements ILightweightLabelDecorator {
 		} else if (resource instanceof IProject){
 			IProject project= (IProject) resource;
 			try {
+				if (project.isOpen())
 				if (project.getNature(MondoNature.ID)!= null){
 					ImageDescriptor descriptor = ImagesUtils.getImageDescriptor(iconPathMondo);
 					int quadrant = IDecoration.TOP_RIGHT;

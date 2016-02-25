@@ -24,7 +24,6 @@ public class EcoreMondoDiagramWizard extends Wizard {
     two = new EcoreMondoDiagramWizardPageTwo(diagramName);
     addPage(one);
     addPage(two);
-    
   }
   
   

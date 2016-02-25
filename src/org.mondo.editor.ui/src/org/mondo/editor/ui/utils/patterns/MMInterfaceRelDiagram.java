@@ -26,7 +26,6 @@ public class MMInterfaceRelDiagram {
 	private String elementDiagram;
 	private int order;
 	private int orderPointer = 0;
-	//For att and refs
 	private MMInterfaceRelDiagram parent = null;
 	private List<MMInterfaceRelDiagram> children = new LinkedList<MMInterfaceRelDiagram>();
 	private MMInterfaceRelDiagram toConcreteSubtype = null;

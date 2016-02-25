@@ -184,13 +184,22 @@ public interface MindMapDSMLPackage extends EPackage {
 	int IDEA__FEATURES = 8;
 
 	/**
+	 * The feature id for the '<em><b>Pattern Role</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDEA__PATTERN_ROLE = 9;
+
+	/**
 	 * The number of structural features of the '<em>Idea</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDEA_FEATURE_COUNT = 9;
+	int IDEA_FEATURE_COUNT = 10;
 
 
 	/**
@@ -440,6 +449,17 @@ public interface MindMapDSMLPackage extends EPackage {
 	EReference getIdea_Features();
 
 	/**
+	 * Returns the meta object for the reference '{@link mindMapDSML.Idea#getPatternRole <em>Pattern Role</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Pattern Role</em>'.
+	 * @see mindMapDSML.Idea#getPatternRole()
+	 * @see #getIdea()
+	 * @generated
+	 */
+	EReference getIdea_PatternRole();
+
+	/**
 	 * Returns the meta object for class '{@link mindMapDSML.Link <em>Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -653,6 +673,14 @@ public interface MindMapDSMLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IDEA__FEATURES = eINSTANCE.getIdea_Features();
+
+		/**
+		 * The meta object literal for the '<em><b>Pattern Role</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IDEA__PATTERN_ROLE = eINSTANCE.getIdea_PatternRole();
 
 		/**
 		 * The meta object literal for the '{@link mindMapDSML.impl.LinkImpl <em>Link</em>}' class.

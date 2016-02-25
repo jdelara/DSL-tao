@@ -26,7 +26,6 @@ public class NewMondoProjectWizardPage extends WizardPage {
 		setDescription("This wizard creates a new DSL-tao project.");
 	}
 
-
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -74,7 +73,6 @@ public class NewMondoProjectWizardPage extends WizardPage {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
-
 
 	public String getProjectName() {
 		return projectName.getText();

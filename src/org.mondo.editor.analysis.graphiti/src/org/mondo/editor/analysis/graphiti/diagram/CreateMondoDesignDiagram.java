@@ -1,5 +1,6 @@
 package org.mondo.editor.analysis.graphiti.diagram;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -27,6 +31,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
@@ -45,13 +50,16 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.mondo.editor.analysis.graphiti.diagram.utils.ModelUtils;
+import org.mondo.editor.analysis.graphiti.diagram.utils.PatternAssistantUtils;
 import org.mondo.editor.analysis.graphiti.diagram.utils.TransformationUtils;
 import org.mondo.editor.analysis.graphiti.diagram.utils.WordUtils;
 import org.mondo.editor.analysis.graphiti.diagram.wizards.MindMapMondoDiagramWizard;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
+import org.mondo.editor.graphiti.diagram.LayoutDiagramFeature;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
+import org.mondo.editor.ui.utils.HeuristicsUtils;
 import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternApplicationUtils;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
@@ -86,7 +94,7 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
  
     @Override
     public String getDescription() {
-        return "Create design Meta-model";
+        return "Create Design Meta-model";
     }
  
     @Override
@@ -153,9 +161,8 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 								dp.getFeatureProvider().link(diagram, pack);
 								
 						        DiagramUtils.initCollapseInheritance(diagram);
-								
 							}
-					   });
+					});
 					IResourceUtils.saveResource(metaResource);						
 					file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);		
 					DiagramUtils.drawDiagram(dp.getFeatureProvider(), diagram);    
@@ -164,27 +171,43 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 				   
 					file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 				   
-				   
 					try {
 						IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 								
 						IFile fich = file.getParent().getFile(new Path(dw.getDiagramName()+".diagram"));
 						
-						IEditorPart ep = IDE.openEditor(activePage, fich);
+						IEditorPart ep = IDE.openEditor(activePage, fich);				
 						activePage.closeEditor(ep, false);
 						ep = IDE.openEditor(activePage, fich);
 						
 						//PATRONES
 						if (activePage.getActiveEditor() instanceof IDiagramContainerUI){
 							IDiagramContainerUI editor = (IDiagramContainerUI)activePage.getActiveEditor();
-	
+							
 							PatternInstances pis = RuntimePatternsModelUtils.getPatternInstances(editor.getDiagramBehavior(), true);
+							List<PatternMetaModel> appliedPatterns = new LinkedList<PatternMetaModel>();
 							for (Idea idea: ideasEClasses.keySet()){
 								if (idea.getPattern()!= null){
-									createPattern(pack, ideasEClasses.get(idea),idea.getPattern(), editor.getDiagramBehavior(), pis);
+									//if mainIdea reset appliedPatterns
+									if (ModelUtils.isFirstLevel(idea)) appliedPatterns.clear();
+									if (!PatternAssistantUtils.containsMetamodel(appliedPatterns, idea.getPattern())){
+										Map<ClassInterface, EClass> binding = getPatternBinding(idea, ideasEClasses);
+										createPattern(pack, ideasEClasses.get(idea),idea.getPattern(),editor.getDiagramBehavior(), pis, binding);
+										appliedPatterns.add(idea.getPattern());
+									}
 								}
 							}
+							TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(editor.getDiagramTypeProvider().getDiagram());
+							domain.getCommandStack().execute(new RecordingCommand(domain) {
+								
+								@Override
+								protected void doExecute() {
+							        LayoutDiagramFeature ldf = new LayoutDiagramFeature(editor.getDiagramTypeProvider().getFeatureProvider());
+							        ldf.execute(null);
+								}
+							});
 						}
+						
 						activePage.saveEditor(ep, false);
 					} catch (PartInitException e) {	
 					}
@@ -213,8 +236,10 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 		pack.setNsURI("http://mondo.org/"+diagramName.replace(" ",""));
 		
 		//1. TRANSLATE IDEAS.
-		for (Idea idea: mindMap.getIdeas())
-				translateIdeatoClass(pack,null, idea, ideasEClasses, options);
+		for (Idea idea: mindMap.getIdeas()){
+			translateIdeatoClass(pack,null, idea, ideasEClasses, options);
+		}
+		
 		
 		//2. REFERENCES, ATTRIBUTES AND ANNOTATIONS.
 		for (Idea idea: ideasEClasses.keySet()){
@@ -223,7 +248,8 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 			for (Link link: idea.getLinks()){
 				EClass targetClass = ideasEClasses.get(link.getTarget());
 				EReference eref = EcoreFactory.eINSTANCE.createEReference();
-				eref.setName(TransformationUtils.getNameRef(link));
+				String name =  org.mondo.editor.graphiti.diagram.utils.ModelUtils.getRefNameValid(sourceEClass, TransformationUtils.getNameRef(link));
+				eref.setName(name);
 				eref.setEType(targetClass);
 
 				//CARDINALITY
@@ -236,7 +262,7 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 			//ATRIBUTES
 			for (Feature feature: idea.getFeatures()){
 				if (TransformationUtils.fulfillCondition(TransformationUtils.FEATURE_TO, feature, options))
-					translateFeatureToAttribute(sourceEClass, feature);
+					translateFeatureToAttribute(sourceEClass, feature, TransformationUtils.fulfillCondition(TransformationUtils.COMMA_TO_ENUM, feature, options));
 				else translateFeatureToClass(pack, sourceEClass, feature);
 			}
 			
@@ -261,10 +287,14 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
      * @param eclassParent - parent class.
      * @param feature
      */
-    private static void translateFeatureToAttribute(EClass eclassParent, Feature feature){
+    private static void translateFeatureToAttribute(EClass eclassParent, Feature feature, Boolean commas){
     	EAttribute att = EcoreFactory.eINSTANCE.createEAttribute();
 		att.setName(WordUtils.toCamelCase(feature.getKey(), false));
-		att.setEType(TransformationUtils.getEType(feature));
+		EClassifier classif = TransformationUtils.getEType(feature, commas);
+		if (classif instanceof EEnum) 
+			((EPackage)eclassParent.eContainer()).getEClassifiers().add(classif);
+		att.setEType(classif);
+		att.setDefaultValueLiteral(TransformationUtils.getDefaultValue(feature, commas));
 		eclassParent.getEStructuralFeatures().add(att);
     }
     
@@ -282,7 +312,9 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 		EReference eref = EcoreFactory.eINSTANCE.createEReference();
 		eref.setEType(eclass);
 		eref.setContainment(true);
-		eref.setName(feature.getKey()+"s");
+		
+		String nameRef =  org.mondo.editor.graphiti.diagram.utils.ModelUtils.getRefNameValid(eclassParent, feature.getKey()+"s");
+		eref.setName(nameRef);
 
 		//CARDINALITY
 		eref.setLowerBound(1);
@@ -298,24 +330,35 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
      * @param eclassParent
      * @param idea
      * @param ideasEClasses map that associate ideas with their related class.
+     * @return boolean - true = transformation into a hierarchy.
      */
-	private static void translateIdeatoClass(EPackage pack, EClass eclassParent, Idea idea, Map<Idea, EClass> ideasEClasses, Map<String,Boolean> options){
+	private static boolean translateIdeatoClass(EPackage pack, EClass eclassParent, Idea idea, Map<Idea, EClass> ideasEClasses, Map<String,Boolean> options){
 		EClass eclass = EcoreFactory.eINSTANCE.createEClass();
 		String name = "";
+		boolean inheritance = false;
 		if (idea.getPattern() != null){
-			name = org.mondo.editor.graphiti.diagram.utils.ModelUtils.getClassNameValid(pack, getRootName(idea.getPattern()));//IMPORTANTE BUSCAR
+			String roleName = "";
+			if (idea.getPatternRole() != null){
+				EClass eclassPattern = PatternUtils.getEClass(idea.getPatternRole());
+				if (eclassPattern != null) roleName = eclassPattern.getName();
+			}
+			if (roleName.isEmpty()) roleName = getRootName(idea.getPattern());
+			
+			name = org.mondo.editor.graphiti.diagram.utils.ModelUtils.getClassNameValid(pack, roleName);//IMPORTANTE BUSCAR
 		}else name = org.mondo.editor.graphiti.diagram.utils.ModelUtils.getClassNameValid(pack, TransformationUtils.fulfillCondition(TransformationUtils.IDEA_TO_SINGULAR, idea, options)?WordUtils.toSingular(WordUtils.toCamelCase(idea.getName(), true)):WordUtils.toCamelCase(idea.getName(), true) );
 		eclass.setName(name);
 		
 		if (eclassParent != null)
 			if (TransformationUtils.fulfillCondition(TransformationUtils.INHERITANCE,idea, options)){
 				eclass.getESuperTypes().add(eclassParent);
+				inheritance = true;
 			}else{
 				EReference eref = EcoreFactory.eINSTANCE.createEReference();
 				eref.setEType(eclass);
 				eref.setContainment(true);
-
-				eref.setName(TransformationUtils.getNameRef(idea));
+				
+				String nameRef =  org.mondo.editor.graphiti.diagram.utils.ModelUtils.getRefNameValid(eclassParent, TransformationUtils.getNameRef(idea));
+				eref.setName(nameRef);
 				
 				//CARDINALITY
 				eref.setLowerBound(TransformationUtils.fulfillCondition(TransformationUtils.OPTIONAL_REFERENCE,idea, options)?0:1);
@@ -328,7 +371,9 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 					EReference eopp = EcoreFactory.eINSTANCE.createEReference();
 					eopp.setEType(eclassParent);
 					
-					eopp.setName(TransformationUtils.getNameRefOpp(idea));
+					
+					String nameRefOp =  org.mondo.editor.graphiti.diagram.utils.ModelUtils.getRefNameValid(eclass, TransformationUtils.getNameRefOpp(idea));
+					eopp.setName(nameRefOp);
 					
 					//CARDINALITY
 					eopp.setLowerBound(0);
@@ -342,9 +387,12 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 			
 		pack.getEClassifiers().add(eclass);
 		ideasEClasses.put(idea, eclass);
+		boolean inheritance2 = true;
 		for (Idea ssubIdea: idea.getContains()){
-			translateIdeatoClass(pack,eclass, ssubIdea, ideasEClasses, options);
+			inheritance2 = translateIdeatoClass(pack,eclass, ssubIdea, ideasEClasses, options) && inheritance2;
 		}
+		eclass.setAbstract(inheritance2 && idea.getContains().size()>1);
+		return inheritance;
 	}
 	
 	/**
@@ -353,13 +401,26 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 	 * @return
 	 */
 	private static String getRootName (PatternMetaModel pattern){
-		for (ClassInterface ci: pattern.getClassInterfaces()){
-			if (!ci.isAbstract()){
-				EClass eclass = PatternUtils.getEClass(ci);
-				if (eclass != null) return eclass.getName();
-			}
+		ClassInterface ci = getRoot(pattern);
+		if (ci!= null){
+			EClass eclass = PatternUtils.getEClass(ci);
+			if (eclass != null) return eclass.getName();
 		}
 		return "";
+	}
+	
+	/**
+	 * Static method that returns 
+	 * @param pattern
+	 * @return
+	 */
+	private static ClassInterface getRoot (PatternMetaModel pattern){
+		for (ClassInterface ci: pattern.getClassInterfaces()){
+			if (!ci.isAbstract()){
+				return ci;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -370,19 +431,16 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 	 * @param db
 	 * @param pis
 	 */
-	private static void createPattern (EPackage pack, EClass root, PatternMetaModel metamodel, DiagramBehavior db, PatternInstances pis){
-		boolean first = true;
+	private static void createPattern (EPackage pack, EClass root, PatternMetaModel metamodel, DiagramBehavior db, PatternInstances pis, Map< ClassInterface, EClass> binding){
+		//boolean first = true;
 		List<MMInterfaceRelDiagram> patternRelDiagram = new LinkedList<MMInterfaceRelDiagram>();
 		  if (metamodel!=null){
 			  for (ClassInterface ci: metamodel.getClassInterfaces()){ 
 				  if (PatternUtils.existsEClass(ci)){
-					  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, "", patternRelDiagram);
-					  patternRelDiagram.add(relElement);
-					  if ((first) && (!ci.isAbstract())){
-						  first=false;
-						  pack.getEClassifiers().add(root);
-						  relElement.setElementDiagram(root.getName());
-					  }				  
+					  String element = "";
+					  if (binding.get(ci)!= null) element = binding.get(ci).getName();
+					  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ci, element, patternRelDiagram);
+					  patternRelDiagram.add(relElement);		  
 				  }
 			  }
 			  for (FeatureInterface fi: metamodel.getAttrInterfaces()){  
@@ -398,6 +456,16 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 			  for (ReferenceInterface ri: metamodel.getRefInterfaces())	 {   	
 				  if (PatternUtils.existsEReference(ri)){
 					  MMInterfaceRelDiagram relElement = new MMInterfaceRelDiagram(ri, "", patternRelDiagram);
+					  
+					  List<ENamedElement> recommended = HeuristicsUtils.getOptimalElements(relElement, pack, patternRelDiagram);
+					  if (recommended.size()>0) {
+						  if (recommended.get(0)instanceof EReference){
+							  EReference ref = (EReference)(recommended.get(0));
+							  relElement.setElementDiagram( ref.getEContainingClass().getName()+"/"+ref.getName());
+						  }
+					  }
+					  //////////////////
+					  
 					  patternRelDiagram.add(relElement);
 				  }
 			  }
@@ -405,7 +473,6 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 			  Pattern pattern = getPattern(metamodel);
 			  String patternInstanceName = RuntimePatternsModelUtils.getPatternNameValid(pis, pattern.getName());
 			 PatternApplicationUtils.applyPattern(patternRelDiagram, db, getPattern(metamodel), pis, patternInstanceName, false);
-
 	    	}
 	}
 	
@@ -425,5 +492,34 @@ public class CreateMondoDesignDiagram extends AbstractCustomFeature {
 				return (Pattern)((ComplexFeatureMain)metamodel.eContainer()).eContainer().eContainer();
 		return null;
 	}
-
+	
+	private static Map<ClassInterface, EClass> getPatternBinding (Idea idea, Map<Idea, EClass> ideasEClasses){
+		Map< ClassInterface, EClass> binding = new HashMap<ClassInterface, EClass>();
+		PatternMetaModel pattern = idea.getPattern();
+		
+		if (idea.getPatternRole()!=null) 
+			binding.put(idea.getPatternRole(), ideasEClasses.get(idea));
+		else {//Será el root
+			ClassInterface root = getRoot(idea.getPattern());
+			if (root!=null)binding.put(root, ideasEClasses.get(idea));
+		}
+		Idea root = ModelUtils.getRootIdea(idea);
+		for (Idea subidea: root.getContains()){
+			fillPatternBinding(subidea, ideasEClasses, pattern, binding);
+		}
+		
+		return binding;
+	}
+	
+	private static void fillPatternBinding (Idea idea, Map<Idea, EClass> ideasEClasses, PatternMetaModel pattern, Map< ClassInterface, EClass> binding){
+		PatternMetaModel patternIdea = idea.getPattern();
+		if (pattern.equals(patternIdea)){
+			if (idea.getPatternRole()!=null) 
+				binding.put(idea.getPatternRole(), ideasEClasses.get(idea));
+		}
+		for (Idea subidea: idea.getContains()){
+			fillPatternBinding(subidea, ideasEClasses, pattern, binding);
+		}
+	}
+	
 }

@@ -37,8 +37,6 @@ public class PatternWizardPageOne extends WizardPage {
     GridLayout layout = new GridLayout();
     container.setLayout(layout);
     layout.numColumns = 2;
-    //Label label1 = new Label(container, SWT.NONE);
-    //label1.setText("Welcome to "+name+" Wizard.\n"+(description==null?"":description+"\n"));
    
 	Label label2 = new Label(container, SWT.NONE);
 	label2.setText("Pattern instance name:");

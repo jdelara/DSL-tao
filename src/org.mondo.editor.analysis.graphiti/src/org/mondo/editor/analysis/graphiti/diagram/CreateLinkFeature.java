@@ -11,6 +11,7 @@ import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.mondo.editor.analysis.graphiti.diagram.utils.ModelUtils;
 
 /**
  * Class to create Link objects into the mind map.
@@ -45,7 +46,7 @@ public class CreateLinkFeature extends AbstractCreateConnectionFeature  {
 		Idea targetIdea = (Idea)getBusinessObjectForPictogramElement(target);
 		
 		Link newLink = MindMapDSMLFactory.eINSTANCE.createLink();			
-		newLink.setName("link");
+		newLink.setName(ModelUtils.getLinkNameValid(sourceIdea));
 		newLink.setTarget(targetIdea);
 		
 		sourceIdea.getLinks().add(newLink);

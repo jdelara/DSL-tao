@@ -70,9 +70,11 @@ public class EPackageNsURISection extends GFPropertySection implements ITabbedPr
 	    if (pe != null) {
 	    	
 	    	EPackage pack = (EPackage)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-	        
-	    	String uri = pack.getNsURI();
-	        nsURI.setText(uri == null ? "" : uri);
+	    	
+	    	if (pack != null){
+	    		String uri = pack.getNsURI();
+	    		nsURI.setText(uri == null ? "" : uri);
+	    	}
 	    }
 	}
 	

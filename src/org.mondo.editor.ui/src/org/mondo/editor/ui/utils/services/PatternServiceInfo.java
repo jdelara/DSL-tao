@@ -91,5 +91,4 @@ public class PatternServiceInfo {
 		this.pattern = pattern;
 		this.serviceInstance = si;
 	}
-
 }

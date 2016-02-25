@@ -38,7 +38,6 @@ public class MyDropListener extends ViewerDropAdapter {
 	private List<MMInterfaceRelDiagram> content;
 	private Button replace;
 
-
 	public MyDropListener(Viewer viewer, EPackage pack, List<MMInterfaceRelDiagram> content, Button replace) {
 	    super(viewer);
 	    this.viewer = viewer;

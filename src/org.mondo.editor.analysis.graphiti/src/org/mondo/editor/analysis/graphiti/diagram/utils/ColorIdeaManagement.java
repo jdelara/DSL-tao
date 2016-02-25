@@ -76,7 +76,7 @@ public class ColorIdeaManagement {
 	}
 	
 	/**
-	 * to know if the color is being using for a child of the idea.
+	 * static method to know if the color is being using for a child of the idea.
 	 * @param diagram
 	 * @param idea for this idea for its children.
 	 * @param cii

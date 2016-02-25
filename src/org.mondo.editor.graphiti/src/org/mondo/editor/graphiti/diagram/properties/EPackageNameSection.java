@@ -84,13 +84,15 @@ public class EPackageNameSection extends GFPropertySection implements ITabbedPro
 		PictogramElement pe = getSelectedPictogramElement();
 	    if (pe != null) {
 	    	EPackage pack = (EPackage)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-	        
-	        String name = pack.getName();
-	        this.name.setText(name == null ? "" : name);
-	        if (pe instanceof Diagram){
-	        	if(!((Diagram) pe).getName().startsWith(".")) this.name.setEnabled(true);
-	        	else  this.name.setEnabled(false);
-	        }else this.name.setEnabled(true); 
+	    	
+	    	if (pack!=null){
+	    		String name = pack.getName();
+	    		this.name.setText(name == null ? "" : name);
+	    		if (pe instanceof Diagram){
+	    			if(!((Diagram) pe).getName().startsWith(".")) this.name.setEnabled(true);
+	    			else  this.name.setEnabled(false);
+	    		}else this.name.setEnabled(true);
+	    	}
 	    }
 	}
 	

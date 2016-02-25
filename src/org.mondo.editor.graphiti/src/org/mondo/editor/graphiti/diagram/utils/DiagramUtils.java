@@ -72,6 +72,7 @@ import org.eclipse.ui.PlatformUI;
 import org.mondo.editor.graphiti.diagram.AddEPackageFeature;
 import org.mondo.editor.graphiti.diagram.DeleteEPackageFeature;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
+import org.mondo.editor.graphiti.diagram.LayoutDiagramFeature;
 import org.mondo.editor.graphiti.diagram.ResizeEClassFeature;
 import org.mondo.editor.graphiti.diagram.ResizeEEnumFeature;
 
@@ -279,9 +280,11 @@ public  class DiagramUtils {
 						}
 						for (EReference reference :((EClass) classif).getEReferences()){
 							if (!paintedReferences.contains(reference.getEOpposite())){
-								AddConnectionContext acc = new AddConnectionContext(getAnchor(diagram, (EClass)classif), getAnchor(diagram, reference.getEReferenceType()))	;
-								paint(fp, acc, reference);
-								paintedReferences.add(reference);
+								if (reference.getEReferenceType()!=null){
+									AddConnectionContext acc = new AddConnectionContext(getAnchor(diagram, (EClass)classif), getAnchor(diagram, reference.getEReferenceType()))	;
+									paint(fp, acc, reference);
+									paintedReferences.add(reference);
+								}
 							}
 						}
 					}
@@ -293,31 +296,26 @@ public  class DiagramUtils {
 					ac.setLocation(x, y);
 					ac.setTargetContainer(diagram);
 					ac.setNewObject(subPack);
-					/*paint(fp, ac, subPack);
-				
-					final EcoreDiagramTypeProvider dp = new EcoreDiagramTypeProvider();
-					Collection<Diagram> linkedDiagrams = getLinkedDiagrams(fp, subPack, ecoreDiagram);
-					*/
+
 					AddEPackageFeature packf = new AddEPackageFeature(fp);
 					packf.add(ac);
 					
 					final EcoreDiagramTypeProvider dp = new EcoreDiagramTypeProvider();
-					//for (Diagram diagram: linkedDiagrams){
 					Diagram newDiagram = packf.getNewDiagram();	
 					dp.init(newDiagram, dp.getDiagramBehavior());
 						drawDiagram(dp.getFeatureProvider(), newDiagram); //ecoreDiagram
 						IResourceUtils.saveResource(newDiagram.eResource());
-						
-					//}
 					
 					if (x<lim_x)x += 500;
 					else {
 						x=100;y +=300;
 					}
 				}
-				
+		        LayoutDiagramFeature ldf = new LayoutDiagramFeature(fp);
+		        ldf.execute(null);
 			}
 		});
+       
 	}
 	
 	/**
@@ -944,7 +942,6 @@ public  class DiagramUtils {
 		Boolean heritage = false;
 		for (PictogramElement pe : Graphiti.getLinkService().getPictogramElements(diagram, eclass)){
 			if (pe instanceof ContainerShape){
-		        //Escondemos la conexión
 				for (Anchor anchor: ((ContainerShape)pe).getAnchors()){
 					for (Connection con : anchor.getOutgoingConnections()){
 						for (Property p: con.getProperties()) {
@@ -1141,13 +1138,6 @@ public  class DiagramUtils {
 		EClass targetOpC = (EClass)reference.getEContainingClass();
 		eOpposite.setName(ModelUtils.getRefOpNameValid(sourceOpC));
 		eOpposite.setEType(targetOpC);
-		
-		/////TEMPORAL 
-		//Default values
-		//eOpposite.setOrdered(false);
-		//eOpposite.setUnique(false);
-        ////
-		
 		
 		sourceOpC.getEStructuralFeatures().add(eOpposite);
 		reference.setEOpposite(eOpposite);
@@ -1509,7 +1499,7 @@ public  class DiagramUtils {
 	}
 	
 	/**
-	 * Static method that initialises the mode show_pattern_info in the specified shape.
+	 * Static method that initializes the mode show_pattern_info in the specified shape.
 	 * @param shape
 	 */
 	public static void initPatternInfo (Shape shape){

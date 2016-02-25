@@ -52,32 +52,25 @@ public class PatternMenuAdapter extends MenuAdapter {
 	
 	@Override
 	public void menuShown(MenuEvent e) {
-		 MenuItem[] items = menu.getItems();
-         for (int i = 0; i < items.length; i++)
-             items[i].dispose();
-         
+		MenuItem[] items = menu.getItems();
+        for (int i = 0; i < items.length; i++)
+             items[i].dispose(); 
         for (final TreeItem item: viewer.getTree().getSelection()){	            	
-        	
         	//Clear option
         	if ((!(((MMInterfaceRelDiagram)item.getData()).getMmInterface() instanceof FeatureInstance))  && (!(((MMInterfaceRelDiagram)item.getData()).getElementDiagram().isEmpty()))){
             	MenuItem itemClear = new MenuItem(menu, SWT.NONE);
 	            itemClear.setText("Clear" );
-	            
 	            itemClear.addSelectionListener(new SelectionListener() {
-					
 	            	private void clearMMInterfaceRelDiagram(MMInterfaceRelDiagram target, List<MMInterfaceRelDiagram> content){
 	            		target.setElementDiagram("");
-	            		
 	            		if (target.getMmInterface() instanceof ClassInterface){
 	            			for (MMInterfaceRelDiagram mmird : PatternUtils.getChildren(content, target)){
 	            				if (!(mmird.getMmInterface() instanceof FeatureInstance))
 	            				mmird.setElementDiagram("");
 	            			}
-	            			 
 	            			for (MMInterfaceRelDiagram mmird : PatternUtils.getMMInterfaceRelDiagramRefsEClass(content, target)){
 	            				 mmird.setElementDiagram("");
 	            			}
-	            			
 	    					EClass targetClass = PatternUtils.getEClass((ClassInterface)target.getMmInterface());
 	            			if (targetClass.getEAllSuperTypes().size()==0){
 		    					String[] childrenA = target.getAdditionalInformation().split(",");
@@ -209,8 +202,6 @@ public class PatternMenuAdapter extends MenuAdapter {
 		    				ok = ok	&& (((mmirdRef.getMinValue() < PatternUtils.getNumMMInterfaceRelDiagram(input,mmirdRef)))
 		    						||
 		    					(PatternUtils.getMMInterfaceRelDiagramRefsEClassWithoutDirectReflexives(input,mmirdRef).size()>1));
-	
-		    			
 		    			itemDelete.setEnabled(ok);	
 	            	}
 	            	itemDelete.addSelectionListener(new SelectionListener() {
@@ -331,7 +322,6 @@ public class PatternMenuAdapter extends MenuAdapter {
 							EObject parentClass = ModelsUtils.getEObject(pack, parent.getElementDiagram());
 
 							DragAndDropUtils.selectDragElements(viewerEcore,(EClass) parentClass, elements);
-
 						}
 						
 						@Override

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EModelElement;
@@ -116,9 +117,6 @@ public  class ModelUtils {
 	 * @throws IOException
 	 */
 	public static void saveModel(String path, EObject rootElement) throws IOException	{
-		/*Copier copier = new Copier();
-		EObject result = copier.copy(rootElement);
-		copier.copyReferences();*/
 		
 		ResourceSet metaResourceSet = new ResourceSetImpl();
 		Resource metaResource = metaResourceSet.createResource(URI.createURI(path));	
@@ -238,6 +236,17 @@ public  class ModelUtils {
 				if ((att!=att2)&&(att.getName().compareTo(att2.getName())==0))
 					errors += att.getName()+" is duplicated\n";
 			}
+			//Check the default value of the attributes according to the type
+			String defaultValue = att.getDefaultValueLiteral();
+			EClassifier dt = att.getEType();
+			if (dt instanceof EDataType){
+				try{
+					EcoreUtil.createFromString((EDataType)dt, defaultValue);
+				}catch (Exception exception){
+					errors += att.getName()+" must be a valid type\n";
+				}
+			
+			}
 		}
 		
 		EList<EReference> refs = eClass.getEAllReferences();
@@ -248,6 +257,7 @@ public  class ModelUtils {
 				if ((ref!=ref2)&&(ref.getName().compareTo(ref2.getName())==0))
 					errors += ref.getName()+" is duplicated\n";
 			}
+
 		}	
 		return errors;
 	}
@@ -492,8 +502,7 @@ public  class ModelUtils {
 		return getRefNameValid(eClass, name);
 	}
 	
-	
-	
+
 	/**
 	 * Static method that returns if the specified eEnumLiteral literalName exists on the eEnum argument.
 	 * @param eEnum

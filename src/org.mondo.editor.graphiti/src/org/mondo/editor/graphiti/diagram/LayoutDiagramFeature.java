@@ -87,32 +87,34 @@ public class LayoutDiagramFeature extends AbstractCustomFeature {
 		Diagram d = getDiagram();
 		EList<Connection> connections = d.getConnections();
 		for (Connection connection : connections) {
-			AnchorContainer source = connection.getStart().getParent();
-			AnchorContainer target = connection.getEnd().getParent();
-			
-			
-			Rectangle shape = (Rectangle)source.getGraphicsAlgorithm();
-			Rectangle shapeT = (Rectangle)target.getGraphicsAlgorithm();
-			
-			List<Point> points = ((FreeFormConnection)connection).getBendpoints();
-        	while (points.size()!=0){
-        		Point bp = points.get(0);
-				RemoveBendpointContext rdb = new RemoveBendpointContext((FreeFormConnection)connection,bp);
-				getFeatureProvider().getRemoveBendpointFeature(rdb).execute(rdb);
-			}
-			
-			if (shape.equals(shapeT)){
-				int x = shape.getX();
-	        	int y = shape.getY();
-	        	int desp = 50;
-	        	
-				AddBendpointContext apc1 = new AddBendpointContext((FreeFormConnection)connection, x+shape.getWidth()/2, y-desp, 0);
-		    	AddBendpointContext apc2 = new AddBendpointContext((FreeFormConnection)connection,x+shape.getWidth()+desp, y-desp, 0);
-		    	AddBendpointContext apc3 = new AddBendpointContext((FreeFormConnection)connection, x+shape.getWidth()+desp, y+shape.getHeight()/2, 0);
-		    	
-		    	getFeatureProvider().getAddBendpointFeature(apc1).execute(apc1);
-		    	getFeatureProvider().getAddBendpointFeature(apc2).execute(apc2);
-		    	getFeatureProvider().getAddBendpointFeature(apc3).execute(apc3);
+			if ((connection.getStart()!=null) && (connection.getEnd()!=null)){
+				AnchorContainer source = connection.getStart().getParent();
+				AnchorContainer target = connection.getEnd().getParent();
+				
+				
+				Rectangle shape = (Rectangle)source.getGraphicsAlgorithm();
+				Rectangle shapeT = (Rectangle)target.getGraphicsAlgorithm();
+				
+				List<Point> points = ((FreeFormConnection)connection).getBendpoints();
+	        	while (points.size()!=0){
+	        		Point bp = points.get(0);
+					RemoveBendpointContext rdb = new RemoveBendpointContext((FreeFormConnection)connection,bp);
+					getFeatureProvider().getRemoveBendpointFeature(rdb).execute(rdb);
+				}
+				
+				if (shape.equals(shapeT)){
+					int x = shape.getX();
+		        	int y = shape.getY();
+		        	int desp = 50;
+		        	
+					AddBendpointContext apc1 = new AddBendpointContext((FreeFormConnection)connection, x+shape.getWidth()/2, y-desp, 0);
+			    	AddBendpointContext apc2 = new AddBendpointContext((FreeFormConnection)connection,x+shape.getWidth()+desp, y-desp, 0);
+			    	AddBendpointContext apc3 = new AddBendpointContext((FreeFormConnection)connection, x+shape.getWidth()+desp, y+shape.getHeight()/2, 0);
+			    	
+			    	getFeatureProvider().getAddBendpointFeature(apc1).execute(apc1);
+			    	getFeatureProvider().getAddBendpointFeature(apc2).execute(apc2);
+			    	getFeatureProvider().getAddBendpointFeature(apc3).execute(apc3);
+				}
 			}
 		}
 	}
@@ -143,16 +145,18 @@ public class LayoutDiagramFeature extends AbstractCustomFeature {
 		}
 		EList<Connection> connections = d.getConnections();
 		for (Connection connection : connections) {
-			AnchorContainer source = connection.getStart().getParent();
-			AnchorContainer target = connection.getEnd().getParent();
-			
-			Object eclass = getBusinessObjectForPictogramElement(source);
-			Object eclassT = getBusinessObjectForPictogramElement(target);
-			
-			if (!eclass.equals(eclassT)){
-				Edge edge = new Edge(shapeToNode.get(source), shapeToNode.get(target));
-				edge.data = connection;
-				edgeList.add(edge);
+			if ((connection.getStart()!=null) && (connection.getEnd()!=null)){
+				AnchorContainer source = connection.getStart().getParent();
+				AnchorContainer target = connection.getEnd().getParent();
+				
+				Object eclass = getBusinessObjectForPictogramElement(source);
+				Object eclassT = getBusinessObjectForPictogramElement(target);
+				
+				if (!eclass.equals(eclassT)){
+					Edge edge = new Edge(shapeToNode.get(source), shapeToNode.get(target));
+					edge.data = connection;
+					edgeList.add(edge);
+				}
 			}
 		}
 		dg.nodes = nodeList;

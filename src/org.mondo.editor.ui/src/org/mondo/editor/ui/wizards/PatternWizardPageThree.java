@@ -124,7 +124,6 @@ public class PatternWizardPageThree extends WizardPage {
   	  
   	  Button buttonDuplicate = new Button(dragMode, SWT.LEFT | SWT.RADIO); 
   	  buttonDuplicate.setText("Duplicate element");
-	  
 
 	  diagramModel = DragAndDropUtils.createTreeViewerDrag(innerLeft);
    

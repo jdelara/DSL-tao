@@ -165,18 +165,21 @@ public class CodegenPackageImpl extends EPackageImpl implements CodegenPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		MindMapDSMLPackageImpl theMindMapDSMLPackage = (MindMapDSMLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MindMapDSMLPackage.eNS_URI) instanceof MindMapDSMLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MindMapDSMLPackage.eNS_URI) : MindMapDSMLPackage.eINSTANCE);
 		DslPatternsPackageImpl theDslPatternsPackage = (DslPatternsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) instanceof DslPatternsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DslPatternsPackage.eNS_URI) : DslPatternsPackage.eINSTANCE);
 		ServiceInterfacesPackageImpl theServiceInterfacesPackage = (ServiceInterfacesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) instanceof ServiceInterfacesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServiceInterfacesPackage.eNS_URI) : ServiceInterfacesPackage.eINSTANCE);
 		ModelingenvPackageImpl theModelingenvPackage = (ModelingenvPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) instanceof ModelingenvPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ModelingenvPackage.eNS_URI) : ModelingenvPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theCodegenPackage.createPackageContents();
+		theMindMapDSMLPackage.createPackageContents();
 		theDslPatternsPackage.createPackageContents();
 		theServiceInterfacesPackage.createPackageContents();
 		theModelingenvPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCodegenPackage.initializePackageContents();
+		theMindMapDSMLPackage.initializePackageContents();
 		theDslPatternsPackage.initializePackageContents();
 		theServiceInterfacesPackage.initializePackageContents();
 		theModelingenvPackage.initializePackageContents();

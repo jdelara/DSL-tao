@@ -94,7 +94,7 @@ public class MindMapMondoDiagramWizardPageTwo extends WizardPage {
 	bNamesToSingular.addMouseTrackListener(listenerChangeImage);
 	
 	GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
-	gd3.verticalSpan = 8;
+	gd3.verticalSpan = 9;
 	image = new Label(container, SWT.CENTER);
 	image.setText("imagen");
 	image.setLayoutData(gd3);
@@ -123,6 +123,18 @@ public class MindMapMondoDiagramWizardPageTwo extends WizardPage {
 	buttonFeatureToClasses.setText("classes");
 	buttonFeatureToClasses.setData(TransformationUtils.FEATURE_TO);
 	buttonFeatureToClasses.addMouseTrackListener(listenerChangeImage);
+
+	
+	Button bCommas = new Button(container, SWT.CHECK);
+	bCommas.setText(TransformationUtils.COMMA_TO_ENUM.getText());
+	bCommas.setData(TransformationUtils.COMMA_TO_ENUM);
+	options.put(TransformationUtils.COMMA_TO_ENUM.getKey(), new Boolean(true));
+
+	bCommas.setLayoutData(gd2);
+	bCommas.setEnabled(true);
+	bCommas.setSelection(true);
+	bCommas.addSelectionListener(listenerActiveOption);
+	bCommas.addMouseTrackListener(listenerChangeImage);
 
 	Button bContainment = new Button(container, SWT.CHECK);
 	bContainment.setText(TransformationUtils.BIDIRECTIONAL_CONTAINMENT.getText());

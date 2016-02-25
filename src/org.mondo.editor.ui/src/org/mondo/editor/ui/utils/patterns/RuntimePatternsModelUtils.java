@@ -448,6 +448,12 @@ public final class RuntimePatternsModelUtils {
 		return (cont!=0?name+cont:name);
 	}
 	
+	/**
+	 * Static method to get the number of pattern instances
+	 * @param db diagramBehaviour
+	 * @param pattern
+	 * @return
+	 */
 	public static int getNumPatternInstances (DiagramBehavior db, Pattern pattern){
 		int cont = 0;
 		PatternInstances pis = getPatternInstances(db, false);
@@ -459,6 +465,11 @@ public final class RuntimePatternsModelUtils {
 		return cont;
 	}
 	
+	/**
+	 * Static method to get the list of roles related to the pattern
+	 * @param cri ClassRoleInstance
+	 * @return
+	 */
 	public static List<InstanceFeatureRoleInstance> getInstanceFeatureRolesInstances (ClassRoleInstance cri){
 		List<InstanceFeatureRoleInstance> ifril = new LinkedList<InstanceFeatureRoleInstance>();
 		for (FeatureRoleInstance fi : cri.getFeatureInstances()){

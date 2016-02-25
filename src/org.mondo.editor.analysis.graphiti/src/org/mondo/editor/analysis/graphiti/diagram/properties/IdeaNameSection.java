@@ -27,6 +27,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 
 public class IdeaNameSection extends GFPropertySection implements ITabbedPropertyConstants {
+	private Text idText;
 	private Text nameText;
 
 	@Override
@@ -38,11 +39,28 @@ public class IdeaNameSection extends GFPropertySection implements ITabbedPropert
 		
 		FormData data;
 		
-		nameText = factory.createText(composite, "");
+		idText = factory.createText(composite, "");
 		data = new FormData();
 		data.left = new FormAttachment(0, 125);
 		data.right = new FormAttachment(50, 0);
 		data.top = new FormAttachment(0, VSPACE);
+		idText.setEnabled(false);
+		
+		idText.setLayoutData(data);
+		idText.addFocusListener(focusListener);
+
+		CLabel valueLabelID = factory.createCLabel(composite,  "Id:");
+		data = new FormData();
+		data.left = new FormAttachment(0, 0);
+		data.right = new FormAttachment(idText, -HSPACE);
+		data.top = new FormAttachment(idText, 0, SWT.CENTER);
+		valueLabelID.setLayoutData(data);
+		
+		nameText = factory.createText(composite, "");
+		data = new FormData();
+		data.left = new FormAttachment(0, 125);
+		data.right = new FormAttachment(50, 0);
+		data.top = new FormAttachment(0, VSPACE+50);
 		
 		nameText.setLayoutData(data);
 		
@@ -68,6 +86,8 @@ public class IdeaNameSection extends GFPropertySection implements ITabbedPropert
 	            return;
 	        String name = ((Idea) bo).getName();
 	        nameText.setText(name == null ? "" : name);
+	        String id = ((Idea) bo).getId();
+	        idText.setText(id == null ? "" : id);
 	    }
 	}
 	

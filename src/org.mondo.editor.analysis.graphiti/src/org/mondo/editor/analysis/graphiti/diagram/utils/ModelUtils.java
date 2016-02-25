@@ -6,6 +6,7 @@ import org.eclipse.graphiti.services.Graphiti;
 
 import mindMapDSML.Feature;
 import mindMapDSML.Idea;
+import mindMapDSML.Link;
 import mindMapDSML.MindMap;
 import mindMapDSML.MindMapDSMLFactory;
 
@@ -29,7 +30,7 @@ public  class ModelUtils {
             // if mindMap does not exist, create new one
             if (mm == null) {
             	mm = MindMapDSMLFactory.eINSTANCE.createMindMap();
-            	mm.setName("");
+            	mm.setName(diagram.getName());
 	            diagram.eResource().getContents().add(mm);
             }
         }
@@ -61,6 +62,30 @@ public  class ModelUtils {
 	}
 	
 	/**
+	 * Static method that return the root idea of the given idea.
+	 * @param idea
+	 * @return the root idea, null if it doesn't exist.
+	 */
+	public static Idea getRootIdea(Idea idea){
+		if (idea != null){ 
+			if (idea.eContainer() instanceof MindMap)
+				return idea;
+			else if (idea.eContainer() instanceof Idea) return getRootIdea(((Idea)idea.eContainer()));
+		}
+		return null;
+	}
+	
+	/**
+	 * Static method that returns a valid idea link.
+	 * @param idea
+	 * @return String - name.
+	 */
+	public static String getLinkNameValid( Idea idea){
+		String name = "Link";
+		return getLinkNameValid(name, idea);
+	}
+	
+	/**
 	 * Static method that returns a valid eClass name.
 	 * @param diagram
 	 * @param name rootName
@@ -73,6 +98,22 @@ public  class ModelUtils {
 		while (enc){
 			cont++;
 			enc = existsIdeaName(diagram, name+cont, superIdea);
+		}
+		return name+cont;
+	}
+	
+	/**
+	 * Static method that returns a valid link name.
+	 * @param name rootName
+	 * @param idea
+	 * @return String - name.
+	 */
+	public static String getLinkNameValid(String name, Idea idea){
+		boolean enc = true;
+		int cont = 0;
+		while (enc){
+			cont++;
+			enc = existsLinkName(name+cont, idea);
 		}
 		return name+cont;
 	}
@@ -94,6 +135,22 @@ public  class ModelUtils {
 			MindMap mm = getBusinessModel(diagram);
 			for (Idea idea : mm.getIdeas()){
 				if (idea.getName().compareTo(name)==0)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Static method that returns if the specified link exists for the idea.
+	 * @param name
+	 * @param idea
+	 * @return boolean - true exists, false not exists
+	 */
+	public static boolean existsLinkName(String name, Idea idea){
+		if (idea != null){
+			for (Link link : idea.getLinks()){
+				if (link.getName().compareTo(name)==0)
 					return true;
 			}
 		}

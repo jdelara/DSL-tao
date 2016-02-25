@@ -16,8 +16,17 @@
 			id="org.mondo.editor.analysis.graphiti.graphiti.AnalysisDiagramTypeProvider"
 			name="Analysis Editor">
 			<diagramType id="org.mondo.editor.analysis.graphiti.diagram.AnalysisDiagramType" />
+			<imageProvider id="org.mondo.editor.analysis.graphiti.diagram.MapsImageProvider">
+			</imageProvider>
 		</diagramTypeProvider>
 	</extension>
+	<extension
+      point="org.eclipse.graphiti.ui.imageProviders">
+	   <imageProvider
+	         class="org.mondo.editor.analysis.graphiti.diagram.MapsImageProvider"
+	         id="org.mondo.editor.analysis.graphiti.diagram.MapsImageProvider">
+	   </imageProvider>
+	</extension> 
 	<extension
 	    point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
 	    <propertyContributor contributorId="mmDSML.PropertyContributor"> 

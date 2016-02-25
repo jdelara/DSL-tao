@@ -37,7 +37,6 @@ public final class ModelsUtils {
 			}
 		}
 		return null;
-		
 	}	
 	
 	/**
@@ -75,6 +74,4 @@ public final class ModelsUtils {
 		}
 		return null;	
 	}
-	
-	
 }

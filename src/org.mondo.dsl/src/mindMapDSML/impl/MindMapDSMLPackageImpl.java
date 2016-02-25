@@ -272,6 +272,15 @@ public class MindMapDSMLPackageImpl extends EPackageImpl implements MindMapDSMLP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getIdea_PatternRole() {
+		return (EReference)ideaEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLink() {
 		return linkEClass;
 	}
@@ -381,6 +390,7 @@ public class MindMapDSMLPackageImpl extends EPackageImpl implements MindMapDSMLP
 		createEReference(ideaEClass, IDEA__NOTES);
 		createEAttribute(ideaEClass, IDEA__SUB_TEXT);
 		createEReference(ideaEClass, IDEA__FEATURES);
+		createEReference(ideaEClass, IDEA__PATTERN_ROLE);
 
 		linkEClass = createEClass(LINK);
 		createEAttribute(linkEClass, LINK__NAME);
@@ -441,6 +451,7 @@ public class MindMapDSMLPackageImpl extends EPackageImpl implements MindMapDSMLP
 		initEReference(getIdea_Notes(), this.getNote(), null, "notes", null, 0, -1, Idea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIdea_SubText(), ecorePackage.getEString(), "subText", null, 0, 1, Idea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIdea_Features(), this.getFeature(), null, "features", null, 0, -1, Idea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIdea_PatternRole(), theDslPatternsPackage.getClassInterface(), null, "patternRole", null, 0, 1, Idea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

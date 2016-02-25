@@ -8,7 +8,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
-
 /**
  * Class to delete an EAnnotation object.
  * 
@@ -51,7 +50,6 @@ public class DeleteEAnnotationFeature extends DeleteEModelElementDefaultFeature 
 				}
 			}
 		}
-		
 		(eAnnotation.getEModelElement()).getEAnnotations().remove(eAnnotation);
 	}
 

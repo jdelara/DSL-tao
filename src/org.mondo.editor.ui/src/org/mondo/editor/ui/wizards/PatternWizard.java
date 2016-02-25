@@ -33,7 +33,6 @@ public class PatternWizard extends Wizard {
 
   public PatternWizard(Pattern pattern, EPackage ecoreDiagram, List<MMInterfaceRelDiagram> patternRelDiagram, List<PatternMetaModelAttached> attachs, IProject project, String patternNameInstanceDefault) {
     super();
-    //setNeedsProgressMonitor(true);
     this.pattern = pattern;
     this.ecoreDiagram = ecoreDiagram;
     this.patternRelDiagram = patternRelDiagram;

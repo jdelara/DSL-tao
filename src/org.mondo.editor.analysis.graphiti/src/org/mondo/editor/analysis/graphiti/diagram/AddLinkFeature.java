@@ -17,6 +17,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.mondo.editor.analysis.graphiti.diagram.utils.ColorIdeaManagement;
+import org.mondo.editor.graphiti.diagram.LayoutDiagramFeature;
 import org.mondo.editor.graphiti.diagram.utils.DiagramStyles;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils;
 import org.mondo.editor.graphiti.diagram.utils.DiagramUtils.DecoratorFigure;
@@ -72,7 +73,7 @@ public class AddLinkFeature extends AbstractAddFeature {
         text.setValue(addedConnection.getName());
         
         link(textDecorator, addedConnection);
-     
+        
 		return connection;
 	}
 }

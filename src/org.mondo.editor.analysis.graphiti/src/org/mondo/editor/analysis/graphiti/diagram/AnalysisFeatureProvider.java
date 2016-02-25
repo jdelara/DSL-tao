@@ -47,7 +47,7 @@ public class AnalysisFeatureProvider extends DefaultFeatureProvider {
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		if (context.getPictogramElements()[0] instanceof Diagram){
-			return new ICustomFeature[] { new CreateMondoDesignDiagram(this)};
+			return new ICustomFeature[] { new CreateMondoDesignDiagram(this), new LayoutMapFeature(this)};
 		}return new ICustomFeature[]{new PatternAssistantFeature(this)};
 	}
 

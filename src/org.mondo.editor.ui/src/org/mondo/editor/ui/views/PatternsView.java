@@ -13,6 +13,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
@@ -29,14 +30,18 @@ import org.mondo.editor.extensionpoints.EvaluateExtensionPoint;
 import org.mondo.editor.graphiti.diagram.EcoreDiagramTypeProvider;
 import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
+import org.mondo.editor.ui.utils.ImagesUtils;
 import org.mondo.editor.ui.utils.patterns.MMInterfaceRelDiagram;
 import org.mondo.editor.ui.utils.patterns.PatternApplicationUtils;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
 import org.mondo.editor.ui.utils.patterns.RuntimePatternsModelUtils;
 import org.mondo.editor.ui.wizards.PatternWizard;
 
+import runtimePatterns.ClassRoleInstance;
+import runtimePatterns.PatternInstance;
 import runtimePatterns.PatternInstances;
-
+import runtimePatterns.ReferenceRoleInstance;
+import runtimePatterns.TypeFeatureRoleInstance;
 import dslPatterns.Category;
 import dslPatterns.ComplexFeature;
 import dslPatterns.Pattern;
@@ -234,11 +239,13 @@ public class PatternsView extends ViewPart {
 		public String getText(Object obj) {
 			return obj.toString();
 		}
-		public Image getImage(Object obj) {
-			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
+		public Image getImage(Object obj) {		
+			ImageDescriptor desc = ImagesUtils.getImageDescriptor("icons/patternsView.gif");
 			if (obj instanceof TreeParent)
-			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
-			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
+			 desc = ImagesUtils.getImageDescriptor("icons/repository.gif");
+
+			if (desc != null)return desc.createImage();
+			return null;
 		}
 	}
 
@@ -394,7 +401,6 @@ public class PatternsView extends ViewPart {
 		if (editor instanceof IDiagramContainerUI){
 			if (viewer!= null){
 				if (!viewer.getControl().isDisposed()){
-					
 					IDiagramTypeProvider dtp = ((IDiagramContainerUI)editor).getDiagramBehavior().getDiagramTypeProvider();
 					if (dtp instanceof EcoreDiagramTypeProvider){
 						Diagram diagram = dtp.getDiagram();

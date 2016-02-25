@@ -16,8 +16,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi;bundle-version="2.10.2",
  org.eclipse.ui.ide;bundle-version="3.10.2",
  org.eclipse.draw2d;bundle-version="3.10.0",
- org.eclipse.graphiti.mm
+ org.eclipse.graphiti.mm,
+ org.eclipse.zest.layouts;bundle-version="1.1.200",
+ org.eclipse.gef;bundle-version="3.10.1",
+ org.apache.commons.lang3;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: img/,
- .
+ .,
+ icons/,
+ lib/jaws-bin.jar,
+ dict/

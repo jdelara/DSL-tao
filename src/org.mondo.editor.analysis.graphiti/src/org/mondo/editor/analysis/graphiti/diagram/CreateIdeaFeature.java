@@ -43,8 +43,7 @@ public class CreateIdeaFeature extends AbstractCreateFeature {
 			name = ModelUtils.getIdeaNameValid(getDiagram(), superIdea);
 			newIdea.setName(name);
 			superIdea.getContains().add(newIdea);
-			newIdea.setSubText("");
-			
+			newIdea.setSubText("");	
 		}else {
 			if (!ModelUtils.existsMindMap(getDiagram())){
 				mm = ModelUtils.getBusinessModel(getDiagram());	

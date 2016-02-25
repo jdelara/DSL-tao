@@ -1,6 +1,7 @@
 package org.mondo.editor.analysis.graphiti.diagram.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EClass;
 import org.mondo.editor.ui.utils.patterns.PatternUtils;
@@ -17,7 +19,6 @@ import dslPatterns.ComplexFeatureMain;
 import dslPatterns.Pattern;
 import dslPatterns.PatternMetaModel;
 import dslPatterns.Tag;
-import dslPatterns.Variant;
 
 /**
  * Class of utility functions to work with the pattern assistant of the plugin
@@ -29,15 +30,25 @@ public final class PatternAssistantUtils {
 	
 	public static Map<PatternMetaModel,Integer> getPatternsMetamodelRelated (IProject project, String tag){
 		Map<PatternMetaModel,Integer> pmtags = new LinkedHashMap<PatternMetaModel,Integer>();
+		//Patterns var contains all patterns.
+		List<Pattern> patterns = PatternUtils.getAllPatterns(project);
 		for (String tagAux: tag.split(" ")){
-			for (Pattern pattern : PatternUtils.getAllPatterns(project)){
-				if (containsTag(pattern, tagAux)) {
-					for (PatternMetaModel pmm : getPatternMetamodel(pattern)){
-						if (pmtags.get(pmm) != null) pmtags.put(pmm, pmtags.get(pmm)+1);
-						else pmtags.put(pmm, 1);
-					}
-				} else {
-					for (PatternMetaModel pmm : getPatternsRelatedRoles(pattern, tagAux))
+			String[] tagsAuxCamel =  StringUtils.splitByCharacterTypeCamelCase(tagAux);
+			for (int i = 0; i<tagsAuxCamel.length;i++){
+				String tagAuxCamel = tagsAuxCamel[i];
+				if (tagAuxCamel.equals("-") && (i>0)&&(i+1<tagsAuxCamel.length)) 
+					tagAuxCamel = tagsAuxCamel[i-1]+"-"+tagsAuxCamel[i+1];
+				for (Pattern pattern : patterns){
+					//Pattern
+					if (containsTag(pattern, tagAuxCamel)) {
+						for (PatternMetaModel pmm : PatternUtils.getPatternMetamodel(pattern)){
+							if (pmtags.get(pmm) != null) 
+								pmtags.put(pmm, pmtags.get(pmm)+1);
+							else pmtags.put(pmm, 1);
+						}
+					} 
+					//Pattern variant
+					for (PatternMetaModel pmm : getPatternsRelatedRoles(pattern, tagAuxCamel))
 						addPatternMetamodel(pmtags, pmm);
 				}
 			}
@@ -68,25 +79,43 @@ public final class PatternAssistantUtils {
 	 */
 	public static  List<PatternMetaModel> getPatternsRelatedRoles(Pattern pattern, String tag){
 		List<PatternMetaModel> lpmm = new LinkedList<PatternMetaModel>();
-		String singular = WordUtils.toSingular(tag);
-		for (PatternMetaModel pmm : getPatternMetamodel(pattern)){
+		for (PatternMetaModel pmm : PatternUtils.getPatternMetamodel(pattern)){
 			if (!((ComplexFeatureMain)pmm.eContainer()).getName().isEmpty()){
 				String name = ((ComplexFeatureMain)pmm.eContainer()).getName();
-				for (String nameU : name.split(" ")){
-					if ((nameU.compareToIgnoreCase(tag)==0) || (nameU.compareToIgnoreCase(singular)==0)){
-						lpmm.add(pmm);
-						break;
-					}
+				if (isTagInRole(tag, name)){
+					lpmm.add(pmm);
 				}
 				for (String role: getRoles(pmm)){
-					if ((role.compareToIgnoreCase(tag)==0) || (role.compareToIgnoreCase(singular)==0)){
+					if (isTagInRole(tag, role)){
 						lpmm.add(pmm);
-						break;
 					}
 				}
 			}
 		}
 		return lpmm;
+	}
+	
+	/**
+	 * Static method that returns if a tag is in the role.
+	 * @param tag
+	 * @param role
+	 * @return boolean, true if it's contained, false if not.
+	 */
+	public static boolean isTagInRole (String tag, String role){
+		String singular = WordUtils.toSingular(tag);
+		
+		String[] rolesAux =  StringUtils.splitByCharacterTypeCamelCase(role);
+		rolesAux  = Arrays.copyOf(rolesAux, rolesAux.length + 1);
+		rolesAux[rolesAux.length - 1] = role;
+
+		for (int i = 0; i<rolesAux.length;i++){
+			String roleAux = rolesAux[i];
+			if (roleAux.equals("-") && (i>0)&&(i+1<rolesAux.length)) roleAux = rolesAux[i-1]+"-"+rolesAux[i+1];
+			if ((WordNet.getInstance().areSynonyms(roleAux,tag)) || WordNet.getInstance().areSynonyms(roleAux,singular)){
+				 return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -103,6 +132,20 @@ public final class PatternAssistantUtils {
 		return roles;
 	}
 	
+	/**
+	 * Static method that returns the role that contains the patternMetaModel object.
+	 * @param pmm
+	 * @return list of string.
+	 */
+	public static ClassInterface getRole(PatternMetaModel pmm, String name){
+		for (ClassInterface ci: pmm.getClassInterfaces()){ 
+			EClass eclass = PatternUtils.getEClass(ci);
+			if (eclass!= null)
+				if (isTagInRole(name, eclass.getName()))	
+					return ci;
+		}
+		return null;
+	}
 	
 	/**
 	 * Static method that returns the list of meta-models that are related to the tag.
@@ -115,8 +158,14 @@ public final class PatternAssistantUtils {
 		for (Pattern pattern : PatternUtils.getAllPatterns(project)){
 			int cont = 0;
 			for (String tagAux: tag.split(" ")){
-				if (containsTag(pattern, tagAux)) {
-					pmtags.put(pattern, ++cont);
+				String[] tagsAux =  StringUtils.splitByCharacterTypeCamelCase(tagAux);
+				for (int i = 0; i<tagsAux.length;i++){
+					String tagAuxCamel = tagsAux[i];
+					if (tagAuxCamel.equals("-") && (i>0)&&(i+1<tagsAux.length)) tagAuxCamel = tagsAux[i-1]+"-"+tagsAux[i+1];
+				
+					if (containsTag(pattern, tagAuxCamel)) {
+						pmtags.put(pattern, ++cont);
+					}
 				}
 			}
 		}
@@ -130,55 +179,64 @@ public final class PatternAssistantUtils {
 	 * @return true if it's, false if not
 	 */
 	private static boolean containsTag (Pattern pattern, String tag){
+		if (containsTag(pattern.getName(), tag)){
+			return true; 
+		}
 		for (Tag tagPattern : pattern.getTags()){
-			//Improve it!
 			if (containsTag(tagPattern, tag)) return true;
 		}
 		return false;
 	}
 	
+	/**
+	 * Static method that returns if the tags are synonyms
+	 * @param tag
+	 * @param tagText
+	 * @return
+	 */
 	private static boolean containsTag(Tag tag, String tagText){
 		String singular = WordUtils.toSingular(tagText);
-		if ((tag.getName().compareToIgnoreCase(tagText)==0) || (tag.getName().compareToIgnoreCase(singular)==0)){
+		if ((WordNet.getInstance().areSynonyms(tagText, tag.getName())) || (WordNet.getInstance().areSynonyms(singular, tag.getName())))
 			return true;
-		} else {
+		else {
 			if (tag.eContainer() instanceof Tag){
 				return containsTag((Tag) tag.eContainer(), tagText);
 			} else return false;
 		}
 	}
 	
-	
 	/**
-	 * Static method that returns the list of pattern metaModel objects that contains the pattern.
-	 * @param pattern
-	 * @return list of pattern meta-models.
+	 * Static method that returns if the tags are synonyms
+	 * @param tag
+	 * @param tagText
+	 * @return
 	 */
-	public static List<PatternMetaModel> getPatternMetamodel (Pattern pattern){
-		List<PatternMetaModel> pm = new ArrayList<>();
-		ComplexFeatureMain cf = pattern.getRootVariant();
-		if (cf != null){
-			for (Variant var : cf.getAndChildren()){
-				if (var instanceof ComplexFeatureMain){
-					pm.add(((ComplexFeatureMain)var).getMetaModel());
-				}
-			}
-			for (Variant var : cf.getOrChildren()){
-				if (var instanceof ComplexFeatureMain){
-					pm.add(((ComplexFeatureMain)var).getMetaModel());
-				}
-			}
-			for (Variant var : cf.getXorChildren()){
-				if (var instanceof ComplexFeatureMain){
-					pm.add(((ComplexFeatureMain)var).getMetaModel());
-				}
-			}
-		}
-		return pm;
+	private static boolean containsTag(String tag, String tagText){
+		String singular = WordUtils.toSingular(tagText);
+		if ((WordNet.getInstance().areSynonyms(tagText, tag)) || (WordNet.getInstance().areSynonyms(singular, tag)))
+			return true;
+		return false;
 	}
 	
 	/**
-	 * static method that returns the map ordered by the values
+	 * Static method that returns if the metamodel is contained in the list of metamodels
+	 * @param tag
+	 * @param tagText
+	 * @return
+	 */
+	public static boolean containsMetamodel(List<PatternMetaModel> metamodels, PatternMetaModel metamodel){
+		for (PatternMetaModel pmmaux : metamodels){
+			if (!((ComplexFeatureMain)pmmaux.eContainer()).getName().isEmpty()){
+				String name = ((ComplexFeatureMain)pmmaux.eContainer()).getName();
+				if (name.compareTo(((ComplexFeatureMain)metamodel.eContainer()).getName()) ==0){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	/**
+	 * Static method that returns the map ordered by the values
 	 * @param patterns
 	 * @return ordered map of patternMetamodels objects.
 	 */
@@ -198,5 +256,5 @@ public final class PatternAssistantUtils {
 		}
 		return newMap;
 	}
-
+	
 }

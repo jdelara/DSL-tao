@@ -46,8 +46,6 @@ public class CreateMondoDiagram implements IObjectActionDelegate {
 	public CreateMondoDiagram() {
 		super();
 	}
-	
-	
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 	}

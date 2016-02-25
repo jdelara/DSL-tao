@@ -8,6 +8,7 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.MmFactory;
 import org.eclipse.graphiti.mm.Property;
+import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
@@ -69,6 +70,8 @@ public class MoveIdeaFeature extends DefaultMoveShapeFeature {
 			connection.setEnd(((ContainerShape)pe).getAnchors().get(0));
 			connection.setStart(cs.getAnchors().get(0));
 			
+			Polyline polyline = gaService.createPolyline(connection);
+			
 			Property marker2 = MmFactory.eINSTANCE.createProperty();
 			marker2.setKey("type");
 			marker2.setValue("SUB");		
@@ -91,7 +94,6 @@ public class MoveIdeaFeature extends DefaultMoveShapeFeature {
 		} else if (target instanceof MindMap) {
 			super.moveShape(context);
 		}
-		
 	}
 
 }

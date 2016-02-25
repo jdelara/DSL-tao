@@ -2,6 +2,7 @@
  */
 package mindMapDSML;
 
+import dslPatterns.ClassInterface;
 import dslPatterns.PatternMetaModel;
 
 import org.eclipse.emf.common.util.EList;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link mindMapDSML.Idea#getNotes <em>Notes</em>}</li>
  *   <li>{@link mindMapDSML.Idea#getSubText <em>Sub Text</em>}</li>
  *   <li>{@link mindMapDSML.Idea#getFeatures <em>Features</em>}</li>
+ *   <li>{@link mindMapDSML.Idea#getPatternRole <em>Pattern Role</em>}</li>
  * </ul>
  *
  * @see mindMapDSML.MindMapDSMLPackage#getIdea()
@@ -226,5 +228,31 @@ public interface Idea extends EObject {
 	 * @generated
 	 */
 	EList<Feature> getFeatures();
+
+	/**
+	 * Returns the value of the '<em><b>Pattern Role</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Pattern Role</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Pattern Role</em>' reference.
+	 * @see #setPatternRole(ClassInterface)
+	 * @see mindMapDSML.MindMapDSMLPackage#getIdea_PatternRole()
+	 * @model
+	 * @generated
+	 */
+	ClassInterface getPatternRole();
+
+	/**
+	 * Sets the value of the '{@link mindMapDSML.Idea#getPatternRole <em>Pattern Role</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Pattern Role</em>' reference.
+	 * @see #getPatternRole()
+	 * @generated
+	 */
+	void setPatternRole(ClassInterface value);
 
 } // Idea

@@ -57,7 +57,7 @@ public final class WordUtils {
 	 * @param text
 	 * @return the text in plural.
 	 */
-	public static String toPlural (String text){
+	public static   String toPlural (String text){
 		return LexicalInflector.pluralize(text);
 	}
 }

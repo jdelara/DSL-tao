@@ -8,7 +8,6 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.mondo.editor.graphiti.diagram.utils.ModelUtils;
 
-
 /**
  * Class to create an eAttribute object into the meta-model.
  * 
@@ -44,6 +43,8 @@ public class CreateEAttributeFeature extends AbstractCreateFeature {
 		newEAttribute.setName(name);
 		
 		newEAttribute.setEType(EcoreFactory.eINSTANCE.getEcorePackage().getEString());
+		
+		newEAttribute.setDefaultValueLiteral("");
 		
 		eClass.getEStructuralFeatures().add(newEAttribute);
 	

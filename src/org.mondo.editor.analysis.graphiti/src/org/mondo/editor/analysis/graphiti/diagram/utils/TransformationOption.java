@@ -18,31 +18,25 @@ public class TransformationOption {
 		return imgPath;
 	}
 
-
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
 	}
-
 
 	public String getKey() {
 		return key;
 	}
 
-
 	public void setKey(String key) {
 		this.key = key;
 	}
-
 
 	public String getText() {
 		return text;
 	}
 
-
 	public void setText(String text) {
 		this.text = text;
 	}
-
 
 	public TransformationOption(String key, String text, String imgPath) {
 		super();
@@ -50,5 +44,4 @@ public class TransformationOption {
 		this.text = text;
 		this.imgPath = imgPath;
 	}
-
 }

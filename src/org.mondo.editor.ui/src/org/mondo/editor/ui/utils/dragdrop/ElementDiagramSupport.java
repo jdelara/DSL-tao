@@ -47,5 +47,4 @@ public class ElementDiagramSupport extends EditingSupport {
 		  ((MMInterfaceRelDiagram) element).setElementDiagram((String)userInputValue);
 		  viewer.refresh();
 	  }
-
 }

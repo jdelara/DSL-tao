@@ -69,9 +69,10 @@ public class EPackageNsPrefixSection extends GFPropertySection implements ITabbe
 		PictogramElement pe = getSelectedPictogramElement();
 	    if (pe != null) {
 	    	EPackage pack = (EPackage)Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-	    	
-	        String prefix = pack.getNsPrefix();
-	        nsPrefix.setText(prefix == null ? "" : prefix);
+	    	if (pack!=null){
+	    		String prefix = pack.getNsPrefix();
+	    		nsPrefix.setText(prefix == null ? "" : prefix);
+	    	}
 	    }
 	}
 	

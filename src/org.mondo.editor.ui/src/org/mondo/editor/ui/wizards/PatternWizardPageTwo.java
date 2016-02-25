@@ -201,7 +201,6 @@ public class PatternWizardPageTwo extends WizardPage {
 	    	    		patternImg.setImage(PatternUtils.getImagePatternMetamodels(pmm, project));
 	    	    		cfa = pmm.getRootAttachedVariant();
 	    	    		
-	    	    		//////////////////////////////////////////////////////////////////////////////
 	    	    		for (Control control : groupcfa.getChildren()) {
 	    	    	        control.dispose();
 	    	    	    }
@@ -213,7 +212,6 @@ public class PatternWizardPageTwo extends WizardPage {
 		    	    		
 		    	    		groupcfa.layout();
 	    	    		}
-	    	    		//////////////////////////////////////////////////////////////////////////////
 	    	    	}
 					
 					

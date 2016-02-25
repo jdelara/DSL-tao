@@ -2,6 +2,7 @@
  */
 package mindMapDSML.impl;
 
+import dslPatterns.ClassInterface;
 import dslPatterns.PatternMetaModel;
 
 import java.util.Collection;
@@ -44,6 +45,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link mindMapDSML.impl.IdeaImpl#getNotes <em>Notes</em>}</li>
  *   <li>{@link mindMapDSML.impl.IdeaImpl#getSubText <em>Sub Text</em>}</li>
  *   <li>{@link mindMapDSML.impl.IdeaImpl#getFeatures <em>Features</em>}</li>
+ *   <li>{@link mindMapDSML.impl.IdeaImpl#getPatternRole <em>Pattern Role</em>}</li>
  * </ul>
  *
  * @generated
@@ -178,6 +180,16 @@ public class IdeaImpl extends EObjectImpl implements Idea {
 	 * @ordered
 	 */
 	protected EList<Feature> features;
+
+	/**
+	 * The cached value of the '{@link #getPatternRole() <em>Pattern Role</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPatternRole()
+	 * @generated
+	 * @ordered
+	 */
+	protected ClassInterface patternRole;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -373,6 +385,44 @@ public class IdeaImpl extends EObjectImpl implements Idea {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ClassInterface getPatternRole() {
+		if (patternRole != null && patternRole.eIsProxy()) {
+			InternalEObject oldPatternRole = (InternalEObject)patternRole;
+			patternRole = (ClassInterface)eResolveProxy(oldPatternRole);
+			if (patternRole != oldPatternRole) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MindMapDSMLPackage.IDEA__PATTERN_ROLE, oldPatternRole, patternRole));
+			}
+		}
+		return patternRole;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ClassInterface basicGetPatternRole() {
+		return patternRole;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPatternRole(ClassInterface newPatternRole) {
+		ClassInterface oldPatternRole = patternRole;
+		patternRole = newPatternRole;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MindMapDSMLPackage.IDEA__PATTERN_ROLE, oldPatternRole, patternRole));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -415,6 +465,9 @@ public class IdeaImpl extends EObjectImpl implements Idea {
 				return getSubText();
 			case MindMapDSMLPackage.IDEA__FEATURES:
 				return getFeatures();
+			case MindMapDSMLPackage.IDEA__PATTERN_ROLE:
+				if (resolve) return getPatternRole();
+				return basicGetPatternRole();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -459,6 +512,9 @@ public class IdeaImpl extends EObjectImpl implements Idea {
 				getFeatures().clear();
 				getFeatures().addAll((Collection<? extends Feature>)newValue);
 				return;
+			case MindMapDSMLPackage.IDEA__PATTERN_ROLE:
+				setPatternRole((ClassInterface)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -498,6 +554,9 @@ public class IdeaImpl extends EObjectImpl implements Idea {
 			case MindMapDSMLPackage.IDEA__FEATURES:
 				getFeatures().clear();
 				return;
+			case MindMapDSMLPackage.IDEA__PATTERN_ROLE:
+				setPatternRole((ClassInterface)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -528,6 +587,8 @@ public class IdeaImpl extends EObjectImpl implements Idea {
 				return SUB_TEXT_EDEFAULT == null ? subText != null : !SUB_TEXT_EDEFAULT.equals(subText);
 			case MindMapDSMLPackage.IDEA__FEATURES:
 				return features != null && !features.isEmpty();
+			case MindMapDSMLPackage.IDEA__PATTERN_ROLE:
+				return patternRole != null;
 		}
 		return super.eIsSet(featureID);
 	}

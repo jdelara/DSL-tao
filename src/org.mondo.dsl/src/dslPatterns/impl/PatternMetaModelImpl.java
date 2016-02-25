@@ -355,5 +355,4 @@ public abstract class PatternMetaModelImpl extends EObjectImpl implements Patter
 		result.append(')');
 		return result.toString();
 	}
-
 } //PatternMetaModelImpl

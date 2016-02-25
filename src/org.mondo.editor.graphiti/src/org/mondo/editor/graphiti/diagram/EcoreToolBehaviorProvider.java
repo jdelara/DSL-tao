@@ -66,7 +66,6 @@ public class EcoreToolBehaviorProvider extends DefaultToolBehaviorProvider{
 	             ret[i]=menuEntry;
 	         }
 	     }
-
 	     return ret;
 	}
 
@@ -270,7 +269,6 @@ public class EcoreToolBehaviorProvider extends DefaultToolBehaviorProvider{
 
 	@Override
 	public void postExecute(IExecutionInfo executionInfo) {
-
 		super.postExecute(executionInfo);
 		for (IFeatureAndContext fc : executionInfo.getExecutionList()){
 			if (fc.getFeature() instanceof DrillDownEPackageFeature){

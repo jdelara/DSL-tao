@@ -93,7 +93,6 @@ public class NewAnalysisMondoDiagramWizard extends Wizard implements INewWizard 
 				@Override
 				protected void doExecute() {
 					metaResource.getContents().add(diagram);
-					//RuntimeLayersModelUtils.createLayerSet(metaResource);
 				}
 		   });
 		IResourceUtils.saveResource(metaResource);

@@ -74,6 +74,5 @@ public final class AppliedPatternUtils {
 	    	  	
 	      }
 	    });
-	    //col2.setEditingSupport(new InstanceFeatureSupport(viewer, db));
 	}
 }

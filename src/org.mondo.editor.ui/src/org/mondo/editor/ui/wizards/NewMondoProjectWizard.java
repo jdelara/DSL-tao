@@ -92,7 +92,6 @@ public class NewMondoProjectWizard extends Wizard implements INewWizard {
 			
 			PatternUtils.registerEpackages(project);
 
-
 			getShell().getDisplay().asyncExec(new Runnable() {			
 				public void run() {
 					@SuppressWarnings("unused")

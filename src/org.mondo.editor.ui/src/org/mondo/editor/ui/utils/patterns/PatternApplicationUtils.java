@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.impl.AddContext;
@@ -20,6 +22,8 @@ import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -126,7 +130,7 @@ public final class PatternApplicationUtils {
 					}else  {
 						MessageDialog.openWarning(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Service Interface", "Service Interfaces aren't defined.");
 					}
-				}		
+				}
 			}
 		});
 		
@@ -145,18 +149,41 @@ public final class PatternApplicationUtils {
 		if (!PatternUtils.isAbstract(info, patternRelDiagram)){
 			ClassRoleInstance cri = null; 
 			EObject selObj = null; 
+			EClass eclass = PatternUtils.getEClass((ClassInterface)info.getMmInterface());
 			if (ModelUtils.existsPackage(diagramBehavior.getDiagramTypeProvider().getDiagram()))
 				selObj = ModelsUtils.getEObject(ModelUtils.getBusinessModel(diagramBehavior.getDiagramTypeProvider().getDiagram()), info.getElementDiagram());
 				if ((selObj == null) ){
-				EClass eclass = PatternUtils.getEClass((ClassInterface)info.getMmInterface());
-
-				EClass newEclass = createEClass(diagramBehavior, fp, eclass);
-				
-				info.setElementDiagram(newEclass.getName());
-				selObj = newEclass;
-			  }
+					EClass newEclass = createEClass(diagramBehavior, fp, eclass);		
+					info.setElementDiagram(newEclass.getName());
+					selObj = newEclass;
+				}
 			
 			cri = RuntimePatternsModelUtils.createClassRoleInstance(pi, (EClass) selObj, (ClassInterface)info.getMmInterface());
+
+			if (eclass.isAbstract() && (!((EClass)selObj).isAbstract())){
+				((EClass)selObj).setAbstract((eclass.isAbstract()));
+				
+				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain((EClass)selObj);
+				for (final PictogramElement pe : Graphiti.getLinkService().getPictogramElements(fp.getDiagramTypeProvider().getDiagram(), (EClass)selObj))
+
+				domain.getCommandStack().execute(new RecordingCommand(domain) {
+					
+					@Override
+					protected void doExecute() {
+						if (pe instanceof ContainerShape) {
+				            ContainerShape cs = (ContainerShape) pe;
+				            for (Shape shape : cs.getChildren()) {
+				                if (shape.getGraphicsAlgorithm() instanceof org.eclipse.graphiti.mm.algorithms.Text) {
+				                    org.eclipse.graphiti.mm.algorithms.Text text = (org.eclipse.graphiti.mm.algorithms.Text) shape.getGraphicsAlgorithm();					                   
+				                    if (DiagramUtils.isTag(text))
+				                    	text.setValue("<<abstract>>");
+				                }
+				            }
+						}
+					}
+				});
+			}
+
 			RuntimePatternsModelUtils.paintPatternInformation(diagramBehavior, (EClass) selObj, /*info.getTextMMInterfaceRelDiagram()*/RuntimePatternsModelUtils.getPatternRoleName(cri));
 
 			//featureInstances

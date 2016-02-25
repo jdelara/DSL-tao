@@ -1,5 +1,9 @@
 package org.mondo.editor.graphiti.diagram;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -8,7 +12,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.mondo.editor.extensionpoints.ValidationInfo;
+import org.mondo.editor.graphiti.diagram.utils.IResourceUtils;
 import org.mondo.editor.graphiti.diagram.utils.Messages;
+
 
 /**
  * Class to define the specific behavior of the "mondo" diagrams.
@@ -42,8 +48,7 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 	 public void setValidationInfo(ValidationInfo vi) {
 		 this.vi = vi;
 	 }
-	 
-	
+
 	private Object patternServicesInfo = null;
 	
 	public Object getPatternServicesInfo() {		
@@ -56,8 +61,6 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 	}
 	
 	private Object interfaceModel = null;
-	
-	
 
 	public Object getInterfaceModel() {
 		return interfaceModel;
@@ -78,7 +81,8 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 		if (currentPerspective.compareTo("org.mondo.editor.perspective.mondoDesign")!=0){
 			String message = "This kind of diagrams is associated with the DSL-tao Design Perspective. Do you want to open this perspective now?";
 			boolean answer = MessageDialog.openQuestion(Messages.getShell(), "Open Associated Perspective?", message);
-			
+
+
 			if (answer) try {
 				workbench.showPerspective("org.mondo.editor.perspective.mondoDesign", window);
 			} catch (WorkbenchException e) {
@@ -87,5 +91,30 @@ public class EcoreDiagramTypeProvider extends AbstractDiagramTypeProvider {
 		}
 		}
 	}
+	
+	@Override
+	public String getDiagramTitle() {
+		IFile ifile = IResourceUtils.getFile(getDiagram().eResource());
+		String title = super.getDiagramTitle();
+		if (ifile!=null) {
+			String ext = ifile.getFileExtension();
+			final String name = ifile.getName().replace("."+ext, "");
+			if (title.compareTo(name)==0) return name;
+			else {TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(getDiagram());
+	        	domain.getCommandStack().execute(new RecordingCommand(domain) {
+				@Override
+				protected void doExecute() {
+					getDiagram().setName(name);
+					}
+	        	}); 
+			}					
+		} 
+		return super.getDiagramTitle();
+	}
 
+
+
+
+	
+	
 }
